@@ -25,7 +25,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'skills', label: 'Skills', href: '#skills' },
   { id: 'projects', label: 'Projects', href: '#projects' },
   { id: 'contact', label: 'Contact', href: '#contact' }
-] as const;
+];
 
 const SCROLL_THRESHOLD = 50;
 
