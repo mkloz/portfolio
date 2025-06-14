@@ -3,6 +3,7 @@ import type React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { PersonalService } from '@/services/personal.service';
 
 interface InfoCardProps {
   title: string;
@@ -43,39 +44,32 @@ const InfoCard = ({ title, icon: Icon, gradient, children, className }: InfoCard
 };
 
 export const EducationCard = () => {
+  const education = PersonalService.getEducationInfo();
+
   return (
     <InfoCard title="Education" icon={GraduationCap} gradient="from-blue-500 to-purple-500">
-      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">Software Development</p>
-      <p className="text-gray-600 dark:text-gray-400 mb-2">Kharkiv Polytechnic Institute</p>
+      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">{education.degree}</p>
+      <p className="text-gray-600 dark:text-gray-400 mb-2">{education.institution}</p>
     </InfoCard>
   );
 };
 
 export const LocationCard = () => {
+  const location = PersonalService.getLocationInfo();
+
   return (
     <InfoCard title="Location" icon={MapPin} gradient="from-green-500 to-emerald-500">
-      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">Manchester City</p>
-      <p className="text-gray-600 dark:text-gray-400 mb-2">United Kingdom</p>
+      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">{location.city}</p>
+      <p className="text-gray-600 dark:text-gray-400 mb-2">{location.country}</p>
       <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50 font-bold">
-        UK Based
+        {location.country} Based
       </Badge>
     </InfoCard>
   );
 };
 
-interface Language {
-  name: string;
-  level: string;
-  flag: string;
-  percentage: number;
-}
-
 export const LanguagesCard = () => {
-  const languages: Language[] = [
-    { name: 'English', level: 'Highly proficient', flag: '🇬🇧', percentage: 90 },
-    { name: 'Ukrainian', level: 'Native speaker', flag: '🇺🇦', percentage: 100 },
-    { name: 'Russian', level: 'Native speaker', flag: '🇷🇺', percentage: 100 }
-  ];
+  const languages = PersonalService.getLanguages();
 
   return (
     <div className="border-0 shadow-xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-3xl transform hover:scale-105 transition-transform duration-500">

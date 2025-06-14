@@ -3,32 +3,29 @@
 import { FaGithub, FaLinkedin, FaTelegram, FaWhatsapp } from 'react-icons/fa6';
 
 import { cn } from '@/lib/utils';
+import { PersonalService } from '@/services/personal.service';
 
-const SOCIAL_LINKS = [
+const SOCIAL_LINKS_CONFIG = [
   {
     name: 'GitHub',
-    href: 'https://github.com',
     icon: FaGithub,
     dotColor: 'bg-gray-900 dark:bg-gray-100',
     hoverText: 'text-gray-900 dark:text-gray-100'
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com',
     icon: FaLinkedin,
     dotColor: 'bg-gradient-to-r from-blue-500 to-cyan-500',
     hoverText: 'text-blue-600 dark:text-blue-400'
   },
   {
     name: 'Telegram',
-    href: 'https://t.me/username',
     icon: FaTelegram,
     dotColor: 'bg-gradient-to-r from-sky-500 to-blue-500',
     hoverText: 'text-sky-500 dark:text-sky-400'
   },
   {
     name: 'WhatsApp',
-    href: 'https://wa.me/447388232276',
     icon: FaWhatsapp,
     dotColor: 'bg-gradient-to-r from-green-500 to-emerald-500',
     hoverText: 'text-green-500 dark:text-green-400'
@@ -36,6 +33,13 @@ const SOCIAL_LINKS = [
 ] as const;
 
 export const SocialLinksSection = () => {
+  const socialLinks = PersonalService.getSocialLinks();
+
+  const socialLinksWithConfig = SOCIAL_LINKS_CONFIG.map((config) => ({
+    ...config,
+    href: socialLinks[config.name.toLowerCase() as keyof typeof socialLinks]
+  }));
+
   return (
     <div className="space-y-4 w-full">
       <div className="flex items-center justify-center gap-3">
@@ -45,7 +49,7 @@ export const SocialLinksSection = () => {
       </div>
 
       <div className="flex justify-between flex-wrap gap-4" role="list" aria-label="Social media links">
-        {SOCIAL_LINKS.map(({ name, href, icon: Icon, dotColor, hoverText }) => (
+        {socialLinksWithConfig.map(({ name, href, icon: Icon, dotColor, hoverText }) => (
           <a
             key={name}
             href={href}

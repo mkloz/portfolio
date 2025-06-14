@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { PersonalService } from '@/services/personal.service';
 
 interface StatCardProps {
   value: string;
@@ -23,19 +24,29 @@ const StatCard = ({ value, label, gradient, textColor }: StatCardProps) => {
 };
 
 export const QuickStats = () => {
+  const yearsOfExperience = PersonalService.getYearsOfExperience();
+  const projectsCompleted = PersonalService.getProjectsCompleted();
+  const linesOfCode = PersonalService.getLinesOfCode();
+
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-3 gap-6">
       <StatCard
-        value="3+"
+        value={`${yearsOfExperience}+`}
         label="Years Coding"
         gradient="from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20"
         textColor="text-blue-600 dark:text-blue-400"
       />
       <StatCard
-        value="10+"
+        value={`${projectsCompleted}+`}
         label="Projects Built"
         gradient="from-green-500/10 to-emerald-500/10 dark:from-green-500/20 dark:to-emerald-500/20"
         textColor="text-green-600 dark:text-green-400"
+      />
+      <StatCard
+        value={linesOfCode}
+        label="Lines of Code"
+        gradient="from-orange-500/10 to-red-500/10 dark:from-orange-500/20 dark:to-red-500/20"
+        textColor="text-orange-600 dark:text-orange-400"
       />
     </div>
   );

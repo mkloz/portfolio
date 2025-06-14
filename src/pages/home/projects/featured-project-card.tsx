@@ -1,13 +1,13 @@
 import { ArrowUpRight, Github, Globe, Sparkles } from 'lucide-react';
 
 import { buttonGradients, buttonVariants } from '@/components/ui/button';
+import type { Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
 import { Image } from '../../../components/common/image';
 import { Link } from '../../../components/common/link';
 import { Separator } from '../../../components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
-import type { Project } from './project-data';
 
 interface FeaturedProjectCardProps {
   project: Project;
@@ -144,7 +144,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
 
           <div className="flex flex-wrap gap-3 sm:gap-4 pt-3 sm:pt-4">
             <Link
-              to={project.liveDemo}
+              to={`/projects/${project.slug}`}
               unstyled
               className={cn(
                 buttonVariants({ gradient: project.gradient, size: 'lg' }),
@@ -193,7 +193,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
                   buttonGradients[project.gradient],
                   'text-xl sm:text-2xl font-black bg-clip-text text-transparent shadow-none'
                 )}>
-                {project.progress}
+                {project.technologies.length}
               </div>
               <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">TECHS</div>
             </div>

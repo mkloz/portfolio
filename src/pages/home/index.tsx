@@ -1,3 +1,5 @@
+import { Header } from '@/pages/home/header';
+
 import About from './about';
 import { Contact } from './contact';
 import { Hero } from './hero';
@@ -7,6 +9,7 @@ import { Skills } from './skills';
 export const HomePage = () => {
   return (
     <main>
+      <Header />
       <Hero />
       <About />
       <Skills />

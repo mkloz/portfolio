@@ -2,12 +2,12 @@ import { ArrowUpRight, Github, Globe } from 'lucide-react';
 
 import { buttonGradients, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
 import { Image } from '../../../components/common/image';
 import { Link } from '../../../components/common/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
-import type { Project } from './project-data';
 
 interface OtherProjectCardProps {
   project: Project;
@@ -31,38 +31,6 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
           )}></div>
 
         <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-transform duration-300 transform translate-y-2 group-hover:translate-y-0">
-          {project.liveDemo && (
-            <Tooltip>
-              <TooltipTrigger>
-                <Link
-                  unstyled
-                  to={project.liveDemo}
-                  className={cn(
-                    buttonVariants({ gradient: project.gradient, size: 'icon' }),
-                    'bg-card hover:bg-card/90 text-foreground'
-                  )}>
-                  <ArrowUpRight size={16} />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>View Live Demo</TooltipContent>
-            </Tooltip>
-          )}
-          {project.github && (
-            <Tooltip>
-              <TooltipTrigger>
-                <Link
-                  unstyled
-                  to={project.github}
-                  className={cn(
-                    buttonVariants({ gradient: project.gradient, size: 'icon' }),
-                    'bg-card hover:bg-card/90 text-foreground'
-                  )}>
-                  <Github size={16} />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>View on GitHub</TooltipContent>
-            </Tooltip>
-          )}
           {project.website && (
             <Tooltip>
               <TooltipTrigger>
@@ -116,15 +84,13 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
         </div>
 
         <div className="flex gap-3 pt-2">
-          {project.liveDemo && (
-            <Link
-              to={project.liveDemo}
-              unstyled
-              className={cn(buttonVariants({ gradient: project.gradient }), 'flex-1 font-bold')}>
-              <ArrowUpRight size={16} className="mr-2" />
-              View Project
-            </Link>
-          )}
+          <Link
+            to={`/projects/${project.slug}`}
+            unstyled
+            className={cn(buttonVariants({ gradient: project.gradient }), 'flex-1 font-bold')}>
+            <ArrowUpRight size={16} className="mr-2" />
+            View Project
+          </Link>
           {project.website && (
             <Tooltip>
               <TooltipTrigger>

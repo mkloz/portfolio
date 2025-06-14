@@ -1,12 +1,14 @@
+import { ProjectService } from '@/services/project.service';
+
 import { SectionDivider } from '../../../components/common/section-divider';
 import { SectionTitle } from '../../../components/common/section-title';
 import { Separator } from '../../../components/ui/separator';
 import { ProjectsBackgroundElements } from './background-elements';
 import { FeaturedProjectCard } from './featured-project-card';
 import { OtherProjectCard } from './other-project-card';
-import { projects } from './project-data';
 
 export const Projects = () => {
+  const projects = ProjectService.getAllProjects();
   const featuredProjects = projects.filter((p) => p.featured);
   const otherProjects = projects.filter((p) => !p.featured).slice(0, 3);
 

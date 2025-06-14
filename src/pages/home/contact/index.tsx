@@ -1,6 +1,8 @@
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa6';
 
+import { PersonalService } from '@/services/personal.service';
+
 import { SectionDivider } from '../../../components/common/section-divider';
 import { SectionTitle } from '../../../components/common/section-title';
 import { ContactBackgroundElements } from './background-elements';
@@ -9,6 +11,12 @@ import { ContactInfoCard } from './contact-info-card';
 import { ContactSocialLinks } from './contact-social-links';
 
 export const Contact = () => {
+  const contact = PersonalService.getContactInfo();
+  const locationDisplay = PersonalService.getLocationDisplay();
+  const formattedEmail = PersonalService.getFormattedEmail();
+  const formattedPhone = PersonalService.getFormattedPhone();
+  const formattedWhatsApp = PersonalService.getFormattedWhatsApp();
+
   return (
     <section id="contact" className="py-16 md:py-24 relative overflow-hidden">
       <ContactBackgroundElements />
@@ -34,8 +42,8 @@ export const Contact = () => {
                   <ContactInfoCard
                     icon={Mail}
                     title="Email"
-                    value="micha21cloz@gmail.com"
-                    href="mailto:micha21cloz@gmail.com"
+                    value={contact.email}
+                    href={formattedEmail}
                     gradient="bg-gradient-to-r from-blue-500 to-cyan-500"
                     hoverColor="text-blue-600 dark:text-blue-400"
                   />
@@ -43,8 +51,8 @@ export const Contact = () => {
                   <ContactInfoCard
                     icon={Phone}
                     title="Phone"
-                    value="+44 7388232276"
-                    href="tel:+447388232276"
+                    value={contact.phone}
+                    href={formattedPhone}
                     gradient="bg-gradient-to-r from-green-500 to-emerald-500"
                     hoverColor="text-green-600 dark:text-green-400"
                   />
@@ -52,7 +60,7 @@ export const Contact = () => {
                   <ContactInfoCard
                     icon={MapPin}
                     title="Location"
-                    value="🇬🇧 Fivemiletown, UK"
+                    value={locationDisplay}
                     gradient="bg-gradient-to-r from-orange-500 to-red-500"
                     hoverColor=""
                   />
@@ -61,7 +69,7 @@ export const Contact = () => {
                     icon={FaWhatsapp}
                     title="WhatsApp"
                     value="Message me"
-                    href="https://wa.me/447388232276"
+                    href={formattedWhatsApp}
                     gradient="bg-gradient-to-r from-sky-500 to-blue-500"
                     hoverColor="text-sky-600 dark:text-sky-400"
                   />
