@@ -1,9 +1,10 @@
-import { ArrowUpRight, Github, Globe, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Globe, Sparkles } from 'lucide-react';
 
 import { buttonGradients, buttonVariants } from '@/components/ui/button';
 import type { Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
+import { GitHubButton } from '../../../components/common/github-button';
 import { Image } from '../../../components/common/image';
 import { Link } from '../../../components/common/link';
 import { Separator } from '../../../components/ui/separator';
@@ -57,15 +58,14 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Link
-                      unstyled
-                      to={project.github}
+                    <GitHubButton
+                      github={project.github}
+                      variant="default"
+                      size="icon"
                       className={cn(
                         buttonVariants({ gradient: project.gradient, size: 'icon' }),
                         'bg-card hover:bg-card/90 text-foreground'
-                      )}>
-                      <Github />
-                    </Link>
+                      )}></GitHubButton>
                   </TooltipTrigger>
                   <TooltipContent>View on GitHub</TooltipContent>
                 </Tooltip>
@@ -165,12 +165,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
             </Tooltip>
             <Tooltip>
               <TooltipTrigger>
-                <Link
-                  to={project.github}
-                  unstyled
-                  className={cn(buttonVariants({ variant: 'outline', size: 'icon-lg' }))}>
-                  <Github className="size-4 sm:size-5" />
-                </Link>
+                <GitHubButton github={project.github} variant="outline" size="icon" />
               </TooltipTrigger>
               <TooltipContent>View on GitHub</TooltipContent>
             </Tooltip>

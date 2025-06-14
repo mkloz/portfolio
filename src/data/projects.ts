@@ -17,6 +17,11 @@ export interface GalleryItem {
   category: string;
 }
 
+export interface GitHubLink {
+  name: string;
+  link: string;
+}
+
 export interface Project {
   // Basic info (used in project cards)
   title: string;
@@ -25,7 +30,7 @@ export interface Project {
   image: string;
   technologies: string[];
   liveDemo: string;
-  github: string;
+  github: GitHubLink[];
   website: string;
   featured?: boolean;
   gradient: ButtonGradient;
@@ -64,7 +69,11 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['NextJS', 'NestJS', 'Prisma', 'Tailwind', 'Docker', 'AWS', 'TypeScript'],
     liveDemo: 'https://citywheels.mkloz.com',
-    github: 'https://github.com/mkloz/citywheels',
+    github: [
+      { name: 'Main Repository', link: 'https://github.com/mkloz/citywheels' },
+      { name: 'Frontend', link: 'https://github.com/mkloz/citywheels-frontend' },
+      { name: 'Backend API', link: 'https://github.com/mkloz/citywheels-backend' }
+    ],
     website: 'https://citywheels.mkloz.com',
     featured: true,
     gradient: 'blue',
@@ -202,7 +211,7 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['ReactJS', 'CSS Modules', 'ReactQuery', 'Zustand', 'TypeScript'],
     liveDemo: 'https://todo.mkloz.com',
-    github: 'https://github.com/mkloz/todo',
+    github: [{ name: 'Source Code', link: 'https://github.com/mkloz/todo' }],
     website: 'https://todo.mkloz.com',
     featured: true,
     gradient: 'purple',
@@ -285,7 +294,7 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'TypeScript', 'Vercel'],
     liveDemo: 'https://portfolio.mkloz.com',
-    github: 'https://github.com/mkloz/portfolio',
+    github: [{ name: 'Portfolio Source', link: 'https://github.com/mkloz/portfolio' }],
     website: 'https://portfolio.mkloz.com',
     featured: true,
     gradient: 'green',
@@ -368,7 +377,7 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['NestJS', 'TypeORM', 'MySQL', 'AWS', 'S3', 'Docker', 'TypeScript'],
     liveDemo: 'https://swapi.mkloz.com',
-    github: 'https://github.com/mkloz/swapi',
+    github: [{ name: 'API Source', link: 'https://github.com/mkloz/swapi' }],
     website: 'https://swapi.mkloz.com',
     gradient: 'pink',
     year: 2024,
@@ -459,7 +468,7 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['ExpressJS', 'Prisma', 'OpenAPI', 'JWT', 'TypeScript'],
     liveDemo: 'https://express.mkloz.com',
-    github: 'https://github.com/mkloz/bulletproof-express',
+    github: [{ name: 'Express Template', link: 'https://github.com/mkloz/bulletproof-express' }],
     website: 'https://express.mkloz.com',
     gradient: 'yellow',
     year: 2024,
@@ -537,7 +546,11 @@ export const projects: Project[] = [
     image: '/placeholder.svg?height=300&width=500',
     technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
     liveDemo: 'https://online-store.mkloz.com',
-    github: 'https://github.com/mkloz/online-store',
+    github: [
+      { name: 'Full Stack Code', link: 'https://github.com/mkloz/online-store' },
+      { name: 'React Frontend', link: 'https://github.com/mkloz/online-store-frontend' },
+      { name: 'Node.js Backend', link: 'https://github.com/mkloz/online-store-backend' }
+    ],
     website: 'https://online-store.mkloz.com',
     gradient: 'violet',
     year: 2024,

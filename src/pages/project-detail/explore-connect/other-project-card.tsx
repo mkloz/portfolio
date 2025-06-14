@@ -1,10 +1,11 @@
-import { ArrowUpRight, Github, Globe } from 'lucide-react';
+import { ArrowUpRight, Globe } from 'lucide-react';
 
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Project } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
+import { GitHubButton } from '../../../components/common/github-button';
 import { Image } from '../../../components/common/image';
 import { Link } from '../../../components/common/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
@@ -39,7 +40,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
         <div className="flex flex-wrap gap-2">
           {project.technologies.slice(0, 4).map((tech, techIndex) => (
             <div key={techIndex} className="group/tech relative">
-              <div className="relative backdrop-blur-sm border-2 border-gray-200/50 dark:border-gray-700/50 text-blue-100 px-2 py-1 rounded-full text-xs font-semibold hover:border-purple-400 duration-300 transform hover:scale-105">
+              <div className="relative backdrop-blur-sm border-2 border-gray-200/50 text-blue-100 px-2 py-1 rounded-full text-xs font-semibold hover:border-purple-400 duration-300 transform hover:scale-105">
                 {tech}
               </div>
             </div>
@@ -47,7 +48,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
           {project.technologies.length > 4 && (
             <div className="group/tech relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 to-purple-500/15 rounded-full blur opacity-0 group-hover/tech:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative backdrop-blur-sm border-2 border-gray-200/50 dark:border-gray-700/50 text-blue-100 px-2 py-1 rounded-full text-xs font-semibold hover:border-purple-400 duration-300 transform hover:scale-105">
+              <div className="relative backdrop-blur-sm border-2 border-gray-200/50 text-blue-100 px-2 py-1 rounded-full text-xs font-semibold hover:border-purple-400 duration-300 transform hover:scale-105">
                 +{project.technologies.length - 4}
               </div>
             </div>
@@ -70,7 +71,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
                   to={project.website}
                   className={cn(
                     buttonVariants({ variant: 'outline', size: 'icon' }),
-                    'bg-transparent text-white hover:bg-transparent'
+                    'bg-transparent text-white hover:bg-transparent border-gray-200/50 hover:text-white'
                   )}>
                   <Globe size={16} />
                 </Link>
@@ -83,15 +84,14 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
           {project.github && (
             <Tooltip>
               <TooltipTrigger>
-                <Link
-                  unstyled
-                  to={project.github}
+                <GitHubButton
+                  github={project.github}
+                  variant="outline"
+                  size="icon"
                   className={cn(
                     buttonVariants({ variant: 'outline', size: 'icon' }),
-                    'bg-transparent text-white hover:bg-transparent'
-                  )}>
-                  <Github size={16} />
-                </Link>
+                    'bg-transparent text-white hover:bg-transparent border-gray-200/50 hover:text-white'
+                  )}></GitHubButton>
               </TooltipTrigger>
               <TooltipContent className="bg-blue-400 text-white [&_.tooltip-arrow]:bg-blue-400 [&_.tooltip-arrow]:fill-blue-400">
                 View on GitHub

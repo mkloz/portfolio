@@ -1,16 +1,19 @@
+'use client';
+
 import { Play } from 'lucide-react';
-import { FaGithub, FaGlobe } from 'react-icons/fa6';
+import { FaGlobe } from 'react-icons/fa6';
 
 import { cn } from '@/lib/utils';
 
+import type { GitHubLink } from '../../../components/common/github-button';
+import { GitHubButton } from '../../../components/common/github-button';
 import { Link } from '../../../components/common/link';
-import { Button, ButtonGradient, buttonVariants } from '../../../components/ui/button';
+import { Button, type ButtonGradient, buttonVariants } from '../../../components/ui/button';
 import { useScrollIntoView } from '../../../hooks/use-scroll-into-view';
 
 interface ActionButtonsProps {
   gradient: ButtonGradient;
-
-  github: string;
+  github: GitHubLink[];
   website: string;
   className?: string;
 }
@@ -23,17 +26,19 @@ export const ActionButtons = ({ gradient, github, website, className }: ActionBu
         <Play className="group-hover:scale-110 transition-transform" />
         Live Demo
       </Button>
-      <Link
-        to={github}
-        unstyled
-        className={cn(buttonVariants({ variant: 'outline' }), 'text-sm sm:text-base text-white border-white')}>
-        <FaGithub className="group-hover:scale-110 transition-transform" />
+      <GitHubButton
+        github={github}
+        variant="outline"
+        className="text-sm sm:text-base text-white border-white hover:text-black hover:bg-white">
         Source Code
-      </Link>
+      </GitHubButton>
       <Link
         to={website}
         unstyled
-        className={cn(buttonVariants({ variant: 'outline' }), 'text-sm sm:text-base text-white border-white')}>
+        className={cn(
+          buttonVariants({ variant: 'outline' }),
+          'text-sm sm:text-base text-white border-white hover:text-black hover:bg-white'
+        )}>
         <FaGlobe className="group-hover:scale-110 transition-transform" />
         Visit Site
       </Link>
