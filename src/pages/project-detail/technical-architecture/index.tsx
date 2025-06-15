@@ -5,29 +5,23 @@ import { useEffect, useState } from 'react';
 import { ArchitectureBackground } from './architecture-background';
 import { ArchitectureDiagram } from './architecture-diagram';
 import { ArchitectureHeader } from './architecture-header';
-import { LayerDetails } from './layer-details';
-import type { TechnicalArchitectureProps } from './types';
 
 // Constants defined outside component
 const FLOW_STEPS = ['frontend', 'backend', 'database', 'infrastructure'];
 
-export const TechnicalArchitecture = ({ architecture }: TechnicalArchitectureProps) => {
-  const [activeLayer, setActiveLayer] = useState<string | null>(null);
-  const [isFlowActive, setIsFlowActive] = useState(false);
-  const [_, setAnimationStep] = useState(0);
+export const TechnicalArchitecture = () => {
+  const [activeLayer, setActiveLayer] = useState<string | null>('frontend');
 
   useEffect(() => {
-    if (isFlowActive) {
-      const interval = setInterval(() => {
-        setAnimationStep((prev) => {
-          const nextStep = (prev + 1) % FLOW_STEPS.length;
-          setActiveLayer(FLOW_STEPS[nextStep]); // Set the active layer during autoplay
-          return nextStep;
-        });
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [isFlowActive]);
+    const interval = setInterval(() => {
+      setActiveLayer((current) => {
+        const currentIndex = current ? FLOW_STEPS.indexOf(current) : 0;
+        const nextIndex = (currentIndex + 1) % FLOW_STEPS.length;
+        return FLOW_STEPS[nextIndex];
+      });
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="py-20 relative overflow-hidden" id="architecture">
@@ -37,18 +31,10 @@ export const TechnicalArchitecture = ({ architecture }: TechnicalArchitecturePro
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <ArchitectureHeader isFlowActive={isFlowActive} setIsFlowActive={setIsFlowActive} />
+          <ArchitectureHeader />
 
           {/* Architecture Diagram */}
-          <ArchitectureDiagram
-            activeLayer={activeLayer}
-            setActiveLayer={setActiveLayer}
-            isFlowActive={isFlowActive}
-            setIsFlowActive={setIsFlowActive}
-          />
-
-          {/* Layer Details */}
-          {activeLayer && <LayerDetails activeLayer={activeLayer} architecture={architecture} />}
+          <ArchitectureDiagram activeLayer={activeLayer} />
         </div>
       </div>
     </section>

@@ -4,12 +4,9 @@ import { cn } from '@/lib/utils';
 
 import type { MainLayerCardProps } from './types';
 
-export const MainLayerCard = ({ id, title, subtitle, icon: Icon, color, onClick, isActive }: MainLayerCardProps) => {
+export const MainLayerCard = ({ id, title, subtitle, icon: Icon, color, isActive }: MainLayerCardProps) => {
   return (
-    <div
-      key={id}
-      className={cn('relative cursor-pointer transition-all duration-500', isActive ? 'scale-105' : 'hover:scale-102')}
-      onClick={onClick}>
+    <div key={id} className={cn('relative transition-all duration-500', isActive ? 'scale-105' : '')}>
       <div className="w-64 h-32 relative max-w-full">
         {/* Main card */}
         <div
@@ -17,7 +14,7 @@ export const MainLayerCard = ({ id, title, subtitle, icon: Icon, color, onClick,
             'relative w-full h-full rounded-2xl border-2 transition-all duration-500 backdrop-blur-sm',
             isActive
               ? 'border-cyan-400 bg-gradient-to-br from-cyan-400/20 to-blue-400/20'
-              : 'border-white/20 bg-gradient-to-br from-white/10 to-white/5 hover:border-white/40'
+              : 'border-white/20 bg-gradient-to-br from-white/10 to-white/5'
           )}>
           <div className="p-6 h-full flex items-center gap-4">
             <div

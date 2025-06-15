@@ -47,7 +47,12 @@ export const ExploreConnect = ({ project }: ExploreConnectProps) => {
   // Update project links with actual URLs
   const projectLinks = PROJECT_LINKS.map((link) => ({
     ...link,
-    href: link.title === 'Live Demo' ? project.liveDemo : link.title === 'Source Code' ? project.github : link.href
+    href:
+      link.title === 'Live Demo'
+        ? project.liveDemo
+        : link.title === 'Source Code'
+          ? project.github[0]?.link || '#'
+          : link.href
   }));
 
   return (

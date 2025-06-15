@@ -1,5 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 
+import { Project } from '../../../data/projects';
+
 export interface ProjectLinkData {
   title: string;
   description: string;
@@ -16,12 +18,7 @@ export interface ProjectStats {
 }
 
 export interface ExploreConnectProps {
-  project: {
-    title: string;
-    liveDemo: string;
-    github: string;
-    slug: string;
-  };
+  project: Project;
 }
 
 export interface OtherProjectsProps {

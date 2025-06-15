@@ -4,11 +4,9 @@ import { cn } from '@/lib/utils';
 
 import type { IntegrationCardProps } from './types';
 
-export const IntegrationCard = ({ title, icon: Icon, color, isParentActive, onClick }: IntegrationCardProps) => {
+export const IntegrationCard = ({ title, icon: Icon, color, isParentActive }: IntegrationCardProps) => {
   return (
-    <div
-      className={cn('cursor-pointer transition-all duration-500', isParentActive ? 'scale-105' : 'hover:scale-102')}
-      onClick={onClick}>
+    <div className={cn('transition-all duration-500', isParentActive ? 'scale-105' : '')}>
       <div className="w-24 h-24 relative">
         {/* Glow effect when parent layer is active */}
         {isParentActive && <div className="absolute inset-0 bg-yellow-400/30 rounded-xl blur-lg animate-pulse"></div>}
@@ -18,7 +16,7 @@ export const IntegrationCard = ({ title, icon: Icon, color, isParentActive, onCl
             'relative w-full h-full rounded-xl border-2 transition-all duration-500 backdrop-blur-sm',
             isParentActive
               ? 'border-yellow-400 bg-gradient-to-br from-yellow-400/20 to-orange-400/20'
-              : 'border-white/20 bg-gradient-to-br from-white/5 to-white/10 hover:border-white/30'
+              : 'border-white/20 bg-gradient-to-br from-white/5 to-white/10'
           )}>
           <div className="p-3 h-full flex flex-col items-center justify-center text-center">
             <div
@@ -36,12 +34,6 @@ export const IntegrationCard = ({ title, icon: Icon, color, isParentActive, onCl
               {title}
             </span>
           </div>
-
-          {isParentActive && (
-            <div className="absolute -top-1 -right-1">
-              <div className="w-3 h-3 bg-yellow-400 rounded-full animate-ping ml-2"></div>
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -2,17 +2,55 @@ import { Play } from 'lucide-react';
 import { HiStatusOnline } from 'react-icons/hi';
 
 import { Image } from '@/components/common/image';
+import type { ProjectType } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
 interface HeroImageProps {
   src: string;
   alt: string;
-  isFullStack?: boolean;
+  projectType: ProjectType;
   isOnline?: boolean;
   className?: string;
 }
 
-export const HeroImage = ({ src, alt, isFullStack = false, isOnline = false, className }: HeroImageProps) => {
+const getProjectTypeConfig = (type: ProjectType) => {
+  switch (type) {
+    case 'frontend':
+      return {
+        label: 'Frontend',
+        gradient: 'from-purple-500/70 to-pink-500/70',
+        borderColor: 'border-purple-400/50'
+      };
+    case 'backend':
+      return {
+        label: 'Backend',
+        gradient: 'from-green-500/70 to-emerald-500/70',
+        borderColor: 'border-green-400/50'
+      };
+    case 'fullstack':
+      return {
+        label: 'Full Stack',
+        gradient: 'from-blue-500/70 to-indigo-500/70',
+        borderColor: 'border-blue-400/50'
+      };
+    case 'other':
+      return {
+        label: 'Project',
+        gradient: 'from-gray-500/70 to-slate-500/70',
+        borderColor: 'border-gray-400/50'
+      };
+    default:
+      return {
+        label: 'Project',
+        gradient: 'from-gray-500/70 to-slate-500/70',
+        borderColor: 'border-gray-400/50'
+      };
+  }
+};
+
+export const HeroImage = ({ src, alt, projectType, isOnline = false, className }: HeroImageProps) => {
+  const typeConfig = getProjectTypeConfig(projectType);
+
   return (
     <div className={cn('relative px-2 py-8 sm:p-12 ', className)}>
       <div className="relative group">
@@ -39,12 +77,15 @@ export const HeroImage = ({ src, alt, isFullStack = false, isOnline = false, cla
           </div>
         )}
 
-        {/* Floating Full Stack Badge */}
-        {isFullStack && (
-          <div className="absolute bottom-0 left-0 bg-gradient-to-r from-blue-500/70 to-indigo-500/70 backdrop-blur-sm border border-blue-400/50 text-white rounded-lg px-4 py-2 shadow-md transform group-hover:scale-105 transition-transform duration-300 -translate-x-1/2 translate-y-1/2 hidden sm:flex">
-            <div className="text-sm font-bold">Full Stack</div>
-          </div>
-        )}
+        {/* Floating Project Type Badge */}
+        <div
+          className={cn(
+            'absolute bottom-0 left-0 bg-gradient-to-r backdrop-blur-sm border text-white rounded-lg px-4 py-2 shadow-md transform group-hover:scale-105 transition-transform duration-300 -translate-x-1/2 translate-y-1/2 hidden sm:flex',
+            typeConfig.gradient,
+            typeConfig.borderColor
+          )}>
+          <div className="text-sm font-bold">{typeConfig.label}</div>
+        </div>
       </div>
     </div>
   );

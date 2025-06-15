@@ -17,7 +17,6 @@ export interface MainLayerCardProps {
   subtitle: string;
   icon: LucideIcon;
   color: string;
-  onClick: () => void;
   isActive: boolean;
 }
 
@@ -27,7 +26,6 @@ export interface IntegrationCardProps {
   color: string;
   parentLayer: string;
   isParentActive: boolean;
-  onClick: () => void;
 }
 
 export interface FlowArrowProps {
@@ -49,9 +47,6 @@ export interface ComponentItem {
 
 export interface ArchitectureDiagramProps {
   activeLayer: string | null;
-  setActiveLayer: (layer: string | null) => void;
-  isFlowActive: boolean;
-  setIsFlowActive: (active: boolean) => void;
 }
 
 export interface LayerDetailsProps {

@@ -35,7 +35,7 @@ const DATABASE_INTEGRATIONS = [
   { title: 'S3 Storage', icon: Cloud, color: 'from-orange-600 to-orange-700' }
 ];
 
-export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActive }: ArchitectureDiagramProps) => {
+export const ArchitectureDiagram = ({ activeLayer }: ArchitectureDiagramProps) => {
   return (
     <div className="relative mb-16">
       {/* Glow effect for entire architecture diagram when infrastructure is active */}
@@ -51,13 +51,9 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
         {/* Infrastructure Label */}
         <div
           className={cn(
-            'absolute top-4 left-4 lg:top-6 lg:left-6 flex items-center gap-3 cursor-pointer transition-all duration-500',
-            activeLayer === 'infrastructure' ? 'scale-105' : 'hover:scale-105'
-          )}
-          onClick={() => {
-            setIsFlowActive(false); // Stop autoplay
-            setActiveLayer(activeLayer === 'infrastructure' ? null : 'infrastructure');
-          }}>
+            'absolute top-4 left-4 lg:top-6 lg:left-6 flex items-center gap-3 transition-all duration-500',
+            activeLayer === 'infrastructure' ? 'scale-105' : ''
+          )}>
           <div
             className={cn(
               'relative w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-500',
@@ -74,10 +70,6 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
             )}>
             Infrastructure Layer
           </span>
-          {/* Active indicator for infrastructure */}
-          {activeLayer === 'infrastructure' && (
-            <div className="w-3 h-3 bg-yellow-400 rounded-full animate-ping ml-2"></div>
-          )}
         </div>
 
         {/* Main Architecture Flow */}
@@ -91,11 +83,10 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
               icon={Globe}
               color={LAYER_COLORS.frontend}
               isActive={activeLayer === 'frontend'}
-              onClick={() => setActiveLayer(activeLayer === 'frontend' ? null : 'frontend')}
             />
 
-            <FlowArrow direction="down" isActive={false} className="lg:hidden" />
-            <FlowArrow direction="right" isActive={false} className="hidden lg:flex" />
+            <FlowArrow direction="down" isActive={activeLayer === 'frontend'} className="lg:hidden" />
+            <FlowArrow direction="right" isActive={activeLayer === 'frontend'} className="hidden lg:flex" />
 
             <MainLayerCard
               id="backend"
@@ -104,11 +95,10 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
               icon={Server}
               color={LAYER_COLORS.backend}
               isActive={activeLayer === 'backend'}
-              onClick={() => setActiveLayer(activeLayer === 'backend' ? null : 'backend')}
             />
 
-            <FlowArrow direction="down" isActive={false} className="lg:hidden" />
-            <FlowArrow direction="right" isActive={false} className="hidden lg:flex" />
+            <FlowArrow direction="down" isActive={activeLayer === 'backend'} className="lg:hidden" />
+            <FlowArrow direction="right" isActive={activeLayer === 'backend'} className="hidden lg:flex" />
 
             <MainLayerCard
               id="database"
@@ -117,11 +107,10 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
               icon={Database}
               color={LAYER_COLORS.database}
               isActive={activeLayer === 'database'}
-              onClick={() => setActiveLayer(activeLayer === 'database' ? null : 'database')}
             />
           </div>
 
-          {/* Integration Arrows - Only show on extra large screens (not laptops) */}
+          {/* Integration Arrows - Only show on extra large screens */}
           <div className="hidden xl:flex justify-center gap-12 mb-4">
             <div className="flex flex-col items-center">
               <FlowArrow direction="up" isActive={activeLayer === 'frontend'} />
@@ -136,7 +125,7 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
             </div>
           </div>
 
-          {/* Integrations Row - Only show on extra large screens (not laptops) */}
+          {/* Integrations Row - Only show on extra large screens */}
           <div className="hidden xl:flex justify-center gap-12">
             {/* Frontend Integrations */}
             <div className="flex flex-col items-center">
@@ -149,10 +138,6 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
                     color={integration.color}
                     parentLayer="frontend"
                     isParentActive={activeLayer === 'frontend'}
-                    onClick={() => {
-                      setIsFlowActive(false);
-                      setActiveLayer('frontend');
-                    }}
                   />
                 ))}
               </div>
@@ -169,10 +154,6 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
                     color={integration.color}
                     parentLayer="backend"
                     isParentActive={activeLayer === 'backend'}
-                    onClick={() => {
-                      setIsFlowActive(false);
-                      setActiveLayer('backend');
-                    }}
                   />
                 ))}
               </div>
@@ -189,10 +170,6 @@ export const ArchitectureDiagram = ({ activeLayer, setActiveLayer, setIsFlowActi
                     color={integration.color}
                     parentLayer="database"
                     isParentActive={activeLayer === 'database'}
-                    onClick={() => {
-                      setIsFlowActive(false);
-                      setActiveLayer('database');
-                    }}
                   />
                 ))}
               </div>

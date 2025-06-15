@@ -819,14 +819,15 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
           {[...Array(60)].map((_, i) => (
             <div
               key={`bubble-${i}`}
-              className="absolute bg-cyan-200/50 rounded-full"
+              className="absolute bg-cyan-200/50 rounded-full opacity-0"
               style={{
                 width: `${1 + Math.random() * 8}px`,
                 height: `${1 + Math.random() * 8}px`,
                 left: `${Math.random() * 100}%`,
-                top: `${60 + Math.random() * 40}%`,
+                top: `${100 + Math.random() * 20}%`, // Start below viewport
                 animation: `bubbleRise ${5 + Math.random() * 8}s linear infinite`,
-                animationDelay: `${Math.random() * 6}s`
+                animationDelay: `${Math.random() * 6}s`,
+                animationFillMode: 'forwards'
               }}
             />
           ))}
@@ -835,14 +836,15 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
           {[...Array(15)].map((_, i) => (
             <div
               key={`large-bubble-${i}`}
-              className="absolute bg-cyan-300/40 rounded-full"
+              className="absolute bg-cyan-300/40 rounded-full opacity-0"
               style={{
                 width: `${8 + Math.random() * 12}px`,
                 height: `${8 + Math.random() * 12}px`,
                 left: `${Math.random() * 100}%`,
-                top: `${70 + Math.random() * 30}%`,
+                top: `${100 + Math.random() * 20}%`, // Start below viewport
                 animation: `largeBubbleRise ${8 + Math.random() * 10}s linear infinite`,
-                animationDelay: `${Math.random() * 8}s`
+                animationDelay: `${Math.random() * 8}s`,
+                animationFillMode: 'forwards'
               }}
             />
           ))}
@@ -851,14 +853,15 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
           {[...Array(35)].map((_, i) => (
             <div
               key={`plant-bubble-${i}`}
-              className="absolute bg-cyan-300/40 rounded-full"
+              className="absolute bg-cyan-300/40 rounded-full opacity-0"
               style={{
                 width: `${0.5 + Math.random() * 4}px`,
                 height: `${0.5 + Math.random() * 4}px`,
                 left: `${Math.random() * 100}%`,
-                top: `${70 + Math.random() * 30}%`,
+                top: `${100 + Math.random() * 20}%`, // Start below viewport
                 animation: `slowBubbleRise ${10 + Math.random() * 8}s linear infinite`,
-                animationDelay: `${Math.random() * 8}s`
+                animationDelay: `${Math.random() * 8}s`,
+                animationFillMode: 'forwards'
               }}
             />
           ))}

@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 
-import { Project } from '../../../data/projects';
+import type { Project } from '../../../data/projects';
 import { ActionButtons } from './action-buttons';
 import { CircuitBackground } from './circuit-background';
 import { HeroImage } from './hero-image';
@@ -18,14 +18,6 @@ interface ProjectHeroProps {
 export const ProjectHero = ({ project, className }: ProjectHeroProps) => {
   // Determine if project is online based on having a liveDemo URL
   const isOnline = Boolean(project.liveDemo);
-
-  // Determine if project is full stack based on category or technologies
-  const isFullStack =
-    project.category === 'Full-Stack Development' ||
-    (Array.isArray(project.technologies) &&
-      project.technologies.some(
-        (tech) => tech.toLowerCase().includes('backend') || tech.toLowerCase().includes('database')
-      ));
 
   return (
     <section className={cn('relative min-h-screen flex items-center overflow-hidden', className)}>
@@ -51,7 +43,7 @@ export const ProjectHero = ({ project, className }: ProjectHeroProps) => {
           </div>
 
           {/* Right column - Hero Image */}
-          <HeroImage src={project.heroImage} alt={project.title} isOnline={isOnline} isFullStack={isFullStack} />
+          <HeroImage src={project.heroImage} alt={project.title} projectType={project.type} isOnline={isOnline} />
         </div>
       </div>
     </section>
