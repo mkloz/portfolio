@@ -1,7 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
 
-import type { ButtonGradient } from '@/components/ui/button';
-
 export interface Highlight {
   icon: LucideIcon;
   title: string;
@@ -14,14 +12,13 @@ export interface ProjectOverviewProps {
   project: {
     title: string;
     description: string;
-    gradient: ButtonGradient;
-    highlights: Highlight[];
+    gradient?: string;
   };
 }
 
 export interface OverviewHeaderProps {
   description: string;
-  gradient: ButtonGradient;
+  gradient?: string;
 }
 
 export interface HighlightCardProps {

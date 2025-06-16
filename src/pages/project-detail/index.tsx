@@ -70,7 +70,7 @@ export const ProjectDetailPage = () => {
       {/* Interactive Demo */}
       <InteractiveDemo project={project} />
       {/* Technical Architecture */}
-      <TechnicalArchitecture />
+      <TechnicalArchitecture developmentJourney={project.developmentJourney} />
 
       {/* Visual Gallery */}
       <VisualGallery gallery={project.gallery} gradient={project.gradient} />

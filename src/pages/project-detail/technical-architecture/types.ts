@@ -1,72 +1,39 @@
-import type { LucideIcon } from 'lucide-react';
+export interface KeyDecision {
+  decision: string;
+  reasoning: string;
+}
 
-export interface ArchitectureNode {
+export interface DevelopmentStep {
+  id: string;
   title: string;
+  duration: string;
   technologies: string[];
-  description: string;
-  connections: string[];
+  decisions: KeyDecision[];
+  achievements: string[];
+}
+
+export interface DevelopmentJourney {
+  steps: DevelopmentStep[];
 }
 
 export interface TechnicalArchitectureProps {
-  architecture: Record<string, ArchitectureNode>;
+  developmentJourney: DevelopmentJourney;
 }
 
-export interface MainLayerCardProps {
-  id: string;
-  title: string;
-  subtitle: string;
-  icon: LucideIcon;
-  color: string;
+export interface StepTimelineProps {
+  steps: DevelopmentStep[];
+  activeStep: number;
+  onStepClick: (index: number) => void;
+}
+
+export interface StepCardProps {
+  step: DevelopmentStep;
   isActive: boolean;
+  stepNumber: number;
 }
 
-export interface IntegrationCardProps {
-  title: string;
-  icon: LucideIcon;
-  color: string;
-  parentLayer: string;
-  isParentActive: boolean;
-}
-
-export interface FlowArrowProps {
-  direction?: 'right' | 'down' | 'up' | 'left';
+export interface StepIconProps {
+  stepId: string;
   isActive: boolean;
-  className?: string;
-}
-
-export interface CapabilityItem {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}
-
-export interface ComponentItem {
-  name: string;
-  category: string;
-}
-
-export interface ArchitectureDiagramProps {
-  activeLayer: string | null;
-}
-
-export interface LayerDetailsProps {
-  activeLayer: string | null;
-  architecture: Record<string, ArchitectureNode>;
-}
-
-export interface CapabilityCardProps {
-  capability: CapabilityItem;
-}
-
-export interface ComponentCardProps {
-  component: ComponentItem;
-}
-
-export interface ArchitectureBackgroundProps {
-  activeLayer: string | null;
-}
-
-export interface ArchitectureHeaderProps {
-  isFlowActive: boolean;
-  setIsFlowActive: (active: boolean) => void;
+  isCompleted: boolean;
 }

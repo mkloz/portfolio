@@ -56,7 +56,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
 
   return (
     <Card
-      className="group hover:shadow-2xl transition-transform duration-500 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden transform hover:scale-105 p-0 gap-2 min-w-60 hover:z-10 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className="group hover:shadow-2xl transition-transform duration-500 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border-0 shadow-xl rounded-3xl overflow-hidden transform hover:scale-105 p-0 gap-2 min-w-60 hover:z-10 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
       onClick={handleCardClick}
       onKeyDown={handleCardKeyDown}
       tabIndex={0}

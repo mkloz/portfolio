@@ -1,34 +1,24 @@
-import type { LucideIcon } from 'lucide-react';
-import {
-  CheckCircle,
-  Code,
-  Database,
-  Globe,
-  Layers,
-  Lock,
-  Palette,
-  Rocket,
-  Server,
-  Settings,
-  Shield,
-  Smartphone,
-  Star,
-  Target,
-  TrendingUp,
-  Users,
-  Zap
-} from 'lucide-react';
-
 import type { ButtonGradient } from '@/components/ui/button';
 
 import type { Technology } from './technologies';
 import { technologies } from './technologies';
 
-export interface ArchitectureNode {
+export interface KeyDecision {
+  decision: string;
+  reasoning: string;
+}
+
+export interface DevelopmentStep {
+  id: string;
   title: string;
+  duration: string;
   technologies: string[];
-  description: string;
-  connections: string[];
+  decisions: KeyDecision[];
+  achievements: string[];
+}
+
+export interface DevelopmentJourney {
+  steps: DevelopmentStep[];
 }
 
 export interface GalleryItem {
@@ -42,16 +32,6 @@ export interface GitHubLink {
   name: string;
   link: string;
 }
-
-export interface ProjectHighlight {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  color: string;
-  stats: string;
-}
-
-export type ProjectType = 'frontend' | 'backend' | 'fullstack' | 'other';
 
 export interface Project {
   // Basic info (used in project cards)
@@ -67,7 +47,6 @@ export interface Project {
   gradient: ButtonGradient;
   year: number;
   progress: number;
-  type: ProjectType;
 
   // Detailed info (used in project detail page)
   tagline: string;
@@ -77,12 +56,9 @@ export interface Project {
   category: string;
   duration: string;
 
-  // Project-specific highlights
-  highlights: ProjectHighlight[];
-
   // Technical details
   detailedTechnologies: Technology[];
-  architecture: Record<string, ArchitectureNode>;
+  developmentJourney: DevelopmentJourney;
   gallery: GalleryItem[];
 
   // Stats
@@ -114,7 +90,6 @@ export const projects: Project[] = [
     gradient: 'blue',
     year: 2024,
     progress: 100,
-    type: 'fullstack',
 
     // Detailed info
     tagline: 'Modern E-commerce Experience',
@@ -124,40 +99,6 @@ export const projects: Project[] = [
     status: 'Completed',
     category: 'Full-Stack Development',
     duration: '6 months',
-
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: Zap,
-        title: 'Lightning Fast Performance',
-        description:
-          'Optimized with Next.js SSR, image optimization, and efficient caching strategies for sub-3s load times',
-        color: 'from-yellow-400 to-orange-500',
-        stats: '< 2.8s load time'
-      },
-      {
-        icon: Shield,
-        title: 'Enterprise Security',
-        description:
-          'JWT authentication, input validation, SQL injection protection, and PCI-compliant payment processing',
-        color: 'from-green-400 to-emerald-500',
-        stats: 'Zero vulnerabilities'
-      },
-      {
-        icon: Database,
-        title: 'Scalable Architecture',
-        description: 'Microservices with Docker, PostgreSQL with Redis caching, and AWS auto-scaling infrastructure',
-        color: 'from-blue-400 to-cyan-500',
-        stats: '99.9% uptime'
-      },
-      {
-        icon: Users,
-        title: 'User-Centric Design',
-        description: 'Responsive design, accessibility compliance, and intuitive UX tested with real users',
-        color: 'from-purple-400 to-pink-500',
-        stats: 'WCAG 2.1 AA'
-      }
-    ],
 
     // Technical details
     detailedTechnologies: [
@@ -175,43 +116,97 @@ export const projects: Project[] = [
       technologies.stripe
     ],
 
-    architecture: {
-      frontend: {
-        title: 'Frontend Layer',
-        technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-        description: 'Server-side rendered React application with optimized performance',
-        connections: ['backend']
-      },
-      backend: {
-        title: 'Backend Services',
-        technologies: ['Node.js', 'NestJS', 'Prisma', 'JWT'],
-        description: 'RESTful API with authentication and business logic',
-        connections: ['database', 'payment', 'storage']
-      },
-      database: {
-        title: 'Database Layer',
-        technologies: ['PostgreSQL', 'Redis'],
-        description: 'Relational database with caching layer',
-        connections: []
-      },
-      payment: {
-        title: 'Payment Gateway',
-        technologies: ['Stripe', 'Webhooks'],
-        description: 'Secure payment processing with real-time updates',
-        connections: []
-      },
-      storage: {
-        title: 'File Storage',
-        technologies: ['AWS S3', 'CloudFront'],
-        description: 'Scalable file storage with CDN distribution',
-        connections: []
-      },
-      infrastructure: {
-        title: 'Infrastructure',
-        technologies: ['Docker', 'AWS ECS', 'Load Balancer'],
-        description: 'Containerized deployment with auto-scaling',
-        connections: ['backend', 'frontend']
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'frontend',
+          title: 'Frontend Development',
+          duration: '2 weeks',
+          technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+          decisions: [
+            {
+              decision: 'Next.js over Create React App',
+              reasoning: 'Needed SSR for SEO and performance optimization'
+            },
+            {
+              decision: 'Tailwind CSS over styled-components',
+              reasoning: 'Faster development and better consistency'
+            }
+          ],
+          achievements: [
+            '98+ Lighthouse performance score',
+            'Fully responsive design across all devices',
+            'Advanced product filtering system',
+            'Smooth shopping cart animations'
+          ]
+        },
+        {
+          id: 'backend',
+          title: 'Backend API Development',
+          duration: '3 weeks',
+          technologies: ['NestJS', 'Prisma', 'JWT', 'Stripe API'],
+          decisions: [
+            {
+              decision: 'NestJS over Express.js',
+              reasoning: 'Better structure for complex business logic and built-in TypeScript support'
+            },
+            {
+              decision: 'Prisma over TypeORM',
+              reasoning: 'Better type safety and developer experience'
+            }
+          ],
+          achievements: [
+            'Secure payment processing with Stripe',
+            'Real-time inventory management',
+            'Comprehensive API documentation',
+            'JWT-based authentication system'
+          ]
+        },
+        {
+          id: 'database',
+          title: 'Database Design',
+          duration: '1 week',
+          technologies: ['PostgreSQL', 'Prisma', 'Redis'],
+          decisions: [
+            {
+              decision: 'PostgreSQL over MongoDB',
+              reasoning: 'ACID compliance needed for e-commerce transactions'
+            },
+            {
+              decision: 'Redis for caching',
+              reasoning: 'Improved performance for frequently accessed data'
+            }
+          ],
+          achievements: [
+            'Optimized database queries',
+            'Data integrity and consistency',
+            'Efficient caching strategy',
+            'Scalable database architecture'
+          ]
+        },
+        {
+          id: 'deployment',
+          title: 'Deployment & DevOps',
+          duration: '1 week',
+          technologies: ['Docker', 'AWS ECS', 'CloudFront', 'GitHub Actions'],
+          decisions: [
+            {
+              decision: 'AWS over Vercel',
+              reasoning: 'Needed full control over backend infrastructure and database'
+            },
+            {
+              decision: 'Docker containerization',
+              reasoning: 'Consistent deployment across environments'
+            }
+          ],
+          achievements: [
+            'Auto-scaling infrastructure setup',
+            '99.9% uptime achievement',
+            'Automated CI/CD pipeline',
+            'Global CDN distribution'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -287,7 +282,6 @@ export const projects: Project[] = [
     gradient: 'purple',
     year: 2024,
     progress: 100,
-    type: 'frontend',
 
     // Detailed info
     tagline: 'Smart Task Management',
@@ -298,62 +292,52 @@ export const projects: Project[] = [
     category: 'Frontend Development',
     duration: '3 months',
 
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: Smartphone,
-        title: 'Mobile-First Design',
-        description:
-          'Fully responsive interface that works seamlessly across all devices with touch-optimized interactions',
-        color: 'from-purple-400 to-pink-500',
-        stats: '100% mobile ready'
-      },
-      {
-        icon: Zap,
-        title: 'Real-Time Updates',
-        description:
-          'Instant task updates with optimistic UI and efficient state management using Zustand and React Query',
-        color: 'from-yellow-400 to-orange-500',
-        stats: '< 100ms response'
-      },
-      {
-        icon: Palette,
-        title: 'Modern UI/UX',
-        description: 'Clean, intuitive interface with smooth animations and accessibility-first design principles',
-        color: 'from-blue-400 to-cyan-500',
-        stats: '4.8/5 user rating'
-      },
-      {
-        icon: Code,
-        title: 'Type-Safe Development',
-        description: 'Built with TypeScript for better developer experience and runtime reliability',
-        color: 'from-green-400 to-emerald-500',
-        stats: '100% type coverage'
-      }
-    ],
-
     // Technical details
     detailedTechnologies: [technologies.react, technologies.typescript, technologies.tailwind, technologies.vercel],
 
-    architecture: {
-      frontend: {
-        title: 'Frontend Application',
-        technologies: ['React', 'TypeScript', 'Zustand', 'React Query'],
-        description: 'Single-page application with modern state management',
-        connections: ['storage']
-      },
-      storage: {
-        title: 'Local Storage',
-        technologies: ['Browser Storage', 'IndexedDB'],
-        description: 'Client-side data persistence',
-        connections: []
-      },
-      infrastructure: {
-        title: 'Deployment',
-        technologies: ['Vercel', 'CDN'],
-        description: 'Static site deployment with global CDN',
-        connections: ['frontend']
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'frontend',
+          title: 'Frontend Development',
+          duration: '3 weeks',
+          technologies: ['React', 'TypeScript', 'Zustand', 'Tailwind CSS'],
+          decisions: [
+            {
+              decision: 'Zustand over Redux',
+              reasoning: 'Simpler state management for small to medium app'
+            },
+            {
+              decision: 'Local storage over external database',
+              reasoning: 'Offline-first approach for better user experience'
+            }
+          ],
+          achievements: [
+            'Offline functionality with local storage',
+            'Smooth animations and transitions',
+            'Advanced task filtering and sorting',
+            'Responsive design for all devices'
+          ]
+        },
+        {
+          id: 'deployment',
+          title: 'Static Deployment',
+          duration: '2 days',
+          technologies: ['Vercel', 'GitHub Actions'],
+          decisions: [
+            {
+              decision: 'Vercel over Netlify',
+              reasoning: 'Better integration with React and automatic deployments'
+            }
+          ],
+          achievements: [
+            'Automated deployments from GitHub',
+            'Edge optimization for global performance',
+            'Custom domain configuration',
+            'Continuous integration setup'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -405,7 +389,6 @@ export const projects: Project[] = [
     gradient: 'green',
     year: 2024,
     progress: 100,
-    type: 'frontend',
 
     // Detailed info
     tagline: 'Personal Brand Showcase',
@@ -416,40 +399,6 @@ export const projects: Project[] = [
     category: 'Frontend Development',
     duration: '2 months',
 
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: Rocket,
-        title: 'Blazing Fast Performance',
-        description:
-          'Static site generation with Next.js, optimized images, and edge deployment for lightning-fast loading',
-        color: 'from-blue-400 to-cyan-500',
-        stats: '98 Lighthouse score'
-      },
-      {
-        icon: Palette,
-        title: 'Stunning Animations',
-        description:
-          'Custom CSS animations and smooth transitions that bring the portfolio to life without compromising performance',
-        color: 'from-purple-400 to-pink-500',
-        stats: '60fps animations'
-      },
-      {
-        icon: Layers,
-        title: 'Component Architecture',
-        description: 'Modular, reusable components with TypeScript for maintainable and scalable codebase',
-        color: 'from-green-400 to-emerald-500',
-        stats: '95% reusability'
-      },
-      {
-        icon: Globe,
-        title: 'SEO Optimized',
-        description: 'Meta tags, structured data, and semantic HTML for maximum search engine visibility',
-        color: 'from-yellow-400 to-orange-500',
-        stats: '100% SEO score'
-      }
-    ],
-
     // Technical details
     detailedTechnologies: [
       technologies.nextjs,
@@ -459,19 +408,49 @@ export const projects: Project[] = [
       technologies.vercel
     ],
 
-    architecture: {
-      frontend: {
-        title: 'Static Site',
-        technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-        description: 'Static site generation with modern animations',
-        connections: ['deployment']
-      },
-      deployment: {
-        title: 'Vercel Deployment',
-        technologies: ['Vercel', 'CDN', 'Edge Functions'],
-        description: 'Global deployment with edge optimization',
-        connections: []
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'frontend',
+          title: 'Frontend Development',
+          duration: '6 weeks',
+          technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+          decisions: [
+            {
+              decision: 'Next.js over Gatsby',
+              reasoning: 'Better developer experience and more flexible routing'
+            },
+            {
+              decision: 'Framer Motion for animations',
+              reasoning: 'Powerful animation library with great React integration'
+            }
+          ],
+          achievements: [
+            'Stunning animated hero section',
+            'Interactive project showcase',
+            'Smooth page transitions',
+            'Optimized performance metrics'
+          ]
+        },
+        {
+          id: 'deployment',
+          title: 'Deployment & Optimization',
+          duration: '1 week',
+          technologies: ['Vercel', 'GitHub Actions', 'Lighthouse'],
+          decisions: [
+            {
+              decision: 'Vercel for hosting',
+              reasoning: 'Seamless Next.js integration and global CDN'
+            }
+          ],
+          achievements: [
+            'Perfect Lighthouse scores',
+            'Global CDN distribution',
+            'Automated deployments',
+            'Custom domain setup'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -522,7 +501,6 @@ export const projects: Project[] = [
     gradient: 'pink',
     year: 2024,
     progress: 100,
-    type: 'backend',
 
     // Detailed info
     tagline: 'RESTful API for Star Wars Data',
@@ -532,38 +510,6 @@ export const projects: Project[] = [
     status: 'Completed',
     category: 'Backend Development',
     duration: '4 months',
-
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: Server,
-        title: 'Robust API Design',
-        description: 'RESTful endpoints with comprehensive data validation, error handling, and rate limiting',
-        color: 'from-blue-400 to-cyan-500',
-        stats: '20+ endpoints'
-      },
-      {
-        icon: Database,
-        title: 'Efficient Data Management',
-        description: 'Optimized MySQL queries with TypeORM, data seeding, and relationship management',
-        color: 'from-green-400 to-emerald-500',
-        stats: '< 50ms queries'
-      },
-      {
-        icon: Lock,
-        title: 'Production Ready',
-        description: 'Docker containerization, AWS deployment, and comprehensive logging and monitoring',
-        color: 'from-purple-400 to-pink-500',
-        stats: '99.5% uptime'
-      },
-      {
-        icon: Star,
-        title: 'Developer Experience',
-        description: 'Interactive Swagger documentation, TypeScript support, and comprehensive testing suite',
-        color: 'from-yellow-400 to-orange-500',
-        stats: '100% documented'
-      }
-    ],
 
     // Technical details
     detailedTechnologies: [
@@ -576,31 +522,67 @@ export const projects: Project[] = [
       technologies.docker
     ],
 
-    architecture: {
-      backend: {
-        title: 'NestJS API',
-        technologies: ['NestJS', 'TypeScript', 'TypeORM'],
-        description: 'RESTful API with comprehensive endpoints',
-        connections: ['database', 'storage']
-      },
-      database: {
-        title: 'MySQL Database',
-        technologies: ['MySQL', 'TypeORM'],
-        description: 'Relational database with Star Wars data',
-        connections: []
-      },
-      storage: {
-        title: 'File Storage',
-        technologies: ['AWS S3'],
-        description: 'Cloud storage for images and assets',
-        connections: []
-      },
-      infrastructure: {
-        title: 'Docker Deployment',
-        technologies: ['Docker', 'AWS'],
-        description: 'Containerized deployment on AWS',
-        connections: ['backend']
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'backend',
+          title: 'API Development',
+          duration: '4 weeks',
+          technologies: ['NestJS', 'TypeScript', 'TypeORM'],
+          decisions: [
+            {
+              decision: 'NestJS over Express',
+              reasoning: 'Better structure and built-in features for complex APIs'
+            },
+            {
+              decision: 'TypeORM over Prisma',
+              reasoning: 'Better MySQL support and decorator-based approach'
+            }
+          ],
+          achievements: [
+            'Comprehensive RESTful API',
+            'Swagger documentation',
+            'Data validation and transformation',
+            'Error handling middleware'
+          ]
+        },
+        {
+          id: 'database',
+          title: 'Database Setup',
+          duration: '1 week',
+          technologies: ['MySQL', 'TypeORM'],
+          decisions: [
+            {
+              decision: 'MySQL over PostgreSQL',
+              reasoning: 'Team familiarity and hosting constraints'
+            }
+          ],
+          achievements: [
+            'Normalized database schema',
+            'Efficient query optimization',
+            'Data seeding scripts',
+            'Migration system setup'
+          ]
+        },
+        {
+          id: 'deployment',
+          title: 'Docker Deployment',
+          duration: '1 week',
+          technologies: ['Docker', 'AWS', 'S3'],
+          decisions: [
+            {
+              decision: 'Docker containerization',
+              reasoning: 'Consistent deployment across environments'
+            }
+          ],
+          achievements: [
+            'Containerized application',
+            'AWS deployment setup',
+            'File upload to S3',
+            'Environment configuration'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -646,7 +628,6 @@ export const projects: Project[] = [
     gradient: 'yellow',
     year: 2024,
     progress: 100,
-    type: 'backend',
 
     // Detailed info
     tagline: 'Production-Ready Express Template',
@@ -656,39 +637,6 @@ export const projects: Project[] = [
     status: 'Completed',
     category: 'Backend Development',
     duration: '3 months',
-
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: Shield,
-        title: 'Security First',
-        description:
-          'JWT authentication, input validation, rate limiting, and security headers for production-ready security',
-        color: 'from-green-400 to-emerald-500',
-        stats: 'A+ security rating'
-      },
-      {
-        icon: Settings,
-        title: 'Best Practices',
-        description: 'Clean architecture, error handling, logging, testing, and comprehensive documentation',
-        color: 'from-blue-400 to-cyan-500',
-        stats: '90% test coverage'
-      },
-      {
-        icon: Rocket,
-        title: 'Developer Ready',
-        description: 'TypeScript support, hot reloading, linting, formatting, and pre-commit hooks',
-        color: 'from-purple-400 to-pink-500',
-        stats: '< 30s setup time'
-      },
-      {
-        icon: Target,
-        title: 'Production Template',
-        description: 'Ready-to-deploy template with Docker, environment configs, and deployment scripts',
-        color: 'from-yellow-400 to-orange-500',
-        stats: 'One-click deploy'
-      }
-    ],
 
     // Technical details
     detailedTechnologies: [
@@ -700,19 +648,62 @@ export const projects: Project[] = [
       technologies.jest
     ],
 
-    architecture: {
-      backend: {
-        title: 'Express API',
-        technologies: ['Express.js', 'TypeScript', 'JWT'],
-        description: 'RESTful API with authentication and validation',
-        connections: ['database']
-      },
-      database: {
-        title: 'Database Layer',
-        technologies: ['Prisma', 'PostgreSQL'],
-        description: 'Type-safe database access with Prisma',
-        connections: []
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'backend',
+          title: 'Express API Template',
+          duration: '3 weeks',
+          technologies: ['Express.js', 'TypeScript', 'JWT'],
+          decisions: [
+            {
+              decision: 'Express.js as base framework',
+              reasoning: 'Flexibility and extensive ecosystem for template creation'
+            },
+            {
+              decision: 'TypeScript for type safety',
+              reasoning: 'Better developer experience and error prevention'
+            }
+          ],
+          achievements: [
+            'Modular architecture setup',
+            'Authentication middleware',
+            'Error handling system',
+            'Request validation pipeline'
+          ]
+        },
+        {
+          id: 'database',
+          title: 'Database Integration',
+          duration: '1 week',
+          technologies: ['Prisma', 'PostgreSQL'],
+          decisions: [
+            {
+              decision: 'Prisma over raw SQL',
+              reasoning: 'Type-safe database access and better developer experience'
+            }
+          ],
+          achievements: ['Database schema design', 'Migration system', 'Seed data scripts', 'Query optimization']
+        },
+        {
+          id: 'testing',
+          title: 'Testing & Documentation',
+          duration: '1 week',
+          technologies: ['Jest', 'Supertest', 'OpenAPI'],
+          decisions: [
+            {
+              decision: 'Jest for testing framework',
+              reasoning: 'Comprehensive testing features and good TypeScript support'
+            }
+          ],
+          achievements: [
+            'Unit and integration tests',
+            'API documentation with OpenAPI',
+            'Test coverage reports',
+            'CI/CD pipeline setup'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -762,7 +753,6 @@ export const projects: Project[] = [
     gradient: 'violet',
     year: 2024,
     progress: 100,
-    type: 'fullstack',
 
     // Detailed info
     tagline: 'Complete E-commerce Solution',
@@ -772,38 +762,6 @@ export const projects: Project[] = [
     status: 'Completed',
     category: 'Full-Stack Development',
     duration: '5 months',
-
-    // Project-specific highlights
-    highlights: [
-      {
-        icon: TrendingUp,
-        title: 'Complete E-commerce',
-        description: 'Full-featured platform with product management, shopping cart, checkout, and order tracking',
-        color: 'from-green-400 to-emerald-500',
-        stats: '25+ features'
-      },
-      {
-        icon: Lock,
-        title: 'Secure Payments',
-        description: 'Stripe integration with PCI compliance, webhook handling, and secure transaction processing',
-        color: 'from-blue-400 to-cyan-500',
-        stats: 'PCI compliant'
-      },
-      {
-        icon: Users,
-        title: 'Admin Dashboard',
-        description: 'Comprehensive admin interface for inventory, orders, customers, and analytics management',
-        color: 'from-purple-400 to-pink-500',
-        stats: 'Real-time analytics'
-      },
-      {
-        icon: CheckCircle,
-        title: 'User Experience',
-        description: 'Responsive design, intuitive navigation, and optimized checkout flow for maximum conversions',
-        color: 'from-yellow-400 to-orange-500',
-        stats: '85% conversion rate'
-      }
-    ],
 
     // Technical details
     detailedTechnologies: [
@@ -815,31 +773,89 @@ export const projects: Project[] = [
       technologies.tailwind
     ],
 
-    architecture: {
-      frontend: {
-        title: 'React Frontend',
-        technologies: ['React', 'Tailwind CSS'],
-        description: 'Modern React application with responsive design',
-        connections: ['backend']
-      },
-      backend: {
-        title: 'Node.js API',
-        technologies: ['Node.js', 'Express'],
-        description: 'RESTful API with business logic',
-        connections: ['database', 'payment']
-      },
-      database: {
-        title: 'MongoDB',
-        technologies: ['MongoDB', 'Mongoose'],
-        description: 'NoSQL database for flexible data storage',
-        connections: []
-      },
-      payment: {
-        title: 'Payment Processing',
-        technologies: ['Stripe API'],
-        description: 'Secure payment processing',
-        connections: []
-      }
+    developmentJourney: {
+      steps: [
+        {
+          id: 'frontend',
+          title: 'React Frontend',
+          duration: '3 weeks',
+          technologies: ['React', 'Tailwind CSS', 'React Router'],
+          decisions: [
+            {
+              decision: 'React over Vue.js',
+              reasoning: 'Larger ecosystem and team expertise'
+            },
+            {
+              decision: 'Tailwind CSS for styling',
+              reasoning: 'Rapid development and consistent design system'
+            }
+          ],
+          achievements: [
+            'Modern React application with hooks',
+            'Responsive design system',
+            'Component library creation',
+            'State management with Context API'
+          ]
+        },
+        {
+          id: 'backend',
+          title: 'Node.js API',
+          duration: '3 weeks',
+          technologies: ['Node.js', 'Express', 'Mongoose'],
+          decisions: [
+            {
+              decision: 'Express.js for API framework',
+              reasoning: 'Simplicity and flexibility for rapid development'
+            },
+            {
+              decision: 'Mongoose for MongoDB ODM',
+              reasoning: 'Schema validation and easier data modeling'
+            }
+          ],
+          achievements: [
+            'RESTful API development',
+            'JWT authentication system',
+            'Business logic implementation',
+            'Comprehensive error handling'
+          ]
+        },
+        {
+          id: 'database',
+          title: 'MongoDB Integration',
+          duration: '1 week',
+          technologies: ['MongoDB', 'Mongoose'],
+          decisions: [
+            {
+              decision: 'MongoDB over SQL database',
+              reasoning: 'Flexible schema for product catalog and rapid prototyping'
+            }
+          ],
+          achievements: [
+            'Flexible database schema design',
+            'Data modeling with Mongoose',
+            'Query optimization and indexing',
+            'Database seeding scripts'
+          ]
+        },
+        {
+          id: 'payment',
+          title: 'Payment Integration',
+          duration: '1 week',
+          technologies: ['Stripe API', 'Webhooks'],
+          decisions: [
+            {
+              decision: 'Stripe over PayPal',
+              reasoning: 'Better developer experience and documentation'
+            }
+          ],
+          achievements: [
+            'Secure payment processing',
+            'Webhook handling for order updates',
+            'Payment method management',
+            'Subscription billing setup'
+          ]
+        }
+      ]
     },
 
     gallery: [
@@ -860,6 +876,12 @@ export const projects: Project[] = [
         description: 'Order tracking and management system',
         image: '/placeholder.svg?height=600&width=900',
         category: 'Features'
+      },
+      {
+        title: 'Payment Flow',
+        description: 'Secure checkout and payment processing',
+        image: '/placeholder.svg?height=600&width=900',
+        category: 'E-commerce'
       }
     ],
 

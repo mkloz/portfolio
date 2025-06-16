@@ -58,7 +58,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
   return (
     <div
       className={cn(
-        'group relative px-4 py-4 sm:px-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg',
+        'group relative px-4 py-4 sm:px-6 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-lg',
         isEven ? 'lg:pr-16' : 'lg:pl-16'
       )}
       onClick={handleCardClick}
