@@ -13,8 +13,8 @@ import { useScrollIntoView } from '../../../hooks/use-scroll-into-view';
 
 interface ActionButtonsProps {
   gradient: ButtonGradient;
-  github: GitHubLink[];
-  website: string;
+  github?: GitHubLink[];
+  website?: string;
   className?: string;
 }
 
@@ -26,22 +26,26 @@ export const ActionButtons = ({ gradient, github, website, className }: ActionBu
         <Play className="group-hover:scale-110 transition-transform" />
         Live Demo
       </Button>
-      <GitHubButton
-        github={github}
-        variant="outline"
-        className="text-sm sm:text-base text-white border-white hover:text-black hover:bg-white">
-        Source Code
-      </GitHubButton>
-      <Link
-        to={website}
-        unstyled
-        className={cn(
-          buttonVariants({ variant: 'outline' }),
-          'text-sm sm:text-base text-white border-white hover:text-black hover:bg-white'
-        )}>
-        <FaGlobe className="group-hover:scale-110 transition-transform" />
-        Visit Site
-      </Link>
+      {github && (
+        <GitHubButton
+          github={github}
+          variant="outline"
+          className="text-sm sm:text-base text-white border-white hover:text-black hover:bg-white">
+          Source Code
+        </GitHubButton>
+      )}
+      {website && (
+        <Link
+          to={website}
+          unstyled
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            'text-sm sm:text-base text-white border-white hover:text-black hover:bg-white'
+          )}>
+          <FaGlobe className="group-hover:scale-110 transition-transform" />
+          Visit Site
+        </Link>
+      )}
     </div>
   );
 };

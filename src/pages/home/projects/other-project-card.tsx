@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { GitHubButton } from '../../../components/common/github-button';
 import { Image } from '../../../components/common/image';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
+import { useTheme } from '../../../hooks/theme.store';
 
 interface OtherProjectCardProps {
   project: Project;
@@ -19,7 +20,8 @@ interface OtherProjectCardProps {
 
 export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
   const navigate = useNavigate();
-
+  const { theme } = useTheme();
+  const image = typeof project.image === 'string' ? project.image : project.image[theme];
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't navigate if clicking on interactive elements
     const target = e.target as HTMLElement;
@@ -44,7 +46,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
     // Handle Enter and Space key presses
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      navigate(`/projects/${project.slug}`);
+      navigate(`/projects/${project.slug}#hero`);
     }
   };
 
@@ -52,6 +54,26 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
     e.preventDefault();
     e.stopPropagation();
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  // Get category abbreviation
+  const getCategoryAbbreviation = (category: Project['category']) => {
+    switch (category) {
+      case 'Frontend':
+        return 'FE';
+      case 'Backend':
+        return 'BE';
+      case 'Full-Stack':
+        return 'FS';
+      case 'Mobile':
+        return 'MO';
+      case 'Desktop':
+        return 'DE';
+      case 'AI':
+        return 'AI';
+      default:
+        return 'FS'; // Default to full-stack
+    }
   };
 
   return (
@@ -64,18 +86,22 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
       aria-label={`View ${project.title} project details. ${project.description}`}>
       <div className="relative overflow-hidden">
         <Image
-          src={project.image || '/placeholder.svg'}
+          src={image}
           alt={`Screenshot of ${project.title} project`}
           className="w-full h-56 object-cover"
           wrapperClassName="group-hover:scale-110 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+        {/* Category Badge - Inside the dot, abbreviated */}
         <div
           className={cn(
-            'absolute top-4 right-4 w-4 h-4 rounded-full shadow-lg animate-pulse bg-gradient-to-r',
+            'absolute top-4 right-4 w-8 h-8 rounded-full shadow-lg flex items-center justify-center text-white text-xs font-bold',
             buttonGradients[project.gradient]
           )}
-          aria-hidden="true"></div>
+          aria-label={`${project.category} project`}>
+          {getCategoryAbbreviation(project.category)}
+        </div>
 
         <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-transform duration-300 transform translate-y-2 group-hover:translate-y-0">
           {project.website && (

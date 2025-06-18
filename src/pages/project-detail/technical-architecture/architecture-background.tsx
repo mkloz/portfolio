@@ -1,6 +1,8 @@
 import '@/styles/lava-animations.css';
 
-export const ArchitectureBackground = () => {
+import { memo } from 'react';
+
+export const ArchitectureBackground = memo(() => {
   return (
     <div className="absolute inset-0 bg-gradient-to-b from-[#1a0000]/95 via-[#5c0303]/85 to-[#990000]/60 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6),inset_0_20px_60px_rgba(255,255,255,0.1),inset_0_-10px_30px_rgba(0,0,0,0.5)] overflow-hidden">
       {/* Bright stars - only the largest ones */}
@@ -281,4 +283,6 @@ export const ArchitectureBackground = () => {
       />
     </div>
   );
-};
+});
+
+ArchitectureBackground.displayName = 'ArchitectureBackground';

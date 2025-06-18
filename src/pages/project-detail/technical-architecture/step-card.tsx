@@ -94,24 +94,26 @@ export const StepCard = ({ step, isActive }: StepCardProps) => {
           {/* Content sections */}
           <div className="space-y-10">
             {/* Technologies section */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
-                  <Code2 size={16} className="text-slate-300" />
+            {step.technologies && (
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
+                    <Code2 size={16} className="text-slate-300" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-white">Technology Stack</h4>
                 </div>
-                <h4 className="text-xl font-semibold text-white">Technology Stack</h4>
+                <div className="flex flex-wrap gap-3">
+                  {step.technologies.map((tech, index) => (
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200 px-4 py-2">
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-3">
-                {step.technologies.map((tech, index) => (
-                  <Badge
-                    key={index}
-                    variant="secondary"
-                    className="bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-white transition-all duration-200 px-4 py-2">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Two column layout for decisions and achievements */}
             <div className="grid lg:grid-cols-2 gap-10">
@@ -147,7 +149,7 @@ export const StepCard = ({ step, isActive }: StepCardProps) => {
                   </div>
                   <h4 className="text-xl font-semibold text-white">Achievements</h4>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {step.achievements.map((achievement, index) => (
                     <div
                       key={index}

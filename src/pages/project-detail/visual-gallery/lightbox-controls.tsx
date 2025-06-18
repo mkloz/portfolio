@@ -14,7 +14,11 @@ export const LightboxControls = ({ onClose, onNext, onPrev, showNavigation }: Li
       <Button
         variant="ghost"
         size="icon"
-        className={cn('absolute top-4 right-4 z-10', 'text-white hover:bg-white/20', 'w-12 h-12')}
+        className={cn(
+          'absolute top-4 right-4 z-10',
+          'text-white hover:bg-black/40 hover:text-red-700 bg-black/60 backdrop-blur-sm border border-white/20',
+          'w-12 h-12'
+        )}
         onClick={onClose}>
         <X size={24} />
       </Button>
@@ -25,7 +29,11 @@ export const LightboxControls = ({ onClose, onNext, onPrev, showNavigation }: Li
           <Button
             variant="ghost"
             size="icon"
-            className={cn('absolute left-4 top-1/2 -translate-y-1/2 z-10', 'text-white hover:bg-white/20', 'w-12 h-12')}
+            className={cn(
+              'absolute left-4 top-1/2 -translate-y-1/2 z-10',
+              'text-white hover:bg-black/40 hover:text-sky-700 bg-black/60 backdrop-blur-sm border border-white/20',
+              'w-12 h-12'
+            )}
             onClick={onPrev}>
             <ChevronLeft size={24} />
           </Button>
@@ -35,7 +43,7 @@ export const LightboxControls = ({ onClose, onNext, onPrev, showNavigation }: Li
             size="icon"
             className={cn(
               'absolute right-4 top-1/2 -translate-y-1/2 z-10',
-              'text-white hover:bg-white/20',
+              'text-white hover:bg-black/40 hover:text-sky-700 bg-black/60 backdrop-blur-sm border border-white/20',
               'w-12 h-12'
             )}
             onClick={onNext}>

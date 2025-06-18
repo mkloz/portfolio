@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Globe, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Globe } from 'lucide-react';
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { GitHubButton } from '../../../components/common/github-button';
 import { Image } from '../../../components/common/image';
 import { Separator } from '../../../components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
+import { useTheme } from '../../../hooks/theme.store';
 
 interface FeaturedProjectCardProps {
   project: Project;
@@ -21,7 +22,8 @@ interface FeaturedProjectCardProps {
 export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps) => {
   const navigate = useNavigate();
   const isEven = index % 2 === 0;
-
+  const { theme } = useTheme();
+  const image = typeof project.image === 'string' ? project.image : project.image[theme];
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't navigate if clicking on interactive elements
     const target = e.target as HTMLElement;
@@ -45,7 +47,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      navigate(`/projects/${project.slug}`);
+      navigate(`/projects/${project.slug}#hero`);
     }
   };
 
@@ -75,7 +77,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
 
             <div className="relative overflow-hidden rounded-xl shadow-2xl transform group-hover:scale-105 transition-transform duration-700">
               <Image
-                src={project.image || '/placeholder.svg'}
+                src={image}
                 alt={`Screenshot of ${project.title} project`}
                 className="w-full h-60 sm:h-80 object-cover"
                 wrapperClassName="group-hover/image:scale-120 transition-transform duration-600"
@@ -85,9 +87,15 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
                 className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 aria-hidden="true"></div>
 
-              <div className="absolute top-4 left-4" aria-hidden="true">
-                <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-2 rounded-full shadow-lg flex items-center gap-2 transform group-hover:scale-110 transition-transform duration-300 aspect-square">
-                  <Sparkles className="animate-pulse size-4" />
+              {/* Category Badge - Full Text */}
+              <div className="absolute top-4 left-4">
+                <div
+                  className={cn(
+                    'px-3 py-2 rounded-lg text-sm font-bold text-white shadow-lg backdrop-blur-sm border border-white/20 transform group-hover:scale-110 transition-transform duration-300',
+                    buttonGradients[project.gradient]
+                  )}
+                  aria-label={`${project.category} project`}>
+                  {project.category}
                 </div>
               </div>
 
@@ -210,7 +218,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
               Technologies Used
             </h4>
             <div className="flex flex-wrap gap-2 sm:gap-3" role="list" aria-label="Technologies used in this project">
-              {project.technologies.map((tech, techIndex) => (
+              {project.technologies.slice(0, 10).map((tech, techIndex) => (
                 <div key={techIndex} className="group/tech relative" role="listitem">
                   <div
                     className="absolute inset-0 bg-gradient-to-r from-blue-500/15 to-purple-500/15 rounded-full blur opacity-0 group-hover/tech:opacity-100 transition-opacity duration-300"
@@ -220,6 +228,13 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
                   </div>
                 </div>
               ))}
+              {project.technologies.length > 10 && (
+                <div className="group/tech relative" role="listitem">
+                  <div className="relative backdrop-blur-sm border-2 border-gray-200/50 dark:border-gray-700/50 text-gray-500 dark:text-gray-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                    +{project.technologies.length - 10} more
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

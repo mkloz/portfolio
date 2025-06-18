@@ -24,7 +24,9 @@ export const ProjectDetailPage = () => {
 
   // Get project data using the service
   const project = slug ? ProjectService.getProjectBySlug(slug) : undefined;
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
   // Handle scroll to show/hide back button
   useEffect(() => {
     const handleScroll = () => {

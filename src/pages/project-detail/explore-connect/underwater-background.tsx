@@ -67,7 +67,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                   left: direction === 1 ? '-60px' : 'calc(100% + 60px)',
                   top: `${40 + Math.random() * 30}%`,
                   filter: 'blur(4px)',
-                  animation: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'} ${30 + Math.random() * 20}s linear infinite`,
+                  animationName: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'}`,
+                  animationDuration: `${30 + Math.random() * 20}s`,
+                  animationTimingFunction: 'linear',
+                  animationIterationCount: 'infinite',
                   animationDelay: `${Math.random() * 15}s`
                 }}>
                 <div
@@ -199,7 +202,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${200 + Math.random() * 300}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '4px',
-                animation: `deepSway ${8 + Math.random() * 6}s ease-in-out infinite`,
+                animationName: 'deepSway',
+                animationDuration: `${8 + Math.random() * 6}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 4}s`,
                 transformOrigin: 'bottom'
               }}
@@ -216,7 +222,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${120 + Math.random() * 180}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '50% 50% 0 0',
-                animation: `fernSway ${7 + Math.random() * 5}s ease-in-out infinite`,
+                animationName: 'fernSway',
+                animationDuration: `${7 + Math.random() * 5}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 3}s`,
                 transformOrigin: 'bottom'
               }}
@@ -271,7 +280,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                   left: direction === 1 ? '-40px' : 'calc(100% + 40px)',
                   top: `${30 + Math.random() * 40}%`,
                   filter: 'blur(3px)',
-                  animation: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'} ${20 + Math.random() * 15}s linear infinite`,
+                  animationName: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'}`,
+                  animationDuration: `${20 + Math.random() * 15}s`,
+                  animationTimingFunction: 'linear',
+                  animationIterationCount: 'infinite',
                   animationDelay: `${Math.random() * 10}s`
                 }}>
                 <div
@@ -403,7 +415,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${150 + Math.random() * 250}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '3px',
-                animation: `plantSway ${6 + Math.random() * 4}s ease-in-out infinite`,
+                animationName: 'plantSway',
+                animationDuration: `${6 + Math.random() * 4}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 3}s`,
                 transformOrigin: 'bottom'
               }}
@@ -420,7 +435,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${100 + Math.random() * 150}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '50% 50% 20% 20%',
-                animation: `broadLeafSway ${5 + Math.random() * 3}s ease-in-out infinite`,
+                animationName: 'broadLeafSway',
+                animationDuration: `${5 + Math.random() * 3}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 2}s`,
                 transformOrigin: 'bottom'
               }}
@@ -493,7 +511,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                   left: direction === 1 ? '-30px' : 'calc(100% + 30px)',
                   top: `${20 + Math.random() * 60}%`,
                   filter: 'blur(2px)',
-                  animation: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'} ${15 + Math.random() * 10}s linear infinite`,
+                  animationName: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'}`,
+                  animationDuration: `${15 + Math.random() * 10}s`,
+                  animationTimingFunction: 'linear',
+                  animationIterationCount: 'infinite',
                   animationDelay: `${Math.random() * 8}s`
                 }}>
                 <div
@@ -625,7 +646,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${120 + Math.random() * 180}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '2px',
-                animation: `kelpSway ${5 + Math.random() * 4}s ease-in-out infinite`,
+                animationName: 'kelpSway',
+                animationDuration: `${5 + Math.random() * 4}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 3}s`,
                 transformOrigin: 'bottom'
               }}
@@ -642,7 +666,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${80 + Math.random() * 120}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '1px',
-                animation: `grassSway ${4 + Math.random() * 3}s ease-in-out infinite`,
+                animationName: 'grassSway',
+                animationDuration: `${4 + Math.random() * 3}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 2}s`,
                 transformOrigin: 'bottom'
               }}
@@ -659,7 +686,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${40 + Math.random() * 80}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '50% 50% 0 0',
-                animation: `mossSway ${3 + Math.random() * 2}s ease-in-out infinite`,
+                animationName: 'mossSway',
+                animationDuration: `${3 + Math.random() * 2}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 1.5}s`,
                 transformOrigin: 'bottom'
               }}
@@ -693,7 +723,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                   left: direction === 1 ? '-20px' : 'calc(100% + 20px)',
                   top: `${10 + Math.random() * 80}%`,
                   filter: 'blur(1px)',
-                  animation: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'} ${12 + Math.random() * 8}s linear infinite`,
+                  animationName: `fishSwimHorizontal${direction === 1 ? 'Right' : 'Left'}`,
+                  animationDuration: `${12 + Math.random() * 8}s`,
+                  animationTimingFunction: 'linear',
+                  animationIterationCount: 'infinite',
                   animationDelay: `${Math.random() * 6}s`
                 }}>
                 <div
@@ -800,6 +833,13 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                       <div
                         className="absolute"
                         style={{
+                          backgroundColor: fishColor,
+                          clipPath: 'polygon(0 0, 0 100%, 100% 50%)'
+                        }}
+                      />
+                      <div
+                        className="absolute"
+                        style={{
                           width: '40%',
                           height: '20%',
                           left: '30%',
@@ -825,7 +865,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${1 + Math.random() * 8}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${100 + Math.random() * 20}%`, // Start below viewport
-                animation: `bubbleRise ${5 + Math.random() * 8}s linear infinite`,
+                animationName: 'bubbleRise',
+                animationDuration: `${5 + Math.random() * 8}s`,
+                animationTimingFunction: 'linear',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 6}s`,
                 animationFillMode: 'forwards'
               }}
@@ -842,7 +885,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${8 + Math.random() * 12}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${100 + Math.random() * 20}%`, // Start below viewport
-                animation: `largeBubbleRise ${8 + Math.random() * 10}s linear infinite`,
+                animationName: 'largeBubbleRise',
+                animationDuration: `${8 + Math.random() * 10}s`,
+                animationTimingFunction: 'linear',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 8}s`,
                 animationFillMode: 'forwards'
               }}
@@ -859,7 +905,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${0.5 + Math.random() * 4}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${100 + Math.random() * 20}%`, // Start below viewport
-                animation: `slowBubbleRise ${10 + Math.random() * 8}s linear infinite`,
+                animationName: 'slowBubbleRise',
+                animationDuration: `${10 + Math.random() * 8}s`,
+                animationTimingFunction: 'linear',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 8}s`,
                 animationFillMode: 'forwards'
               }}
@@ -876,7 +925,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${100 + Math.random() * 150}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '2px',
-                animation: `frontPlantSway ${4 + Math.random() * 3}s ease-in-out infinite`,
+                animationName: 'frontPlantSway',
+                animationDuration: `${4 + Math.random() * 3}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 2}s`,
                 transformOrigin: 'bottom'
               }}
@@ -893,7 +945,10 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
                 height: `${80 + Math.random() * 120}px`,
                 left: `${Math.random() * 100}%`,
                 borderRadius: '0 0 50% 50%',
-                animation: `spikySway ${3 + Math.random() * 2}s ease-in-out infinite`,
+                animationName: 'spikySway',
+                animationDuration: `${3 + Math.random() * 2}s`,
+                animationTimingFunction: 'ease-in-out',
+                animationIterationCount: 'infinite',
                 animationDelay: `${Math.random() * 1.5}s`,
                 transformOrigin: 'bottom'
               }}

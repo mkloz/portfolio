@@ -13,7 +13,7 @@ export const StepTimeline = ({ steps, activeStep, onStepClick }: StepTimelinePro
     <div className="relative mb-10">
       {/* Timeline container */}
       <div className="flex items-center justify-center">
-        <div className="flex items-center gap-4 sm:gap-3 lg:gap-6">
+        <div className="flex items-center gap-1 sm:gap-3 min-[20rem]:gap-2 lg:gap-6">
           {steps.map((step, index) => {
             const isActive = index === activeStep;
             const isCompleted = index < activeStep;
@@ -26,7 +26,7 @@ export const StepTimeline = ({ steps, activeStep, onStepClick }: StepTimelinePro
                   <StepIcon stepId={step.id} isActive={isActive} isCompleted={isCompleted} />
 
                   {/* Step label - hidden on mobile */}
-                  <div className="mt-4 sm:mt-6 text-center max-w-20 sm:max-w-28 hidden sm:block min-h-10 line-clamp-2">
+                  <div className="mt-4 sm:mt-6 text-center max-w-20 sm:max-w-28 hidden md:block min-h-10 line-clamp-2">
                     <div
                       className={cn(
                         'text-xs sm:text-sm font-medium transition-all duration-300',
@@ -43,11 +43,11 @@ export const StepTimeline = ({ steps, activeStep, onStepClick }: StepTimelinePro
 
                 {/* Arrow between steps */}
                 {!isLast && (
-                  <div className="sm:mx-3 lg:mx-6 flex items-center">
+                  <div className="mx-0 sm:mx-3 lg:mx-6 flex items-center">
                     <ChevronRight
                       size={20}
                       className={cn(
-                        'sm:w-6 sm:h-6 transition-all duration-500',
+                        'sm:w-6 sm:h-6 md:w-8 md:h-8 transition-all duration-500',
                         index < activeStep
                           ? 'text-white'
                           : index === activeStep - 1

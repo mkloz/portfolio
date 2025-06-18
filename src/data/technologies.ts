@@ -58,7 +58,7 @@ export interface Technology {
 }
 
 // Technology definitions
-export const technologies: Record<string, Technology> = {
+export const technologies = {
   // Frontend Technologies
   javascript: { name: 'JavaScript', category: 'Frontend', icon: SiJavascript, color: '#F7DF1E' },
   typescript: { name: 'TypeScript', category: 'Frontend', icon: SiTypescript, color: '#3178C6' },
@@ -116,7 +116,7 @@ export const technologies: Record<string, Technology> = {
   jest: { name: 'Jest', category: 'Tools', icon: SiJest, color: '#C21325' },
   swagger: { name: 'Swagger', category: 'Tools', icon: SiSwagger, color: '#85EA2D' },
   git: { name: 'Git', category: 'Tools', icon: SiGit, color: '#F05032' }
-};
+} as const;
 
 export const getTechnologyByName = (name: string): Technology | undefined => {
   return Object.values(technologies).find((tech) => tech.name.toLowerCase() === name.toLowerCase());

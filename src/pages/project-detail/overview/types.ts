@@ -1,9 +1,9 @@
-import type { LucideIcon } from 'lucide-react';
+import { ElementType } from 'react';
 
 export interface Highlight {
-  icon: LucideIcon;
   title: string;
   description: string;
+  icon: ElementType;
   color: string;
   stats: string;
 }

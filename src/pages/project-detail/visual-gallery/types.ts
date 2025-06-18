@@ -1,11 +1,7 @@
 import type React from 'react';
 
 import { ButtonGradient } from '../../../components/ui/button';
-export interface GalleryItem {
-  title: string;
-  description: string;
-  image: string;
-}
+import { GalleryItem } from '../../../data/projects';
 
 export interface VisualGalleryProps {
   gallery: GalleryItem[];

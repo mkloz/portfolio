@@ -1,20 +1,5 @@
-export interface KeyDecision {
-  decision: string;
-  reasoning: string;
-}
-
-export interface DevelopmentStep {
-  id: string;
-  title: string;
-  duration: string;
-  technologies: string[];
-  decisions: KeyDecision[];
-  achievements: string[];
-}
-
-export interface DevelopmentJourney {
-  steps: DevelopmentStep[];
-}
+import { DevelopmentJourney, DevelopmentStep } from '../../../data/projects';
+import { STEP_ICONS } from './step-icon';
 
 export interface TechnicalArchitectureProps {
   developmentJourney: DevelopmentJourney;
@@ -33,7 +18,7 @@ export interface StepCardProps {
 }
 
 export interface StepIconProps {
-  stepId: string;
+  stepId: keyof typeof STEP_ICONS;
   isActive: boolean;
   isCompleted: boolean;
 }

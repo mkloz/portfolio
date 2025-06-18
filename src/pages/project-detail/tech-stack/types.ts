@@ -1,11 +1,4 @@
-import type { IconType } from 'react-icons';
-
-export interface Technology {
-  name: string;
-  category: 'Frontend' | 'Backend' | 'DevOps' | 'Database';
-  icon: IconType;
-  color: string;
-}
+import { Technology } from '../../../data/projects';
 
 export interface CategoryFilterProps {
   categories: string[];

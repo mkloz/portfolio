@@ -32,12 +32,14 @@ export const DemoControls = ({
       <DemoStats stats={stats} gradient={project.gradient} />
 
       {/* Call to Action */}
-      <Link
-        to={project.website}
-        unstyled
-        className={cn(buttonVariants({ gradient: project.gradient, size: 'lg' }), 'grow w-full')}>
-        Visit Website
-      </Link>
+      {project.website && (
+        <Link
+          to={project.website}
+          unstyled
+          className={cn(buttonVariants({ gradient: project.gradient, size: 'lg' }), 'grow w-full')}>
+          Visit Website
+        </Link>
+      )}
     </div>
   );
 };

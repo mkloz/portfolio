@@ -1,9 +1,12 @@
 import {
+  Book,
+  Calendar,
   Cloud,
   Code,
   CreditCard,
   Database,
   Globe,
+  Pencil,
   Server,
   Settings,
   Shield,
@@ -16,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 import type { StepIconProps } from './types';
 
-const STEP_ICONS = {
+export const STEP_ICONS = {
   frontend: Globe,
   backend: Server,
   database: Database,
@@ -27,10 +30,13 @@ const STEP_ICONS = {
   api: Code,
   auth: Shield,
   optimization: Zap,
-  payment: CreditCard
+  payment: CreditCard,
+  design: Pencil,
+  documentation: Book,
+  planning: Calendar
 };
 
-const STEP_COLORS = {
+const STEP_COLORS: Record<keyof typeof STEP_ICONS, { primary: string; secondary: string; accent: string }> = {
   frontend: {
     primary: 'from-blue-600 to-blue-400',
     secondary: 'from-blue-500/20 to-blue-400/20',
@@ -60,18 +66,58 @@ const STEP_COLORS = {
     primary: 'from-green-600 to-green-400',
     secondary: 'from-green-500/20 to-green-400/20',
     accent: 'green-500'
+  },
+  design: {
+    primary: 'from-pink-600 to-pink-400',
+    secondary: 'from-pink-500/20 to-pink-400/20',
+    accent: 'pink-500'
+  },
+  documentation: {
+    primary: 'from-purple-600 to-purple-400',
+    secondary: 'from-purple-500/20 to-purple-400/20',
+    accent: 'purple-500'
+  },
+  planning: {
+    primary: 'from-yellow-600 to-yellow-400',
+    secondary: 'from-yellow-500/20 to-yellow-400/20',
+    accent: 'yellow-500'
+  },
+  mobile: {
+    primary: 'from-teal-600 to-teal-400',
+    secondary: 'from-teal-500/20 to-teal-400/20',
+    accent: 'teal-500'
+  },
+  devops: {
+    primary: 'from-indigo-600 to-indigo-400',
+    secondary: 'from-indigo-500/20 to-indigo-400/20',
+    accent: 'indigo-500'
+  },
+  api: {
+    primary: 'from-red-600 to-red-400',
+    secondary: 'from-red-500/20 to-red-400/20',
+    accent: 'red-500'
+  },
+  auth: {
+    primary: 'from-cyan-600 to-cyan-400',
+    secondary: 'from-cyan-500/20 to-cyan-400/20',
+    accent: 'cyan-500'
+  },
+  optimization: {
+    primary: 'from-amber-600 to-amber-400',
+    secondary: 'from-amber-500/20 to-amber-400/20',
+    accent: 'amber-500'
   }
 };
 
 export const StepIcon = ({ stepId, isActive, isCompleted }: StepIconProps) => {
-  const Icon = STEP_ICONS[stepId as keyof typeof STEP_ICONS] || Code;
-  const colors = STEP_COLORS[stepId as keyof typeof STEP_COLORS] || STEP_COLORS.frontend;
+  const Icon = STEP_ICONS[stepId] || Code;
+  const colors = STEP_COLORS[stepId] || STEP_COLORS.frontend;
 
   return (
     <div className="relative group">
       {/* Outer ring for active state */}
       {isActive && (
-        <div className="absolute inset-0 w-14 h-14 sm:w-20 sm:h-20 -m-1 sm:-m-2 border-2 border-white/20 rounded-full animate-spin-slow"></div>
+        <div className="absolute inset-0 w-12 h-12  sm:w-20 sm:h-20 -m-1 sm:-m-2 border-2 border-white/20 rounded-full animate-spin-slow"></div>
       )}
 
       {/* Glow effect for active step */}
@@ -82,11 +128,11 @@ export const StepIcon = ({ stepId, isActive, isCompleted }: StepIconProps) => {
       {/* Main icon container */}
       <div
         className={cn(
-          'relative w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-500 shadow-lg border-2',
+          'relative w-10 h-10 sm:w-16 sm:h-16 rounded-full flex items-center justify-center transition-all duration-500 shadow-lg',
           isActive
-            ? `bg-gradient-to-r ${colors.primary} border-white/30 scale-110 shadow-${colors.accent}/50`
+            ? `bg-gradient-to-r ${colors.primary} scale-110 shadow-${colors.accent}/50`
             : isCompleted
-              ? `bg-gradient-to-r ${colors.primary} border-white/20 shadow-lg hover:scale-105`
+              ? `bg-gradient-to-r ${colors.primary} shadow-lg hover:scale-105`
               : 'bg-slate-700 border-slate-600 hover:bg-slate-600 hover:scale-105'
         )}>
         <Icon
@@ -95,12 +141,11 @@ export const StepIcon = ({ stepId, isActive, isCompleted }: StepIconProps) => {
             isActive || isCompleted ? 'text-white' : 'text-slate-400',
             isActive && 'scale-110'
           )}
-          size={isActive ? (window.innerWidth < 640 ? 18 : 24) : window.innerWidth < 640 ? 16 : 20}
         />
 
         {/* Completion indicator */}
         {isCompleted && !isActive && (
-          <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+          <div className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 w-3 h-3 sm:w-6 sm:h-6 bg-green-500 rounded-full flex items-center justify-center border-2 border-white shadow-lg">
             <div className="w-1 h-1 sm:w-2 sm:h-2 bg-white rounded-full"></div>
           </div>
         )}

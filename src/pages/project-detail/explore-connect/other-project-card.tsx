@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { GitHubButton } from '../../../components/common/github-button';
 import { Image } from '../../../components/common/image';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip';
+import { useTheme } from '../../../hooks/theme.store';
 
 interface OtherProjectCardProps {
   project: Project;
@@ -19,7 +20,8 @@ interface OtherProjectCardProps {
 
 export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
   const navigate = useNavigate();
-
+  const { theme } = useTheme();
+  const image = typeof project.image === 'string' ? project.image : project.image[theme];
   const handleCardClick = (e: React.MouseEvent) => {
     // Don't navigate if clicking on interactive elements
     const target = e.target as HTMLElement;
@@ -44,7 +46,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
     // Handle Enter and Space key presses
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      navigate(`/projects/${project.slug}`);
+      navigate(`/projects/${project.slug}#hero`);
     }
   };
 
@@ -64,7 +66,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
       aria-label={`View ${project.title} project details. ${project.description}`}>
       <div className="relative overflow-hidden">
         <Image
-          src={project.image || '/placeholder.svg'}
+          src={image}
           alt={`Screenshot of ${project.title} project`}
           className="w-full h-56 object-cover"
           wrapperClassName="group-hover:scale-110 transition-transform duration-500"

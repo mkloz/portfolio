@@ -18,10 +18,8 @@ export const DeviceSelector = ({ devices, currentDevice, onDeviceChange }: Devic
               key={device.id}
               onClick={() => onDeviceChange(device.id)}
               className={cn(
-                'p-3 rounded-xl border-2 transition-all duration-300',
-                isActive
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-500'
+                'p-3 rounded-xl border-2 transition-all duration-300 dark:hover:border-white hover:border-black',
+                isActive && 'border-black dark:border-white'
               )}>
               <Icon className="mx-auto mb-2" size={20} />
               <div className="text-sm font-semibold">{device.label}</div>

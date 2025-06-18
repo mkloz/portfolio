@@ -13,17 +13,28 @@ interface ThemeStore {
   inverse: () => void;
 }
 
+const getPreferredTheme = (): Theme => {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT;
+};
+
 export const useThemeStore = create(
   persist<ThemeStore>(
-    (set, get) => ({
-      theme: Theme.LIGHT,
-      setTheme: (theme) => set({ theme }),
-      inverse: () => {
-        const newTheme = get().theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
-        set({ theme: newTheme });
-      }
-    }),
-    { name: 'theme', storage: createJSONStorage(() => localStorage) }
+    (set, get) => {
+      const initialTheme = getPreferredTheme();
+
+      return {
+        theme: initialTheme,
+        setTheme: (theme) => set({ theme }),
+        inverse: () => {
+          const newTheme = get().theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT;
+          set({ theme: newTheme });
+        }
+      };
+    },
+    {
+      name: 'theme',
+      storage: createJSONStorage(() => localStorage)
+    }
   )
 );
 
@@ -38,13 +49,15 @@ export const useTheme = () => {
   }, [theme]);
 
   useEffect(() => {
-    window.matchMedia('(prefers-color-scheme: dark)').onchange = (event) => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const listener = (event: MediaQueryListEvent) => {
       const newColorScheme = event.matches ? Theme.DARK : Theme.LIGHT;
       setTheme(newColorScheme);
     };
+    media.addEventListener('change', listener);
 
     return () => {
-      window.matchMedia('(prefers-color-scheme: dark)').onchange = null;
+      media.removeEventListener('change', listener);
     };
   }, [setTheme]);
 

@@ -16,7 +16,7 @@ export const buttonGradients: Record<ButtonGradient, string> = {
   violet:
     'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-none shadow-sm active:brightness-95 shadow-purple-600/20 hover:shadow-purple-600/30',
   green:
-    'bg-gradient-to-r from-teal-600 to-green-600 text-white border-none shadow-sm active:brightness-95 hover:shadow-teal-600/20',
+    'bg-gradient-to-r from-cyan-600 to-green-600 text-white border-none shadow-sm active:brightness-95 hover:shadow-teal-600/20',
   blue: 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white border-none shadow-sm active:brightness-95 hover:shadow-cyan-400/20',
   pink: 'bg-gradient-to-r from-purple-400 to-blue-500 text-white border-none shadow-sm active:brightness-95 hover:shadow-purple-400/20'
 };
