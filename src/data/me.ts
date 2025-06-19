@@ -1,3 +1,11 @@
+import { Award, Briefcase, Code, GraduationCap } from 'lucide-react';
+import React, { ElementType } from 'react';
+
+// Default icon for timeline items
+export interface TimelineIconProps {
+  size: number;
+  className: string;
+}
 export interface PersonalInfo {
   name: string;
   title: string;
@@ -41,7 +49,6 @@ export interface PersonalInfo {
     yearsOfExperience: number;
     projectsCompleted: number;
     linesOfCode: string;
-    clientsSatisfied?: number;
   };
   bio: {
     short: string;
@@ -57,6 +64,8 @@ export interface PersonalInfo {
     title: string;
     description: string;
     type: 'education' | 'work' | 'project' | 'achievement';
+    icon?: ElementType;
+    color?: string;
   }>;
 }
 
@@ -67,7 +76,7 @@ export const ME: PersonalInfo = {
 
   location: {
     city: 'Manchester City',
-    country: 'United Kingdom',
+    country: 'UK',
     flag: '🇬🇧',
     coordinates: {
       lat: 53.4808,
@@ -78,14 +87,14 @@ export const ME: PersonalInfo = {
   contact: {
     email: 'micha21cloz@gmail.com',
     phone: '+44 7388232276',
-    whatsapp: '+447388232276'
+    whatsapp: '+380994577468'
   },
 
   social: {
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    telegram: 'https://t.me/username',
-    whatsapp: 'https://wa.me/447388232276'
+    github: 'https://github.com/mkloz',
+    linkedin: 'https://www.linkedin.com/in/mkloz',
+    telegram: 'https://mkl0z.t.me',
+    whatsapp: 'https://wa.me/380994577468'
   },
 
   availability: {
@@ -95,8 +104,8 @@ export const ME: PersonalInfo = {
 
   education: {
     degree: 'Software Development',
-    institution: 'Kharkiv Polytechnic Institute',
-    period: '2020-2024'
+    institution: 'Kharkiv Polytechnic Institute (KHPI)',
+    period: '2022-2026'
   },
 
   languages: [
@@ -123,8 +132,7 @@ export const ME: PersonalInfo = {
   stats: {
     yearsOfExperience: 3,
     projectsCompleted: 10,
-    linesOfCode: '120k',
-    clientsSatisfied: 25
+    linesOfCode: '150k'
   },
 
   bio: {
@@ -144,34 +152,58 @@ export const ME: PersonalInfo = {
 
   timeline: [
     {
-      year: '2024',
-      title: 'Senior Full-Stack Developer',
-      description: 'Leading development of complex web applications with modern tech stack',
-      type: 'work'
+      year: 'November 2021',
+      title: 'Began Web Development Journey',
+      description:
+        'Took the first step into web development, mastering HTML, CSS, and JavaScript fundamentals through self-driven projects and online courses.',
+      type: 'education',
+      icon: GraduationCap,
+      color: 'from-blue-500 to-purple-500'
     },
     {
-      year: '2023',
-      title: 'Freelance Developer',
-      description: 'Successfully delivered 15+ projects for international clients',
-      type: 'work'
+      year: 'September 2022',
+      title: 'Started University at KHPI',
+      description:
+        'Enrolled in Software Development at Kharkiv Polytechnic Institute, deepening knowledge in computer science, algorithms, and collaborative software engineering.',
+      type: 'education',
+      icon: GraduationCap,
+      color: 'from-blue-500 to-purple-500'
     },
     {
-      year: '2022',
+      year: 'November 2022',
+      title: 'First Backend Project & Relocation',
+      description:
+        'Engineered a complex backend system using Node.js and PostgreSQL, and relocated to the UK, adapting to a new environment and broadening my global perspective.',
+      type: 'achievement',
+      icon: Award,
+      color: 'from-orange-500 to-red-500'
+    },
+    {
+      year: 'August 2023',
+      title: 'Backend Developer',
+      description:
+        'Collaborated as a backend developer in a cross-functional team, delivering robust APIs and improving project efficiency through code reviews and agile practices.',
+      type: 'work',
+      icon: Code,
+      color: 'from-green-500 to-blue-500'
+    },
+    {
+      year: 'July 2024',
+      title: 'Transitioned to Full-Stack',
+      description:
+        'Expanded expertise to full-stack development, building end-to-end solutions with React, TypeScript, and modern backend technologies.',
+      type: 'achievement',
+      icon: Award,
+      color: 'from-orange-500 to-red-500'
+    },
+    {
+      year: 'Now',
       title: 'Full-Stack Developer',
-      description: 'Developed and maintained multiple web applications using React and Node.js',
-      type: 'work'
-    },
-    {
-      year: '2021',
-      title: 'Started Web Development Journey',
-      description: 'Began learning modern web development technologies and frameworks',
-      type: 'education'
-    },
-    {
-      year: '2020',
-      title: 'Computer Science Studies',
-      description: 'Started studying Software Development at Kharkiv Polytechnic Institute',
-      type: 'education'
+      description:
+        'Delivering impactful full-stack projects using cutting-edge technologies, focusing on scalable architecture, user experience, and continuous learning.',
+      type: 'work',
+      icon: Briefcase,
+      color: 'from-green-500 to-blue-500'
     }
   ]
 };
@@ -198,3 +230,11 @@ export const getSkills = () => ME.skills;
 export const getTimeline = () => ME.timeline;
 
 export const getAvailabilityStatus = () => ME.availability;
+
+export interface JourneyTimelineItem {
+  year: string;
+  title: string;
+  description: string;
+  icon: React.FC<TimelineIconProps>;
+  color: string;
+}

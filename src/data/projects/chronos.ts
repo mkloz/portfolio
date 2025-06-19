@@ -350,5 +350,25 @@ export const chronosProject: Project = {
     commits: '342',
     features: '35+',
     technologies: '26+'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-desktop-demo.mp4',
+      device: 'desktop',
+      length: '2:59',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-desktop-preview.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-mobile-demo.mp4',
+      device: 'mobile',
+      length: '1:25',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-mobile-preview.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-tablet-demo.mp4',
+      device: 'tablet',
+      length: '2:02',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-tablet-preview.png'
+    }
+  ]
 };

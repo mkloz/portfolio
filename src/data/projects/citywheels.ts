@@ -290,5 +290,24 @@ export const citywheelsProject: Project = {
     commits: '287',
     features: '25+',
     technologies: '25+'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/citywheels-desktop.mp4',
+      device: 'desktop',
+      length: '1:48'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/citywheels-tablet.mp4',
+      device: 'tablet',
+      length: '1:41',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/demo-tablet-thumb.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/citywheels-mobile.mp4',
+      device: 'mobile',
+      length: '1:39',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/demo-mobile-thumb.png'
+    }
+  ]
 };

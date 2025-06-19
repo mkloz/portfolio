@@ -1,4 +1,3 @@
-import type React from 'react';
 // Type definitions that match your actual project structure
 export interface GitHubLink {
   name: string;
@@ -35,13 +34,6 @@ export interface ProjectStats {
   technologies: string;
 }
 
-export interface Technology {
-  name: string;
-  icon: React.ComponentType;
-  category: string;
-  description?: string;
-}
-
 export type ButtonGradient = 'blue' | 'purple' | 'green' | 'pink' | 'yellow' | 'violet';
 
 export interface ProjectHighlight {
@@ -50,6 +42,13 @@ export interface ProjectHighlight {
   icon: ElementType;
   color: string;
   stats: string;
+}
+
+export interface Demo {
+  link: string;
+  device: 'desktop' | 'mobile' | 'tablet' | 'laptop';
+  length: string;
+  preview?: string;
 }
 
 export interface Project {
@@ -85,15 +84,16 @@ export interface Project {
   gallery: GalleryItem[];
   stats: ProjectStats;
   highlights: ProjectHighlight[];
+  demo?: Demo[];
 }
 
 // Import individual projects
 import { ElementType } from 'react';
 
 import { STEP_ICONS } from '../../pages/project-detail/technical-architecture/step-icon';
+import { Technology } from '../technologies';
 import { chronosProject } from './chronos';
 import { citywheelsProject } from './citywheels';
-import { portfolioProject } from './portfolio';
 import { ueventProject } from './uevent';
 import { usofProject } from './usof';
 import { websterProject } from './webster';
@@ -104,7 +104,7 @@ export const projects: Project[] = [
   websterProject,
   chronosProject,
   usofProject,
-  portfolioProject,
+  // portfolioProject,
   citywheelsProject
 ];
 

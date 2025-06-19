@@ -238,11 +238,11 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 sm:gap-4 pt-3 sm:pt-4" role="group" aria-label="Project actions">
+          <div className="flex gap-3 sm:gap-4 pt-3 sm:pt-4" role="group" aria-label="Project actions">
             <div
               className={cn(
                 buttonVariants({ gradient: project.gradient, size: 'lg' }),
-                'font-bold grow text-sm sm:text-base min-w-60 flex items-center justify-center'
+                'font-bold grow text-sm sm:text-base min-w-40 flex items-center justify-center'
               )}>
               Learn More
             </div>
@@ -278,7 +278,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
           </div>
 
           <div
-            className="flex gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-gray-200/50 dark:border-gray-700/50"
+            className="flex gap-10  pt-4 sm:pt-6 border-t border-gray-200/50 dark:border-gray-700/50 justify-center sm:justify-start"
             role="group"
             aria-label="Project statistics">
             <div className="text-center">

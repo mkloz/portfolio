@@ -17,13 +17,13 @@ export const ContactInfoCard = ({ icon: Icon, title, value, href, gradient, hove
         <div className="flex items-center gap-4">
           <div
             className={cn(
-              'w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300',
+              'w-12 h-12 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 shrink-0',
               gradient
             )}>
             <Icon className="text-white" size={20} />
           </div>
           <div>
-            <h4 className="font-bold text-gray-900 dark:text-gray-100 mb-1">{title}</h4>
+            <h4 className="font-bold text-gray-900 dark:text-gray-100 mb-1 line-clamp-1">{title}</h4>
             <div
               className={cn(
                 'transition-colors text-sm',

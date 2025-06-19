@@ -15,9 +15,9 @@ const StatCard = ({ value, label, gradient, textColor }: StatCardProps) => {
         'group border-0 shadow-xl backdrop-blur-xl rounded-3xl transform hover:scale-105 transition-transform duration-300 bg-gradient-to-br',
         gradient
       )}>
-      <div className="p-6 text-center">
-        <div className={cn('text-4xl font-black mb-2', textColor)}>{value}</div>
-        <div className="text-gray-700 dark:text-gray-300 font-bold">{label}</div>
+      <div className="p-3 sm:p-6 text-center">
+        <div className={cn('sm:text-4xl font-black mb-2 text-2xl', textColor)}>{value}</div>
+        <div className="text-gray-700 dark:text-gray-300 font-bold text-sm sm:text-base">{label}</div>
       </div>
     </div>
   );

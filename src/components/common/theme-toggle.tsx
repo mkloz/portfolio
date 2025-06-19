@@ -20,8 +20,8 @@ export const ThemeToggle = () => {
           setTheme(value ? Theme.DARK : Theme.LIGHT);
         }}
         className={cn(
-          buttonVariants({ variant: 'ghost', size: 'icon' }),
-          'relative p-0! data-[state=on]:bg-transparent data-[state=on]:hover:bg-accent shadow-none'
+          buttonVariants({ variant: 'outline', size: 'icon' }),
+          'relative p-0! data-[state=on]:bg-transparent data-[state=on]:hover:bg-accent shadow-none border'
         )}>
         {isDark ? (
           <MoonIcon className="text-blue-500 fill-current" />

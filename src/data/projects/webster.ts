@@ -283,5 +283,13 @@ export const websterProject: Project = {
     commits: '445',
     features: '30+',
     technologies: '28+'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-desktop-demo.mp4',
+      device: 'desktop',
+      length: '3:17',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/demo-desktop-preview.png'
+    }
+  ]
 };

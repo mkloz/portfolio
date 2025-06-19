@@ -8,75 +8,76 @@ import { DemoBackground } from './demo-background';
 import { DemoControls } from './demo-controls';
 import { DemoDisplay } from './demo-display';
 import { DemoHeader } from './demo-header';
-import type { DemoStat, Device } from './types';
 
-const DEMO_DEVICES: Device[] = [
-  {
-    id: 'desktop',
+// Remove DEMO_DEVICES and instead generate devices from project.demo
+const DEVICE_CONFIGS = {
+  desktop: {
     icon: Monitor,
     label: 'Desktop',
     width: 'w-full',
-    aspectRatio: 'aspect-[16/9]'
+    aspectRatio: 'aspect-[23/11]'
   },
-  {
-    id: 'tablet',
+  tablet: {
     icon: Tablet,
     label: 'Tablet',
-    width: 'w-3/4',
-    aspectRatio: 'aspect-[4/3]'
+    width: 'w-11/12',
+    aspectRatio: 'aspect-[256/165]'
   },
-  {
-    id: 'mobile',
+  mobile: {
     icon: Smartphone,
     label: 'Mobile',
-    width: 'w-1/2',
-    aspectRatio: 'aspect-[9/16]'
+    width: 'w-70 h-full',
+    aspectRatio: 'aspect-[10/18]'
+  },
+  laptop: {
+    icon: Monitor,
+    label: 'Laptop',
+    width: 'w-2/3',
+    aspectRatio: 'aspect-auto'
   }
-];
-
-const DEMO_STATS: DemoStat[] = [
-  { label: 'Responsive', value: '100%' },
-  { label: 'Demo Length', value: '1:15' }
-];
+};
 
 interface InteractiveDemoProps {
   project: Project;
 }
 
 export const InteractiveDemo = ({ project }: InteractiveDemoProps) => {
+  // Derive devices from project.demo
+  const devices = (project.demo || []).map((d) => ({
+    id: d.device,
+    icon: DEVICE_CONFIGS[d.device]?.icon || Monitor,
+    label: DEVICE_CONFIGS[d.device]?.label || d.device,
+    width: DEVICE_CONFIGS[d.device]?.width || 'w-full',
+    length: d.length,
+    aspectRatio: DEVICE_CONFIGS[d.device]?.aspectRatio || 'aspect-[16/9]'
+  }));
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentDevice, setCurrentDevice] = useState<Device['id']>('desktop');
-
-  const handlePlayToggle = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleReset = () => {
-    setIsPlaying(false);
-  };
-
-  const handleDeviceChange = (deviceId: Device['id']) => {
-    setCurrentDevice(deviceId);
-  };
-
+  const [currentDevice, setCurrentDevice] = useState(devices[0]?.id || 'desktop');
+  const currentDeviceConfig = devices.find((d) => d.id === currentDevice);
   return (
     <section className="relative py-20" id="demo">
       <DemoBackground />
 
-      <div className="container mx-auto px-4 relative">
+      <div className="container mx-auto px-4 relative ">
         <div className="max-w-6xl mx-auto">
           <DemoHeader gradient={project.gradient} />
 
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Left Side: Controls and Stats */}
             <DemoControls
-              devices={DEMO_DEVICES}
+              devices={devices}
               currentDevice={currentDevice}
-              onDeviceChange={handleDeviceChange}
+              onDeviceChange={setCurrentDevice}
               isPlaying={isPlaying}
-              onPlayToggle={handlePlayToggle}
-              onReset={handleReset}
-              stats={DEMO_STATS}
+              onPlayToggle={() => setIsPlaying(!isPlaying)}
+              onReset={() => {
+                setIsPlaying(false);
+                setTimeout(() => setIsPlaying(true), 0);
+              }}
+              stats={[
+                { label: 'Responsive', value: '100%' },
+                { label: 'Demo Length', value: currentDeviceConfig?.length || '0:00' }
+              ]}
               project={project}
             />
 
@@ -84,9 +85,9 @@ export const InteractiveDemo = ({ project }: InteractiveDemoProps) => {
             <DemoDisplay
               project={project}
               currentDevice={currentDevice}
-              devices={DEMO_DEVICES}
+              devices={devices}
               isPlaying={isPlaying}
-              onPlayToggle={handlePlayToggle}
+              onPlayToggle={() => setIsPlaying(!isPlaying)}
             />
           </div>
         </div>

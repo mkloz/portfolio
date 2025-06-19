@@ -19,26 +19,33 @@ export const ContactForm = () => {
           </p>
         </div>
 
-        <form className="space-y-6">
+        <form action="https://formspree.io/f/mqabdkwq" method="POST" className="space-y-6">
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="space-y-4">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Your name" />
+              <Input id="name" name="name" placeholder="Your name" required />
             </div>
             <div className="space-y-4">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Your email" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Your email"
+                required
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              />
             </div>
           </div>
 
           <div className="space-y-4">
             <Label htmlFor="subject">Subject</Label>
-            <Input id="subject" placeholder="What is this regarding?" />
+            <Input id="subject" name="subject" placeholder="What is this regarding?" required />
           </div>
 
           <div className="space-y-4">
             <Label htmlFor="message">Message</Label>
-            <Textarea id="message" placeholder="Tell me about your project..." rows={5} />
+            <Textarea id="message" name="message" placeholder="Tell me about your project..." rows={5} required />
           </div>
 
           <Button type="submit" size="lg" gradient={'yellow'} className="w-full">

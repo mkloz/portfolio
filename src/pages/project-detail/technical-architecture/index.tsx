@@ -54,7 +54,7 @@ export const TechnicalArchitecture = ({ developmentJourney }: TechnicalArchitect
   }
 
   return (
-    <section className="py-20 relative overflow-hidden" id="development-journey">
+    <section className="py-20 relative overflow-hidden" id="journey">
       {/* Background - Fixed position to prevent rerendering */}
       <div className="absolute inset-0">
         <ArchitectureBackground />

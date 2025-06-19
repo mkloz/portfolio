@@ -355,5 +355,25 @@ export const ueventProject: Project = {
     commits: '387',
     features: '35+',
     technologies: '29+'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-desktop-demo.mp4',
+      device: 'desktop',
+      length: '4:26',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-desktop-preview.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-mobile-demo.mp4',
+      device: 'mobile',
+      length: '3:01',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-mobile-preview.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-tablet-demo.mp4',
+      device: 'tablet',
+      length: '3:52',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-tablet-preview.png'
+    }
+  ]
 };

@@ -31,7 +31,7 @@ export const Contact = () => {
         <SectionDivider />
 
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-8">
             <ContactForm />
 
             <div className="space-y-8">

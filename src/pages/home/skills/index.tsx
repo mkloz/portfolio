@@ -17,7 +17,8 @@ export const Skills = () => {
     name: tech.name,
     icon: tech.icon,
     color: `from-[${tech.color}] to-[${tech.color}]`,
-    category: tech.category
+    category: tech.category,
+    bgColor: tech.bgColor
   }));
 
   return (

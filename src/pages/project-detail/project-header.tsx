@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useOnClickOutside } from 'usehooks-ts';
 
 import Logo from '@/assets/logos/logo.png';
-import { buttonVariants } from '@/components/ui/button';
+import { ButtonGradient, buttonGradients, buttonVariants } from '@/components/ui/button';
 import { useScrollIntoView } from '@/hooks/use-scroll-into-view';
 import { cn } from '@/lib/utils';
 
@@ -20,6 +20,7 @@ interface NavigationItem {
 interface ProjectHeaderProps {
   className?: string;
   projectTitle?: string;
+  gradient?: ButtonGradient;
 }
 
 const PROJECT_NAVIGATION_ITEMS: NavigationItem[] = [
@@ -27,14 +28,14 @@ const PROJECT_NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'tech-stack', label: 'Tech Stack' },
   { id: 'demo', label: 'Demo' },
-  { id: 'architecture', label: 'Architecture' },
+  { id: 'journey', label: 'Journey' },
   { id: 'gallery', label: 'Gallery' },
   { id: 'share', label: 'Share' }
 ];
 
 const SCROLL_THRESHOLD = 50;
 
-export const ProjectHeader = ({ className, projectTitle = 'Project' }: ProjectHeaderProps) => {
+export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 'blue' }: ProjectHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -80,23 +81,24 @@ export const ProjectHeader = ({ className, projectTitle = 'Project' }: ProjectHe
   return (
     <header
       className={cn(
-        'fixed flex top-0 left-0 right-0 z-50 transition-[height]',
+        'fixed flex top-0 left-0 right-0 z-50 transition-[height] duration-600',
         isScrolled
-          ? 'bg-gradient-to-r from-white/80 via-blue-50/80 to-purple-50/80 dark:from-gray-900/90 dark:via-blue-900/80 dark:to-purple-900/80 backdrop-blur-md shadow-xl h-12'
-          : 'bg-gradient-to-r from-white/70 via-blue-50/70 to-purple-50/70 dark:from-gray-900/80 dark:via-blue-900/70 dark:to-purple-900/70 backdrop-blur-sm h-header',
+          ? 'bg-gradient-to-r from-white/60 via-blue-200/60 to-purple-200/60 dark:from-gray-900/60 dark:via-blue-900/60 dark:to-purple-900/60 backdrop-blur-md shadow-xl  h-12'
+          : 'bg-gradient-to-r from-white/70 via-blue-50/70 to-purple-50/70 dark:from-gray-900/80 dark:via-blue-900/70 dark:to-purple-900/70 backdrop-blur-sm  h-header',
         className
       )}>
       <div className="container mx-auto px-4 flex items-center justify-between py-auto">
-        <div className="flex items-center space-x-3">
+        <div className="flex gap-3 items-center">
           <Link to="/#hero" unstyled aria-label="Go to homepage">
             <img src={Logo || '/placeholder.svg'} alt="Logo" className="w-10 h-10" />
           </Link>
-
-          <div className="hidden sm:flex items-center">
-            <div className="h-6 w-px bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-600 to-transparent mx-2"></div>
-            <div className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-              {projectTitle}
-            </div>
+          <div className="h-6 w-px bg-border" />
+          <div
+            className={cn(
+              buttonGradients[gradient],
+              'hidden sm:flex items-center text-transparent bg-clip-text shadow-none text-xl font-extrabold '
+            )}>
+            {projectTitle}
           </div>
         </div>
 

@@ -53,7 +53,7 @@ export class TechnologyService {
    * @param key The key in the technologies object
    * @returns The technology or undefined if not found
    */
-  static getTechnologyByKey(key: string): Technology | undefined {
+  static getTechnologyByKey(key: keyof typeof technologies): Technology | undefined {
     return technologies[key];
   }
 }

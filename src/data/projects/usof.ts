@@ -351,5 +351,25 @@ export const usofProject: Project = {
     commits: '342',
     features: '30+',
     technologies: '31+'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-desktop.mp4',
+      device: 'desktop',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-desktop-preview.png',
+      length: '2:15'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-mobile.mp4',
+      device: 'mobile',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-mobile-preview.png',
+      length: '1:27'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-tablet.mp4',
+      device: 'tablet',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-tablet-preview.png',
+      length: '1:26'
+    }
+  ]
 };

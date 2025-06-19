@@ -1,7 +1,9 @@
 import { Mail } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+
+import { Link } from '../../../components/common/link';
 
 interface CallToActionProps {
   className?: string;
@@ -22,16 +24,26 @@ export const CallToAction = ({ className }: CallToActionProps) => {
         something amazing together!
       </p>
       <div className="flex flex-wrap justify-center gap-4">
-        <Button size="lg" className="bg-white text-black hover:bg-blue-50 font-bold px-8 shadow-lg">
+        <Link
+          to="/#contact"
+          unstyled
+          className={cn(
+            buttonVariants({ size: 'lg' }),
+            'bg-white text-black hover:bg-blue-50 font-bold px-8 shadow-lg'
+          )}>
           <Mail className="mr-2" size={20} />
           Get in Touch
-        </Button>
-        <Button
-          size="lg"
-          variant="outline"
-          className="border-white/50 text-white hover:bg-white/15 hover:border-white/70 hover:text-white font-bold px-8 backdrop-blur-sm">
+        </Link>
+        <Link
+          to="/#projects"
+          unstyled
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            'border-white/50 text-white hover:bg-white/15 hover:border-white/70 hover:text-white font-bold px-8 backdrop-blur-sm',
+            'border-2 border-white/50'
+          )}>
           View More Projects
-        </Button>
+        </Link>
       </div>
     </div>
   );

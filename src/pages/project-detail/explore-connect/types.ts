@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 
-import { Project } from '../../../data/projects';
+import { GitHubLink, Project } from '../../../data/projects';
 
 export interface ProjectLinkData {
   title: string;
@@ -9,6 +9,7 @@ export interface ProjectLinkData {
   href: string;
   color: string;
   primary: boolean;
+  github?: GitHubLink[];
 }
 
 export interface ProjectStats {

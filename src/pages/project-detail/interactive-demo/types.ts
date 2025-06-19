@@ -4,7 +4,7 @@ import { ButtonGradient } from '../../../components/ui/button';
 import { Project } from '../../../data/projects';
 
 export interface Device {
-  id: 'desktop' | 'tablet' | 'mobile';
+  id: 'desktop' | 'tablet' | 'mobile' | 'laptop';
   icon: ElementType;
   label: string;
   width: string;

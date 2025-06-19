@@ -47,20 +47,6 @@ export const Header = ({ className }: HeaderProps) => {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (isMobileMenuOpen && !target.closest('[data-mobile-menu]')) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    if (isMobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [isMobileMenuOpen]);
-
-  useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -75,9 +61,9 @@ export const Header = ({ className }: HeaderProps) => {
   return (
     <header
       className={cn(
-        'fixed flex top-0 left-0 right-0 z-50 transition-[height]',
+        'fixed flex top-0 left-0 right-0 z-50 transition-[height] duration-600',
         isScrolled
-          ? 'bg-gradient-to-r from-white/80 via-blue-50/80 to-purple-50/80 dark:from-gray-900/90 dark:via-blue-900/80 dark:to-purple-900/80 backdrop-blur-md shadow-xl  h-12'
+          ? 'bg-gradient-to-r from-white/80 via-blue-50/80 to-purple-50/80 dark:from-gray-900/60 dark:via-blue-900/60 dark:to-purple-900/60 backdrop-blur-md shadow-xl  h-12'
           : 'bg-gradient-to-r from-white/70 via-blue-50/70 to-purple-50/70 dark:from-gray-900/80 dark:via-blue-900/70 dark:to-purple-900/70 backdrop-blur-sm  h-header',
         className
       )}>
@@ -127,6 +113,7 @@ export const Header = ({ className }: HeaderProps) => {
 
       {isMobileMenuOpen && (
         <div
+          ref={ref}
           className="md:hidden bg-gradient-to-b from-white/95 to-blue-50/95 dark:from-gray-900/95 dark:to-blue-900/95 backdrop-blur-lg border-t border-white/20 dark:border-gray-700/20 shadow-2xl absolute top-full left-0 right-0"
           id="mobile-menu"
           data-mobile-menu

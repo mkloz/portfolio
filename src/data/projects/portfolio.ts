@@ -86,7 +86,6 @@ export const portfolioProject: Project = {
   tagline: 'Showcasing creativity through code',
   longDescription:
     'A comprehensive portfolio website built with modern web technologies, featuring interactive animations, responsive design, and detailed project showcases. The site demonstrates advanced React patterns, TypeScript implementation, and creative UI/UX design principles.',
-  heroImage: '/placeholder.svg?height=600&width=800',
   status: 'In Progress',
   category: 'Frontend',
   duration: '3 weeks',
@@ -200,43 +199,35 @@ export const portfolioProject: Project = {
   gallery: [
     {
       title: 'Hero Section',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Landing'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Projects Showcase',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Projects'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Project Detail Page',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Projects'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Skills Section',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Skills'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'About Section',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'About'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Contact Form',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Contact'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Dark Mode',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Theme'
+      image: '/placeholder.svg?height=400&width=600'
     },
     {
       title: 'Mobile Responsive',
-      image: '/placeholder.svg?height=400&width=600',
-      category: 'Mobile'
+      image: '/placeholder.svg?height=400&width=600'
     }
   ],
 
@@ -245,5 +236,19 @@ export const portfolioProject: Project = {
     commits: '120+',
     features: '25+',
     technologies: '12'
-  }
+  },
+  demo: [
+    {
+      link: 'https://portfolio.mkloz.com/demo-desktop',
+      device: 'desktop',
+      length: '100',
+      preview: '/placeholder.svg?height=400&width=600'
+    },
+    {
+      link: 'https://portfolio.mkloz.com/demo-mobile',
+      device: 'mobile',
+      length: '70',
+      preview: '/placeholder.svg?height=400&width=600'
+    }
+  ]
 };

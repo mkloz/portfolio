@@ -1,7 +1,6 @@
 import { Globe, GraduationCap, MapPin } from 'lucide-react';
 import type React from 'react';
 
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { PersonalService } from '@/services/personal.service';
 
@@ -59,11 +58,9 @@ export const LocationCard = () => {
 
   return (
     <InfoCard title="Location" icon={MapPin} gradient="from-green-500 to-emerald-500">
-      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">{location.city}</p>
-      <p className="text-gray-600 dark:text-gray-400 mb-2">{location.country}</p>
-      <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50 font-bold">
-        {location.country} Based
-      </Badge>
+      <p className="text-gray-700 dark:text-gray-300 font-bold mb-1">
+        {location.city}, {location.country}
+      </p>
     </InfoCard>
   );
 };

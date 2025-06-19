@@ -28,7 +28,10 @@ export const ProjectHero = ({ project, className }: ProjectHeroProps) => {
       : project.image;
 
   return (
-    <section className={cn('relative min-h-screen flex items-center overflow-hidden', className)}>
+    <section
+      className={cn('relative min-h-screen flex items-center overflow-hidden', className)}
+      id="hero"
+      data-scroll-section>
       <CircuitBackground />
 
       {/* Main content */}

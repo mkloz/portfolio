@@ -1,4 +1,4 @@
-import { Technology } from '../../../data/projects';
+import { Technology } from '../../../data/technologies';
 
 export interface CategoryFilterProps {
   categories: string[];

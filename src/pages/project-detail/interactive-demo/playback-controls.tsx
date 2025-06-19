@@ -13,7 +13,7 @@ export const PlaybackControls = ({ isPlaying, onPlayToggle, onReset, gradient }:
       <div className="grid grid-cols-2 gap-3">
         <Button onClick={onPlayToggle} className={cn(buttonVariants({ gradient }), 'bg-gradient-to-r')}>
           {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-          {isPlaying ? 'Pause' : 'Play'}
+          {isPlaying ? 'Stop' : 'Play'}
         </Button>
         <Button variant="outline" onClick={onReset}>
           <RotateCcw size={16} />

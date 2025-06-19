@@ -47,7 +47,7 @@ export const ProjectDetailPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Project Header with Stats */}
-      <ProjectHeader projectTitle={project.title} />
+      <ProjectHeader projectTitle={project.title} gradient={project.gradient} />
 
       {/* Go Back Button */}
       <Link

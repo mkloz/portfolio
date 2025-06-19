@@ -1,13 +1,5 @@
-import { IconType } from 'react-icons';
-
+import { Technology } from '@/data/technologies';
 import { cn } from '@/lib/utils';
-
-interface Technology {
-  name: string;
-  icon: IconType;
-  color: string;
-  category: string;
-}
 
 interface TechCardProps {
   tech: Technology;
@@ -23,7 +15,11 @@ export const TechCard = ({ tech, categoryColors }: TechCardProps) => {
     <div className="group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-white/50 dark:border-gray-700/50 rounded-xl p-1 hover:bg-white dark:hover:bg-gray-800 transition-transform duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl aspect-square flex flex-col justify-center">
       <div className="text-center px-1">
         <div className="text-2xl mb-1 group-hover:scale-125 transition-transform duration-300">
-          <Icon className="mx-auto" style={{ color: iconColor }} />
+          <div
+            style={tech.bgColor ? { backgroundColor: tech.bgColor } : {}}
+            className={cn(tech.bgColor ? 'p-1 rounded-full flex items-center justify-center' : '', 'inline-flex')}>
+            <Icon className="mx-auto" style={{ color: iconColor }} />
+          </div>
         </div>
         <div className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5 leading-tight px-0.5">
           {tech.name}

@@ -1,6 +1,7 @@
 'use client';
 
 import { Play } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 import { Image } from '@/components/common/image';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,18 @@ import type { DemoDisplayProps } from './types';
 
 export const DemoDisplay = ({ project, currentDevice, devices, isPlaying, onPlayToggle }: DemoDisplayProps) => {
   const currentDeviceConfig = devices.find((d) => d.id === currentDevice);
+  // Find the demo for the current device
+  const demo = project.demo?.find((d) => d.device === currentDevice);
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Reset video to start when isPlaying becomes false
+  useEffect(() => {
+    if (!isPlaying && videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.pause();
+    }
+  }, [isPlaying, demo?.link]);
 
   if (!currentDeviceConfig) return null;
 
@@ -26,18 +39,40 @@ export const DemoDisplay = ({ project, currentDevice, devices, isPlaying, onPlay
                   <div className="w-3 h-3 bg-yellow-500 rounded-full" />
                   <div className="w-3 h-3 bg-green-500 rounded-full" />
                 </div>
-                <div className="flex-1 bg-gray-700 rounded-full px-4 py-1 text-center">
-                  <span className="text-gray-300 text-sm font-mono">{project.liveDemo}</span>
+                <div className="flex-1 bg-gray-700 rounded-full px-4 py-1 text-center min-w-20">
+                  <span className="text-gray-300 text-sm font-mono line-clamp-1 ">
+                    {currentDevice === 'mobile' ? project.liveDemo?.replace('https://', '') : project.liveDemo}
+                  </span>
                 </div>
               </div>
 
               {/* Demo Content */}
               <div className={cn('relative overflow-hidden rounded-lg w-full', currentDeviceConfig.aspectRatio)}>
-                <Image
-                  src={project.heroImage || '/placeholder.svg'}
-                  alt="Demo preview"
-                  className="w-full h-full object-cover"
-                />
+                {/* If playing and demo exists, show video */}
+                {isPlaying && demo ? (
+                  <video
+                    ref={videoRef}
+                    src={demo.link}
+                    controlsList="nodownload nofullscreen noplaybackrate noremoteplayback novolume"
+                    controls
+                    disablePictureInPicture
+                    disableRemotePlayback
+                    autoPlay
+                    muted
+                    className="w-full h-full object-cover rounded-lg"
+                    style={{ background: '#000' }}
+                  />
+                ) : (
+                  <Image
+                    src={
+                      demo?.preview ||
+                      (typeof project.image === 'string' ? project.image : project.image.light) ||
+                      '/placeholder.svg'
+                    }
+                    alt="Demo preview"
+                    className="w-full h-full object-cover"
+                  />
+                )}
 
                 {/* Play Overlay */}
                 {!isPlaying && (
@@ -53,21 +88,6 @@ export const DemoDisplay = ({ project, currentDevice, devices, isPlaying, onPlay
                     </button>
                   </div>
                 )}
-
-                {/* Recording Indicator */}
-                {isPlaying && (
-                  <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                      <span className="text-white text-sm font-mono">Recording</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Device Info */}
-              <div className="mt-4 text-center">
-                <div className="text-gray-400 text-sm">{currentDeviceConfig.label} Preview</div>
               </div>
             </div>
           </div>
