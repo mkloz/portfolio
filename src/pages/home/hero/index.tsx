@@ -21,18 +21,14 @@ export const Hero: FC = () => {
       <BackgroundElements />
       <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="absolute top-1/2 left-0 transform -translate-y-1/2 opacity-5 dark:opacity-10 pointer-events-none lg:left-8">
-            <div className="text-6xl md:text-7xl lg:text-8xl font-black text-gray-900 dark:text-gray-100 leading-none">
-              DEVELOPER
-            </div>
-          </div>
-
           <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
-            <div className="text-center lg:text-left space-y-6">
-              <div className="space-y-4">
+            <div className="text-center lg:text-left space-y-8">
+              <div className="lg:space-y-6 space-y-2">
                 <div className="relative">
-                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-tight">
-                    <span className="block mb-2 text-gray-900 dark:text-gray-100">Hi, I&apos;m</span>
+                  <p className="font-extrabold leading-tight block mb-2 text-gray-900 dark:text-gray-100 md:text-4xl sm:text-2xl text-xl">
+                    Hi, I&apos;m
+                  </p>
+                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-tight -ml-1">
                     <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                       {name}
                     </span>
@@ -40,14 +36,12 @@ export const Hero: FC = () => {
                 </div>
 
                 <div className="relative w-fit m-auto lg:m-0">
-                  <h2 className="text-xl md:text-2xl lg:text-3xl text-gray-700 dark:text-gray-300 font-bold">
-                    {title}
-                  </h2>
+                  <h2 className="text-xl md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 font-bold">{title}</h2>
                   <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
                 </div>
               </div>
 
-              <div className="space-y-6 w-1/2 min-w-70 m-auto lg:m-0">
+              <div className="space-y-4 w-1/2 min-w-70 m-auto lg:m-0">
                 <div className="flex justify-center lg:justify-start">
                   <Button size="lg" onClick={() => scrollToSection('projects')} className="w-full" gradient="purple">
                     <Eye />
