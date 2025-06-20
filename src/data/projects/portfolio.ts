@@ -208,57 +208,67 @@ export const portfolioProject: Project = {
 
   gallery: [
     {
+      title: 'Project Stack',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/project-stack.png'
+    },
+    {
+      title: '404 Page',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/404.png'
+    },
+    {
+      title: 'Highlights',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/highlights.png'
+    },
+    {
+      title: 'Contact Section',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/contact.png'
+    },
+    {
+      title: 'Projects Section',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/projects.png'
+    },
+    {
       title: 'Hero Section',
-      image: '/placeholder.svg?height=400&width=600'
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/hero.png'
     },
     {
-      title: 'Projects Showcase',
-      image: '/placeholder.svg?height=400&width=600'
+      title: 'Demo',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo.png'
     },
     {
-      title: 'Project Detail Page',
-      image: '/placeholder.svg?height=400&width=600'
+      title: 'Journey',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/journey.png'
     },
     {
-      title: 'Skills Section',
-      image: '/placeholder.svg?height=400&width=600'
-    },
-    {
-      title: 'About Section',
-      image: '/placeholder.svg?height=400&width=600'
-    },
-    {
-      title: 'Contact Form',
-      image: '/placeholder.svg?height=400&width=600'
-    },
-    {
-      title: 'Dark Mode',
-      image: '/placeholder.svg?height=400&width=600'
-    },
-    {
-      title: 'Mobile Responsive',
-      image: '/placeholder.svg?height=400&width=600'
+      title: 'Project Hero',
+      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/project-hero.png'
     }
   ],
 
   stats: {
-    linesOfCode: '8,500+',
-    commits: '120+',
-    features: '25+',
-    technologies: '12'
+    linesOfCode: '12.6k',
+    commits: '20+',
+    features: '10+',
+    technologies: '12+'
   },
   demo: [
     {
-      link: 'https://portfolio.mkloz.com/demo-desktop',
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-desktop-demo.mp4',
       device: 'desktop',
-      length: '100',
-      preview: '/placeholder.svg?height=400&width=600'
+      length: '',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-desktop-preview.png'
     },
     {
-      link: 'https://portfolio.mkloz.com/demo-mobile',
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-tablet-demo.mp4',
+      device: 'tablet',
+      length: '',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-tablet-preview.png'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-mobile-demo.mp4',
       device: 'mobile',
-      length: '70',
-      preview: '/placeholder.svg?height=400&width=600'
+      length: '',
+      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-mobile-preview.png'
     }
   ]
 };

@@ -21,7 +21,7 @@ export const DeviceSelector = ({ devices, currentDevice, onDeviceChange }: Devic
                 'p-3 rounded-xl border-2 transition-all duration-300 dark:hover:border-white hover:border-black grow',
                 isActive && 'border-black dark:border-white'
               )}>
-              <Icon className="mx-auto mb-2" size={20} />
+              <Icon className={cn('mx-auto mb-2', device.label === 'Tablet' && 'rotate-270 scale-120')} size={20} />
               <div className="text-sm font-semibold">{device.label}</div>
             </button>
           );
