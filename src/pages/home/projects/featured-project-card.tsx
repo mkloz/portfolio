@@ -79,7 +79,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
               <Image
                 src={image}
                 alt={`Screenshot of ${project.title} project`}
-                className="w-full h-60 sm:h-80 object-cover"
+                className="w-full h-auto object-cover"
                 wrapperClassName="group-hover/image:scale-120 transition-transform duration-600"
               />
 

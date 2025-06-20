@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 interface SectionTitleProps {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   backgroundTitle?: string;
   className?: string;
   titleClassName?: string;
@@ -43,13 +43,15 @@ export const SectionTitle = ({
         </div>
       </div>
 
-      <p
-        className={cn(
-          'text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed ',
-          subtitleClassName
-        )}>
-        {subtitle}
-      </p>
+      {subtitle && (
+        <p
+          className={cn(
+            'text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed ',
+            subtitleClassName
+          )}>
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 };

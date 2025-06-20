@@ -123,7 +123,20 @@ export const chronosProject: Project = {
     technologies.eslint,
     technologies.prettier,
     technologies.axios,
-    technologies.zod
+    technologies.zod,
+    technologies.reactquery,
+    technologies.nodejs,
+    technologies.jwt,
+    technologies.swagger,
+    technologies.nginx,
+    technologies.shadcn,
+    {
+      name: 'Day.js',
+      category: 'Frontend',
+      icon: Calendar,
+      color: 'black',
+      bgColor: 'white'
+    }
   ],
 
   developmentJourney: {
@@ -346,10 +359,10 @@ export const chronosProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '18.5k',
-    commits: '342',
-    features: '35+',
-    technologies: '26+'
+    linesOfCode: '15.8k',
+    commits: '75',
+    features: '25+',
+    technologies: '28+'
   },
   demo: [
     {

@@ -38,14 +38,14 @@ export const TechnologyCard = ({
           <div className={cn('transition-all duration-300', isHighlighted ? 'mb-3' : 'mb-2', 'group-hover:scale-110')}>
             <div
               style={technology.bgColor ? { backgroundColor: technology.bgColor } : {}}
-              className={cn(
-                technology.bgColor ? 'p-1 rounded-full flex items-center justify-center' : '',
-                'inline-flex'
-              )}>
+              className={cn(technology.bgColor ? 'rounded-md flex items-center justify-center' : '', 'inline-flex')}>
               <Icon
-                size={isHighlighted ? 32 : 28}
                 color={isHighlighted ? technology.color : '#9CA3AF'}
-                className="transition-all duration-300"
+                className={cn(
+                  'transition-all duration-300',
+                  isHighlighted ? 'size-8' : 'size-6',
+                  technology.bgColor && 'p-1 size-8'
+                )}
               />
             </div>
           </div>

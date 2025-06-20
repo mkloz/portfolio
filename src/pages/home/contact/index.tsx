@@ -22,11 +22,7 @@ export const Contact = () => {
       <ContactBackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
-        <SectionTitle
-          title="Contact Me"
-          subtitle="Let's discuss how we can work together to bring your ideas to life"
-          backgroundTitle="CONTACT"
-        />
+        <SectionTitle title="Contact Me" backgroundTitle="CONTACT" />
 
         <SectionDivider />
 

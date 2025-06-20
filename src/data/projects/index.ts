@@ -94,6 +94,7 @@ import { STEP_ICONS } from '../../pages/project-detail/technical-architecture/st
 import { Technology } from '../technologies';
 import { chronosProject } from './chronos';
 import { citywheelsProject } from './citywheels';
+import { portfolioProject } from './portfolio';
 import { ueventProject } from './uevent';
 import { usofProject } from './usof';
 import { websterProject } from './webster';
@@ -104,7 +105,7 @@ export const projects: Project[] = [
   websterProject,
   chronosProject,
   usofProject,
-  // portfolioProject,
+  portfolioProject,
   citywheelsProject
 ];
 

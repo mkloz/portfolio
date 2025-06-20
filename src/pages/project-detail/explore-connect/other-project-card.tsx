@@ -68,7 +68,7 @@ export const OtherProjectCard = ({ project }: OtherProjectCardProps) => {
         <Image
           src={image}
           alt={`Screenshot of ${project.title} project`}
-          className="w-full h-56 object-cover"
+          className="w-full h-56 object-cover opacity-90"
           wrapperClassName="group-hover:scale-110 transition-transform duration-500"
         />
       </div>

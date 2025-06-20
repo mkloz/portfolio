@@ -5,11 +5,14 @@ import type { Project } from './index';
 
 export const portfolioProject: Project = {
   // Basic info
-  title: 'Portfolio Website',
+  title: 'Portfolio',
   slug: 'portfolio',
   description:
     'Modern, responsive portfolio website showcasing my development skills and projects with stunning animations and interactive elements.',
-  image: '/placeholder.svg?height=400&width=600',
+  image: {
+    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-light.png',
+    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-dark.png'
+  },
   highlights: [
     {
       title: 'Modern Design',
@@ -63,9 +66,12 @@ export const portfolioProject: Project = {
     'ShadCN',
     'Vite',
     'React Router',
-    'Framer Motion',
     'Lucide React',
     'ESLint',
+    'S3',
+    'Vercel',
+    'CI/CD',
+
     // Supporting Technologies
     'Prettier'
   ],
@@ -99,7 +105,11 @@ export const portfolioProject: Project = {
     technologies.eslint,
     technologies.prettier,
     technologies.reactrouter,
-    technologies.shadcn
+    technologies.shadcn,
+    technologies.awss3,
+    technologies.vercel,
+    technologies.git,
+    technologies.html5
   ],
 
   developmentJourney: {

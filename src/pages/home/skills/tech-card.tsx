@@ -17,8 +17,8 @@ export const TechCard = ({ tech, categoryColors }: TechCardProps) => {
         <div className="text-2xl mb-1 group-hover:scale-125 transition-transform duration-300">
           <div
             style={tech.bgColor ? { backgroundColor: tech.bgColor } : {}}
-            className={cn(tech.bgColor ? 'p-1 rounded-full flex items-center justify-center' : '', 'inline-flex')}>
-            <Icon className="mx-auto" style={{ color: iconColor }} />
+            className={cn(tech.bgColor ? 'rounded-full flex items-center justify-center' : '', 'inline-flex')}>
+            <Icon className={cn('mx-auto size-6', tech.bgColor && 'p-1')} style={{ color: iconColor }} size={24} />
           </div>
         </div>
         <div className="text-xs font-bold text-gray-700 dark:text-gray-300 mb-0.5 leading-tight px-0.5">

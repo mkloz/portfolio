@@ -20,28 +20,26 @@ export const StoryCard = () => {
         <div className="space-y-4 text-gray-700 dark:text-gray-300 leading-relaxed text-base">
           <p>
             <span className="font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-lg">
-              Driven by curiosity
+              Resilient and adaptable
             </span>{' '}
-            and fueled by passion, I&apos;ve spent the last 3 years immersing myself in the world of software
-            development. What started as fascination with how things work has evolved into a deep love for creating
-            digital solutions.
+            Originally from Ukraine, I relocated to the UK due to the war—an experience that strengthened my resilience,
+            adaptability, and problem-solving mindset under pressure.
           </p>
 
           <p>
-            Living in the UK has broadened my perspective and taught me the value of diverse thinking. I believe in{' '}
             <span className="font-black text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 rounded-lg">
-              writing clean, maintainable code
-            </span>
-            and creating user-centric experiences that make a real difference.
+              Building meaningful solutions
+            </span>{' '}
+            I thrive on breaking down complexity, designing clean, scalable systems, and delivering reliable,
+            maintainable solutions. I believe in balancing quality with efficiency.
           </p>
 
           <p>
-            My approach combines{' '}
             <span className="font-black text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30 px-3 py-1 rounded-lg">
-              technical excellence
-            </span>
-            with creative problem-solving, always keeping the end user in mind. I&apos;m ready to bring my skills and
-            innovative mindset to a dynamic team.
+              Focused and calm
+            </span>{' '}
+            I work carefully and with purpose, driven by a love for doing good work and making real progress. I enjoy
+            honest talks and working with people who share the same values.
           </p>
         </div>
       </div>

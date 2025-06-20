@@ -279,10 +279,10 @@ export const websterProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '28.5k',
-    commits: '445',
-    features: '30+',
-    technologies: '28+'
+    linesOfCode: '20.1k',
+    commits: '50+',
+    features: '20+',
+    technologies: '17+'
   },
   demo: [
     {

@@ -17,11 +17,7 @@ export const Projects = () => {
       <ProjectsBackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
-        <SectionTitle
-          title="My Projects"
-          subtitle="Innovative solutions built with cutting-edge technologies and modern development practices"
-          backgroundTitle="PROJECTS"
-        />
+        <SectionTitle title="My Projects" backgroundTitle="PROJECTS" />
 
         <SectionDivider />
 

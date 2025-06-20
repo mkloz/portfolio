@@ -105,7 +105,8 @@ export const citywheelsProject: Project = {
     technologies.axios,
     technologies.zod,
     technologies.zustand,
-    technologies.aws
+    technologies.aws,
+    technologies.vercel
   ],
 
   developmentJourney: {
@@ -286,10 +287,10 @@ export const citywheelsProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '15.2k',
-    commits: '287',
-    features: '25+',
-    technologies: '25+'
+    linesOfCode: '18.4k',
+    commits: '95',
+    features: '30+',
+    technologies: '18+'
   },
   demo: [
     {

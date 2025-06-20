@@ -1,5 +1,5 @@
 import { Award, Briefcase, Code, GraduationCap } from 'lucide-react';
-import React, { ElementType } from 'react';
+import { ElementType } from 'react';
 
 // Default icon for timeline items
 export interface TimelineIconProps {
@@ -14,10 +14,6 @@ export interface PersonalInfo {
     city: string;
     country: string;
     flag: string;
-    coordinates?: {
-      lat: number;
-      lng: number;
-    };
   };
   contact: {
     email: string;
@@ -50,15 +46,6 @@ export interface PersonalInfo {
     projectsCompleted: number;
     linesOfCode: string;
   };
-  bio: {
-    short: string;
-    detailed: string;
-  };
-  skills: {
-    primary: string[];
-    secondary: string[];
-  };
-  interests: string[];
   timeline: Array<{
     year: string;
     title: string;
@@ -72,16 +59,12 @@ export interface PersonalInfo {
 export const ME: PersonalInfo = {
   name: 'Mykhailo Kloz',
   title: 'Full-Stack Web Developer',
-  tagline: 'Passionate developer crafting digital experiences with creativity, precision, and innovation',
+  tagline: '',
 
   location: {
     city: 'Manchester City',
     country: 'UK',
-    flag: '🇬🇧',
-    coordinates: {
-      lat: 53.4808,
-      lng: -2.2426
-    }
+    flag: '🇬🇧'
   },
 
   contact: {
@@ -99,7 +82,7 @@ export const ME: PersonalInfo = {
 
   availability: {
     status: 'available',
-    message: 'Available for new projects'
+    message: 'Available'
   },
 
   education: {
@@ -134,21 +117,6 @@ export const ME: PersonalInfo = {
     projectsCompleted: 10,
     linesOfCode: '150k'
   },
-
-  bio: {
-    short: 'Passionate full-stack developer with 3+ years of experience creating innovative web solutions.',
-    detailed: `I'm a dedicated full-stack developer with a passion for creating exceptional digital experiences. 
-    With over 3 years of experience in web development, I specialize in modern JavaScript frameworks, 
-    responsive design, and scalable backend solutions. I believe in writing clean, maintainable code 
-    and staying up-to-date with the latest industry trends and best practices.`
-  },
-
-  skills: {
-    primary: ['React', 'TypeScript', 'Node.js', 'Next.js', 'Tailwind CSS'],
-    secondary: ['Python', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS']
-  },
-
-  interests: ['Web Development', 'UI/UX Design', 'Open Source', 'Technology Innovation', 'Continuous Learning'],
 
   timeline: [
     {
@@ -209,8 +177,6 @@ export const ME: PersonalInfo = {
 };
 
 // Helper functions for accessing personal data
-export const getPersonalInfo = (): PersonalInfo => ME;
-
 export const getContactInfo = () => ME.contact;
 
 export const getSocialLinks = () => ME.social;
@@ -221,20 +187,4 @@ export const getEducationInfo = () => ME.education;
 
 export const getLanguages = () => ME.languages;
 
-export const getStats = () => ME.stats;
-
-export const getBio = () => ME.bio;
-
-export const getSkills = () => ME.skills;
-
-export const getTimeline = () => ME.timeline;
-
 export const getAvailabilityStatus = () => ME.availability;
-
-export interface JourneyTimelineItem {
-  year: string;
-  title: string;
-  description: string;
-  icon: React.FC<TimelineIconProps>;
-  color: string;
-}

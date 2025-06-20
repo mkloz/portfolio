@@ -58,6 +58,28 @@
     opacity: 0;
   }
 }
+@keyframes largeBubbleRiseHigher {
+  0% {
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translateY(-37.5vh) translateX(8px) scale(1.2);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-75vh) translateX(-5px) scale(1);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-112.5vh) translateX(12px) scale(0.8);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-150vh) translateX(0px) scale(0.6);
+    opacity: 0;
+  }
+}
 @keyframes slowBubbleRise {
   0% {
     transform: translateY(0px) translateX(0px) scale(1);

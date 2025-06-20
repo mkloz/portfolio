@@ -32,9 +32,7 @@ export const ProfilePhoto: FC = () => {
           </span>
         </div>
         <div className="absolute -bottom-6 -left-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl px-4 py-2 shadow-xl transform group-hover:scale-110 transition-transform duration-300">
-          <span className="font-black text-sm">
-            {location.flag} {location.country} Based
-          </span>
+          <span className="font-black text-sm">{location.country} Based</span>
         </div>
       </div>
     </div>

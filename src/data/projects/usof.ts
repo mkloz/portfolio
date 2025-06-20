@@ -347,10 +347,10 @@ export const usofProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '18.5k',
-    commits: '342',
-    features: '30+',
-    technologies: '31+'
+    linesOfCode: '15.6k',
+    commits: '30+',
+    features: '20+',
+    technologies: '24+'
   },
   demo: [
     {

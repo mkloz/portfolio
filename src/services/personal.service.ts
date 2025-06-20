@@ -62,27 +62,6 @@ export class PersonalService {
   }
 
   /**
-   * Get biography information
-   */
-  static getBio() {
-    return ME.bio;
-  }
-
-  /**
-   * Get skills information
-   */
-  static getSkills() {
-    return ME.skills;
-  }
-
-  /**
-   * Get interests
-   */
-  static getInterests() {
-    return ME.interests;
-  }
-
-  /**
    * Get career timeline
    */
   static getTimeline() {
@@ -108,27 +87,6 @@ export class PersonalService {
    */
   static getTimelineByType(type: PersonalInfo['timeline'][0]['type']) {
     return ME.timeline.filter((entry) => entry.type === type);
-  }
-
-  /**
-   * Get primary skills
-   */
-  static getPrimarySkills() {
-    return ME.skills.primary;
-  }
-
-  /**
-   * Get secondary skills
-   */
-  static getSecondarySkills() {
-    return ME.skills.secondary;
-  }
-
-  /**
-   * Get all skills combined
-   */
-  static getAllSkills() {
-    return [...ME.skills.primary, ...ME.skills.secondary];
   }
 
   /**
@@ -185,19 +143,5 @@ export class PersonalService {
    */
   static getLinesOfCode(): string {
     return ME.stats.linesOfCode;
-  }
-
-  /**
-   * Get short bio
-   */
-  static getShortBio(): string {
-    return ME.bio.short;
-  }
-
-  /**
-   * Get detailed bio
-   */
-  static getDetailedBio(): string {
-    return ME.bio.detailed;
   }
 }

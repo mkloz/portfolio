@@ -80,15 +80,15 @@ export const technologies = {
   nodejs: { name: 'Node.js', category: 'Backend', icon: SiNodedotjs, color: '#339933' },
   express: { name: 'Express', category: 'Backend', icon: SiExpress, color: '#000000', bgColor: '#fff' },
   nestjs: { name: 'NestJS', category: 'Backend', icon: SiNestjs, color: '#E0234E' },
-  prisma: { name: 'Prisma', category: 'Backend', icon: SiPrisma, color: '#2D3748' },
+  prisma: { name: 'Prisma', category: 'Backend', icon: SiPrisma, color: '#2D3748', bgColor: 'white' },
   typeorm: { name: 'TypeORM', category: 'Backend', icon: SiTypeorm, color: '#F29111' },
   jwt: { name: 'JWT', category: 'Backend', icon: JWT, color: '#000000', isCustomIcon: true, bgColor: '#fff' },
   stripe: { name: 'Stripe', category: 'Backend', icon: SiStripe, color: '#635BFF' },
-  websockets: { name: 'WebSockets', category: 'Backend', icon: WebSocket, color: '#010101', isCustomIcon: true },
+  websockets: { name: 'WebSockets', category: 'Backend', icon: WebSocket, color: '#010101', bgColor: '#fff' },
   socketio: { name: 'Socket.IO', category: 'Backend', icon: SiSocketdotio, color: '#010101', bgColor: '#fff' },
   microservices: { name: 'Microservices', category: 'Backend', icon: FaServer, color: '#FF6B6B' },
   serverless: { name: 'Serverless', category: 'Backend', icon: FaCloud, color: '#FD7E14' },
-  grpc: { name: 'gRPC', category: 'Backend', icon: FaNetworkWired, color: '#244C5A' },
+  grpc: { name: 'gRPC', category: 'Backend', icon: FaNetworkWired, color: '#244C5A', bgColor: '#fff' },
 
   // Database Technologies
   mysql: { name: 'MySQL', category: 'Database', icon: SiMysql, color: '#4479A1' },

@@ -136,7 +136,8 @@ export const ueventProject: Project = {
     technologies.swagger,
     technologies.axios,
     technologies.reacthookform,
-    technologies.linux
+    technologies.linux,
+    technologies.vercel
   ],
 
   developmentJourney: {
@@ -351,10 +352,10 @@ export const ueventProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '22.5k',
-    commits: '387',
+    linesOfCode: '29.1k',
+    commits: '100+',
     features: '35+',
-    technologies: '29+'
+    technologies: '28+'
   },
   demo: [
     {

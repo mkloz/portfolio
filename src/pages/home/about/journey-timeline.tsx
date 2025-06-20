@@ -125,7 +125,7 @@ export const JourneyTimeline = () => {
     <div className="max-w-4xl mx-auto mb-10">
       <div className="text-center mb-8">
         <h3 className="text-3xl font-black text-gray-900 dark:text-gray-100 mb-3">My Development Journey</h3>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">From curious beginner to passionate developer</p>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">From curious beginner to experienced developer</p>
       </div>
 
       <div className="relative">

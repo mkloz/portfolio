@@ -26,11 +26,7 @@ export const Skills = () => {
       <SkillsBackgroundElements />
 
       <div className="container mx-auto px-4 relative z-10">
-        <SectionTitle
-          title="Skills & Technologies"
-          subtitle="Technologies and tools I use to build modern web applications"
-          backgroundTitle="SKILLS"
-        />
+        <SectionTitle title="Skills & Technologies" backgroundTitle="SKILLS" />
 
         <SectionDivider />
 
