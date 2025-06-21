@@ -5,8 +5,17 @@ export const TechnologyGrid = ({ technologies, selectedCategory, getCategoryColo
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
       {technologies.map((tech, index) => {
-        const isHighlighted = selectedCategory === 'All' || tech.category === selectedCategory;
-        const isFiltered = selectedCategory !== 'All' && tech.category !== selectedCategory;
+        // Determine if technology should be highlighted based on category selection
+        const isHighlighted =
+          selectedCategory === 'All' ||
+          tech.category === selectedCategory ||
+          (tech.category === 'Full-Stack' && (selectedCategory === 'Frontend' || selectedCategory === 'Backend'));
+
+        // Determine if technology should be filtered out
+        const isFiltered =
+          selectedCategory !== 'All' &&
+          tech.category !== selectedCategory &&
+          !(tech.category === 'Full-Stack' && (selectedCategory === 'Frontend' || selectedCategory === 'Backend'));
 
         return (
           <TechnologyCard

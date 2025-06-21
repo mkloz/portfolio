@@ -21,8 +21,10 @@ const CATEGORY_COLORS: Record<string, string> = {
 export const TechStackShowcase = ({ technologies = [] }: TechStackShowcaseProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  // Extract unique categories and add "All" at the beginning
-  const categories = ['All', ...new Set(technologies.map((tech) => tech.category))];
+  // Extract unique categories, exclude Full-Stack, and add "All" at the beginning
+  const uniqueCategories = new Set(technologies.map((tech) => tech.category));
+  uniqueCategories.delete('Full-Stack'); // Remove Full-Stack from having its own tab
+  const categories = ['All', ...Array.from(uniqueCategories)];
 
   const filteredTechnologies =
     selectedCategory === 'All' ? technologies : technologies.filter((tech) => tech.category === selectedCategory);
@@ -33,6 +35,10 @@ export const TechStackShowcase = ({ technologies = [] }: TechStackShowcaseProps)
 
   const getCategoryCount = (category: string): number => {
     if (category === 'All') return technologies.length;
+    // For Frontend and Backend, include Full-Stack technologies in the count
+    if (category === 'Frontend' || category === 'Backend') {
+      return technologies.filter((tech) => tech.category === category || tech.category === 'Full-Stack').length;
+    }
     return technologies.filter((tech) => tech.category === category).length;
   };
 

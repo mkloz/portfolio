@@ -1,5 +1,6 @@
 import { Download, FolderOpen, Palette, Zap } from 'lucide-react';
 
+import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -93,22 +94,36 @@ export const websterProject: Project = {
 
   // Technical details
   detailedTechnologies: [
-    technologies.react,
     technologies.typescript,
-    technologies.tailwind,
-    technologies.nestjs,
-    technologies.nodejs,
+    technologies.docker,
+    technologies.react,
     technologies.postgresql,
+    technologies.aws,
+    technologies.zustand,
+    technologies.nestjs,
+    technologies.vite,
     technologies.prisma,
     technologies.redis,
-    technologies.aws,
-    technologies.docker,
-    technologies.vite,
-    technologies.zustand,
-    technologies.jest,
+    technologies.tailwind,
     technologies.eslint,
+    technologies.nodejs,
+    technologies.jwt,
+    technologies.swagger,
+    technologies.reactquery,
+    technologies.reacthookform,
+    technologies.reactrouter,
+    technologies.shadcn,
+    technologies.zod,
     technologies.prettier,
-    technologies.zod
+    {
+      name: 'KY',
+      category: 'Frontend',
+      icon: Ky,
+      color: '#FFCCCA',
+      bgColor: 'white'
+    },
+    technologies.git,
+    technologies.vercel
   ],
 
   developmentJourney: {
@@ -282,7 +297,7 @@ export const websterProject: Project = {
     linesOfCode: '20.1k',
     commits: '50+',
     features: '20+',
-    technologies: '17+'
+    technologies: '24+'
   },
   demo: [
     {

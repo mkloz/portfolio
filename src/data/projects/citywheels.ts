@@ -89,24 +89,24 @@ export const citywheelsProject: Project = {
 
   // Technical details
   detailedTechnologies: [
-    technologies.nextjs,
-    technologies.react,
     technologies.typescript,
-    technologies.tailwind,
-    technologies.nodejs,
-    technologies.nestjs,
-    technologies.prisma,
-    technologies.mysql,
     technologies.docker,
-    technologies.jest,
-    technologies.eslint,
-    technologies.javascript,
-    technologies.prettier,
-    technologies.axios,
-    technologies.zod,
-    technologies.zustand,
+    technologies.react,
+    technologies.mysql,
     technologies.aws,
-    technologies.vercel
+    technologies.zustand,
+    technologies.nextjs,
+    technologies.vite,
+    technologies.prisma,
+    technologies.nestjs,
+    technologies.tailwind,
+    technologies.eslint,
+    technologies.zod,
+    technologies.axios,
+    technologies.jest,
+    technologies.nodejs,
+    technologies.javascript,
+    technologies.prettier
   ],
 
   developmentJourney: {

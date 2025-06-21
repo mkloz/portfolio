@@ -1,5 +1,6 @@
 import { Calendar, Grid3X3, Move, RefreshCw, Repeat, UserCheck } from 'lucide-react';
 
+import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -107,36 +108,42 @@ export const chronosProject: Project = {
 
   // Technical details
   detailedTechnologies: [
-    technologies.react,
     technologies.typescript,
-    technologies.nestjs,
-    technologies.nodejs,
-    technologies.postgresql,
-    technologies.prisma,
-    technologies.tailwind,
     technologies.docker,
+    technologies.react,
+    technologies.postgresql,
     technologies.aws,
-    technologies.redis,
-    technologies.vite,
     technologies.zustand,
-    technologies.jest,
+    technologies.nestjs,
+    technologies.vite,
+    technologies.prisma,
+    technologies.redis,
+    technologies.tailwind,
     technologies.eslint,
+    technologies.nginx,
+    technologies.vercel,
+    technologies.git,
     technologies.prettier,
-    technologies.axios,
-    technologies.zod,
-    technologies.reactquery,
     technologies.nodejs,
+    {
+      name: 'KY',
+      category: 'Frontend',
+      icon: Ky,
+      color: '#FFCCCA',
+      bgColor: 'white'
+    },
     technologies.jwt,
     technologies.swagger,
-    technologies.nginx,
-    technologies.shadcn,
+    technologies.reactquery,
     {
       name: 'Day.js',
       category: 'Frontend',
       icon: Calendar,
       color: 'black',
       bgColor: 'white'
-    }
+    },
+    technologies.zod,
+    technologies.shadcn
   ],
 
   developmentJourney: {

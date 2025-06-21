@@ -98,17 +98,17 @@ export const portfolioProject: Project = {
 
   // Technical details
   detailedTechnologies: [
-    technologies.react,
     technologies.typescript,
-    technologies.tailwind,
     technologies.vite,
+    technologies.react,
+    technologies.aws,
+    technologies.vercel,
     technologies.eslint,
+    technologies.shadcn,
+    technologies.git,
+    technologies.tailwind,
     technologies.prettier,
     technologies.reactrouter,
-    technologies.shadcn,
-    technologies.awss3,
-    technologies.vercel,
-    technologies.git,
     technologies.html5
   ],
 

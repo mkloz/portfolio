@@ -1,5 +1,6 @@
 import { Bell, Building, CreditCard, MapPin, Search, Smartphone } from 'lucide-react';
 
+import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -114,30 +115,36 @@ export const ueventProject: Project = {
 
   // Technical details
   detailedTechnologies: [
-    technologies.nestjs,
+    technologies.typescript,
+    technologies.docker,
     technologies.react,
     technologies.postgresql,
-    technologies.typescript,
+    technologies.aws,
+    technologies.zustand,
+    technologies.nestjs,
+    technologies.vite,
     technologies.prisma,
     technologies.redis,
-    technologies.aws,
-    technologies.docker,
     technologies.tailwind,
-    technologies.vite,
-    technologies.zustand,
-    technologies.jest,
     technologies.eslint,
-    technologies.prettier,
-    technologies.axios,
-    technologies.zod,
-    technologies.reactquery,
-    technologies.shadcn,
+    technologies.nodejs,
     technologies.jwt,
     technologies.swagger,
-    technologies.axios,
+    technologies.reactquery,
     technologies.reacthookform,
-    technologies.linux,
-    technologies.vercel
+    technologies.shadcn,
+    technologies.zod,
+    technologies.prettier,
+    {
+      name: 'KY',
+      category: 'Frontend',
+      icon: Ky,
+      color: '#FFCCCA',
+      bgColor: 'white'
+    },
+    technologies.vercel,
+    technologies.nginx,
+    technologies.git
   ],
 
   developmentJourney: {

@@ -268,7 +268,7 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div>
-                      <GitHubButton github={project.github} variant="outline" size="icon" />
+                      <GitHubButton github={project.github} variant="outline" size="icon-lg" />
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>View on GitHub</TooltipContent>

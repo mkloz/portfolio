@@ -51,7 +51,7 @@ import { Zustand } from '../assets/logos/zustand';
 
 export interface Technology {
   name: string;
-  category: 'Frontend' | 'Backend' | 'Database' | 'DevOps' | 'Tools';
+  category: 'Frontend' | 'Backend' | 'Database' | 'DevOps' | 'Tools' | 'Full-Stack';
   icon: IconType;
   color: string;
   bgColor?: string;
@@ -60,30 +60,30 @@ export interface Technology {
 // Technology definitions
 export const technologies = {
   // Frontend Technologies
-  javascript: { name: 'JavaScript', category: 'Frontend', icon: SiJavascript, color: '#F7DF1E' },
-  typescript: { name: 'TypeScript', category: 'Frontend', icon: SiTypescript, color: '#3178C6' },
+  javascript: { name: 'JavaScript', category: 'Full-Stack', icon: SiJavascript, color: '#F7DF1E' },
+  typescript: { name: 'TypeScript', category: 'Full-Stack', icon: SiTypescript, color: '#3178C6' },
   react: { name: 'React', category: 'Frontend', icon: SiReact, color: '#61DAFB' },
   nextjs: { name: 'Next.js', category: 'Frontend', icon: SiNextdotjs, color: '#000000', bgColor: '#fff' },
-  vite: { name: 'Vite', category: 'Frontend', icon: Vite, color: '#646CFF', isCustomIcon: true },
+  vite: { name: 'Vite', category: 'Frontend', icon: Vite, color: '#646CFF' },
   tailwind: { name: 'Tailwind CSS', category: 'Frontend', icon: SiTailwindcss, color: '#06B6D4' },
   html5: { name: 'HTML5', category: 'Frontend', icon: SiHtml5, color: '#E34F26' },
   reactrouter: { name: 'React Router', category: 'Frontend', icon: SiReactrouter, color: '#CA4245' },
   reactquery: { name: 'React Query', category: 'Frontend', icon: SiReactquery, color: '#FF4154' },
-  zustand: { name: 'Zustand', category: 'Frontend', icon: Zustand, color: '#443E38', isCustomIcon: true },
+  zustand: { name: 'Zustand', category: 'Frontend', icon: Zustand, color: '#443E38' },
   reacthookform: { name: 'React Hook Form', category: 'Frontend', icon: SiReacthookform, color: '#EC5990' },
-  shadcn: { name: 'ShadCN', category: 'Frontend', icon: ShadCN, color: '#000000', isCustomIcon: true, bgColor: '#fff' },
-  zod: { name: 'Zod', category: 'Frontend', icon: SiZod, color: '#3E67B1' },
-  axios: { name: 'Axios', category: 'Frontend', icon: SiAxios, color: '#5A29E4' },
+  shadcn: { name: 'ShadCN', category: 'Frontend', icon: ShadCN, color: '#000000', bgColor: '#fff' },
+  zod: { name: 'Zod', category: 'Full-Stack', icon: SiZod, color: '#3E67B1' },
+  axios: { name: 'Axios', category: 'Full-Stack', icon: SiAxios, color: '#5A29E4' },
   konva: { name: 'Konva', category: 'Frontend', icon: SiKonva, color: '#0D83CD' },
 
   // Backend Technologies
-  nodejs: { name: 'Node.js', category: 'Backend', icon: SiNodedotjs, color: '#339933' },
+  nodejs: { name: 'Node.js', category: 'Full-Stack', icon: SiNodedotjs, color: '#339933' },
   express: { name: 'Express', category: 'Backend', icon: SiExpress, color: '#000000', bgColor: '#fff' },
   nestjs: { name: 'NestJS', category: 'Backend', icon: SiNestjs, color: '#E0234E' },
   prisma: { name: 'Prisma', category: 'Backend', icon: SiPrisma, color: '#2D3748', bgColor: 'white' },
   typeorm: { name: 'TypeORM', category: 'Backend', icon: SiTypeorm, color: '#F29111' },
-  jwt: { name: 'JWT', category: 'Backend', icon: JWT, color: '#000000', isCustomIcon: true, bgColor: '#fff' },
-  stripe: { name: 'Stripe', category: 'Backend', icon: SiStripe, color: '#635BFF' },
+  jwt: { name: 'JWT', category: 'Backend', icon: JWT, color: '#000000', bgColor: '#fff' },
+  stripe: { name: 'Stripe', category: 'Full-Stack', icon: SiStripe, color: '#635BFF' },
   websockets: { name: 'WebSockets', category: 'Backend', icon: WebSocket, color: '#010101', bgColor: '#fff' },
   socketio: { name: 'Socket.IO', category: 'Backend', icon: SiSocketdotio, color: '#010101', bgColor: '#fff' },
   microservices: { name: 'Microservices', category: 'Backend', icon: FaServer, color: '#FF6B6B' },
@@ -100,7 +100,7 @@ export const technologies = {
   docker: { name: 'Docker', category: 'DevOps', icon: SiDocker, color: '#2496ED' },
   githubactions: { name: 'GitHub Actions', category: 'DevOps', icon: SiGithubactions, color: '#2088FF' },
   azure: { name: 'Azure', category: 'DevOps', icon: Cloud, color: '#0078D4' },
-  awss3: { name: 'AWS S3', category: 'DevOps', icon: AWSS3, color: '#FF9900', isCustomIcon: true },
+  awss3: { name: 'AWS S3', category: 'DevOps', icon: AWSS3, color: '#FF9900' },
   aws: { name: 'AWS', category: 'DevOps', icon: SiAmazon, color: '#FF9900' },
   oraclecloud: { name: 'Oracle Cloud', category: 'DevOps', icon: SiOracle, color: '#F80000' },
   vercel: { name: 'Vercel', category: 'DevOps', icon: SiVercel, color: '#000000', bgColor: '#fff' },
@@ -109,13 +109,12 @@ export const technologies = {
     category: 'DevOps',
     icon: TeamCity,
     color: '#000000',
-    isCustomIcon: true,
     bgColor: '#fff'
   },
   terraform: { name: 'Terraform', category: 'DevOps', icon: SiTerraform, color: '#7B42BC' },
   ansible: { name: 'Ansible', category: 'DevOps', icon: SiAnsible, color: '#EE0000' },
   nginx: { name: 'Nginx', category: 'DevOps', icon: SiNginx, color: '#009639' },
-  linux: { name: 'Linux', category: 'DevOps', icon: Linux, color: '#FCC624', isCustomIcon: true },
+  linux: { name: 'Linux', category: 'DevOps', icon: Linux, color: '#FCC624' },
 
   // Tools
   prettier: { name: 'Prettier', category: 'Tools', icon: SiPrettier, color: '#F7B93E' },
