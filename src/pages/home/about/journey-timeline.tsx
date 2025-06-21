@@ -131,7 +131,7 @@ export const JourneyTimeline = () => {
       <div className="relative">
         <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
 
-        <div className="space-y-8">
+        <div className="space-y-8 lg:space-y-2">
           {ME.timeline.map((item: JourneyItem, index: number) => (
             <JourneyCard key={index} item={item} index={index} />
           ))}

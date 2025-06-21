@@ -122,8 +122,7 @@ export const ME: PersonalInfo = {
     {
       year: 'November 2021',
       title: 'Began Web Development Journey',
-      description:
-        'Took the first step into web development, mastering HTML, CSS, and JavaScript fundamentals through self-driven projects and online courses.',
+      description: 'Started learning HTML, CSS, and JavaScript through self-driven projects and online courses.',
       type: 'education',
       icon: GraduationCap,
       color: 'from-blue-500 to-purple-500'
@@ -132,7 +131,7 @@ export const ME: PersonalInfo = {
       year: 'September 2022',
       title: 'Started University at KHPI',
       description:
-        'Enrolled in Software Development at Kharkiv Polytechnic Institute, deepening knowledge in computer science, algorithms, and collaborative software engineering.',
+        'Enrolled in Software Development at Kharkiv Polytechnic Institute, focusing on computer science and algorithms.',
       type: 'education',
       icon: GraduationCap,
       color: 'from-blue-500 to-purple-500'
@@ -140,8 +139,7 @@ export const ME: PersonalInfo = {
     {
       year: 'November 2022',
       title: 'First Backend Project & Relocation',
-      description:
-        'Engineered a complex backend system using Node.js and PostgreSQL, and relocated to the UK, adapting to a new environment and broadening my global perspective.',
+      description: 'Built a complex backend system using Node.js and PostgreSQL, and relocated to the UK.',
       type: 'achievement',
       icon: Award,
       color: 'from-orange-500 to-red-500'
@@ -150,7 +148,7 @@ export const ME: PersonalInfo = {
       year: 'August 2023',
       title: 'Backend Developer',
       description:
-        'Collaborated as a backend developer in a cross-functional team, delivering robust APIs and improving project efficiency through code reviews and agile practices.',
+        'Worked as a backend developer in cross-functional teams, delivering robust APIs and improving efficiency.',
       type: 'work',
       icon: Code,
       color: 'from-green-500 to-blue-500'
@@ -158,8 +156,7 @@ export const ME: PersonalInfo = {
     {
       year: 'July 2024',
       title: 'Transitioned to Full-Stack',
-      description:
-        'Expanded expertise to full-stack development, building end-to-end solutions with React, TypeScript, and modern backend technologies.',
+      description: 'Expanded to full-stack development, building end-to-end solutions with React, TypeScript, Node.js',
       type: 'achievement',
       icon: Award,
       color: 'from-orange-500 to-red-500'
@@ -168,7 +165,7 @@ export const ME: PersonalInfo = {
       year: 'Now',
       title: 'Full-Stack Developer',
       description:
-        'Delivering impactful full-stack projects using cutting-edge technologies, focusing on scalable architecture, user experience, and continuous learning.',
+        'Delivering impactful full-stack projects using cutting-edge technologies, focusing on scalable and UX.',
       type: 'work',
       icon: Briefcase,
       color: 'from-green-500 to-blue-500'
