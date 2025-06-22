@@ -60,8 +60,6 @@ export interface Technology {
 // Technology definitions
 export const technologies = {
   // Frontend Technologies
-  javascript: { name: 'JavaScript', category: 'Full-Stack', icon: SiJavascript, color: '#F7DF1E' },
-  typescript: { name: 'TypeScript', category: 'Full-Stack', icon: SiTypescript, color: '#3178C6' },
   react: { name: 'React', category: 'Frontend', icon: SiReact, color: '#61DAFB' },
   nextjs: { name: 'Next.js', category: 'Frontend', icon: SiNextdotjs, color: '#000000', bgColor: '#fff' },
   vite: { name: 'Vite', category: 'Frontend', icon: Vite, color: '#646CFF' },
@@ -72,18 +70,22 @@ export const technologies = {
   zustand: { name: 'Zustand', category: 'Frontend', icon: Zustand, color: '#443E38' },
   reacthookform: { name: 'React Hook Form', category: 'Frontend', icon: SiReacthookform, color: '#EC5990' },
   shadcn: { name: 'ShadCN', category: 'Frontend', icon: ShadCN, color: '#000000', bgColor: '#fff' },
-  zod: { name: 'Zod', category: 'Full-Stack', icon: SiZod, color: '#3E67B1' },
-  axios: { name: 'Axios', category: 'Full-Stack', icon: SiAxios, color: '#5A29E4' },
   konva: { name: 'Konva', category: 'Frontend', icon: SiKonva, color: '#0D83CD' },
 
-  // Backend Technologies
+  // Full-Stack Technologies
+  javascript: { name: 'JavaScript', category: 'Full-Stack', icon: SiJavascript, color: '#F7DF1E' },
+  typescript: { name: 'TypeScript', category: 'Full-Stack', icon: SiTypescript, color: '#3178C6' },
   nodejs: { name: 'Node.js', category: 'Full-Stack', icon: SiNodedotjs, color: '#339933' },
+  zod: { name: 'Zod', category: 'Full-Stack', icon: SiZod, color: '#3E67B1' },
+  axios: { name: 'Axios', category: 'Full-Stack', icon: SiAxios, color: '#5A29E4' },
+  stripe: { name: 'Stripe', category: 'Full-Stack', icon: SiStripe, color: '#635BFF' },
+
+  // Backend Technologies
   express: { name: 'Express', category: 'Backend', icon: SiExpress, color: '#000000', bgColor: '#fff' },
   nestjs: { name: 'NestJS', category: 'Backend', icon: SiNestjs, color: '#E0234E' },
   prisma: { name: 'Prisma', category: 'Backend', icon: SiPrisma, color: '#2D3748', bgColor: 'white' },
   typeorm: { name: 'TypeORM', category: 'Backend', icon: SiTypeorm, color: '#F29111' },
   jwt: { name: 'JWT', category: 'Backend', icon: JWT, color: '#000000', bgColor: '#fff' },
-  stripe: { name: 'Stripe', category: 'Full-Stack', icon: SiStripe, color: '#635BFF' },
   websockets: { name: 'WebSockets', category: 'Backend', icon: WebSocket, color: '#010101', bgColor: '#fff' },
   socketio: { name: 'Socket.IO', category: 'Backend', icon: SiSocketdotio, color: '#010101', bgColor: '#fff' },
   microservices: { name: 'Microservices', category: 'Backend', icon: FaServer, color: '#FF6B6B' },
