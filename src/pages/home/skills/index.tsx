@@ -4,14 +4,6 @@ import { getAllTechnologies } from '../../../data/technologies';
 import { SkillsBackgroundElements } from './background-elements';
 import { TechnologiesGrid } from './technologies-grid';
 
-const categoryColors = {
-  Frontend: 'from-pink-500 to-purple-500',
-  Backend: 'from-green-500 to-emerald-500',
-  Database: 'from-violet-500 to-purple-500',
-  DevOps: 'from-orange-500 to-amber-500',
-  Tools: 'from-blue-500 to-cyan-500'
-};
-
 export const Skills = () => {
   const allTechnologies = getAllTechnologies().map((tech) => ({
     name: tech.name,
@@ -30,7 +22,7 @@ export const Skills = () => {
 
         <SectionDivider />
 
-        <TechnologiesGrid technologies={allTechnologies} categoryColors={categoryColors} />
+        <TechnologiesGrid technologies={allTechnologies} />
       </div>
     </section>
   );

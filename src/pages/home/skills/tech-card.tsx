@@ -1,12 +1,19 @@
 import { Technology } from '@/data/technologies';
 import { cn } from '@/lib/utils';
 
+const CATEGORY_COLORS = {
+  Frontend: 'from-pink-500 to-purple-500',
+  Backend: 'from-green-500 to-emerald-500',
+  'Full-Stack': 'from-red-500 to-rose-500',
+  Database: 'from-violet-500 to-purple-500',
+  DevOps: 'from-orange-500 to-amber-500',
+  Tools: 'from-blue-500 to-cyan-500'
+};
 interface TechCardProps {
   tech: Technology;
-  categoryColors: Record<string, string>;
 }
 
-export const TechCard = ({ tech, categoryColors }: TechCardProps) => {
+export const TechCard = ({ tech }: TechCardProps) => {
   const Icon = tech.icon;
   // Extract the first color from the gradient for the icon
   const iconColor = tech.color.split(' ')[0].replace('from-[', '').replace(']', '');
@@ -27,7 +34,8 @@ export const TechCard = ({ tech, categoryColors }: TechCardProps) => {
         <div
           className={cn(
             'text-xs font-medium bg-clip-text text-transparent',
-            `bg-gradient-to-r ${categoryColors[tech.category]}`
+            `bg-gradient-to-r`,
+            CATEGORY_COLORS[tech.category]
           )}>
           {tech.category}
         </div>
@@ -35,7 +43,8 @@ export const TechCard = ({ tech, categoryColors }: TechCardProps) => {
       <div
         className={cn(
           'absolute inset-0 opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300',
-          `bg-gradient-to-r ${tech.color}`
+          `bg-gradient-to-r`,
+          tech.color
         )}></div>
     </div>
   );
