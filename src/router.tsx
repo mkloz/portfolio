@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { App } from './app';
+import projects from './data/projects';
 import { HomePage } from './pages/home';
 import Success from './pages/home/contact/success';
 import { NotFound } from './pages/not-found';
@@ -15,10 +16,10 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />
       },
-      {
-        path: '/projects/:slug',
-        element: <ProjectDetailPage />
-      },
+      ...projects.map((project) => ({
+        path: `/projects/${project.slug}`,
+        element: <ProjectDetailPage project={project} />
+      })),
       {
         path: '/contact/success',
         element: <Success />

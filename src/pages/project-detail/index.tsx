@@ -2,11 +2,10 @@
 
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { Link } from '@/components/common/link';
-import { ProjectService } from '@/services/project.service';
 
+import { Project } from '../../data/projects';
 import { NotFound } from '../not-found';
 import { ExploreConnect } from './explore-connect';
 import { ProjectHero } from './hero';
@@ -17,16 +16,12 @@ import { TechStackShowcase } from './tech-stack';
 import { TechnicalArchitecture } from './technical-architecture';
 import { VisualGallery } from './visual-gallery';
 
-export const ProjectDetailPage = () => {
-  // Get the project slug from URL params
-  const { slug } = useParams<{ slug: string }>();
+export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [showBackButton, setShowBackButton] = useState(false);
-
-  // Get project data using the service
-  const project = slug ? ProjectService.getProjectBySlug(slug) : undefined;
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [slug]);
+  }, []);
+
   // Handle scroll to show/hide back button
   useEffect(() => {
     const handleScroll = () => {
