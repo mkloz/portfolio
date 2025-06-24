@@ -18,9 +18,10 @@ import { VisualGallery } from './visual-gallery';
 
 export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [showBackButton, setShowBackButton] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [project]);
 
   // Handle scroll to show/hide back button
   useEffect(() => {
