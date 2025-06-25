@@ -14,7 +14,7 @@ export const ProfilePhoto: FC = () => {
           src="/avatar-profile.png"
           alt="Mykhailo Kloz - Full-Stack Developer"
           className="rounded-full size-full object-cover"
-          wrapperClassName="h-full w-full"
+          wrapperClassName="h-full w-full opacity-90"
         />
       </div>
     </div>

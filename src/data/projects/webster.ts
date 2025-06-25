@@ -9,7 +9,7 @@ export const websterProject: Project = {
   title: 'Webster',
   slug: 'webster',
   description:
-    'Design tool platform with canvas-based editor providing real-time collaboration and professional design tools.',
+    'Design tool platform with canvas-based editor providing professional, simple and easy to use design tools.',
   image: {
     dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-dark.png',
     light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-light.png'
@@ -87,7 +87,7 @@ export const websterProject: Project = {
   // Detailed info
   tagline: 'Design Without Limits',
   longDescription:
-    'Webster is a comprehensive design tool platform that combines a powerful canvas-based editor with robust backend services. Built with React and Konva.js for the frontend and NestJS for the backend, it provides real-time collaboration, asset management, and professional design tools for teams and individual designers.',
+    'Webster is a comprehensive design tool platform that combines a powerful canvas-based editor with robust backend services. Built with React and Konva.js for the frontend and NestJS for the backend, it provides simple and easy to use UI, asset management, and professional design tools for any person.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '1.5 months',

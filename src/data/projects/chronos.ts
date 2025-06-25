@@ -12,11 +12,11 @@ export const chronosProject: Project = {
     'Modern, intuitive calendar management system with seamless event scheduling and collaboration features.',
   highlights: [
     {
-      title: 'Smart Scheduling',
-      description: 'Intelligent event scheduling with conflict detection and automatic time suggestions',
+      title: 'Intuitive UI',
+      description: 'User-friendly interface with responsive design and smooth animations',
       icon: Calendar,
       color: 'from-blue-400 to-cyan-500',
-      stats: 'AI powered'
+      stats: '100% responsive'
     },
     {
       title: 'Multiple Views',
