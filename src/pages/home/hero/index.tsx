@@ -21,7 +21,7 @@ export const Hero: FC = () => {
       <BackgroundElements />
       <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
+          <div className="flex flex-col-reverse items-center justify-center gap-16 lg:grid lg:grid-cols-2 lg:items-center lg:justify-between relative z-10">
             <div className="text-center lg:text-left space-y-8">
               <div className="lg:space-y-6 space-y-2">
                 <div className="relative">
