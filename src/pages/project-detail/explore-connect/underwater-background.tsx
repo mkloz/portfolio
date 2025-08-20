@@ -2,7 +2,7 @@
 
 import '@/styles/underwater-animations.css';
 
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -148,7 +148,7 @@ interface BubbleProps {
 }
 const Bubble: React.FC<BubbleProps> = ({ style, className }) => <div className={className} style={style} />;
 
-export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) => {
+export const UnderwaterBackground = memo(({ className }: UnderwaterBackgroundProps) => {
   // Memoize random decorations so they don't change on every render
   const decorations = useMemo(() => {
     // Only keep visible decorations: green plants, fish, and bubbles
@@ -615,4 +615,6 @@ export const UnderwaterBackground = ({ className }: UnderwaterBackgroundProps) =
       </div>
     </div>
   );
-};
+});
+
+UnderwaterBackground.displayName = 'UnderwaterBackground';

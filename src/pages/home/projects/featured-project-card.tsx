@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Globe } from 'lucide-react';
+import { ArrowUpRight, Eye, Globe } from 'lucide-react';
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -75,18 +75,21 @@ export const FeaturedProjectCard = ({ project, index }: FeaturedProjectCardProps
               className="absolute -inset-2 sm:-inset-3 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 rounded-2xl blur-lg group-hover:blur-xl transition-transform duration-700"
               aria-hidden="true"></div>
 
-            <div className="relative overflow-hidden rounded-xl shadow-2xl transform group-hover:scale-105 transition-transform duration-700">
+            <div className="relative overflow-hidden rounded-xl shadow-2xl transform group-hover:scale-105 transition-transform duration-700 group-image">
               <Image
                 src={image}
                 alt={`Screenshot of ${project.title} project`}
                 className="w-full h-auto object-cover"
-                wrapperClassName="group-hover/image:scale-120 transition-transform duration-600"
+                wrapperClassName="group-hover/image:scale-110 transition-transform duration-600"
               />
 
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 aria-hidden="true"></div>
-
+              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/image:opacity-100 transition-opacity duration-500" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover/image:opacity-100 opacity-0 transition-opacity duration-500">
+                <Eye className="size-12 text-white" />
+              </div>
               {/* Category Badge - Full Text */}
               <div className="absolute top-4 left-4">
                 <div

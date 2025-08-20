@@ -42,11 +42,8 @@ export const ProjectLinksGrid = ({ website, github, className }: ProjectLinksGri
                 )}>
                 <Globe className="text-white" size={24} />
               </div>
-              <h4 className="text-lg font-black text-white mb-2 drop-shadow">Live Demo</h4>
-              <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">Visit the live demo of the project</p>
-              <div className="w-full mt-2 flex items-center justify-center">
-                <Globe className="mr-2" size={20} /> Visit Website
-              </div>
+              <h4 className="text-lg font-black text-white mb-2 drop-shadow">Live Website</h4>
+              <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">Visit the live demo</p>
             </div>
           </a>
         )}
@@ -75,10 +72,7 @@ export const ProjectLinksGrid = ({ website, github, className }: ProjectLinksGri
                 <Github className="text-white" size={24} />
               </div>
               <h4 className="text-lg font-black text-white mb-2 drop-shadow">Source Code</h4>
-              <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">View the source code of the project</p>
-              <div className="w-full mt-2 flex items-center justify-center">
-                <Github className="mr-2" size={20} /> View Source
-              </div>
+              <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">View the source code</p>
             </div>
           </a>
         )}
@@ -175,9 +169,6 @@ export const ProjectLinksGrid = ({ website, github, className }: ProjectLinksGri
             </div>
             <h4 className="text-lg font-black text-white mb-2 drop-shadow">Share Project</h4>
             <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">Share the project with others</p>
-            <div className="w-full mt-2 flex items-center justify-center">
-              <Share2 className="mr-2" size={20} /> Share
-            </div>
           </div>
         </div>
         {/* Download (Popover with multiple links if available, card is popover trigger) */}
@@ -206,9 +197,6 @@ export const ProjectLinksGrid = ({ website, github, className }: ProjectLinksGri
                   </div>
                   <h4 className="text-lg font-black text-white mb-2 drop-shadow">Download</h4>
                   <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">Download the project</p>
-                  <div className="w-full mt-2 flex items-center justify-center">
-                    <Download className="mr-2" size={20} /> Download
-                  </div>
                 </div>
               </div>
             </PopoverTrigger>
@@ -258,9 +246,6 @@ export const ProjectLinksGrid = ({ website, github, className }: ProjectLinksGri
               </div>
               <h4 className="text-lg font-black text-white mb-2 drop-shadow">Download</h4>
               <p className="text-blue-50 text-sm mb-4 drop-shadow-sm">Download the project</p>
-              <div className="w-full mt-2 flex items-center justify-center">
-                <Download className="mr-2" size={20} /> Download
-              </div>
             </div>
           </a>
         )}
