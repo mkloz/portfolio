@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/next';
 import { Outlet } from 'react-router-dom';
 
 import { BoxBordersSwitch } from './components/dev/box-borders-switch';
@@ -13,6 +14,7 @@ export const App = () => {
       <Outlet />
       <TailwindIndicator />
       <Toaster expand />
+      <Analytics />
       <BoxBordersSwitch />
     </div>
   );
