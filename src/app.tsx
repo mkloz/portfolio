@@ -1,4 +1,4 @@
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
 import { Outlet } from 'react-router-dom';
 
 import { BoxBordersSwitch } from './components/dev/box-borders-switch';
