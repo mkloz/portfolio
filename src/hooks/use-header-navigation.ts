@@ -9,6 +9,7 @@ export const useHeaderNavigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
   const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
   const scrollToSection = useScrollIntoView(closeMobileMenu);
 
@@ -33,17 +34,26 @@ export const useHeaderNavigation = () => {
     }
 
     const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMobileMenu();
+        mobileMenuButtonRef.current?.focus();
+      }
+    };
     document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isMobileMenuOpen]);
+  }, [closeMobileMenu, isMobileMenuOpen]);
 
   return {
     closeMobileMenu,
     isMobileMenuOpen,
     isScrolled,
+    mobileMenuButtonRef,
     mobileMenuRef,
     scrollToSection,
     toggleMobileMenu: () => setIsMobileMenuOpen((isOpen) => !isOpen)

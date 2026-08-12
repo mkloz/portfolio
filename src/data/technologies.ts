@@ -14,6 +14,7 @@ import {
   SiJavascript,
   SiJest,
   SiKonva,
+  SiLinux,
   SiMongodb,
   SiMysql,
   SiNestjs,
@@ -33,19 +34,18 @@ import {
   SiStripe,
   SiSwagger,
   SiTailwindcss,
+  SiTeamcity,
   SiTerraform,
   SiTypeorm,
   SiTypescript,
   SiVercel,
+  SiVite,
   SiZod
 } from 'react-icons/si';
 
 import { AWSS3 } from '../assets/logos/aws-s3';
 import { JWT } from '../assets/logos/jwt';
-import { Linux } from '../assets/logos/linux';
 import { ShadCN } from '../assets/logos/shadcn';
-import { TeamCity } from '../assets/logos/team-city';
-import { Vite } from '../assets/logos/vite';
 import { WebSocket } from '../assets/logos/websocket';
 import { Zustand } from '../assets/logos/zustand';
 
@@ -62,7 +62,7 @@ export const technologies = {
   // Frontend Technologies
   react: { name: 'React', category: 'Frontend', icon: SiReact, color: '#61DAFB' },
   nextjs: { name: 'Next.js', category: 'Frontend', icon: SiNextdotjs, color: '#000000', bgColor: '#fff' },
-  vite: { name: 'Vite', category: 'Frontend', icon: Vite, color: '#646CFF' },
+  vite: { name: 'Vite', category: 'Frontend', icon: SiVite, color: '#646CFF' },
   tailwind: { name: 'Tailwind CSS', category: 'Frontend', icon: SiTailwindcss, color: '#06B6D4' },
   html5: { name: 'HTML5', category: 'Frontend', icon: SiHtml5, color: '#E34F26' },
   reactrouter: { name: 'React Router', category: 'Frontend', icon: SiReactrouter, color: '#CA4245' },
@@ -109,14 +109,14 @@ export const technologies = {
   teamcity: {
     name: 'TeamCity',
     category: 'DevOps',
-    icon: TeamCity,
+    icon: SiTeamcity,
     color: '#000000',
     bgColor: '#fff'
   },
   terraform: { name: 'Terraform', category: 'DevOps', icon: SiTerraform, color: '#7B42BC' },
   ansible: { name: 'Ansible', category: 'DevOps', icon: SiAnsible, color: '#EE0000' },
   nginx: { name: 'Nginx', category: 'DevOps', icon: SiNginx, color: '#009639' },
-  linux: { name: 'Linux', category: 'DevOps', icon: Linux, color: '#FCC624' },
+  linux: { name: 'Linux', category: 'DevOps', icon: SiLinux, color: '#FCC624' },
 
   // Tools
   prettier: { name: 'Prettier', category: 'Tools', icon: SiPrettier, color: '#F7B93E' },

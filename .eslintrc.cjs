@@ -37,7 +37,7 @@ module.exports = {
       'error',
       {
         allowConstantExport: true,
-        allowExportNames: ['badgeVariants', 'buttonGradients', 'buttonVariants', 'STEP_ICONS', 'toggleVariants']
+        allowExportNames: ['badgeVariants', 'buttonAccents', 'buttonVariants', 'toggleVariants']
       }
     ],
     '@typescript-eslint/no-unused-vars': [

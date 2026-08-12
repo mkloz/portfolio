@@ -1,102 +1,57 @@
-'use client';
+import { ArrowLeft, Menu, X } from 'lucide-react';
 
-import { ArrowLeft, Home } from 'lucide-react';
-
-import Logo from '@/assets/logos/logo.png';
-import { ButtonGradient, buttonGradients, buttonVariants } from '@/components/ui/button';
+import { Link } from '@/components/common/link';
+import { ThemeToggle } from '@/components/common/theme-toggle';
 import { useHeaderNavigation } from '@/hooks/use-header-navigation';
-import { cn } from '@/lib/utils';
 
-import { Link } from '../../components/common/link';
-import { ThemeToggle } from '../../components/common/theme-toggle';
-
-interface NavigationItem {
-  id: string;
-  label: string;
-}
-
-interface ProjectHeaderProps {
-  className?: string;
-  projectTitle?: string;
-  gradient?: ButtonGradient;
-}
-
-const PROJECT_NAVIGATION_ITEMS: NavigationItem[] = [
-  { id: 'hero', label: 'Hero' },
-  { id: 'overview', label: 'Overview' },
-  { id: 'tech-stack', label: 'Tech Stack' },
+const ITEMS = [
+  { id: 'overview', label: 'Purpose' },
+  { id: 'tech-stack', label: 'System' },
   { id: 'demo', label: 'Demo' },
-  { id: 'journey', label: 'Journey' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'share', label: 'Share' }
+  { id: 'journey', label: 'Build log' },
+  { id: 'gallery', label: 'Screens' }
 ];
 
-export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 'blue' }: ProjectHeaderProps) => {
-  const { isScrolled, isMobileMenuOpen, mobileMenuRef, scrollToSection, toggleMobileMenu } = useHeaderNavigation();
+export const ProjectHeader = ({ projectTitle = 'Project' }: { projectTitle?: string }) => {
+  const { isMobileMenuOpen, mobileMenuButtonRef, mobileMenuRef, scrollToSection, toggleMobileMenu } =
+    useHeaderNavigation();
 
   return (
-    <header
-      className={cn(
-        'fixed flex top-0 left-0 right-0 z-50 transition-[height] duration-600',
-        isScrolled
-          ? 'bg-gradient-to-r from-white/60 via-blue-200/60 to-purple-200/60 dark:from-gray-900/60 dark:via-blue-900/60 dark:to-purple-900/60 backdrop-blur-md shadow-xl  h-12'
-          : 'bg-gradient-to-r from-white/70 via-blue-50/70 to-purple-50/70 dark:from-gray-900/80 dark:via-blue-900/70 dark:to-purple-900/70 backdrop-blur-sm  h-header',
-        className
-      )}>
-      <div className="container mx-auto px-4 flex items-center justify-between py-auto">
-        <div className="flex gap-3 items-center">
-          <Link to="/#hero" unstyled aria-label="Go to homepage">
-            <img src={Logo || '/placeholder.svg'} alt="Logo" className="w-10 h-10" />
+    <header className="fixed inset-x-0 top-0 z-50 h-header border-b border-current/20 bg-background text-foreground">
+      <div className="mx-auto flex h-full max-w-[100rem] items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
+        <div className="flex min-w-0 items-center gap-4">
+          <Link to="/#projects" unstyled className="flex min-h-11 items-center gap-2 font-bold">
+            <ArrowLeft className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Project ledger</span>
+            <span className="sm:hidden">Work</span>
           </Link>
-          <div className="h-6 w-px bg-border" />
-          <div
-            className={cn(
-              buttonGradients[gradient],
-              'hidden sm:flex items-center text-transparent bg-clip-text shadow-none text-xl font-extrabold '
-            )}>
+          <span className="h-5 border-l border-current/30" />
+          <span className="truncate font-mono text-[0.68rem] font-semibold uppercase tracking-[0.12em]">
             {projectTitle}
-          </div>
+          </span>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-6" role="navigation" aria-label="Project navigation">
-          {PROJECT_NAVIGATION_ITEMS.map((item) => (
+        <nav className="hidden items-center gap-6 lg:flex" aria-label="Project navigation">
+          {ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="font-medium relative group text-sm"
-              aria-label={`Navigate to ${item.label} section`}>
+              className="min-h-11 font-mono text-[0.64rem] font-semibold uppercase tracking-[0.1em] hover:text-primary">
               {item.label}
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 group-hover:w-full transition-all duration-300 rounded-full" />
             </button>
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
-          <Link
-            to="/#projects"
-            unstyled
-            aria-label="Go to projects page"
-            className={buttonVariants({ variant: 'outline', size: 'icon' })}>
-            <Home />
-          </Link>
+        <div className="flex items-center gap-2">
           <ThemeToggle />
-
           <button
-            className="md:hidden p-2 rounded-2xl hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm transition-colors"
+            ref={mobileMenuButtonRef}
+            className="flex size-11 items-center justify-center rounded-full border-2 border-current lg:hidden"
             onClick={toggleMobileMenu}
             aria-expanded={isMobileMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-            data-mobile-menu>
-            {isMobileMenuOpen ? (
-              <ArrowLeft size={24} className="text-gray-700 dark:text-gray-300" aria-hidden="true" />
-            ) : (
-              <div className="w-6 h-5 flex flex-col justify-between">
-                <span className="w-full h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full" />
-                <span className="w-full h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full" />
-                <span className="w-full h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full" />
-              </div>
-            )}
+            aria-controls="mobile-project-menu"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}>
+            {isMobileMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
           </button>
         </div>
       </div>
@@ -104,32 +59,17 @@ export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 
       {isMobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="md:hidden bg-gradient-to-b from-white/95 to-blue-50/95 dark:from-gray-900/95 dark:to-blue-900/95 backdrop-blur-lg border-t border-white/20 dark:border-gray-700/20 shadow-2xl absolute top-full left-0 right-0"
-          id="mobile-menu"
-          data-mobile-menu
-          role="navigation"
-          aria-label="Mobile navigation">
-          <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-            <div className="px-3 py-2 text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-              {projectTitle}
-            </div>
-
-            {PROJECT_NAVIGATION_ITEMS.map((item) => (
+          id="mobile-project-menu"
+          className="absolute inset-x-0 top-full bg-foreground p-5 text-background lg:hidden">
+          <nav className="flex flex-col" aria-label="Mobile project navigation">
+            {ITEMS.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-left text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium py-2 px-3 rounded-xl hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm"
-                aria-label={`Navigate to ${item.label} section`}>
+                className="min-h-16 border-b border-background/25 text-left text-2xl font-black last:border-0">
                 {item.label}
               </button>
             ))}
-            <Link
-              to="/#projects"
-              unstyled
-              className="flex items-center justify-center mt-4 group border border-blue-200 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/50 dark:hover:bg-blue-900/30 rounded-lg px-4 py-2 transition-colors">
-              <ArrowLeft className="mr-2 h-4 w-4 text-blue-500 dark:text-blue-400 group-hover:-translate-x-1 transition-transform" />
-              <span className="text-blue-600 dark:text-blue-400 font-medium">Back to Projects</span>
-            </Link>
           </nav>
         </div>
       )}

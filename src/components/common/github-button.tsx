@@ -41,7 +41,7 @@ export const GitHubButton = ({
   if (github.length === 1) {
     return (
       <Link to={github[0].link} unstyled className={cn(buttonVariants({ variant, size }), className)}>
-        <FaGithub className="group-hover:scale-110 transition-transform" />
+        <FaGithub />
         {children}
       </Link>
     );
@@ -52,7 +52,7 @@ export const GitHubButton = ({
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button variant={variant} size={size} className={cn('gap-2', className)}>
-          <FaGithub className="group-hover:scale-110 transition-transform" />
+          <FaGithub />
           {children}
         </Button>
       </PopoverTrigger>

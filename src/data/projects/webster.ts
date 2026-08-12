@@ -20,28 +20,24 @@ export const websterProject: Project = {
       title: 'Canvas-Based Editor',
       description: 'High-performance design editor built with Konva.js for complex shape manipulation and rendering',
       icon: Palette,
-      color: 'from-purple-400 to-pink-500',
       stats: '60 FPS'
     },
     {
       title: 'Asset Library',
-      description: 'Comprehensive asset management with upload, organization, search',
+      description: 'Asset upload, organization, and search',
       icon: FolderOpen,
-      color: 'from-yellow-400 to-orange-500',
       stats: 'Cloud sync'
     },
     {
       title: 'Export System',
       description: 'Multi-format export options including PNG, SVG, PDF with custom resolution settings',
       icon: Download,
-      color: 'from-indigo-400 to-purple-500',
       stats: '5 formats'
     },
     {
       title: 'Performance Optimized',
       description: 'Canvas virtualization and optimized rendering for handling hundreds of design elements',
       icon: Zap,
-      color: 'from-red-400 to-pink-500',
       stats: '1000+ objects'
     }
   ],
@@ -80,14 +76,13 @@ export const websterProject: Project = {
   ],
   website: 'https://webster.mkloz.com',
   featured: true,
-  gradient: 'yellow',
   year: 2025,
   progress: 100,
 
   // Detailed info
   tagline: 'Design Without Limits',
   longDescription:
-    'Webster is a comprehensive design tool platform that combines a powerful canvas-based editor with robust backend services. Built with React and Konva.js for the frontend and NestJS for the backend, it provides simple and easy to use UI, asset management, and professional design tools for any person.',
+    'Webster combines a canvas editor built with React and Konva.js with a NestJS backend. It includes project and asset management, reusable templates, and tools for arranging content on the canvas.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '1.5 months',
@@ -151,7 +146,7 @@ export const websterProject: Project = {
         achievements: [
           'Canvas-based editor architecture design',
           'Design editor architecture design',
-          'Comprehensive UI/UX design',
+          'UI and interaction design',
           'Technology stack finalization'
         ]
       },
@@ -167,7 +162,7 @@ export const websterProject: Project = {
           },
           {
             decision: 'PostgreSQL for database',
-            reasoning: 'Reliable and scalable database with JSON support'
+            reasoning: 'Relational storage with JSON support'
           },
           {
             decision: 'No tablet and mobile support',
@@ -176,7 +171,7 @@ export const websterProject: Project = {
         ],
         achievements: [
           'JWT-based authentication system',
-          'Comprehensive Swagger documentation',
+          'Swagger API documentation',
           'Share design with others',
           'Export design as PNG, SVG, PDF',
           'Keyboard shortcuts and hotkeys',

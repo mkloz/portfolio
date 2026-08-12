@@ -23,11 +23,7 @@ export const ThemeToggle = () => {
           buttonVariants({ variant: 'outline', size: 'icon' }),
           'relative p-0! data-[state=on]:bg-transparent data-[state=on]:hover:bg-accent shadow-none border'
         )}>
-        {isDark ? (
-          <MoonIcon className="text-blue-500 fill-current" />
-        ) : (
-          <SunIcon className="text-yellow-600 fill-current" />
-        )}
+        {isDark ? <MoonIcon /> : <SunIcon />}
       </Toggle>
     </div>
   );

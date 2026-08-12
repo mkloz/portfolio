@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-12T00:00:00.000Z",
+  "title": "Design System: Mykhailo Kloz Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "neutral", "displayName": "Instrument Ink", "canonical": "#080808" },
+      "paper": { "role": "neutral", "displayName": "Warm Paper", "canonical": "#f4f2ed" },
+      "electric-blue": { "role": "primary", "displayName": "Electric Blue", "canonical": "#465bff" },
+      "signal-yellow": { "role": "secondary", "displayName": "Signal Yellow", "canonical": "#ffd400" },
+      "hot-coral": { "role": "secondary", "displayName": "Hot Coral", "canonical": "#ff583d" },
+      "acid-mint": { "role": "tertiary", "displayName": "Acid Mint", "canonical": "#74f0b3" },
+      "violet": { "role": "tertiary", "displayName": "Project Violet", "canonical": "#6c4eff" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero roles and major project routes." },
+      "headline": { "displayName": "Headline", "purpose": "Major section statements." },
+      "body": { "displayName": "Body", "purpose": "Factual project and personal copy." },
+      "label": { "displayName": "Reading", "purpose": "Navigation, state, dates, and technical measurements." }
+    },
+    "shadows": [
+      { "name": "print-ambient", "value": "0 24px 80px rgb(0 0 0 / 0.16)", "purpose": "Physical print overlays only." }
+    ],
+    "motion": [
+      {
+        "name": "enter",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Directional controls and panel state."
+      },
+      { "name": "move", "value": "cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Media and route transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Signal Control",
+      "kind": "button",
+      "refersTo": "signal-control",
+      "description": "Circular directional control used beside a typographic action.",
+      "html": "<button class=\"ds-signal-control\" aria-label=\"Open the work\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></button>",
+      "css": ".ds-signal-control{width:44px;height:44px;border:0;border-radius:999px;background:#080808;color:#f4f2ed;display:grid;place-items:center}.ds-signal-control svg{width:20px;fill:none;stroke:currentColor;stroke-width:2}.ds-signal-control:hover svg,.ds-signal-control:focus-visible svg{transform:rotate(45deg);transition:transform .2s cubic-bezier(.22,1,.36,1)}.ds-signal-control:focus-visible{outline:3px solid #465bff;outline-offset:3px}"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "custom",
+      "refersTo": "ledger-row-active",
+      "description": "Active project selector with an identity signal.",
+      "html": "<button class=\"ds-ledger-row\"><span>01</span><strong>UEvent</strong><span>FULL-STACK / 2025</span></button>",
+      "css": ".ds-ledger-row{width:100%;min-height:96px;border:0;border-bottom:1px solid rgba(244,242,237,.25);border-left:4px solid #6c4eff;background:#080808;color:#f4f2ed;padding:20px;text-align:left;display:grid;grid-template-columns:32px 1fr;gap:4px 12px}.ds-ledger-row strong{font:800 32px/1 Cabinet Grotesk,Arial,sans-serif}.ds-ledger-row span{font:600 10px/1.2 IBM Plex Mono,monospace;letter-spacing:.1em}.ds-ledger-row:focus-visible{outline:3px solid #465bff;outline-offset:3px}"
+    },
+    {
+      "name": "Navigation Reading",
+      "kind": "nav",
+      "description": "Compact route label from the fixed header.",
+      "html": "<a class=\"ds-nav-reading\" href=\"#projects\">WORK</a>",
+      "css": ".ds-nav-reading{position:relative;color:#f4f2ed;text-decoration:none;font:600 11px/44px IBM Plex Mono,monospace;letter-spacing:.12em}.ds-nav-reading:after{content:'';position:absolute;left:0;right:0;bottom:5px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .2s}.ds-nav-reading:hover:after,.ds-nav-reading:focus-visible:after{transform:scaleX(1)}.ds-nav-reading:focus-visible{outline:3px solid #465bff;outline-offset:3px}"
+    },
+    {
+      "name": "Context Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Square contact field on the ink footer.",
+      "html": "<label class=\"ds-field-label\">YOUR EMAIL<input class=\"ds-field\" type=\"email\" placeholder=\"you@example.com\"></label>",
+      "css": ".ds-field-label{color:#fff;font:600 11px/1.2 IBM Plex Mono,monospace;letter-spacing:.1em}.ds-field{box-sizing:border-box;width:100%;margin-top:8px;padding:16px 0;border:0;border-bottom:1px solid rgba(255,255,255,.35);border-radius:0;background:#080808;color:#fff;font:500 18px/1.4 Cabinet Grotesk,Arial,sans-serif}.ds-field:focus{outline:0;border-bottom-color:#ffd400}.ds-field:focus-visible{outline:3px solid #465bff;outline-offset:3px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal Ledger",
+    "overview": "A control-room project ledger that connects large editorial statements to real project evidence. Black and warm paper provide structure while one signal color identifies active state.",
+    "keyCharacteristics": [
+      "Oversized grotesk typography with compact mono readings",
+      "Black and warm-paper fields divided by thin rules",
+      "Real project screens and authored editorial images at useful scale",
+      "Sparse signal colors tied to state or project identity",
+      "One explanatory scroll sequence, with direct interactions elsewhere"
+    ],
+    "rules": [
+      {
+        "name": "Signal Minority",
+        "body": "Saturated color occupies a minority of every viewport and marks state or identity.",
+        "section": "colors"
+      },
+      {
+        "name": "Two-Line Role",
+        "body": "The role occupies two lines in the first viewport and supporting copy stays to one sentence.",
+        "section": "typography"
+      },
+      {
+        "name": "Evidence Above Chrome",
+        "body": "Real media occupies the focal area and decorative chrome never substitutes for evidence.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Lead with the role and real work.",
+      "Use one project color at a time and tie it to state.",
+      "Preserve keyboard, touch, and reduced-motion behavior."
+    ],
+    "donts": [
+      "Use gradients, glass, decorative blobs, emoji, or glow effects.",
+      "Fill entire sections with saturated color.",
+      "Scatter scroll effects through the page."
+    ]
+  }
+}

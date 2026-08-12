@@ -3,8 +3,6 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { ImagePlaceholder } from './image-placeholder';
-
 export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src?: string;
   fallbackSrc?: string;
@@ -36,8 +34,16 @@ export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
       className,
       blurAmount = '0.5rem',
       loadingComponent = <DefaultLoader />,
-      noImageComponent = <ImagePlaceholder />,
-      fallbackComponent = <ImagePlaceholder />,
+      noImageComponent = (
+        <div className="flex min-h-40 w-full items-center justify-center bg-muted text-sm text-muted-foreground">
+          Image unavailable
+        </div>
+      ),
+      fallbackComponent = (
+        <div className="flex min-h-40 w-full items-center justify-center bg-muted text-sm text-muted-foreground">
+          Image unavailable
+        </div>
+      ),
       wrapperClassName,
       showNoImage = true,
       style,

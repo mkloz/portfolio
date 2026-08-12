@@ -7,36 +7,31 @@ export const citywheelsProject: Project = {
   // Basic info
   title: 'Citywheels',
   slug: 'citywheels',
-  description:
-    'E-commerce online store built from scratch. Used a lot of technologies and all my knowledge to give the best user experience.',
+  description: 'E-commerce store with product discovery, checkout, administration, and order management.',
   image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/hero.png',
   highlights: [
     {
       title: 'E-commerce Platform',
       description: 'Complete online store with product catalog, shopping cart, and order management',
       icon: ShoppingCart,
-      color: 'from-blue-400 to-cyan-500',
       stats: 'Full featured'
     },
     {
       title: 'Inventory System',
       description: 'Real-time inventory tracking with low stock alerts and automated reordering',
       icon: Package,
-      color: 'from-orange-400 to-red-500',
       stats: 'Auto alerts'
     },
     {
       title: 'SEO Optimized',
       description: 'Next.js SSR implementation for optimal search engine visibility and performance',
       icon: TrendingUp,
-      color: 'from-yellow-400 to-orange-500',
       stats: '95+ score'
     },
     {
       title: 'User Accounts',
       description: 'Customer accounts with order history, wishlist, and personalized recommendations',
       icon: User,
-      color: 'from-pink-400 to-purple-500',
       stats: 'Personalized'
     }
   ],
@@ -75,14 +70,13 @@ export const citywheelsProject: Project = {
   ],
   website: 'https://citywheels.mkloz.com',
   featured: false,
-  gradient: 'violet',
   year: 2023,
   progress: 100,
 
   // Detailed info
-  tagline: 'Modern E-commerce Experience for Wheels & Vehicles',
+  tagline: 'Online store for wheels and vehicles',
   longDescription:
-    'Citywheels is a modern e-commerce platform for wheels—bicycles, skateboards, scooters, and more. Built with the latest web technologies, it delivers a seamless user experience with responsive design, secure payments, and efficient inventory management.',
+    'Citywheels is an e-commerce store for bicycles, skateboards, scooters, and related products. It includes responsive product browsing, payments, inventory management, administration, and order handling.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '2.5 months',
@@ -119,7 +113,7 @@ export const citywheelsProject: Project = {
         decisions: [
           {
             decision: 'Figma for design',
-            reasoning: 'Figma is a powerful design tool that allows for easy collaboration and prototyping'
+            reasoning: 'Figma supported interface planning and prototyping'
           },
           {
             decision: 'SQL database',
@@ -158,10 +152,10 @@ export const citywheelsProject: Project = {
           }
         ],
         achievements: [
-          'RESTful API with comprehensive endpoints',
+          'REST API for the application workflows',
           'JWT-based authentication system',
           'Role-based access control (RBAC)',
-          'Comprehensive API documentation',
+          'API documentation',
           'Unit and integration testing with Jest',
           'Database schema design and optimization'
         ]

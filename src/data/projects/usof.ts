@@ -7,8 +7,7 @@ export const usofProject: Project = {
   // Basic info
   title: 'Usof',
   slug: 'usof',
-  description:
-    'A modern Reddit-like application with full-stack implementation featuring posts, comments, voting, and user authentication.',
+  description: 'A Reddit-like full-stack application with posts, comments, voting, and user authentication.',
   image: {
     dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-dark.png',
     light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-light.png'
@@ -19,42 +18,36 @@ export const usofProject: Project = {
       title: 'Social Platform',
       description: 'Complete Reddit-like social media platform with posts, comments, and voting system',
       icon: MessageSquare,
-      color: 'from-blue-400 to-cyan-500',
       stats: 'Social ready'
     },
     {
       title: 'Voting System',
       description: 'Real-time upvote/downvote functionality with karma tracking and post ranking',
       icon: ThumbsUp,
-      color: 'from-green-400 to-emerald-500',
       stats: 'Real-time'
     },
     {
       title: 'Content Creation',
       description: 'Rich text editor for posts with markdown support',
       icon: Edit,
-      color: 'from-purple-400 to-indigo-500',
       stats: 'Rich editor'
     },
     {
       title: 'User Profiles',
-      description: 'Comprehensive user profiles with activity history, karma, and customizable settings',
+      description: 'User profiles with activity history, karma, and account settings',
       icon: UserCircle,
-      color: 'from-orange-400 to-red-500',
       stats: 'Full profiles'
     },
     {
       title: 'Clean UI/UX',
-      description: 'Clean and modern UI/UX design with responsive design',
+      description: 'Responsive interface for desktop and mobile',
       icon: LayoutDashboard,
-      color: 'from-pink-400 to-purple-500',
       stats: 'Clean UI/UX'
     },
     {
       title: 'API Documentation',
-      description: 'Comprehensive Swagger API documentation with interactive testing capabilities',
+      description: 'Swagger API documentation with interactive request testing',
       icon: FileText,
-      color: 'from-teal-400 to-blue-500',
       stats: '25+ endpoints'
     }
   ],
@@ -97,12 +90,11 @@ export const usofProject: Project = {
   ],
   website: 'https://usof.mkloz.com',
   featured: false,
-  gradient: 'pink',
   year: 2024,
   progress: 100,
 
   // Detailed info
-  tagline: 'Modern Social Media Platform',
+  tagline: 'Posts, comments, and community voting',
   longDescription:
     'USOF is a Reddit-style social platform for sharing content and building communities. Users can create posts, comment, and vote while tracking their karma and influence. The platform offers real-time updates and image sharing for a complete social experience.',
   status: 'Completed',
@@ -151,7 +143,7 @@ export const usofProject: Project = {
           },
           {
             decision: 'UI/UX Design',
-            reasoning: 'Clean and modern UI/UX design with responsive design'
+            reasoning: 'Responsive layouts for desktop and mobile'
           }
         ],
         achievements: [
@@ -224,9 +216,9 @@ export const usofProject: Project = {
         achievements: [
           'RESTful API with 25+ endpoints',
           'JWT-based authentication system',
-          'Comprehensive input validation with Zod',
+          'Input validation with Zod',
           'File upload integration with AWS S3',
-          'Comprehensive error handling middleware',
+          'Error handling middleware',
           'API rate limiting and security measures'
         ]
       },
@@ -278,11 +270,11 @@ export const usofProject: Project = {
         decisions: [
           {
             decision: 'Oracle Cloud for production deployment',
-            reasoning: 'Scalable and reliable cloud platform'
+            reasoning: 'Cloud hosting for the production application'
           },
           {
             decision: 'Nginx for reverse proxy',
-            reasoning: 'Scalable and reliable reverse proxy for both services'
+            reasoning: 'Reverse proxy for both services'
           }
         ],
         achievements: [

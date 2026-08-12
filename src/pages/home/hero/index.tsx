@@ -1,69 +1,44 @@
-'use client';
+import { ArrowDownRight } from 'lucide-react';
 
-import { Eye, Mail } from 'lucide-react';
-import type { FC } from 'react';
-
-import { Button } from '@/components/ui/button';
 import { useScrollIntoView } from '@/hooks/use-scroll-into-view';
-import { PersonalService } from '@/services/personal.service';
 
-import { BackgroundElements } from './background-elements';
-import { ProfilePhoto } from './profile-photo';
-import { ScrollIndicator } from './scroll-indicator';
-import { SocialLinksSection } from './social-links-section';
+import { PortraitSignal } from './portrait-signal';
 
-export const Hero: FC = () => {
+export const Hero = () => {
   const scrollToSection = useScrollIntoView();
-  const { name, title } = PersonalService.getBasicInfo();
 
   return (
-    <section id="hero" className="relative pt-20 pb-5 md:pt-20 md:pb-8 overflow-hidden min-h-screen flex items-center">
-      <BackgroundElements />
-      <div className="container mx-auto px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col-reverse items-center justify-center gap-16 lg:grid lg:grid-cols-2 lg:items-center lg:justify-between relative z-10">
-            <div className="text-center lg:text-left space-y-8">
-              <div className="lg:space-y-6 space-y-2">
-                <div className="relative">
-                  <p className="font-extrabold leading-tight block mb-2 text-gray-900 dark:text-gray-100 md:text-4xl sm:text-2xl text-xl">
-                    Hi, I&apos;m
-                  </p>
-                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-black leading-tight -ml-1">
-                    <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      {name}
-                    </span>
-                  </h1>
-                </div>
-
-                <div className="relative w-fit m-auto lg:m-0">
-                  <h2 className="text-xl md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 font-bold">{title}</h2>
-                  <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full"></div>
-                </div>
-              </div>
-
-              <div className="space-y-4 w-1/2 min-w-70 m-auto lg:m-0">
-                <div className="flex justify-center lg:justify-start">
-                  <Button size="lg" onClick={() => scrollToSection('projects')} className="w-full" gradient="purple">
-                    <Eye />
-                    View My Work
-                  </Button>
-                </div>
-
-                <div className="flex justify-center lg:justify-start">
-                  <Button size="lg" gradient="yellow" onClick={() => scrollToSection('contact')} className="w-full">
-                    <Mail />
-                    Get In Touch
-                  </Button>
-                </div>
-
-                <SocialLinksSection />
-              </div>
-            </div>
-            <ProfilePhoto />
+    <section id="hero" className="min-h-svh border-b border-current/25 pt-header">
+      <div className="mx-auto grid min-h-[calc(100svh-var(--header-height))] max-w-[100rem] grid-cols-1 gap-10 px-5 pb-8 pt-8 md:px-8 lg:grid-cols-12 lg:gap-8 lg:px-12 lg:pb-12 lg:pt-10">
+        <div className="flex min-w-0 flex-col lg:col-span-8">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.14em]">Mykhailo Kloz / Manchester</p>
+          <div className="my-auto py-14 lg:py-10">
+            <h1 className="hero-type uppercase">
+              <span className="block">Full-stack</span>
+              <span className="block">
+                developer<span className="text-[#ff583d]">.</span>
+              </span>
+            </h1>
+            <p className="mt-8 max-w-[33rem] text-xl font-semibold leading-snug md:text-2xl">
+              I design the interface and build the systems behind it.
+            </p>
+          </div>
+          <div className="border-t border-current/25 pt-5">
+            <button
+              onClick={() => scrollToSection('projects')}
+              data-cursor="See work"
+              className="group/work flex min-h-14 items-center gap-3 text-lg font-bold">
+              Selected work
+              <span className="flex size-11 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover/work:rotate-45">
+                <ArrowDownRight aria-hidden="true" />
+              </span>
+            </button>
           </div>
         </div>
+        <div className="flex items-center lg:col-span-4 lg:pl-4">
+          <PortraitSignal />
+        </div>
       </div>
-      <ScrollIndicator />
     </section>
   );
 };

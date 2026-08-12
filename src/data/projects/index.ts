@@ -60,13 +60,10 @@ export interface ProjectStats {
   technologies: string;
 }
 
-export type ButtonGradient = 'blue' | 'purple' | 'green' | 'pink' | 'yellow' | 'violet';
-
 export interface ProjectHighlight {
   title: string;
   description: string;
   icon: ElementType;
-  color: string;
   stats: string;
 }
 
@@ -93,7 +90,6 @@ export interface Project {
   github: GitHubLink[];
   website?: string;
   featured: boolean;
-  gradient: ButtonGradient;
   year: number;
   progress: number;
 

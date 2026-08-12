@@ -8,8 +8,7 @@ export const ueventProject: Project = {
   // Basic info
   title: 'UEvent',
   slug: 'uevent',
-  description:
-    'Comprehensive event sharing platform API with ticket management, payments, and real-time notifications.',
+  description: 'Event platform with ticket management, Stripe payments, location search, and real-time notifications.',
   image: {
     dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-dark.png',
     light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-light.png'
@@ -18,44 +17,38 @@ export const ueventProject: Project = {
   highlights: [
     {
       title: 'Secure Payment Processing',
-      description: 'Integrated Stripe for seamless ticket purchases with webhook handling and payment verification',
+      description: 'Stripe ticket purchases with webhook handling and payment verification',
       icon: CreditCard,
-      color: 'from-green-400 to-emerald-500',
       stats: '100% secure'
     },
     {
       title: 'Real-time Notifications',
       description: 'Built live notification system using Redis and WebSockets for instant event updates',
       icon: Bell,
-      color: 'from-blue-400 to-cyan-500',
       stats: '< 100ms'
     },
     {
       title: 'Interactive Maps',
       description: 'Google Maps integration for location-based event discovery and venue visualization',
       icon: MapPin,
-      color: 'from-red-400 to-pink-500',
       stats: 'GPS accurate'
     },
     {
       title: 'Company Profiles',
       description: 'Professional event organizer profiles with follower system and event management',
       icon: Building,
-      color: 'from-purple-400 to-indigo-500',
       stats: '500+ orgs'
     },
     {
       title: 'Advanced Search',
-      description: 'Powerful filtering system by location, category, date, and price range',
+      description: 'Event filters for location, category, date, and price range',
       icon: Search,
-      color: 'from-yellow-400 to-orange-500',
       stats: '10+ filters'
     },
     {
       title: 'Mobile Optimized',
       description: 'Fully responsive design optimized for mobile event discovery and ticket purchasing',
       icon: Smartphone,
-      color: 'from-teal-400 to-green-500',
       stats: 'Mobile first'
     }
   ],
@@ -101,14 +94,13 @@ export const ueventProject: Project = {
   ],
   website: 'https://uevent.mkloz.com',
   featured: true,
-  gradient: 'purple',
   year: 2025,
   progress: 100,
 
   // Detailed info
   tagline: 'Connect Through Events',
   longDescription:
-    'UEvent is a comprehensive event sharing platform that enables users to discover, create, and manage events seamlessly. Built with modern technologies, it features secure payment processing, real-time notifications, interactive maps, and social engagement tools for a complete event management experience.',
+    'UEvent lets people discover, create, and manage events. It combines Stripe payments, real-time notifications, interactive maps, tickets, and social features in one application.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '2 months',
@@ -173,11 +165,11 @@ export const ueventProject: Project = {
           },
           {
             decision: 'Stripe for payment processing',
-            reasoning: 'Robust payment processing with excellent developer experience'
+            reasoning: 'Card payments, webhooks, and payment verification'
           }
         ],
         achievements: [
-          'Comprehensive system architecture design',
+          'System architecture design',
           'Database schema with 15+ entities',
           'API endpoint planning (40+ endpoints)',
           'Technology stack finalization',
@@ -193,7 +185,7 @@ export const ueventProject: Project = {
         decisions: [
           {
             decision: 'AWS S3 for file storage',
-            reasoning: 'Scalable and reliable file storage for event images'
+            reasoning: 'File storage for event images'
           },
           {
             decision: 'Shadow database for Stripe integration',
@@ -235,7 +227,7 @@ export const ueventProject: Project = {
           '40+ RESTful API endpoints',
           'JWT-based authentication system',
           'Role-based authorization (User, Company, Admin)',
-          'Comprehensive Swagger documentation',
+          'Swagger API documentation',
           'Data validation with Zod schemas',
           'Error handling middleware'
         ]
@@ -269,7 +261,7 @@ export const ueventProject: Project = {
           }
         ],
         achievements: [
-          'Modern React application with hooks',
+          'React application built with hooks',
           'Responsive design system with Tailwind CSS',
           'Advanced event discovery with filtering',
           'User profile management',
@@ -285,15 +277,15 @@ export const ueventProject: Project = {
         decisions: [
           {
             decision: 'Oracle Cloud for production deployment',
-            reasoning: 'Scalable and reliable cloud platform'
+            reasoning: 'Cloud hosting for the production application'
           },
           {
             decision: 'Nginx for reverse proxy',
-            reasoning: 'Scalable and reliable reverse proxy for both services'
+            reasoning: 'Reverse proxy for both services'
           },
           {
             decision: 'PM2 for process management',
-            reasoning: 'Scalable and reliable process management for both services'
+            reasoning: 'Process management for both services'
           }
         ],
         achievements: [

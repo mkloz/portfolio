@@ -7,53 +7,46 @@ export const portfolioProject: Project = {
   // Basic info
   title: 'Portfolio',
   slug: 'portfolio',
-  description:
-    'Modern, responsive portfolio website showcasing my development skills and projects with stunning animations and interactive elements.',
+  description: 'Responsive portfolio with project case studies, demos, implementation notes, and image galleries.',
   image: {
     light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-light.png',
     dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-dark.png'
   },
   highlights: [
     {
-      title: 'Modern Design',
-      description: 'Clean, modern interface with smooth animations and micro-interactions',
+      title: 'Responsive interface',
+      description: 'Layouts designed for desktop and mobile use',
       icon: Sparkles,
-      color: 'from-purple-400 to-pink-500',
       stats: 'Animated'
     },
     {
       title: 'Responsive Layout',
       description: 'Fully responsive design optimized for all device sizes and orientations',
       icon: Monitor,
-      color: 'from-blue-400 to-cyan-500',
       stats: 'All devices'
     },
     {
       title: 'Interactive Elements',
       description: 'Engaging animations and interactive components built with Framer Motion',
       icon: MousePointer,
-      color: 'from-green-400 to-emerald-500',
       stats: 'Interactive'
     },
     {
       title: 'Dark Mode',
-      description: 'Seamless dark/light theme switching with smooth transitions and persistence',
+      description: 'Persistent light and dark themes',
       icon: Moon,
-      color: 'from-indigo-400 to-purple-500',
       stats: 'Theme aware'
     },
     {
       title: 'Performance Optimized',
       description: 'Optimized for speed with lazy loading, code splitting, and efficient rendering',
       icon: Zap,
-      color: 'from-yellow-400 to-orange-500',
       stats: '95+ score'
     },
     {
       title: 'Accessibility',
       description: 'Built with accessibility in mind using semantic HTML and ARIA attributes',
       icon: Eye,
-      color: 'from-teal-400 to-green-500',
       stats: 'WCAG 2.1'
     }
   ],
@@ -84,14 +77,13 @@ export const portfolioProject: Project = {
   ],
   website: 'https://portfolio.mkloz.com',
   featured: false,
-  gradient: 'blue',
   year: 2025,
   progress: 90,
 
   // Detailed info
-  tagline: 'Showcasing creativity through code',
+  tagline: 'Selected work and implementation notes',
   longDescription:
-    'A comprehensive portfolio website built with modern web technologies, featuring interactive animations, responsive design, and detailed project showcases. The site demonstrates advanced React patterns, TypeScript implementation, and creative UI/UX design principles.',
+    'This portfolio presents selected development work through responsive case-study pages. Each project can include implementation notes, demos, source links, and an image gallery. The interface is built with React and TypeScript and supports light and dark themes.',
   status: 'In Progress',
   category: 'Frontend',
   duration: '3 weeks',
@@ -129,11 +121,11 @@ export const portfolioProject: Project = {
           },
           {
             decision: 'Staning design',
-            reasoning: 'Designing the website with a modern and clean look'
+            reasoning: 'Defining the layout and visual direction before implementation'
           }
         ],
         achievements: [
-          'Created comprehensive design system',
+          'Created a shared design system',
           'Planned component architecture',
           'Defined project structure and routing',
           'Created a responsive design for the website'
@@ -158,15 +150,15 @@ export const portfolioProject: Project = {
         decisions: [
           {
             decision: 'Implement custom theme system with dark/light mode',
-            reasoning: 'Enhanced user experience and modern web standards'
+            reasoning: 'Consistent components and browser-native interaction patterns'
           },
           {
             decision: 'Add advanced animations and micro-interactions',
-            reasoning: 'Creates engaging user experience and showcases technical skills'
+            reasoning: 'Keeps optional motion separate from core navigation and content'
           },
           {
-            decision: 'Implement detailed project showcase pages',
-            reasoning: 'Provides comprehensive view of development capabilities'
+            decision: 'Implement project case-study pages',
+            reasoning: 'Keeps implementation evidence with each project'
           }
         ],
         achievements: [
@@ -184,7 +176,7 @@ export const portfolioProject: Project = {
         decisions: [
           {
             decision: 'Deploy the website to Vercel',
-            reasoning: 'Vercel is a powerful platform for deploying websites'
+            reasoning: 'Vercel hosts the production website'
           },
           {
             decision: 'Set up multiple domains',

@@ -8,49 +8,42 @@ export const chronosProject: Project = {
   // Basic info
   title: 'Chronos',
   slug: 'chronos',
-  description:
-    'Modern, intuitive calendar management system with seamless event scheduling and collaboration features.',
+  description: 'Calendar system for scheduling events and coordinating shared calendars.',
   highlights: [
     {
       title: 'Intuitive UI',
       description: 'User-friendly interface with responsive design and smooth animations',
       icon: Calendar,
-      color: 'from-blue-400 to-cyan-500',
       stats: '100% responsive'
     },
     {
       title: 'Multiple Views',
       description: 'Flexible calendar views including month, week, day, and agenda with smooth transitions',
       icon: Grid3X3,
-      color: 'from-purple-400 to-indigo-500',
       stats: '4 views'
     },
     {
       title: 'Drag & Drop',
       description: 'Intuitive drag-and-drop event management with real-time updates and validation',
       icon: Move,
-      color: 'from-green-400 to-emerald-500',
       stats: 'Instant'
     },
     {
       title: 'Team Collaboration',
       description: 'Calendar sharing and team collaboration with permission-based access control',
       icon: UserCheck,
-      color: 'from-orange-400 to-red-500',
       stats: 'Team ready'
     },
     {
       title: 'Recurring Events',
       description: 'Advanced recurring event patterns with custom rules and exception handling',
       icon: Repeat,
-      color: 'from-pink-400 to-purple-500',
       stats: 'Smart rules'
     },
     {
       title: 'Real-time Sync',
       description: 'Instant synchronization across all devices with WebSocket-based live updates',
       icon: RefreshCw,
-      color: 'from-teal-400 to-blue-500',
       stats: '< 50ms sync'
     }
   ],
@@ -90,14 +83,13 @@ export const chronosProject: Project = {
   ],
   website: 'https://chronos.mkloz.com',
   featured: true,
-  gradient: 'green',
   year: 2025,
   progress: 100,
 
   // Detailed info
   tagline: 'Your Time, Perfected',
   longDescription:
-    'Chronos is a comprehensive calendar management system that combines modern frontend technologies with a robust backend API. Built with React and NestJS, it provides seamless event scheduling, collaboration features, and real-time synchronization across devices. The application offers intuitive calendar views, advanced scheduling options, and enterprise-grade security.',
+    'Chronos is a calendar application built with React and NestJS. It supports event scheduling, shared calendars, real-time synchronization, multiple calendar views, and authentication.',
   image: {
     light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-light.png',
     dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-dark.png'
@@ -164,11 +156,11 @@ export const chronosProject: Project = {
           },
           {
             decision: 'Use Day.js over Moment.js',
-            reasoning: 'Smaller bundle size and modern API'
+            reasoning: 'Smaller bundle size and a direct component API'
           }
         ],
         achievements: [
-          'Comprehensive system architecture design',
+          'System architecture design',
           'Database schema planning with relationships',
           'API endpoint specification',
           'Detailed features description',
@@ -187,7 +179,7 @@ export const chronosProject: Project = {
           },
           {
             decision: 'AWS S3 for file storage',
-            reasoning: 'Scalable solution for event attachments and user avatars'
+            reasoning: 'Storage for event attachments and user avatars'
           },
           {
             decision: 'PostgreSQL for database',
@@ -225,7 +217,7 @@ export const chronosProject: Project = {
           },
           {
             decision: 'Prisma over TypeORM',
-            reasoning: 'Better TypeScript integration and modern database toolkit'
+            reasoning: 'TypeScript integration and database tooling'
           },
           {
             decision: 'JWT for authentication',
@@ -234,7 +226,7 @@ export const chronosProject: Project = {
         ],
         achievements: [
           'RESTful API with 30+ endpoints',
-          'Comprehensive input validation with Zod',
+          'Input validation with Zod',
           'Swagger API documentation',
           'Global error handler',
           'Role-based access control',

@@ -121,7 +121,7 @@ export class PersonalService {
    * Get location display string
    */
   static getLocationDisplay() {
-    return `${ME.location.flag} ${ME.location.city}, ${ME.location.country}`;
+    return `${ME.location.city}, ${ME.location.country}`;
   }
 
   /**

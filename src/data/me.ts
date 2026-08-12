@@ -13,7 +13,6 @@ export interface PersonalInfo {
   location: {
     city: string;
     country: string;
-    flag: string;
   };
   contact: {
     email: string;
@@ -38,7 +37,6 @@ export interface PersonalInfo {
   languages: Array<{
     name: string;
     level: string;
-    flag: string;
     percentage: number;
   }>;
   stats: {
@@ -52,7 +50,6 @@ export interface PersonalInfo {
     description: string;
     type: 'education' | 'work' | 'project' | 'achievement';
     icon?: ElementType;
-    color?: string;
   }>;
 }
 
@@ -63,8 +60,7 @@ export const ME: PersonalInfo = {
 
   location: {
     city: 'Manchester City',
-    country: 'UK',
-    flag: '🇬🇧'
+    country: 'UK'
   },
 
   contact: {
@@ -95,19 +91,16 @@ export const ME: PersonalInfo = {
     {
       name: 'English',
       level: 'Highly proficient',
-      flag: '🇬🇧',
       percentage: 90
     },
     {
       name: 'Ukrainian',
       level: 'Native speaker',
-      flag: '🇺🇦',
       percentage: 100
     },
     {
       name: 'Russian',
       level: 'Native speaker',
-      flag: '🇷🇺',
       percentage: 100
     }
   ],
@@ -124,8 +117,7 @@ export const ME: PersonalInfo = {
       title: 'Began Web Development Journey',
       description: 'Started learning HTML, CSS, and JavaScript through self-driven projects and online courses.',
       type: 'education',
-      icon: GraduationCap,
-      color: 'from-blue-500 to-purple-500'
+      icon: GraduationCap
     },
     {
       year: 'September 2022',
@@ -133,42 +125,36 @@ export const ME: PersonalInfo = {
       description:
         'Enrolled in Software Development at Kharkiv Polytechnic Institute, focusing on computer science and algorithms.',
       type: 'education',
-      icon: GraduationCap,
-      color: 'from-blue-500 to-purple-500'
+      icon: GraduationCap
     },
     {
       year: 'November 2022',
       title: 'First Backend Project & Relocation',
       description: 'Built a complex backend system using Node.js and PostgreSQL, and relocated to the UK.',
       type: 'achievement',
-      icon: Award,
-      color: 'from-orange-500 to-red-500'
+      icon: Award
     },
     {
       year: 'August 2023',
       title: 'Backend Developer',
       description:
-        'Worked as a backend developer in cross-functional teams, delivering robust APIs and improving efficiency.',
+        'Worked as a backend developer in cross-functional teams, building APIs and improving delivery workflows.',
       type: 'work',
-      icon: Code,
-      color: 'from-green-500 to-blue-500'
+      icon: Code
     },
     {
       year: 'July 2024',
       title: 'Transitioned to Full-Stack',
       description: 'Expanded to full-stack development, building end-to-end solutions with React, TypeScript, Node.js',
       type: 'achievement',
-      icon: Award,
-      color: 'from-orange-500 to-red-500'
+      icon: Award
     },
     {
       year: 'Now',
       title: 'Full-Stack Developer',
-      description:
-        'Delivering impactful full-stack projects using cutting-edge technologies, focusing on scalable and UX.',
+      description: 'Building full-stack projects with a focus on maintainable code and usable interfaces.',
       type: 'work',
-      icon: Briefcase,
-      color: 'from-green-500 to-blue-500'
+      icon: Briefcase
     }
   ]
 };

@@ -1,14 +1,11 @@
 import { Analytics } from '@vercel/analytics/react';
-import { lazy, Suspense } from 'react';
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { LoadingOverlay } from './components/common/loading-overlay';
+import { PointerLabel } from './components/common/pointer-label';
 import { Toaster } from './components/ui/sonner';
 import { useThemeSync } from './hooks/theme.store';
-
-const DevTools = import.meta.env.DEV
-  ? lazy(() => import('./components/dev/dev-tools').then(({ DevTools }) => ({ default: DevTools })))
-  : null;
 
 export const App = () => {
   useThemeSync();
@@ -18,13 +15,9 @@ export const App = () => {
       <Suspense fallback={<LoadingOverlay />}>
         <Outlet />
       </Suspense>
+      <PointerLabel />
       <Toaster expand />
       <Analytics />
-      {DevTools && (
-        <Suspense>
-          <DevTools />
-        </Suspense>
-      )}
     </div>
   );
 };
