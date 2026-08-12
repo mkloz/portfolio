@@ -1,21 +1,30 @@
 import { Analytics } from '@vercel/analytics/react';
+import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { BoxBordersSwitch } from './components/dev/box-borders-switch';
-import { TailwindIndicator } from './components/dev/tailwindIndicator';
+import { LoadingOverlay } from './components/common/loading-overlay';
 import { Toaster } from './components/ui/sonner';
-import { useTheme } from './hooks/theme.store';
+import { useThemeSync } from './hooks/theme.store';
+
+const DevTools = import.meta.env.DEV
+  ? lazy(() => import('./components/dev/dev-tools').then(({ DevTools }) => ({ default: DevTools })))
+  : null;
 
 export const App = () => {
-  useTheme();
+  useThemeSync();
 
   return (
-    <div className="min-h-screen  transition-colors duration-300">
-      <Outlet />
-      <TailwindIndicator />
+    <div className="min-h-screen transition-colors duration-300">
+      <Suspense fallback={<LoadingOverlay />}>
+        <Outlet />
+      </Suspense>
       <Toaster expand />
       <Analytics />
-      <BoxBordersSwitch />
+      {DevTools && (
+        <Suspense>
+          <DevTools />
+        </Suspense>
+      )}
     </div>
   );
 };

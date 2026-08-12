@@ -1,9 +1,7 @@
 import { Menu, X } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
 
 import Logo from '@/assets/logos/logo.png';
-import { useScrollIntoView } from '@/hooks/use-scroll-into-view';
+import { useHeaderNavigation } from '@/hooks/use-header-navigation';
 import { cn } from '@/lib/utils';
 
 import { Link } from '../../components/common/link';
@@ -27,36 +25,8 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'contact', label: 'Contact', href: '#contact' }
 ];
 
-const SCROLL_THRESHOLD = 50;
-
 export const Header = ({ className }: HeaderProps) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const scrollToSection = useScrollIntoView(() => setIsMobileMenuOpen(false));
-
-  const handleScroll = () => {
-    setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
-  };
-  useOnClickOutside(ref, () => setIsMobileMenuOpen(false));
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    window.addEventListener('scroll', handleScroll, { signal: abortController.signal });
-    return () => abortController.abort();
-  }, []);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
+  const { isScrolled, isMobileMenuOpen, mobileMenuRef, scrollToSection, toggleMobileMenu } = useHeaderNavigation();
 
   return (
     <header
@@ -97,7 +67,7 @@ export const Header = ({ className }: HeaderProps) => {
 
           <button
             className="md:hidden p-2 rounded-2xl hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm transition-colors"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            onClick={toggleMobileMenu}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -113,7 +83,7 @@ export const Header = ({ className }: HeaderProps) => {
 
       {isMobileMenuOpen && (
         <div
-          ref={ref}
+          ref={mobileMenuRef}
           className="md:hidden bg-gradient-to-b from-white/95 to-blue-50/95 dark:from-gray-900/95 dark:to-blue-900/95 backdrop-blur-lg border-t border-white/20 dark:border-gray-700/20 shadow-2xl absolute top-full left-0 right-0"
           id="mobile-menu"
           data-mobile-menu

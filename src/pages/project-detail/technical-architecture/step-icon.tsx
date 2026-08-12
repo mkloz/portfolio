@@ -6,6 +6,7 @@ import {
   CreditCard,
   Database,
   Globe,
+  type LucideIcon,
   Pencil,
   Server,
   Settings,
@@ -15,6 +16,7 @@ import {
   Zap
 } from 'lucide-react';
 
+import type { DevelopmentStepId } from '@/data/projects';
 import { cn } from '@/lib/utils';
 
 import type { StepIconProps } from './types';
@@ -34,9 +36,9 @@ export const STEP_ICONS = {
   design: Pencil,
   documentation: Book,
   planning: Calendar
-};
+} satisfies Record<DevelopmentStepId, LucideIcon>;
 
-const STEP_COLORS: Record<keyof typeof STEP_ICONS, { primary: string; secondary: string; accent: string }> = {
+const STEP_COLORS: Record<DevelopmentStepId, { primary: string; secondary: string; accent: string }> = {
   frontend: {
     primary: 'from-blue-600 to-blue-400',
     secondary: 'from-blue-500/20 to-blue-400/20',

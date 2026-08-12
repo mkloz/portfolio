@@ -1,6 +1,14 @@
 # Ignore artifacts:
 build
 coverage
+dist
+node_modules
+package-lock.json
+skills-lock.json
+
+# Installed agent tooling is maintained by its upstream installers.
+.agents
+.codex
 
 **/*.html
 **/*.yaml

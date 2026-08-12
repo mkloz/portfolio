@@ -14,7 +14,11 @@ interface ThemeStore {
 }
 
 const getPreferredTheme = (): Theme => {
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT;
+  if (typeof window === 'undefined') {
+    return Theme.LIGHT;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? Theme.DARK : Theme.LIGHT;
 };
 
 export const useThemeStore = create(
@@ -39,10 +43,26 @@ export const useThemeStore = create(
 );
 
 export const useTheme = () => {
-  const { theme, setTheme, inverse } = useThemeStore((state) => state);
-  const root = document.documentElement;
+  const theme = useThemeStore((state) => state.theme);
+  const setTheme = useThemeStore((state) => state.setTheme);
+  const inverse = useThemeStore((state) => state.inverse);
+
+  return {
+    theme,
+    setTheme,
+    inverse,
+    isDark: theme === Theme.DARK,
+    isLight: theme === Theme.LIGHT
+  };
+};
+
+/** Synchronizes the shared theme with the DOM and operating-system preference once at the application root. */
+export const useThemeSync = () => {
+  const theme = useThemeStore((state) => state.theme);
+  const setTheme = useThemeStore((state) => state.setTheme);
 
   useEffect(() => {
+    const root = document.documentElement;
     root.dataset.theme = theme;
     root.classList.remove(Theme.LIGHT, Theme.DARK);
     root.classList.add(theme);
@@ -60,12 +80,4 @@ export const useTheme = () => {
       media.removeEventListener('change', listener);
     };
   }, [setTheme]);
-
-  return {
-    theme,
-    setTheme,
-    inverse,
-    isDark: theme === Theme.DARK,
-    isLight: theme === Theme.LIGHT
-  };
 };

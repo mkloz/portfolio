@@ -3,12 +3,9 @@ import { useEffect } from 'react';
 import { FaCube } from 'react-icons/fa6';
 import { useToggle } from 'usehooks-ts';
 
-import { config } from '@/config/config';
-
 import { Toggle } from '../ui/toggle';
 
 export const BoxBordersSwitch: React.FC = () => {
-  if (config.isProduction) return null;
   const [show, toggle] = useToggle(false);
 
   useEffect(() => {

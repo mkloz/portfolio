@@ -1,11 +1,14 @@
+import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { App } from './app';
-import projects from './data/projects';
-import { HomePage } from './pages/home';
-import Success from './pages/home/contact/success';
-import { NotFound } from './pages/not-found';
-import { ProjectDetailPage } from './pages/project-detail';
+
+const HomePage = lazy(() => import('./pages/home').then(({ HomePage }) => ({ default: HomePage })));
+const ProjectDetailRoute = lazy(() =>
+  import('./pages/project-detail/route').then(({ ProjectDetailRoute }) => ({ default: ProjectDetailRoute }))
+);
+const Success = lazy(() => import('./pages/home/contact/success'));
+const NotFound = lazy(() => import('./pages/not-found').then(({ NotFound }) => ({ default: NotFound })));
 
 const router = createBrowserRouter([
   {
@@ -16,10 +19,10 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />
       },
-      ...projects.map((project) => ({
-        path: `/projects/${project.slug}`,
-        element: <ProjectDetailPage project={project} />
-      })),
+      {
+        path: '/projects/:projectSlug',
+        element: <ProjectDetailRoute />
+      },
       {
         path: '/contact/success',
         element: <Success />
@@ -33,5 +36,5 @@ const router = createBrowserRouter([
 ]);
 
 export const Router = () => {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} future={{ v7_startTransition: true }} />;
 };

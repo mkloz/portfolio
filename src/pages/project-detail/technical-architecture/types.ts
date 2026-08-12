@@ -1,5 +1,4 @@
-import { DevelopmentJourney, DevelopmentStep } from '../../../data/projects';
-import { STEP_ICONS } from './step-icon';
+import type { DevelopmentJourney, DevelopmentStep, DevelopmentStepId } from '../../../data/projects';
 
 export interface TechnicalArchitectureProps {
   developmentJourney: DevelopmentJourney;
@@ -18,7 +17,7 @@ export interface StepCardProps {
 }
 
 export interface StepIconProps {
-  stepId: keyof typeof STEP_ICONS;
+  stepId: DevelopmentStepId;
   isActive: boolean;
   isCompleted: boolean;
 }

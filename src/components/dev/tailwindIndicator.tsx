@@ -1,8 +1,4 @@
-import { config } from '@/config/config';
-
 export const TailwindIndicator = () => {
-  if (config.isProduction) return null;
-
   return (
     <div className="fixed bottom-1 left-2 z-10000 flex h-6 w-6 items-center justify-center rounded-full bg-gray-800 p-3 font-mono text-xs text-white">
       <div className="block sm:hidden">xs</div>

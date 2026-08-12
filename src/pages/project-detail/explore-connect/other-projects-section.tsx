@@ -1,25 +1,14 @@
 'use client';
 
 import { Sparkles } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
-import type { Project } from '@/data/projects';
 import { ProjectService } from '@/services/project.service';
 
 import { OtherProjectCard } from './other-project-card';
 import type { OtherProjectsProps } from './types';
 
 export const OtherProjectsSection = ({ currentProjectSlug }: OtherProjectsProps) => {
-  const [otherProjects, setOtherProjects] = useState<Project[]>([]);
-
-  useEffect(() => {
-    // Get all projects except the current one
-    const allProjects = ProjectService.getAllProjects().filter((project) => project.slug !== currentProjectSlug);
-
-    // Shuffle and take 3 random projects
-    const shuffled = [...allProjects].sort(() => Math.random() - 0.5);
-    setOtherProjects(shuffled.slice(0, 3));
-  }, [currentProjectSlug]);
+  const otherProjects = ProjectService.getRelatedProjects(currentProjectSlug);
 
   if (otherProjects.length === 0) {
     return null;

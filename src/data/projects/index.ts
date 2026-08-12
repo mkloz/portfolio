@@ -1,3 +1,13 @@
+import type { ElementType } from 'react';
+
+import type { Technology } from '../technologies';
+import { chronosProject } from './chronos';
+import { citywheelsProject } from './citywheels';
+import { portfolioProject } from './portfolio';
+import { ueventProject } from './uevent';
+import { usofProject } from './usof';
+import { websterProject } from './webster';
+
 // Type definitions that match your actual project structure
 export interface GitHubLink {
   name: string;
@@ -9,8 +19,24 @@ export interface KeyDecision {
   reasoning: string;
 }
 
+export type DevelopmentStepId =
+  | 'frontend'
+  | 'backend'
+  | 'database'
+  | 'deployment'
+  | 'mobile'
+  | 'testing'
+  | 'devops'
+  | 'api'
+  | 'auth'
+  | 'optimization'
+  | 'payment'
+  | 'design'
+  | 'documentation'
+  | 'planning';
+
 export interface DevelopmentStep {
-  id: keyof typeof STEP_ICONS;
+  id: DevelopmentStepId;
   title: string;
   duration: string;
   technologies?: string[];
@@ -86,18 +112,6 @@ export interface Project {
   highlights: ProjectHighlight[];
   demo?: Demo[];
 }
-
-// Import individual projects
-import { ElementType } from 'react';
-
-import { STEP_ICONS } from '../../pages/project-detail/technical-architecture/step-icon';
-import { Technology } from '../technologies';
-import { chronosProject } from './chronos';
-import { citywheelsProject } from './citywheels';
-import { portfolioProject } from './portfolio';
-import { ueventProject } from './uevent';
-import { usofProject } from './usof';
-import { websterProject } from './webster';
 
 // Export all projects - Portfolio first as it's the current project
 export const projects: Project[] = [

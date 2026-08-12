@@ -145,6 +145,21 @@ npm run lint:fix
 
 # Format code with Prettier
 npm run format
+
+# Check formatting without modifying files
+npm run format:check
+
+# Type-check the project
+npm run typecheck
+
+# Check only files changed in Git
+npm run check:changed
+
+# Run the normal local quality gate
+npm run check
+
+# Run the full CI/release gate
+npm run check:release
 ```
 
 ## 📂 Project Structure

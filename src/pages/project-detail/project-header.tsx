@@ -1,12 +1,10 @@
 'use client';
 
 import { ArrowLeft, Home } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
 
 import Logo from '@/assets/logos/logo.png';
 import { ButtonGradient, buttonGradients, buttonVariants } from '@/components/ui/button';
-import { useScrollIntoView } from '@/hooks/use-scroll-into-view';
+import { useHeaderNavigation } from '@/hooks/use-header-navigation';
 import { cn } from '@/lib/utils';
 
 import { Link } from '../../components/common/link';
@@ -33,50 +31,8 @@ const PROJECT_NAVIGATION_ITEMS: NavigationItem[] = [
   { id: 'share', label: 'Share' }
 ];
 
-const SCROLL_THRESHOLD = 50;
-
 export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 'blue' }: ProjectHeaderProps) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const scrollToSection = useScrollIntoView(() => setIsMobileMenuOpen(false));
-
-  const handleScroll = () => {
-    setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
-  };
-  useOnClickOutside(ref, () => setIsMobileMenuOpen(false));
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    window.addEventListener('scroll', handleScroll, { signal: abortController.signal });
-    return () => abortController.abort();
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (isMobileMenuOpen && !target.closest('[data-mobile-menu]')) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    if (isMobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside);
-      return () => document.removeEventListener('click', handleClickOutside);
-    }
-  }, [isMobileMenuOpen]);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
+  const { isScrolled, isMobileMenuOpen, mobileMenuRef, scrollToSection, toggleMobileMenu } = useHeaderNavigation();
 
   return (
     <header
@@ -127,7 +83,7 @@ export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 
 
           <button
             className="md:hidden p-2 rounded-2xl hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm transition-colors"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            onClick={toggleMobileMenu}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -147,6 +103,7 @@ export const ProjectHeader = ({ className, projectTitle = 'Project', gradient = 
 
       {isMobileMenuOpen && (
         <div
+          ref={mobileMenuRef}
           className="md:hidden bg-gradient-to-b from-white/95 to-blue-50/95 dark:from-gray-900/95 dark:to-blue-900/95 backdrop-blur-lg border-t border-white/20 dark:border-gray-700/20 shadow-2xl absolute top-full left-0 right-0"
           id="mobile-menu"
           data-mobile-menu

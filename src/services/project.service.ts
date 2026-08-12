@@ -23,6 +23,18 @@ export class ProjectService {
   }
 
   /**
+   * Get a stable selection of projects adjacent to the current project.
+   * Keeping this deterministic avoids hydration/render differences and layout shifts.
+   */
+  static getRelatedProjects(currentSlug: string, limit = 3): Project[] {
+    const currentIndex = projects.findIndex((project) => project.slug === currentSlug);
+    const orderedProjects =
+      currentIndex < 0 ? projects : [...projects.slice(currentIndex + 1), ...projects.slice(0, currentIndex)];
+
+    return orderedProjects.filter((project) => project.slug !== currentSlug).slice(0, limit);
+  }
+
+  /**
    * Get featured projects
    * @returns Array of featured projects
    */

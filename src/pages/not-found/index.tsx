@@ -52,7 +52,7 @@ export const NotFound = () => {
           </Button>
 
           <Button
-            onClick={() => navigate('/projects')}
+            onClick={() => navigate('/#projects')}
             size="lg"
             variant="outline"
             className="border-2 border-white/40 text-white hover:bg-white/10 hover:border-white/60 backdrop-blur-md font-semibold text-lg px-8 py-4 rounded-full transition-all duration-300 hover:text-white">
@@ -74,7 +74,7 @@ export const NotFound = () => {
           </button>
 
           <button
-            onClick={() => navigate('/projects')}
+            onClick={() => navigate('/#projects')}
             className="group p-6 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-2xl border border-white/20 hover:border-white/40 transition-all duration-300 text-center">
             <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
               <Search size={24} className="text-white" />

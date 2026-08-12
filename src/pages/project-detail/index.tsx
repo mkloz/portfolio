@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { Link } from '@/components/common/link';
 
-import { Project } from '../../data/projects';
-import { NotFound } from '../not-found';
+import type { Project } from '../../data/projects';
 import { ExploreConnect } from './explore-connect';
 import { ProjectHero } from './hero';
 import { InteractiveDemo } from './interactive-demo';
@@ -21,7 +20,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [project]);
+  }, [project.slug]);
 
   // Handle scroll to show/hide back button
   useEffect(() => {
@@ -31,14 +30,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       setShowBackButton(window.scrollY > heroHeight * 0.8);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // If project not found, show 404 page
-  if (!project) {
-    return <NotFound />;
-  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
