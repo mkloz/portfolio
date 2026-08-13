@@ -8,16 +8,22 @@ export const ProjectHeader = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let frame = 0;
     const updateProgress = () => {
+      frame = 0;
       const distance = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(distance > 0 ? Math.min(1, window.scrollY / distance) : 0);
     };
+    const queueProgressUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateProgress);
+    };
     updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
+    window.addEventListener('scroll', queueProgressUpdate, { passive: true });
+    window.addEventListener('resize', queueProgressUpdate);
     return () => {
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', queueProgressUpdate);
+      window.removeEventListener('resize', queueProgressUpdate);
     };
   }, []);
 
@@ -27,11 +33,13 @@ export const ProjectHeader = () => {
         to="/#projects"
         unstyled
         aria-label="Back to portfolio"
-        className="fixed left-5 top-4 z-50 flex size-11 items-center justify-center bg-transparent text-white/55 mix-blend-difference transition-opacity duration-200 hover:text-white focus-visible:text-white md:left-8 lg:left-12">
+        data-signal
+        data-signal-color="#ff583d"
+        className="reactive-header-control fixed left-5 top-4 z-50 flex size-11 items-center justify-center bg-transparent text-white/55 mix-blend-difference transition-opacity duration-200 hover:text-white focus-visible:text-white md:left-8 lg:left-12">
         <House className="size-[1.125rem]" aria-hidden="true" />
       </Link>
 
-      <div className="fixed right-5 top-4 z-50 md:right-8 lg:right-12">
+      <div className="reactive-header-control fixed right-5 top-4 z-50 md:right-8 lg:right-12">
         <ThemeToggle />
       </div>
 

@@ -5,7 +5,9 @@ export const useScrollIntoView = (callback?: () => void) => {
     (sectionId: string) => {
       const element = document.getElementById(sectionId);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        element.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+        window.history.replaceState(null, '', `${window.location.pathname}#${sectionId}`);
         callback?.();
       }
     },

@@ -181,6 +181,20 @@ Ink and warm paper form the base. White is reserved for high-contrast text and f
 
 **The Signal Minority Rule.** Saturated color occupies a minority of every viewport. It marks state or identity and does not become the background of a whole section.
 
+## Interaction & Motion
+
+The interaction system behaves like a signal being acquired, routed, and confirmed. Motion explains continuity first and adds character second.
+
+- **Route signal:** internal page changes replace the old page immediately and reveal the incoming page from the top edge while the four signal channels briefly resolve across that edge. Navigation never waits for the motion.
+- **Theme signal:** theme changes radiate from the control that caused them, keeping the relationship between action and result visible.
+- **Direct instruments:** project panels, system tabs, the build log, demo devices, portrait channels, and gallery frames change in place. Arrow-key navigation mirrors click and touch behavior where the control is a tab or accordion set.
+- **Long-page orientation:** a discreet desktop section index shows the active reading position and reveals labels only on hover or focus.
+- **Feedback:** meaningful actions answer immediately—copy confirms in place, selected media resolves with a clipped signal transition, and gallery inspection supports arrows, Escape, and touch swipes.
+- **Motion budget:** route and theme transitions are the authored focal motions. Project media depth is fine-pointer only; all continuous rails pause while the page is hidden and on direct user focus or hover.
+- **Summoned canvas:** a transparent Canvas 2D signal layer remains visually empty at rest. It wakes only around marked controls, pointer travel over evidence, direct presses, or brief scroll velocity, then clears itself. Lines inherit the project or responsibility color of the nearby instrument.
+- **Proximity and inspection:** nearby controls resolve a one-pixel outline before hover; evidence frames expose a pointer-following inspection crosshair and localized crop origin; project media gains shallow physical depth. Touch keeps the direct tap, swipe, accordion, and tab responses without simulating hover.
+- **Reduced motion:** removes route, theme, depth, panel, gallery, and rail animation while preserving every state change and destination.
+
 ## Typography
 
 **Display Font:** Cabinet Grotesk with Archivo and Arial delivery fallbacks  

@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { App } from './app';
@@ -38,21 +38,5 @@ const router = createBrowserRouter([
 ]);
 
 export const Router = () => {
-  useEffect(() => {
-    const preload = () => void Promise.all([loadHomeRoute(), loadProjectRoute()]);
-    const idleWindow = window as Window & {
-      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-
-    if (idleWindow.requestIdleCallback) {
-      const handle = idleWindow.requestIdleCallback(preload, { timeout: 1500 });
-      return () => idleWindow.cancelIdleCallback?.(handle);
-    }
-
-    const handle = window.setTimeout(preload, 250);
-    return () => window.clearTimeout(handle);
-  }, []);
-
   return <RouterProvider router={router} future={{ v7_startTransition: true }} />;
 };

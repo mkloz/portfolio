@@ -2,10 +2,13 @@
 
 import type React from 'react';
 import type { ElementType } from 'react';
+import { flushSync } from 'react-dom';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 import { preloadPortfolioRoute } from '@/lib/route-preload';
+import { runViewTransition } from '@/lib/view-transition';
 
 import { cn } from '../../lib/utils';
 import { buttonVariants } from '../ui/button';
@@ -28,19 +31,22 @@ interface LinkProps extends Omit<React.ComponentProps<typeof HashLink>, 'to'> {
   unstyled?: boolean;
 }
 
-const isExternalLink = (url: string): boolean => {
-  return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('mailto:') || url.startsWith('tel:');
-};
+const isWebLink = (url: string): boolean => url.startsWith('http://') || url.startsWith('https://');
+const isNativeProtocol = (url: string): boolean => url.startsWith('mailto:') || url.startsWith('tel:');
 
 export const Link = ({ onClick, withArrowRight, withArrowLeft, unstyled = false, to, ...props }: LinkProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // Handle external links
-  if (isExternalLink(to)) {
+  if (isWebLink(to) || isNativeProtocol(to)) {
+    const opensNewTab = isWebLink(to);
     return (
       <a
         {...props}
         href={to}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={opensNewTab ? '_blank' : props.target}
+        rel={opensNewTab ? 'noopener noreferrer' : props.rel}
         onClick={(e) => {
           onClick?.(e);
         }}
@@ -78,6 +84,37 @@ export const Link = ({ onClick, withArrowRight, withArrowLeft, unstyled = false,
       }}
       onClick={(e) => {
         onClick?.(e);
+        if (
+          e.defaultPrevented ||
+          e.button !== 0 ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey ||
+          props.target === '_blank'
+        ) {
+          return;
+        }
+
+        const destination = new URL(to, window.location.href);
+        if (destination.pathname === location.pathname) return;
+
+        e.preventDefault();
+        const transition = runViewTransition(
+          () => {
+            flushSync(() => navigate(to));
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+          },
+          { kind: 'route' }
+        );
+
+        if (destination.hash) {
+          void transition.then(() => {
+            window.requestAnimationFrame(() =>
+              document.getElementById(destination.hash.slice(1))?.scrollIntoView({ block: 'start', behavior: 'auto' })
+            );
+          });
+        }
       }}
       className={cn(
         !unstyled && buttonVariants({ variant: 'link' }),

@@ -6,7 +6,8 @@ export const useRouteScroll = (routeIdentity?: string) => {
 
   useLayoutEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
+    if (document.documentElement.dataset.viewTransition === 'route') return;
+    const behavior: ScrollBehavior = reduceMotion || !hash ? 'auto' : 'smooth';
     const frame = window.requestAnimationFrame(() => {
       if (hash) {
         document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start', behavior });

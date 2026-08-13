@@ -1,8 +1,7 @@
-import { gsap } from 'gsap';
 import type { PointerEvent } from 'react';
 import { useRef } from 'react';
 
-const portraitSrc = '/editorial/portrait-screenprint.webp';
+const portraitSrc = '/editorial/portrait-screenprint-480.webp';
 
 const CHANNELS = [
   { color: '#ff583d', clipPath: 'inset(0 66.666% 0 0)' },
@@ -32,7 +31,7 @@ export const PortraitSignal = () => {
     const localY = event.clientY - bounds.top;
     const x = localX / bounds.width - 0.5;
     const y = localY / bounds.height - 0.5;
-    const channels = channelRefs.current.filter(Boolean);
+    const channels = channelRefs.current.filter((channel): channel is HTMLDivElement => Boolean(channel));
     const shifts = [
       { x: x * 22, y: y * 8 },
       { x: x * -15, y: y * -10 },
@@ -40,20 +39,12 @@ export const PortraitSignal = () => {
     ];
 
     channels.forEach((channel, index) => {
-      gsap.to(channel, {
-        ...shifts[index],
-        duration: 0.24,
-        ease: 'power3.out',
-        overwrite: true
-      });
+      channel.style.transform = `translate3d(${shifts[index].x}px, ${shifts[index].y}px, 0)`;
     });
 
     if (crosshairRef.current) {
-      gsap.set(crosshairRef.current, {
-        x: localX,
-        y: localY,
-        autoAlpha: 1
-      });
+      crosshairRef.current.style.transform = `translate3d(${localX}px, ${localY}px, 0)`;
+      crosshairRef.current.style.opacity = '1';
     }
 
     if (readoutRef.current) {
@@ -65,20 +56,18 @@ export const PortraitSignal = () => {
 
   const resetSignal = () => {
     if (isRegisteringRef.current) return;
-    gsap.to(channelRefs.current.filter(Boolean), {
-      x: 0,
-      y: 0,
-      duration: 0.45,
-      ease: 'power3.out',
-      overwrite: true
-    });
+    channelRefs.current
+      .filter((channel): channel is HTMLDivElement => Boolean(channel))
+      .forEach((channel) => {
+        channel.style.transform = 'translate3d(0, 0, 0)';
+      });
 
-    if (crosshairRef.current) gsap.to(crosshairRef.current, { autoAlpha: 0, duration: 0.12 });
+    if (crosshairRef.current) crosshairRef.current.style.opacity = '0';
     if (readoutRef.current) readoutRef.current.value = 'Move / click';
   };
 
   const registerSignal = () => {
-    const channels = channelRefs.current.filter(Boolean);
+    const channels = channelRefs.current.filter((channel): channel is HTMLDivElement => Boolean(channel));
     if (!channels.length || isRegisteringRef.current) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -87,6 +76,14 @@ export const PortraitSignal = () => {
     }
 
     isRegisteringRef.current = true;
+    const bounds = channelRefs.current[0]?.getBoundingClientRect();
+    if (bounds) {
+      window.dispatchEvent(
+        new CustomEvent('portfolio:signal', {
+          detail: { x: bounds.left + bounds.width / 2, y: bounds.top + bounds.height / 2, color: '#ffd400' }
+        })
+      );
+    }
     const offsets = [
       { x: -20, y: -8 },
       { x: 18, y: -12 },
@@ -94,32 +91,40 @@ export const PortraitSignal = () => {
     ];
 
     if (readoutRef.current) readoutRef.current.value = 'Re-registering';
-    gsap.killTweensOf(channels);
-
-    const timeline = gsap.timeline({
-      onComplete: () => {
-        isRegisteringRef.current = false;
-        if (readoutRef.current) readoutRef.current.value = 'Registered';
-      }
-    });
-
-    timeline
-      .set(flashRef.current, { autoAlpha: 1, clipPath: 'inset(0 100% 0 0)' })
-      .to(
-        channels,
-        {
-          x: (index) => offsets[index].x,
-          y: (index) => offsets[index].y,
-          duration: 0.14,
-          stagger: 0.015,
-          ease: 'power2.out'
-        },
-        0
+    const animations: Animation[] = channels.map((channel, index) =>
+      channel.animate(
+        [
+          { transform: 'translate3d(0, 0, 0)' },
+          {
+            transform: `translate3d(${offsets[index].x}px, ${offsets[index].y}px, 0)`,
+            offset: 0.22
+          },
+          { transform: 'translate3d(0, 0, 0)' }
+        ],
+        { duration: 660, delay: index * 15, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
       )
-      .to(flashRef.current, { clipPath: 'inset(0 0% 0 0)', duration: 0.16, ease: 'power2.out' }, 0)
-      .to(channels, { x: 0, y: 0, duration: 0.52, ease: 'expo.out' }, 0.14)
-      .to(flashRef.current, { clipPath: 'inset(0 0 0 100%)', duration: 0.28, ease: 'power3.inOut' }, 0.18)
-      .set(flashRef.current, { autoAlpha: 0 });
+    );
+
+    if (flashRef.current) {
+      animations.push(
+        flashRef.current.animate(
+          [
+            { clipPath: 'inset(0 100% 0 0)', opacity: 1 },
+            { clipPath: 'inset(0 0 0 0)', opacity: 1, offset: 0.36 },
+            { clipPath: 'inset(0 0 0 100%)', opacity: 0 }
+          ],
+          { duration: 480, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+        )
+      );
+    }
+
+    void Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+      channels.forEach((channel) => {
+        channel.style.transform = 'translate3d(0, 0, 0)';
+      });
+      isRegisteringRef.current = false;
+      if (readoutRef.current) readoutRef.current.value = 'Registered';
+    });
   };
 
   return (
@@ -132,10 +137,16 @@ export const PortraitSignal = () => {
           onPointerLeave={resetSignal}
           onClick={registerSignal}
           data-cursor="Deconstruct"
+          data-signal
+          data-signal-color="#ffd400"
           className="relative block aspect-[5/4] w-full touch-pan-y overflow-hidden bg-[#ece7dc] text-left">
           <img
             src={portraitSrc}
             alt="Screen-print portrait of Mykhailo Kloz"
+            fetchPriority="high"
+            decoding="async"
+            width="480"
+            height="678"
             className="absolute inset-0 size-full object-cover object-top grayscale contrast-[1.2]"
           />
 
@@ -146,11 +157,14 @@ export const PortraitSignal = () => {
                 channelRefs.current[index] = element;
               }}
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 opacity-45 mix-blend-multiply dark:mix-blend-screen"
+              className="portrait-signal-channel pointer-events-none absolute inset-0 opacity-45 mix-blend-multiply dark:mix-blend-screen"
               style={{ backgroundColor: channel.color, clipPath: channel.clipPath }}>
               <img
                 src={portraitSrc}
                 alt=""
+                decoding="async"
+                width="480"
+                height="678"
                 className="size-full object-cover object-top grayscale contrast-[1.45] mix-blend-luminosity"
               />
             </div>
@@ -181,7 +195,7 @@ export const PortraitSignal = () => {
 
           <div
             ref={crosshairRef}
-            className="pointer-events-none absolute left-0 top-0 z-20 opacity-0"
+            className="portrait-crosshair pointer-events-none absolute left-0 top-0 z-20 opacity-0"
             aria-hidden="true">
             <span className="absolute -left-6 top-0 h-px w-12 bg-current" />
             <span className="absolute -top-6 left-0 h-12 w-px bg-current" />

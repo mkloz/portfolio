@@ -1,3 +1,4 @@
+import { SectionNavigator } from '@/components/common/section-navigator';
 import { useRouteScroll } from '@/hooks/use-route-scroll';
 import { Header } from '@/pages/home/header';
 
@@ -13,11 +14,20 @@ export const HomePage = () => {
   return (
     <>
       <a
-        href="#hero"
+        href="#projects"
         className="fixed left-4 top-4 z-[100] -translate-y-24 bg-primary px-4 py-3 text-primary-foreground focus:translate-y-0">
-        Skip to main content
+        Skip to selected work
       </a>
       <Header />
+      <SectionNavigator
+        items={[
+          { id: 'hero', label: 'Identity', color: '#ff583d' },
+          { id: 'projects', label: 'Work', color: '#ffd400' },
+          { id: 'lab', label: 'Layers', color: '#465bff' },
+          { id: 'skills', label: 'System', color: '#74f0b3' },
+          { id: 'contact', label: 'Contact', color: '#6c4eff' }
+        ]}
+      />
       <main>
         <Hero />
         <Projects />

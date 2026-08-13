@@ -21,10 +21,12 @@ import {
   Wrench,
   X
 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Link } from '@/components/common/link';
+import { SectionNavigator } from '@/components/common/section-navigator';
+import { getNextPriorityProject, getProjectPriorityRank, projectSummaries } from '@/data/project-summaries';
 import type { GalleryItem, Project } from '@/data/projects';
 import { getTechnologyByName } from '@/data/technologies';
 import { useTheme } from '@/hooks/theme.store';
@@ -32,7 +34,6 @@ import { useRouteScroll } from '@/hooks/use-route-scroll';
 import { getProjectAccent } from '@/lib/project-accent';
 import { celebrateProjectJourney, readProjectJourney, visitProject, writeProjectJourney } from '@/lib/project-journey';
 import { cn } from '@/lib/utils';
-import { ProjectService } from '@/services/project.service';
 
 import { ProjectHeader } from './project-header';
 
@@ -125,7 +126,7 @@ const formatPlaybackTime = (seconds: number) => {
 };
 
 const SIGNAL_COLORS = ['#74f0b3', '#ffd400', '#465bff', '#ff583d', '#6c4eff'] as const;
-const PORTFOLIO_PROJECT_SLUGS = ProjectService.getAllProjects().map((project) => project.slug);
+const PORTFOLIO_PROJECT_SLUGS = projectSummaries.map((project) => project.slug);
 
 const ProjectSignalRail = ({
   items,
@@ -177,6 +178,7 @@ const GalleryDialog = ({
 }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const swipeStartRef = useRef<number | null>(null);
   const returnFocusRef = useRef<HTMLElement | null>(document.activeElement as HTMLElement | null);
 
   useEffect(() => {
@@ -218,6 +220,16 @@ const GalleryDialog = ({
       role="dialog"
       aria-modal="true"
       aria-label={`Gallery image: ${item.title}`}
+      onPointerDown={(event) => {
+        if (event.pointerType === 'touch') swipeStartRef.current = event.clientX;
+      }}
+      onPointerUp={(event) => {
+        if (event.pointerType !== 'touch' || swipeStartRef.current === null) return;
+        const distance = event.clientX - swipeStartRef.current;
+        swipeStartRef.current = null;
+        if (Math.abs(distance) < 45) return;
+        onIndexChange(distance > 0 ? (index - 1 + gallery.length) % gallery.length : (index + 1) % gallery.length);
+      }}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-[#080808] p-4 text-white">
       <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-4">
         <p className="font-semibold">
@@ -240,7 +252,12 @@ const GalleryDialog = ({
         aria-label="Previous image">
         <ChevronLeft aria-hidden="true" />
       </button>
-      <img src={item.image} alt={item.title} className="max-h-[80vh] max-w-[82vw] object-contain" />
+      <img
+        key={item.image}
+        src={item.image}
+        alt={item.title}
+        className="gallery-dialog-image max-h-[80vh] max-w-[82vw] object-contain"
+      />
       <button
         onClick={() => onIndexChange((index + 1) % gallery.length)}
         className="absolute right-4 flex size-12 items-center justify-center rounded-full border-2 border-white"
@@ -276,10 +293,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const demoTransitionRef = useRef<number | null>(null);
   const journeyRedirectRef = useRef<number | null>(null);
   const accent = getProjectAccent(project.slug);
-  const currentProjectRank = ProjectService.getPriorityRank(project.slug);
-  const nextProject = ProjectService.getNextPriorityProject(project.slug);
-  const nextProjectRank = nextProject ? ProjectService.getPriorityRank(nextProject.slug) : undefined;
-  const projectCount = ProjectService.getAllProjects().length;
+  const currentProjectRank = getProjectPriorityRank(project.slug);
+  const nextProject = getNextPriorityProject(project.slug);
+  const nextProjectRank = nextProject ? getProjectPriorityRank(nextProject.slug) : undefined;
+  const projectCount = projectSummaries.length;
   const visitedProjectCount = projectJourney.visited.length;
   const projectJourneyProgress = projectCount > 0 ? visitedProjectCount / projectCount : 0;
   const technologyGroups = getProjectTechnologyGroups(project);
@@ -299,6 +316,17 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const activeSystemMeta = PROJECT_SYSTEM_META[activeGroup];
   const deviceConfig = demo ? DEVICE_CONFIG[demo.device] : DEVICE_CONFIG.desktop;
   const playbackDuration = demoDuration || (demo ? parseDemoLength(demo.length) : 0);
+  const sectionNavigationItems = useMemo(
+    () => [
+      { id: 'hero', label: 'Summary', color: accent.background },
+      { id: 'overview', label: 'Product', color: '#ffd400' },
+      ...(project.demo?.length ? [{ id: 'demo', label: 'Working proof', color: '#465bff' }] : []),
+      { id: 'journey', label: 'Decisions', color: '#74f0b3' },
+      { id: 'tech-stack', label: 'System', color: '#6c4eff' },
+      ...(project.gallery.length ? [{ id: 'gallery', label: 'Evidence', color: '#ff583d' }] : [])
+    ],
+    [accent.background, project.demo?.length, project.gallery.length]
+  );
 
   const selectDemo = (index: number) => {
     if (index === activeDemo || isDemoTransitioning) return;
@@ -318,6 +346,14 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       setDemoDuration(0);
       window.requestAnimationFrame(() => window.requestAnimationFrame(() => setIsDemoTransitioning(false)));
     }, 160);
+  };
+
+  const selectAdjacentTechnologyGroup = (direction: number) => {
+    const nextIndex = (activeTechnologyGroup + direction + technologyGroups.length) % technologyGroups.length;
+    setActiveTechnologyGroup(nextIndex);
+    window.requestAnimationFrame(() =>
+      document.querySelector<HTMLButtonElement>(`[data-project-skill-index="${nextIndex}"]`)?.focus()
+    );
   };
 
   useEffect(() => {
@@ -394,10 +430,16 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <a
+        href="#overview"
+        className="fixed left-4 top-4 z-[190] -translate-y-24 bg-primary px-4 py-3 text-primary-foreground focus:translate-y-0">
+        Skip to project details
+      </a>
       <ProjectHeader />
+      <SectionNavigator items={sectionNavigationItems} className="2xl:right-8" />
       <main>
         <section id="hero" className="relative overflow-hidden border-b border-current/25">
-          <div className="content-shell px-5 pb-8 pt-24 md:px-8 md:pb-12 md:pt-28 lg:px-12">
+          <div className="content-shell px-5 pb-8 pt-16 md:px-8 md:pb-12 md:pt-16 lg:px-12">
             <div className="border-y border-current/25">
               <div className="flex min-h-14 items-center justify-between gap-6 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
                 <span>
@@ -425,7 +467,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <div className="grid border-b border-current/25 lg:grid-cols-12">
               <div className="relative flex min-h-0 flex-col justify-end py-10 lg:col-span-8 lg:min-h-[30rem] lg:border-r lg:border-current/25 lg:py-14 lg:pr-12">
                 <h1
-                  className="project-hero-type max-w-full break-words"
+                  className="project-hero-type interactive-type reactive-heading max-w-full break-words"
+                  data-signal
+                  data-signal-color={accent.background}
                   data-mobile-title-size={
                     project.title.length <= 6 ? 'short' : project.title.length <= 9 ? 'medium' : 'long'
                   }>
@@ -448,7 +492,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   ].map(([label, value]) => (
                     <div
                       key={label}
-                      className="grid grid-cols-[5.25rem_1fr] gap-4 border-b border-current/25 py-3.5 md:grid-cols-[6rem_1fr] md:gap-5 md:py-4">
+                      className="reactive-meta-row grid grid-cols-[5.25rem_1fr] gap-4 border-b border-current/25 py-3.5 md:grid-cols-[6rem_1fr] md:gap-5 md:py-4">
                       <dt className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
                         {label}
                       </dt>
@@ -470,6 +514,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   href={project.website}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-signal
+                  data-signal-color={accent.background}
                   className="group col-span-2 inline-flex min-h-14 items-center justify-between gap-2 border-b border-current/25 px-3 font-bold md:min-h-12 md:justify-start md:border-current/50 md:px-0">
                   Open live product
                   <ArrowUpRight
@@ -484,6 +530,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   href={repo.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-signal
+                  data-signal-color={accent.background}
                   className="group inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 hover:text-foreground md:min-h-12 md:border-r-0 md:px-0">
                   <Github className="size-4" aria-hidden="true" />
                   {repo.name}
@@ -504,14 +552,16 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-24">
-                  <h2 className="case-study-primary-type max-w-[10ch]">What the product had to hold together.</h2>
+                  <h2 className="case-study-primary-type reactive-heading max-w-[10ch]">
+                    What the product had to hold together.
+                  </h2>
                 </div>
               </div>
               <div className="grid border-t-2 border-current sm:grid-cols-2 lg:col-span-7">
                 {project.highlights.map(({ title, description, icon: Icon }, index) => (
                   <article
                     key={title}
-                    className="grid min-h-0 grid-cols-[1.5rem_1fr_auto] gap-2 border-b border-current/25 px-2 py-5 sm:flex sm:min-h-56 sm:flex-col sm:justify-between sm:p-6 sm:odd:border-r md:p-8">
+                    className="reactive-capability grid min-h-0 grid-cols-[1.5rem_1fr_auto] gap-2 border-b border-current/25 px-2 py-5 sm:flex sm:min-h-56 sm:flex-col sm:justify-between sm:p-6 sm:odd:border-r md:p-8">
                     <div className="contents sm:flex sm:items-center sm:justify-between sm:gap-4">
                       <span className="font-mono text-xs font-semibold text-muted-foreground">
                         {String(index + 1).padStart(2, '0')}
@@ -539,7 +589,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="demo" className="bg-foreground py-16 text-background md:py-32">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-12 md:gap-8 lg:grid-cols-12 lg:items-end">
-                <h2 className="case-study-primary-type max-w-[11ch] lg:col-span-8">The product, working.</h2>
+                <h2 className="case-study-primary-type reactive-heading max-w-[11ch] lg:col-span-8">
+                  The product, working.
+                </h2>
                 <p className="max-w-lg text-lg leading-relaxed text-background/65 lg:col-span-4">
                   {project.demo.length > 1
                     ? 'Switch between recorded views of the same working product.'
@@ -560,9 +612,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                             key={item.device}
                             type="button"
                             onClick={() => selectDemo(index)}
+                            data-cursor={`Show ${item.device}`}
+                            data-signal
+                            data-signal-color={accent.background}
                             aria-pressed={activeDemo === index}
                             className={cn(
-                              'flex min-h-14 min-w-[6.5rem] flex-1 snap-start items-center justify-center gap-2 border-r border-current/25 px-2 text-left text-sm font-bold capitalize last:border-r-0 sm:min-w-[7rem] lg:min-h-16 lg:min-w-0 lg:justify-start lg:gap-3 lg:border-b lg:border-r-0 lg:px-3 lg:text-base lg:last:border-b-0',
+                              'reactive-tab flex min-h-14 min-w-[6.5rem] flex-1 snap-start items-center justify-center gap-2 border-r border-current/25 px-2 text-left text-sm font-bold capitalize last:border-r-0 sm:min-w-[7rem] lg:min-h-16 lg:min-w-0 lg:justify-start lg:gap-3 lg:border-b lg:border-r-0 lg:px-3 lg:text-base lg:last:border-b-0',
                               activeDemo === index && 'bg-background text-foreground'
                             )}>
                             <Icon
@@ -616,6 +671,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                     <button
                       type="button"
                       onClick={() => setIsDemoPlaying((playing) => !playing)}
+                      data-signal
+                      data-signal-color={accent.background}
                       className="flex min-h-14 items-center justify-center gap-2 border-b border-r border-current/25 bg-background px-3 font-bold text-foreground">
                       {isDemoPlaying ? (
                         <Pause className="size-4" aria-hidden="true" />
@@ -634,6 +691,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           setDemoProgress(0);
                         });
                       }}
+                      data-signal
+                      data-signal-color={accent.background}
                       className="flex min-h-14 items-center justify-center gap-2 border-b border-current/25 px-3 font-bold">
                       <RotateCcw className="size-4" aria-hidden="true" />
                       Reset
@@ -641,6 +700,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                     <button
                       type="button"
                       onClick={() => setIsDemoMuted((muted) => !muted)}
+                      data-signal
+                      data-signal-color={accent.background}
                       className="flex min-h-14 items-center justify-center gap-2 border-r border-current/25 px-3 font-bold">
                       {isDemoMuted ? (
                         <VolumeX className="size-4" aria-hidden="true" />
@@ -655,6 +716,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                         const frame = demoFrameRef.current;
                         if (frame?.requestFullscreen) void frame.requestFullscreen().catch(() => undefined);
                       }}
+                      data-signal
+                      data-signal-color={accent.background}
                       className="flex min-h-14 items-center justify-center gap-2 px-3 font-bold">
                       <Maximize2 className="size-4" aria-hidden="true" />
                       Full screen
@@ -717,7 +780,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           key={demo.link}
                           muted={isDemoMuted}
                           playsInline
-                          preload="metadata"
+                          preload="none"
                           poster={demo.preview ?? image}
                           onLoadedMetadata={(event) => setDemoDuration(event.currentTarget.duration)}
                           onTimeUpdate={(event) => setDemoProgress(event.currentTarget.currentTime)}
@@ -752,7 +815,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <div className="content-shell grid gap-8 px-5 md:px-8 lg:grid-cols-12 lg:gap-14 lg:px-12">
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-24">
-                <h2 className="case-study-primary-type max-w-[10ch]">Decisions that shaped it.</h2>
+                <h2 className="case-study-primary-type reactive-heading max-w-[10ch]">Decisions that shaped it.</h2>
                 <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground md:mt-7">
                   The implementation sequence matters where it exposes a choice, constraint, or delivered result.
                 </p>
@@ -765,13 +828,16 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 const panelId = `build-step-panel-${index}`;
 
                 return (
-                  <article key={`${step.id}-${step.title}`} className="border-b border-current/25">
+                  <article key={`${step.id}-${step.title}`} className="reactive-stack-row border-b border-current/25">
                     <button
                       id={triggerId}
                       type="button"
                       aria-expanded={isExpanded}
                       aria-controls={panelId}
                       onClick={() => setExpandedStep((current) => (current === index ? null : index))}
+                      data-cursor={isExpanded ? 'Collapse' : 'Open decision'}
+                      data-signal
+                      data-signal-color={SIGNAL_COLORS[index % SIGNAL_COLORS.length]}
                       className={cn(
                         'grid w-full grid-cols-[2rem_1fr_auto] items-center gap-3 px-3 py-5 text-left transition-colors duration-200 md:grid-cols-[4rem_1fr_auto] md:gap-4 md:px-5 md:py-6',
                         isExpanded
@@ -812,7 +878,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                       id={panelId}
                       role="region"
                       aria-labelledby={triggerId}
-                      aria-hidden={!isExpanded}
+                      {...(!isExpanded ? ({ inert: '' } as Record<string, string>) : {})}
                       className={cn(
                         'grid transition-[grid-template-rows] duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
                         isExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
@@ -824,12 +890,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                             isExpanded ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
                           )}>
                           <div>
-                            <h4 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
+                            <h3 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
                               Decisions
-                            </h4>
+                            </h3>
                             <ul className="mt-6 space-y-6 text-base leading-relaxed text-muted-foreground">
                               {step.decisions.map((item) => (
-                                <li key={item.decision}>
+                                <li key={item.decision} className="reactive-decision">
                                   <strong className="mb-1 block text-lg leading-snug text-foreground">
                                     {item.decision}
                                   </strong>
@@ -839,12 +905,14 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                             </ul>
                           </div>
                           <div>
-                            <h4 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
+                            <h3 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
                               Delivered
-                            </h4>
+                            </h3>
                             <ul className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground">
                               {step.achievements.map((achievement) => (
-                                <li key={achievement} className="grid grid-cols-[0.5rem_1fr] gap-3">
+                                <li
+                                  key={achievement}
+                                  className="reactive-achievement grid grid-cols-[0.5rem_1fr] gap-3">
                                   <span
                                     className="mt-[0.65em] size-1.5"
                                     style={{ backgroundColor: accent.background }}
@@ -873,7 +941,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
         <section id="tech-stack" className="border-b border-current/25 py-16 md:py-28">
           <div className="content-shell px-5 md:px-8 lg:px-12">
             <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-              <h2 className="case-study-supporting-type md:col-span-8">The working system.</h2>
+              <h2 className="case-study-supporting-type reactive-heading md:col-span-8">The working system.</h2>
               <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
                 Choose a responsibility to inspect the tools behind this project.
               </p>
@@ -889,13 +957,27 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   return (
                     <button
                       key={group.name}
+                      data-project-skill-index={index}
+                      data-signal
+                      data-signal-color={PROJECT_SYSTEM_META[group.name].color}
                       type="button"
                       role="tab"
                       aria-selected={activeTechnologyGroup === index}
+                      tabIndex={activeTechnologyGroup === index ? 0 : -1}
                       aria-controls="project-technology-panel"
                       onClick={() => setActiveTechnologyGroup(index)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+                          event.preventDefault();
+                          selectAdjacentTechnologyGroup(1);
+                        }
+                        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+                          event.preventDefault();
+                          selectAdjacentTechnologyGroup(-1);
+                        }
+                      }}
                       className={cn(
-                        'flex min-h-14 min-w-0 flex-1 items-center justify-center border-r border-current/20 px-2 last:border-r-0 lg:w-full lg:justify-between lg:gap-4 lg:border-b lg:border-r-0 lg:px-5 lg:text-left lg:text-xl lg:font-black lg:tracking-[-0.025em] lg:last:border-b-0 xl:text-2xl',
+                        'reactive-tab flex min-h-14 min-w-0 flex-1 items-center justify-center border-r border-current/20 px-2 last:border-r-0 lg:w-full lg:justify-between lg:gap-4 lg:border-b lg:border-r-0 lg:px-5 lg:text-left lg:text-xl lg:font-black lg:tracking-[-0.025em] lg:last:border-b-0 xl:text-2xl',
                         activeTechnologyGroup === index
                           ? 'bg-foreground text-background'
                           : 'hover:bg-foreground hover:text-background'
@@ -928,7 +1010,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
                 />
                 <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
-                <div className="relative flex min-h-[23rem] max-w-[90%] flex-col justify-end p-5 sm:max-w-[78%] md:min-h-[30rem] md:p-9 lg:max-w-[72%]">
+                <div
+                  key={activeGroup}
+                  className="system-panel-content relative flex min-h-[23rem] max-w-[90%] flex-col justify-end p-5 sm:max-w-[78%] md:min-h-[30rem] md:p-9 lg:max-w-[72%]">
                   <h3 className="text-[clamp(2.5rem,4vw,3.75rem)] font-black leading-[0.9] tracking-[-0.03em]">
                     {activeGroup}
                   </h3>
@@ -936,7 +1020,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                     className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:mt-7 sm:gap-x-6 sm:gap-y-3 sm:text-base md:grid-cols-3"
                     aria-label={`${activeGroup} technologies used in ${project.title}`}>
                     {activeTechnologies.map((technology) => (
-                      <li key={technology} className="flex items-center gap-3 border-b border-white/25 pb-3 font-bold">
+                      <li
+                        key={technology}
+                        className="reactive-token flex items-center gap-3 border-b border-white/25 pb-3 font-bold">
                         <span
                           className="size-2 shrink-0"
                           style={{ backgroundColor: activeSystemMeta.color }}
@@ -963,7 +1049,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="gallery" className="border-b border-current/25 py-16 md:py-24">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-                <h2 className="case-study-supporting-type md:col-span-8">Inspect the evidence.</h2>
+                <h2 className="case-study-supporting-type reactive-heading md:col-span-8">Inspect the evidence.</h2>
                 <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
                   Screens and diagrams remain available for close inspection, after the project story.
                 </p>
@@ -973,6 +1059,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   <button
                     key={item.image}
                     onClick={() => setLightboxIndex(index)}
+                    data-cursor="Inspect"
+                    data-signal
+                    data-signal-color={SIGNAL_COLORS[index % SIGNAL_COLORS.length]}
+                    data-evidence
                     className={cn(
                       'group min-h-11 w-[84vw] max-w-[20rem] shrink-0 snap-start bg-background text-left sm:w-auto sm:max-w-none',
                       !showAllGallery && index >= 8 && 'sm:hidden'
@@ -980,8 +1070,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                     <span className="flex h-48 items-center overflow-hidden bg-white p-2 sm:h-[clamp(11rem,16vw,15rem)]">
                       <img
                         src={item.image}
-                        alt=""
-                        loading={index > 2 ? 'lazy' : undefined}
+                        alt={item.title}
+                        loading="lazy"
+                        decoding="async"
                         className="size-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                       />
                     </span>
@@ -1025,8 +1116,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <Link
               to={`/projects/${nextProject.slug}`}
               unstyled
+              data-signal
+              data-signal-color={getProjectAccent(nextProject.slug).background}
               className="content-shell group grid min-h-[20rem] content-between px-5 py-14 md:min-h-[26rem] md:px-8 md:py-20 lg:px-12">
-              <div className="flex items-center justify-between gap-3 whitespace-nowrap font-mono text-[0.6rem] uppercase tracking-[0.08em] text-background/55 sm:text-xs sm:tracking-[0.12em]">
+              <div className="flex items-center justify-between gap-3 whitespace-nowrap font-mono text-[0.6rem] uppercase tracking-[0.08em] text-background/70 sm:text-xs sm:tracking-[0.12em]">
                 <span className="shrink-0">Next project</span>
                 <span className="min-w-0 text-right leading-none">
                   {nextProjectRank !== undefined && (
@@ -1038,7 +1131,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 </span>
               </div>
               <h2
-                className="project-footer-title break-words font-black leading-[0.82] tracking-[-0.04em]"
+                className="project-footer-title reactive-heading break-words font-black leading-[0.82] tracking-[-0.04em]"
                 data-mobile-title-size={
                   nextProject.title.length <= 6 ? 'short' : nextProject.title.length <= 9 ? 'medium' : 'long'
                 }>
@@ -1088,16 +1181,27 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 You have seen the whole portfolio. Let&apos;s talk about what needs to work next.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => navigate('/#contact')}
-              className="group inline-flex min-h-12 items-center gap-3 self-start border-b border-current text-lg font-bold">
-              Continue to contact
-              <ArrowUpRight
-                className="size-5 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
-                aria-hidden="true"
-              />
-            </button>
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
+              <button
+                type="button"
+                onClick={() => navigate('/#contact')}
+                className="group inline-flex min-h-12 items-center gap-3 border-b border-current text-lg font-bold">
+                Continue to contact
+                <ArrowUpRight
+                  className="size-5 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
+                  aria-hidden="true"
+                />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (journeyRedirectRef.current) window.clearTimeout(journeyRedirectRef.current);
+                  setShowJourneyComplete(false);
+                }}
+                className="min-h-12 text-sm font-semibold text-[#f4f2ed]/60 hover:text-[#f4f2ed] focus-visible:text-[#f4f2ed]">
+                Stay on this case study
+              </button>
+            </div>
           </div>
         </div>
       )}

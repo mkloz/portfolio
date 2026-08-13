@@ -1,53 +1,21 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Check, Copy } from 'lucide-react';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa6';
 
 import { Link } from '@/components/common/link';
+import { projectSummaries } from '@/data/project-summaries';
 import { PersonalService } from '@/services/personal.service';
-import { ProjectService } from '@/services/project.service';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const CLOSING_WORDS = ['Tell', 'me', 'what', 'needs', 'to', 'work.'];
 
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
   const copyTimerRef = useRef<number>();
   const contact = PersonalService.getContactInfo();
   const social = PersonalService.getSocialLinks();
-  const highestPriorityProject = ProjectService.getAllProjects()[0];
+  const highestPriorityProject = projectSummaries[0];
   const currentYear = new Date().getFullYear();
   const [emailName, emailDomain] = contact.email.split('@');
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const heading = headingRef.current;
-    if (!section || !heading || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const context = gsap.context(() => {
-      gsap.fromTo(
-        heading.querySelectorAll('[data-contact-word]'),
-        { autoAlpha: 0.16 },
-        {
-          autoAlpha: 1,
-          stagger: 0.14,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heading,
-            start: 'top 82%',
-            end: 'bottom 38%',
-            scrub: 0.45
-          }
-        }
-      );
-    }, section);
-
-    return () => context.revert();
-  }, []);
 
   useEffect(() => () => window.clearTimeout(copyTimerRef.current), []);
 
@@ -63,10 +31,10 @@ export const Contact = () => {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="bg-background text-foreground">
+    <section id="contact" className="bg-background text-foreground">
       <div className="content-shell px-5 py-20 md:px-8 md:py-32 lg:px-12">
         <div className="grid gap-8 md:gap-12 lg:grid-cols-12 lg:items-end">
-          <h2 ref={headingRef} aria-label="Tell me what needs to work." className="contact-question lg:col-span-9">
+          <h2 aria-label="Tell me what needs to work." className="contact-question reactive-heading lg:col-span-9">
             {CLOSING_WORDS.map((word) => (
               <span key={word} data-contact-word aria-hidden="true" className="mr-[0.18em] inline-block">
                 {word}
@@ -84,14 +52,14 @@ export const Contact = () => {
                 href={social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
+                className="reactive-link inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
                 <FaLinkedin aria-hidden="true" /> LinkedIn
               </a>
               <a
                 href={social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
+                className="reactive-link inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
                 <FaGithub aria-hidden="true" /> GitHub
               </a>
             </div>
@@ -102,6 +70,8 @@ export const Contact = () => {
           <a
             href={`mailto:${contact.email}`}
             data-cursor="Write an email"
+            data-signal
+            data-signal-color="#74f0b3"
             className="group/email flex min-h-16 min-w-0 items-center justify-between gap-5 overflow-hidden py-3 pr-5 sm:min-h-20 sm:py-4 md:min-h-32 md:py-5 md:pr-8">
             <span className="contact-email min-w-0 whitespace-nowrap">
               {emailName}@{emailDomain}
@@ -114,7 +84,12 @@ export const Contact = () => {
           <button
             type="button"
             onClick={copyEmail}
-            className="flex min-h-14 min-w-40 items-center justify-center gap-2 border-t-2 border-current bg-[#ffd400] px-5 font-bold text-[#080808] sm:min-h-16 md:min-h-full md:border-l-2 md:border-t-0"
+            data-magnetic
+            data-signal
+            data-signal-color="#ffd400"
+            data-cursor={copied ? 'Copied' : 'Copy address'}
+            data-state={copied ? 'copied' : 'idle'}
+            className="copy-email-control flex min-h-14 min-w-40 items-center justify-center gap-2 border-t-2 border-current bg-[#ffd400] px-5 font-bold text-[#080808] sm:min-h-16 md:min-h-full md:border-l-2 md:border-t-0"
             aria-live="polite">
             {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
             {copied ? 'Copied' : 'Copy email'}
@@ -128,6 +103,9 @@ export const Contact = () => {
             <Link
               to={`/projects/${highestPriorityProject.slug}`}
               unstyled
+              data-cursor={`View ${highestPriorityProject.title}`}
+              data-signal
+              data-signal-color="#6c4eff"
               className="group relative -mx-5 block overflow-hidden border-b border-background/25 px-5 py-11 md:mx-0 md:px-0 md:py-14">
               <span className="absolute inset-x-0 top-0 flex h-1" aria-hidden="true">
                 <span className="w-1/4 bg-[#ff583d]" />

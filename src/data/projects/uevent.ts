@@ -1,6 +1,5 @@
 import { Bell, Building, CreditCard, MapPin, Search, Smartphone } from 'lucide-react';
 
-import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -129,10 +128,7 @@ export const ueventProject: Project = {
     technologies.prettier,
     {
       name: 'KY',
-      category: 'Frontend',
-      icon: Ky,
-      color: '#FFCCCA',
-      bgColor: 'white'
+      category: 'Frontend'
     },
     technologies.vercel,
     technologies.nginx,

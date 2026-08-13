@@ -1,6 +1,5 @@
 import { Calendar, Grid3X3, Move, RefreshCw, Repeat, UserCheck } from 'lucide-react';
 
-import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -119,20 +118,14 @@ export const chronosProject: Project = {
     technologies.nodejs,
     {
       name: 'KY',
-      category: 'Frontend',
-      icon: Ky,
-      color: '#FFCCCA',
-      bgColor: 'white'
+      category: 'Frontend'
     },
     technologies.jwt,
     technologies.swagger,
     technologies.reactquery,
     {
       name: 'Day.js',
-      category: 'Frontend',
-      icon: Calendar,
-      color: 'black',
-      bgColor: 'white'
+      category: 'Frontend'
     },
     technologies.zod,
     technologies.shadcn

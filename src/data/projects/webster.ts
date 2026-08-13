@@ -1,6 +1,5 @@
 import { Download, FolderOpen, Palette, Zap } from 'lucide-react';
 
-import { Ky } from '../../assets/logos/ky';
 import { technologies } from '../technologies';
 import type { Project } from './index';
 
@@ -112,10 +111,7 @@ export const websterProject: Project = {
     technologies.prettier,
     {
       name: 'KY',
-      category: 'Frontend',
-      icon: Ky,
-      color: '#FFCCCA',
-      bgColor: 'white'
+      category: 'Frontend'
     },
     technologies.git,
     technologies.vercel

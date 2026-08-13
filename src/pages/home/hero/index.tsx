@@ -19,9 +19,15 @@ export const Hero = () => {
         <div className="grid lg:min-h-[calc(clamp(44rem,100svh,58rem)-7.5rem)] lg:grid-cols-12">
           <div className="flex min-w-0 flex-col py-10 lg:col-span-7 lg:border-r lg:border-current/25 lg:py-16 lg:pr-10 xl:pr-14">
             <div className="my-auto">
-              <h1 className="hero-type uppercase">
-                <span className="block">Full-stack</span>
-                <span className="block">
+              <h1
+                aria-label="Full-stack developer."
+                className="hero-type interactive-type uppercase"
+                data-signal
+                data-signal-color="#ff583d">
+                <span aria-hidden="true" className="interactive-type-line block" data-ghost="Full-stack">
+                  Full-stack
+                </span>
+                <span aria-hidden="true" className="interactive-type-line block" data-ghost="Developer.">
                   developer<span className="text-[#ff583d]">.</span>
                 </span>
               </h1>
@@ -34,6 +40,9 @@ export const Hero = () => {
               <button
                 onClick={() => scrollToSection('projects')}
                 data-cursor="See work"
+                data-magnetic
+                data-signal
+                data-signal-color="#ff583d"
                 className="group/work hidden min-h-14 items-center gap-3 text-lg font-bold sm:flex sm:justify-self-end">
                 Selected work
                 <span className="flex size-11 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover/work:rotate-45 group-focus-visible/work:rotate-45 motion-reduce:transition-none">

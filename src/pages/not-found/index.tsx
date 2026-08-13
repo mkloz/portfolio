@@ -2,11 +2,11 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 import { Link } from '@/components/common/link';
-import { ProjectService } from '@/services/project.service';
+import { projectSummaries } from '@/data/project-summaries';
 
 export const NotFound = () => {
   const navigate = useNavigate();
-  const projects = ProjectService.getAllProjects().slice(0, 3);
+  const projects = projectSummaries.slice(0, 3);
 
   return (
     <main className="min-h-svh bg-[#080808] text-white">
