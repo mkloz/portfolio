@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { House } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Link } from '@/components/common/link';
@@ -26,9 +26,9 @@ export const ProjectHeader = () => {
       <Link
         to="/#projects"
         unstyled
-        aria-label="Back to selected work"
-        className="fixed left-5 top-4 z-50 flex size-11 items-center justify-center border border-current/60 bg-background text-foreground transition-colors hover:bg-foreground hover:text-background md:left-8 lg:left-12">
-        <ArrowLeft className="size-5" aria-hidden="true" />
+        aria-label="Back to portfolio"
+        className="fixed left-5 top-4 z-50 flex size-11 items-center justify-center bg-transparent text-white/55 mix-blend-difference transition-opacity duration-200 hover:text-white focus-visible:text-white md:left-8 lg:left-12">
+        <House className="size-[1.125rem]" aria-hidden="true" />
       </Link>
 
       <div className="fixed right-5 top-4 z-50 md:right-8 lg:right-12">

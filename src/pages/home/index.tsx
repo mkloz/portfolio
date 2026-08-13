@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-
+import { useRouteScroll } from '@/hooks/use-route-scroll';
 import { Header } from '@/pages/home/header';
 
 import { Contact } from './contact';
@@ -9,14 +8,7 @@ import { Projects } from './projects';
 import { Skills } from './skills';
 
 export const HomePage = () => {
-  useEffect(() => {
-    const sectionId = window.location.hash.slice(1);
-    if (!sectionId) return;
-
-    window.requestAnimationFrame(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ block: 'start' });
-    });
-  }, []);
+  useRouteScroll('home');
 
   return (
     <>

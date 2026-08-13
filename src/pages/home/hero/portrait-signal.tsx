@@ -123,7 +123,7 @@ export const PortraitSignal = () => {
   };
 
   return (
-    <figure className="isolate mx-auto w-full max-w-[42rem] lg:mx-0">
+    <figure className="mobile-portrait-signal isolate mx-auto w-full max-w-[42rem] lg:mx-0">
       <div className="grid grid-cols-[minmax(0,1fr)_3.5rem] border-y-2 border-current">
         <button
           type="button"

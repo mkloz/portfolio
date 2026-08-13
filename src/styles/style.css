@@ -184,6 +184,10 @@
     line-height: 0.82;
   }
 
+  .project-footer-title {
+    font-size: clamp(3.25rem, 6vw, 6rem);
+  }
+
   .email-rail {
     font-size: clamp(2.35rem, 4.5vw, 5rem);
     font-weight: 800;
@@ -229,6 +233,97 @@
   .meta-type {
     font-size: var(--text-meta);
     line-height: 1.4;
+  }
+
+  .mobile-scroll-strip {
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1.25rem;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-scroll-strip::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 47.999rem) {
+  :root {
+    --text-body: 1rem;
+    --text-meta: 0.75rem;
+  }
+
+  .hero-type {
+    font-size: clamp(2.9rem, 14.5vw, 3.75rem);
+    line-height: 0.88;
+  }
+
+  .section-type {
+    font-size: clamp(2.5rem, 11vw, 3.25rem);
+    line-height: 0.92;
+  }
+
+  .project-hero-type {
+    font-size: clamp(2.75rem, 13vw, 3.5rem);
+    line-height: 0.86;
+  }
+
+  .project-hero-type[data-mobile-title-size='short'] {
+    font-size: clamp(4.5rem, 23vw, 5.75rem);
+  }
+
+  .project-hero-type[data-mobile-title-size='medium'] {
+    font-size: clamp(3.75rem, 19vw, 4.75rem);
+  }
+
+  .case-study-primary-type,
+  .case-study-supporting-type {
+    font-size: clamp(2.35rem, 10.5vw, 3rem);
+    line-height: 0.9;
+  }
+
+  .contact-question {
+    font-size: clamp(2.8rem, 12vw, 3.75rem);
+    line-height: 0.88;
+  }
+
+  .contact-email {
+    font-size: clamp(1.45rem, 7.3vw, 2.6rem);
+    line-height: 0.9;
+  }
+
+  .footer-project-title {
+    font-size: clamp(2.6rem, 12.5vw, 3.5rem);
+  }
+
+  .project-footer-title {
+    font-size: clamp(3.25rem, 15vw, 4.25rem);
+  }
+
+  .project-footer-title[data-mobile-title-size='short'] {
+    font-size: clamp(4.25rem, 21vw, 5.5rem);
+  }
+
+  .project-footer-title[data-mobile-title-size='medium'] {
+    font-size: clamp(3.75rem, 18vw, 4.75rem);
+  }
+
+  .mobile-portrait-signal {
+    max-width: 22rem;
+  }
+
+  .signal-rail {
+    letter-spacing: 0.08em;
+  }
+
+  .signal-rail > span {
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+
+  .signal-rail > span > span {
+    gap: 1rem;
   }
 }
 

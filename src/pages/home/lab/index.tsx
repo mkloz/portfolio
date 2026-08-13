@@ -88,7 +88,7 @@ export const Lab = () => (
       </div>
     </div>
 
-    <div className="content-shell px-5 py-20 md:px-8 md:py-24 lg:px-12 lg:py-28">
+    <div className="content-shell px-5 py-16 md:px-8 md:py-24 lg:px-12 lg:py-28">
       <div className="grid gap-8 border-t border-background/25 pt-5 lg:grid-cols-12 lg:items-end">
         <h2 className="max-w-[10ch] text-[clamp(3.25rem,5vw,6rem)] font-black leading-[0.88] tracking-[-0.04em] lg:col-span-7">
           One product. Every layer.
@@ -103,11 +103,14 @@ export const Lab = () => (
         </div>
       </div>
 
-      <ol className="relative mt-14 grid border-y border-background/30 md:grid-cols-2 lg:grid-cols-4">
+      <p className="mt-8 flex items-center justify-end gap-2 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-background/60 md:hidden">
+        Swipe through layers <span aria-hidden="true">→</span>
+      </p>
+      <ol className="mobile-scroll-strip relative -mx-5 mt-3 flex snap-x snap-mandatory overflow-x-auto border-y border-background/30 px-5 md:mx-0 md:mt-10 md:grid md:grid-cols-2 md:overflow-visible md:px-0 lg:grid-cols-4">
         {OWNERSHIP_LAYERS.map((layer, index) => (
           <li
             key={layer.label}
-            className="relative grid min-h-64 content-between gap-8 border-b border-background/25 py-7 last:border-b-0 md:min-h-[20rem] md:border-r md:px-7 md:[&:nth-child(2n)]:border-r-0 md:[&:nth-last-child(-n+2)]:border-b-0 lg:min-h-[21rem] lg:border-b-0 lg:border-r lg:[&:nth-child(2n)]:border-r lg:last:border-r-0 lg:first:pl-0 lg:last:pr-0">
+            className="relative grid min-h-[19rem] w-[82vw] max-w-[20rem] shrink-0 snap-start content-between gap-7 border-r border-background/25 px-5 py-7 last:border-r-0 md:min-h-[20rem] md:w-auto md:max-w-none md:border-b md:px-7 md:[&:nth-child(2n)]:border-r-0 md:[&:nth-last-child(-n+2)]:border-b-0 lg:min-h-[21rem] lg:border-b-0 lg:border-r lg:[&:nth-child(2n)]:border-r lg:last:border-r-0 lg:first:pl-0 lg:last:pr-0">
             <div>
               <div className="flex items-center gap-4">
                 <span
@@ -119,7 +122,7 @@ export const Lab = () => (
                   {layer.label}
                 </span>
               </div>
-              <h3 className="mt-8 max-w-[12ch] text-3xl font-black leading-[0.98] tracking-[-0.03em] md:text-4xl">
+              <h3 className="mt-7 max-w-[12ch] text-3xl font-black leading-[0.98] tracking-[-0.03em] md:text-4xl">
                 {layer.action}
               </h3>
               <p className="mt-5 max-w-xs text-base leading-relaxed text-background/68">{layer.responsibility}</p>
@@ -132,8 +135,8 @@ export const Lab = () => (
         ))}
       </ol>
 
-      <div className="grid gap-6 border-b border-background/30 py-7 md:grid-cols-[1fr_auto] md:items-center">
-        <p className="max-w-3xl text-2xl font-black leading-tight tracking-[-0.025em] md:text-3xl">
+      <div className="grid gap-5 border-b border-background/30 py-6 md:grid-cols-[1fr_auto] md:items-center md:py-7">
+        <p className="max-w-3xl text-xl font-black leading-tight tracking-[-0.025em] md:text-3xl">
           One continuous responsibility—from the first decision to the live service.
         </p>
         <Link

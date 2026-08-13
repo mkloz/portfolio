@@ -2,8 +2,6 @@ import { MoonIcon, SunIcon } from 'lucide-react';
 
 import { Theme, useTheme } from '@/hooks/theme.store';
 
-import { cn } from '../../lib/utils';
-import { buttonVariants } from '../ui/button';
 import { Toggle } from '../ui/toggle';
 
 export const ThemeToggle = () => {
@@ -14,16 +12,13 @@ export const ThemeToggle = () => {
       <Toggle
         aria-label="Toggle dark mode"
         pressed={isDark}
-        variant={'outline'}
+        variant={'default'}
         size={'default'}
         onPressedChange={(value) => {
           setTheme(value ? Theme.DARK : Theme.LIGHT);
         }}
-        className={cn(
-          buttonVariants({ variant: 'outline', size: 'icon' }),
-          'relative p-0! data-[state=on]:bg-transparent data-[state=on]:hover:bg-accent shadow-none border'
-        )}>
-        {isDark ? <MoonIcon /> : <SunIcon />}
+        className="relative min-h-11 min-w-11 rounded-full p-0! text-foreground/50 transition-[color,background-color] duration-200 hover:bg-foreground/8 hover:text-foreground data-[state=on]:bg-transparent data-[state=on]:text-foreground/50 data-[state=on]:hover:bg-foreground/8 data-[state=on]:hover:text-foreground">
+        {isDark ? <MoonIcon className="size-[1.125rem]" /> : <SunIcon className="size-[1.125rem]" />}
       </Toggle>
     </div>
   );

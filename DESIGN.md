@@ -20,14 +20,26 @@ typography:
     contactEmailMin: '2.1rem'
     emailRailMin: '2.35rem'
     heroMin: '3.2rem'
+    mobileHeroMin: '2.9rem'
+    mobileHeroMax: '3.75rem'
     displayMin: '3.65rem'
     utilityDisplayMin: '3.5rem'
     utilityDisplayMax: '6rem'
+    mobileFooterProjectMin: '3.5rem'
+    mobileFooterProjectMax: '4.75rem'
+    mobileFooterActionMin: '2.6rem'
+    mobileFooterActionMax: '3.5rem'
+    mobileProjectFooterMin: '3.25rem'
+    mobileProjectFooterMax: '5.5rem'
     utilityHeroMin: '3.2rem'
     utilityHeroMax: '7.5rem'
     utilitySectionMin: '3.25rem'
     projectHeroMin: '3.5rem'
     projectHeroMax: '5.25rem'
+    mobileProjectHeroShortMin: '4.5rem'
+    mobileProjectHeroShortMax: '5.75rem'
+    mobileProjectHeroMediumMin: '3.75rem'
+    mobileProjectHeroMediumMax: '4.75rem'
     caseStudyPrimaryMin: '2.75rem'
     caseStudyPrimaryMax: '4.5rem'
     caseStudySupportingMin: '2.5rem'
@@ -196,7 +208,7 @@ The canvas tops out at 1600px. Outer padding is 20px on mobile, 32px on tablet, 
 
 Desktop composition uses a 12-column editorial grid. Featured projects expand inside a horizontal accordion, leaving the inactive project names visible as vertical tabs. Case-study logs use a four-column sticky summary and eight-column record. Borders, rather than card gaps, establish grouping.
 
-Mobile turns split instruments into a clear sequence. Project panels stack vertically, case-study media becomes full width, and all targets remain at least 44px.
+Mobile uses a related but purpose-built composition rather than stacked desktop instruments. Selected work becomes a horizontal project index with one focused evidence panel; ownership layers and galleries become touch-first snap sequences; stack categories and demo devices become horizontal control strips above their content. Case-study media leads its controls, dense metadata is progressively reduced, and all targets remain at least 44px. The reading order stays role → work → capability → system → contact on the homepage and premise → scope → working proof → decisions → system → evidence on case studies.
 
 ## Elevation & Depth
 

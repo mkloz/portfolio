@@ -5,6 +5,8 @@ import type { ElementType } from 'react';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 import { HashLink } from 'react-router-hash-link';
 
+import { preloadPortfolioRoute } from '@/lib/route-preload';
+
 import { cn } from '../../lib/utils';
 import { buttonVariants } from '../ui/button';
 
@@ -60,13 +62,22 @@ export const Link = ({ onClick, withArrowRight, withArrowLeft, unstyled = false,
   }
 
   // Handle internal links
+  const preloadRoute = () => void preloadPortfolioRoute(to);
+
   return (
     <HashLink
       {...props}
       to={to}
+      onFocus={(event) => {
+        props.onFocus?.(event);
+        preloadRoute();
+      }}
+      onPointerEnter={(event) => {
+        props.onPointerEnter?.(event);
+        preloadRoute();
+      }}
       onClick={(e) => {
         onClick?.(e);
-        if (to !== window.location.pathname && !to.toString().includes('#')) window.scrollTo(0, 0);
       }}
       className={cn(
         !unstyled && buttonVariants({ variant: 'link' }),

@@ -64,8 +64,8 @@ export const Contact = () => {
 
   return (
     <section ref={sectionRef} id="contact" className="bg-background text-foreground">
-      <div className="content-shell px-5 py-24 md:px-8 md:py-32 lg:px-12">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+      <div className="content-shell px-5 py-20 md:px-8 md:py-32 lg:px-12">
+        <div className="grid gap-8 md:gap-12 lg:grid-cols-12 lg:items-end">
           <h2 ref={headingRef} aria-label="Tell me what needs to work." className="contact-question lg:col-span-9">
             {CLOSING_WORDS.map((word) => (
               <span key={word} data-contact-word aria-hidden="true" className="mr-[0.18em] inline-block">
@@ -79,33 +79,32 @@ export const Contact = () => {
               Based in Manchester. Send the problem, not a polished brief. A job description, rough project outline, or
               technical question is enough.
             </p>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold">
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold md:mt-8">
               <a
                 href={social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 border-b border-current">
+                className="inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
                 <FaLinkedin aria-hidden="true" /> LinkedIn
               </a>
               <a
                 href={social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-2 border-b border-current">
+                className="inline-flex min-h-11 items-center gap-2 text-foreground/80 transition-colors hover:text-foreground focus-visible:text-foreground">
                 <FaGithub aria-hidden="true" /> GitHub
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-20 grid border-y-2 border-current md:grid-cols-[1fr_auto]">
+        <div className="mt-9 grid border-y-2 border-current md:mt-20 md:grid-cols-[1fr_auto]">
           <a
             href={`mailto:${contact.email}`}
             data-cursor="Write an email"
-            className="group/email flex min-h-24 min-w-0 items-center justify-between gap-5 overflow-hidden py-5 pr-5 md:min-h-32 md:pr-8">
-            <span className="contact-email flex min-w-0 flex-wrap">
-              <span>{emailName}@</span>
-              <span>{emailDomain}</span>
+            className="group/email flex min-h-16 min-w-0 items-center justify-between gap-5 overflow-hidden py-3 pr-5 sm:min-h-20 sm:py-4 md:min-h-32 md:py-5 md:pr-8">
+            <span className="contact-email min-w-0 whitespace-nowrap">
+              {emailName}@{emailDomain}
             </span>
             <ArrowUpRight
               className="hidden size-10 shrink-0 transition-transform duration-300 group-hover/email:rotate-45 group-focus-visible/email:rotate-45 sm:block"
@@ -115,7 +114,7 @@ export const Contact = () => {
           <button
             type="button"
             onClick={copyEmail}
-            className="flex min-h-16 min-w-40 items-center justify-center gap-2 border-t-2 border-current bg-[#ffd400] px-5 font-bold text-[#080808] md:min-h-full md:border-l-2 md:border-t-0"
+            className="flex min-h-14 min-w-40 items-center justify-center gap-2 border-t-2 border-current bg-[#ffd400] px-5 font-bold text-[#080808] sm:min-h-16 md:min-h-full md:border-l-2 md:border-t-0"
             aria-live="polite">
             {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
             {copied ? 'Copied' : 'Copy email'}
@@ -129,7 +128,7 @@ export const Contact = () => {
             <Link
               to={`/projects/${highestPriorityProject.slug}`}
               unstyled
-              className="group relative block overflow-hidden border-b border-background/25 py-11 md:py-14">
+              className="group relative -mx-5 block overflow-hidden border-b border-background/25 px-5 py-11 md:mx-0 md:px-0 md:py-14">
               <span className="absolute inset-x-0 top-0 flex h-1" aria-hidden="true">
                 <span className="w-1/4 bg-[#ff583d]" />
                 <span className="w-1/4 bg-[#ffd400]" />
@@ -137,18 +136,18 @@ export const Contact = () => {
                 <span className="w-1/4 bg-[#74f0b3]" />
               </span>
 
-              <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs font-semibold uppercase tracking-[0.1em]">
-                <span>Next case study</span>
+              <div className="mb-8 flex items-center gap-2 whitespace-nowrap font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] sm:gap-4 sm:text-xs sm:tracking-[0.1em]">
+                <span className="shrink-0">Next case study</span>
                 <span className="text-background/45" aria-hidden="true">
                   /
                 </span>
-                <span className="text-background/60">
+                <span className="min-w-0 text-background/60">
                   {highestPriorityProject.title} · {highestPriorityProject.category} · {highestPriorityProject.year}
                 </span>
               </div>
 
               <span className="flex items-end justify-between gap-6">
-                <span className="footer-project-title transition-transform duration-300 ease-out group-hover:translate-x-2 group-focus-visible:translate-x-2 motion-reduce:transition-none">
+                <span className="footer-project-title whitespace-nowrap transition-transform duration-300 ease-out group-hover:translate-x-2 group-focus-visible:translate-x-2 motion-reduce:transition-none">
                   View project.
                 </span>
                 <ArrowUpRight
@@ -159,8 +158,8 @@ export const Contact = () => {
             </Link>
           )}
 
-          <div className="grid border-b border-background/25 md:grid-cols-[1fr_auto] md:items-stretch">
-            <div className="flex min-h-16 items-center py-5 md:min-h-20 md:pr-10">
+          <div className="grid md:grid-cols-[1fr_auto] md:items-stretch md:border-b md:border-background/25">
+            <div className="hidden min-h-16 items-center py-5 md:flex md:min-h-20 md:pr-10">
               <span className="font-mono text-xs font-semibold uppercase leading-relaxed tracking-[0.08em] text-background/55">
                 Questions first. Tools second.
               </span>
@@ -168,7 +167,7 @@ export const Contact = () => {
 
             <a
               href="#hero"
-              className="group flex min-h-16 items-center justify-between gap-10 border-t border-background/25 py-5 font-bold md:min-w-52 md:border-l md:border-t-0 md:px-7">
+              className="group flex min-h-16 items-center justify-between gap-10 border-b border-background/25 py-5 font-bold md:min-w-52 md:border-b-0 md:border-l md:px-7">
               Back to top
               <ArrowUpRight
                 className="size-5 transition-transform duration-200 group-hover:-translate-y-1 group-focus-visible:-translate-y-1 motion-reduce:transition-none"
@@ -177,7 +176,7 @@ export const Contact = () => {
             </a>
           </div>
 
-          <div className="flex flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/55 sm:flex-row sm:items-center sm:justify-between">
+          <div className="hidden flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/55 sm:flex sm:flex-row sm:items-center sm:justify-between">
             <p>© {currentYear}</p>
             <p>Made with care. Tested in code.</p>
           </div>

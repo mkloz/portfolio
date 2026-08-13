@@ -21,7 +21,10 @@ export const Header = () => {
 
   return (
     <>
-      <div className="fixed right-5 top-4 z-50 md:right-8 lg:right-12">
+      <div
+        className={`fixed right-5 z-50 transition-[top] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none md:right-8 md:top-4 lg:right-12 ${
+          progress > 0.005 ? 'top-4' : 'top-[4.375rem]'
+        }`}>
         <ThemeToggle />
       </div>
 
