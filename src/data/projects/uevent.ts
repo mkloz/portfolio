@@ -180,7 +180,7 @@ export const ueventProject: Project = {
       {
         id: 'database',
         title: 'Database & Payment Integration',
-        duration: '1 weeks',
+        duration: '1 week',
         technologies: ['PostgreSQL', 'Prisma', 'Stripe', 'AWS S3', 'Linux'],
         decisions: [
           {

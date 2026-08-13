@@ -36,7 +36,7 @@ export const Projects = () => {
 
   return (
     <section id="projects" className="border-b border-current/25 py-28 md:py-40">
-      <div className="mx-auto max-w-[100rem] px-5 md:px-8 lg:px-12">
+      <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="mb-14 grid gap-8 lg:grid-cols-12 lg:items-end">
           <h2 className="section-type lg:col-span-8">Selected work.</h2>
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground lg:col-span-4">
@@ -45,7 +45,7 @@ export const Projects = () => {
           </p>
         </div>
 
-        <div className="flex flex-col overflow-hidden border-2 border-current lg:h-[46rem] lg:flex-row">
+        <div className="flex flex-col overflow-hidden border-2 border-current lg:h-[42rem] lg:flex-row">
           {projects.map((project, index) => {
             const active = activeIndex === index;
             const accent = getProjectAccent(project.slug);
@@ -96,14 +96,14 @@ export const Projects = () => {
                   <div className="flex h-full min-w-0 flex-1 flex-col p-5 md:p-8">
                     <div className="flex items-start justify-between gap-6">
                       <div>
-                        <p className="font-mono text-xs font-semibold uppercase tracking-[0.13em]">
+                        <p className="meta-type font-mono font-semibold uppercase tracking-[0.1em]">
                           {project.category} · {project.year}
                         </p>
                         <h3 className="mt-3 text-5xl font-black leading-none tracking-[-0.06em] md:text-7xl">
                           {project.title}
                         </h3>
                       </div>
-                      <span className="hidden font-mono text-xs md:block">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="meta-type hidden font-mono md:block">{String(index + 1).padStart(2, '0')}</span>
                     </div>
 
                     <div className="mt-6 grid flex-1 gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">

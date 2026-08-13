@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://portfolio.mkloz.com">🌐 Website</a> |
   <a href="https://github.com/mkloz/portfolio">💻 Source Code</a> |
-  <a href="mailto:micha21cloz@gmail.com">📧 Contact</a>
+  <a href="mailto:mykhailo.kloz@gmail.com">📧 Contact</a>
 </p>
 <p align="center">
     <em>Showcasing creativity through code - A comprehensive portfolio website built with modern web technologies</em>

@@ -64,7 +64,7 @@ export const ME: PersonalInfo = {
   },
 
   contact: {
-    email: 'micha21cloz@gmail.com',
+    email: 'mykhailo.kloz@gmail.com',
     phone: '+44 7388232276',
     whatsapp: '+380994577468'
   },

@@ -31,6 +31,9 @@
   --violet: #6c4eff;
   --radius: 0.25rem;
   --header-height: 4.5rem;
+  --content-width: 90rem;
+  --text-body: clamp(1.0625rem, 0.2vw + 1rem, 1.1875rem);
+  --text-meta: 0.875rem;
 }
 
 .dark {
@@ -95,6 +98,7 @@
 
   body {
     @apply overflow-x-clip bg-background text-foreground antialiased;
+    font-size: var(--text-body);
   }
 
   ::selection {
@@ -109,36 +113,36 @@
 
 @layer utilities {
   .display-type {
-    font-size: clamp(3.65rem, 12vw, 11rem);
+    font-size: clamp(3.5rem, 8vw, 6rem);
     font-weight: 800;
-    letter-spacing: -0.065em;
-    line-height: 0.82;
+    letter-spacing: -0.04em;
+    line-height: 0.86;
   }
 
   .hero-type {
-    font-size: clamp(3.2rem, 8.7vw, 9.5rem);
+    font-size: clamp(3.2rem, 7vw, 7.5rem);
     font-weight: 800;
-    letter-spacing: -0.06em;
-    line-height: 0.82;
+    letter-spacing: -0.04em;
+    line-height: 0.86;
   }
 
   .section-type {
-    font-size: clamp(3.5rem, 8vw, 8rem);
+    font-size: clamp(3.25rem, 5vw, 6rem);
     font-weight: 800;
-    letter-spacing: -0.055em;
-    line-height: 0.88;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
   }
 
   .contact-type {
-    font-size: clamp(4rem, 11vw, 11rem);
+    font-size: clamp(3.75rem, 7vw, 7.5rem);
     font-weight: 800;
-    letter-spacing: -0.055em;
-    line-height: 0.79;
+    letter-spacing: -0.04em;
+    line-height: 0.84;
   }
 
   .contact-question {
     max-width: 11ch;
-    font-size: clamp(4rem, 10vw, 10rem);
+    font-size: clamp(3.75rem, 6vw, 7rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 0.82;
@@ -146,14 +150,14 @@
   }
 
   .contact-email {
-    font-size: clamp(2.1rem, 6.15vw, 6.5rem);
+    font-size: clamp(2.1rem, 4.5vw, 5rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 0.88;
   }
 
   .email-rail {
-    font-size: clamp(2.35rem, 6vw, 6.5rem);
+    font-size: clamp(2.35rem, 4.5vw, 5rem);
     font-weight: 800;
     letter-spacing: -0.05em;
     line-height: 0.95;
@@ -173,6 +177,31 @@
   .pointer-label {
     will-change: transform, opacity;
   }
+
+  .signal-rail {
+    animation: signal-rail-flow 42s linear infinite;
+    will-change: transform;
+  }
+
+  .signal-rail-reverse {
+    animation-direction: reverse;
+  }
+
+  .content-shell {
+    width: min(100%, var(--content-width));
+    margin-inline: auto;
+  }
+
+  .meta-type {
+    font-size: var(--text-meta);
+    line-height: 1.4;
+  }
+}
+
+@keyframes signal-rail-flow {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -187,5 +216,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0s !important;
     scroll-behavior: auto !important;
+  }
+
+  .signal-rail {
+    animation: none !important;
+    transform: none;
   }
 }

@@ -1,27 +1,46 @@
 import { ArrowUpRight } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-import { getAllTechnologies } from '@/data/technologies';
 import { cn } from '@/lib/utils';
 import { ProjectService } from '@/services/project.service';
 
 const CATEGORIES = [
-  { name: 'Frontend', color: '#ffd400', foreground: '#080808' },
-  { name: 'Backend', color: '#465bff', foreground: '#ffffff' },
-  { name: 'Database', color: '#74f0b3', foreground: '#080808' },
-  { name: 'DevOps', color: '#ff583d', foreground: '#080808' },
-  { name: 'Tools', color: '#6c4eff', foreground: '#ffffff' }
+  {
+    name: 'Frontend',
+    color: '#ffd400',
+    image: '/editorial/system-frontend-integrated.jpg',
+    technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Next.js', 'Zustand']
+  },
+  {
+    name: 'Backend',
+    color: '#465bff',
+    image: '/editorial/system-backend.jpg',
+    technologies: ['Node.js', 'NestJS', 'Prisma', 'Express', 'JWT', 'Socket.IO']
+  },
+  {
+    name: 'Database',
+    color: '#74f0b3',
+    image: '/editorial/system-database.jpg',
+    technologies: ['PostgreSQL', 'Redis', 'MongoDB', 'MySQL']
+  },
+  {
+    name: 'DevOps',
+    color: '#ff583d',
+    image: '/editorial/system-devops.jpg',
+    technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Vercel', 'Linux']
+  },
+  {
+    name: 'Tools',
+    color: '#6c4eff',
+    image: '/editorial/system-tools.jpg',
+    technologies: ['Git', 'ESLint', 'Prettier', 'Jest', 'Swagger']
+  }
 ] as const;
 
 export const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]['name']>('Frontend');
-  const technologies = getAllTechnologies();
   const projects = ProjectService.getAllProjects();
   const active = CATEGORIES.find((category) => category.name === activeCategory) ?? CATEGORIES[0];
-  const activeTechnologies = useMemo(
-    () => technologies.filter((technology) => technology.category === activeCategory),
-    [activeCategory, technologies]
-  );
   const evidenceProjects = useMemo(
     () =>
       projects.filter((project) =>
@@ -32,7 +51,7 @@ export const Skills = () => {
 
   return (
     <section id="skills" className="border-b border-current/25 py-28 md:py-40">
-      <div className="mx-auto max-w-[100rem] px-5 md:px-8 lg:px-12">
+      <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="grid gap-10 border-t-2 border-current pt-5 lg:grid-cols-12">
           <h2 className="section-type lg:col-span-8">Working system.</h2>
           <p className="max-w-xl self-end text-lg leading-relaxed text-muted-foreground lg:col-span-4">
@@ -73,49 +92,50 @@ export const Skills = () => {
             id="technology-list"
             role="tabpanel"
             className="grid min-h-[36rem] lg:col-span-8 lg:grid-rows-[1fr_auto]">
-            <div className="relative min-h-72 overflow-hidden bg-[#080808] text-white">
+            <div className="relative min-h-[28rem] overflow-hidden bg-[#080808] text-white md:min-h-[36rem]">
               <img
-                src="/editorial/interface-workshop.webp"
-                alt="Editorial interface assembly with drafting tools and paper components"
-                className="absolute inset-0 size-full object-cover opacity-30 grayscale"
+                key={active.image}
+                src={active.image}
+                alt={`${active.name} engineering workbench with technology marks integrated into the scene`}
+                className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
               />
-              <div className="absolute inset-0 bg-[#080808]/35" aria-hidden="true" />
-              <div className="relative grid gap-10 p-6 md:grid-cols-[0.75fr_1.25fr] md:p-10">
-                <div>
-                  <span className="mb-6 block h-2 w-20" style={{ backgroundColor: active.color }} aria-hidden="true" />
-                  <h3 className="text-5xl font-black tracking-[-0.05em] md:text-7xl">{active.name}</h3>
-                  <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/65">
-                    Used in {evidenceProjects.length} {evidenceProjects.length === 1 ? 'project' : 'projects'} shown
-                    here.
-                  </p>
-                </div>
-                <ul className="grid grid-cols-2 content-start gap-x-7 gap-y-3 text-xl font-bold tracking-[-0.02em] sm:grid-cols-3 md:text-2xl">
-                  {activeTechnologies.map((technology) => (
-                    <li key={technology.name} className="border-b border-white/25 pb-2">
-                      {technology.name}
+              <div className="relative flex min-h-[28rem] max-w-[72%] flex-col justify-end p-6 sm:max-w-[58%] md:min-h-[36rem] md:max-w-[52%] md:p-10">
+                <span className="mb-5 block h-2 w-20" style={{ backgroundColor: active.color }} aria-hidden="true" />
+                <h3 className="text-5xl font-black tracking-[-0.05em] md:text-7xl">{active.name}</h3>
+                <p className="mt-4 max-w-56 text-sm leading-relaxed text-white/70">
+                  Proven across {evidenceProjects.length} {evidenceProjects.length === 1 ? 'project' : 'projects'}{' '}
+                  below.
+                </p>
+                <ul className="mt-7 flex max-w-md flex-wrap gap-x-5 gap-y-2" aria-label={`${active.name} technologies`}>
+                  {active.technologies.map((technology) => (
+                    <li key={technology} className="flex items-center gap-2 text-sm font-bold text-white md:text-base">
+                      <span
+                        className="size-1.5 shrink-0"
+                        style={{ backgroundColor: active.color }}
+                        aria-hidden="true"
+                      />
+                      {technology}
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3">
-              {evidenceProjects.map((project) => (
-                <a
-                  key={project.slug}
-                  href={`/projects/${project.slug}`}
-                  className="group min-h-16 border-r border-t border-current/25 px-4 py-4 font-semibold">
-                  <span className="font-mono text-[0.61rem] uppercase tracking-[0.1em] text-muted-foreground">
-                    Evidence
-                  </span>
-                  <span className="mt-1 flex items-center justify-between text-lg">
+            <div className="flex min-h-14 flex-wrap items-center gap-x-5 gap-y-1 border-t border-current/25 px-4 py-2">
+              <span className="meta-type font-mono uppercase tracking-[0.08em] text-muted-foreground">Evidence</span>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+                {evidenceProjects.map((project) => (
+                  <a
+                    key={project.slug}
+                    href={`/projects/${project.slug}`}
+                    className="group flex min-h-10 items-center gap-1.5 font-semibold">
                     {project.title}
                     <ArrowUpRight
-                      className="size-4 transition-transform duration-200 group-hover:rotate-45"
+                      className="size-3.5 transition-transform duration-200 group-hover:rotate-45"
                       aria-hidden="true"
                     />
-                  </span>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -109,7 +109,12 @@ export interface Project {
   demo?: Demo[];
 }
 
-// Export all projects - Portfolio first as it's the current project
+/**
+ * Recruiter-facing project priority, strongest evidence first.
+ *
+ * Keep this order deliberate: it controls the selected-work sequence and the
+ * next-case-study path in project footers.
+ */
 export const projects: Project[] = [
   ueventProject,
   websterProject,

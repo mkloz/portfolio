@@ -10,7 +10,7 @@ const About = () => {
 
   return (
     <section id="about" className="border-b border-white/25 bg-[#080808] py-28 text-[#f4f2ed] md:py-40">
-      <div className="mx-auto max-w-[100rem] px-5 md:px-8 lg:px-12">
+      <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-12">
           <h2 className="section-type max-w-[9ch] lg:col-span-8">The route here.</h2>
           <div className="self-end border-t border-white/25 pt-6 lg:col-span-4">
@@ -18,7 +18,7 @@ const About = () => {
               Frontend care, backend depth, and one connected view of the product.
             </p>
             <a
-              href="mailto:micha21cloz@gmail.com"
+              href="mailto:mykhailo.kloz@gmail.com"
               className="mt-6 inline-flex min-h-11 items-center gap-2 border-b border-current font-semibold">
               Start a conversation <ArrowUpRight className="size-4" aria-hidden="true" />
             </a>
@@ -38,7 +38,7 @@ const About = () => {
                 I work across the browser, API, database, and deployment layers, so decisions remain connected.
               </p>
               <div>
-                <p className="font-mono text-[0.66rem] uppercase tracking-[0.13em] text-white/55">Current base</p>
+                <p className="meta-type font-mono uppercase tracking-[0.08em] text-white/65">Current base</p>
                 <p className="mt-2 text-4xl font-black tracking-[-0.04em]">Manchester, UK</p>
                 <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/68">
                   Originally from Ukraine. I relocated to the UK in 2022 and continued studying Software Development at
@@ -69,9 +69,7 @@ const About = () => {
                     'relative min-h-28 border-b border-r border-white/25 p-4 text-left md:min-h-36',
                     activeIndex === index ? 'bg-[#f4f2ed] text-[#080808]' : 'text-[#f4f2ed]'
                   )}>
-                  <span className="block font-mono text-[0.62rem] uppercase tracking-[0.1em] opacity-55">
-                    {item.year}
-                  </span>
+                  <span className="meta-type block font-mono uppercase tracking-[0.08em] opacity-65">{item.year}</span>
                   <span className="mt-3 block font-bold leading-tight">{item.title}</span>
                   <span
                     className="absolute inset-x-4 bottom-0 h-1 origin-left bg-[#ffd400] transition-transform duration-200"

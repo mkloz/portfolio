@@ -35,6 +35,26 @@ export class ProjectService {
   }
 
   /**
+   * Get a project's one-based rank in the portfolio priority order.
+   */
+  static getPriorityRank(slug: string): number | undefined {
+    const projectIndex = projects.findIndex((project) => project.slug === slug);
+    return projectIndex < 0 ? undefined : projectIndex + 1;
+  }
+
+  /**
+   * Continue through the portfolio in priority order, wrapping the final
+   * project back to the highest-priority case study.
+   */
+  static getNextPriorityProject(currentSlug: string): Project | undefined {
+    if (projects.length === 0) return undefined;
+
+    const currentIndex = projects.findIndex((project) => project.slug === currentSlug);
+    const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % projects.length;
+    return projects[nextIndex];
+  }
+
+  /**
    * Get featured projects
    * @returns Array of featured projects
    */
