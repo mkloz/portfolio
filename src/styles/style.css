@@ -133,6 +133,27 @@
     line-height: 0.9;
   }
 
+  .project-hero-type {
+    font-size: clamp(3.5rem, 6vw, 5.25rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.82;
+  }
+
+  .case-study-primary-type {
+    font-size: clamp(2.75rem, 4.5vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.88;
+  }
+
+  .case-study-supporting-type {
+    font-size: clamp(2.5rem, 3.5vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.9;
+  }
+
   .contact-type {
     font-size: clamp(3.75rem, 7vw, 7.5rem);
     font-weight: 800;
@@ -154,6 +175,13 @@
     font-weight: 800;
     letter-spacing: -0.04em;
     line-height: 0.88;
+  }
+
+  .footer-project-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.82;
   }
 
   .email-rail {
@@ -187,6 +215,12 @@
     animation-direction: reverse;
   }
 
+  .signal-rail-wrap:hover .signal-rail,
+  .signal-rail-wrap:focus-visible .signal-rail,
+  .signal-rail-wrap:focus-within .signal-rail {
+    animation-play-state: paused;
+  }
+
   .content-shell {
     width: min(100%, var(--content-width));
     margin-inline: auto;
@@ -202,6 +236,47 @@
   to {
     transform: translateX(-50%);
   }
+}
+
+@keyframes project-journey-complete-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes project-journey-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes project-journey-signal-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.project-journey-complete {
+  animation: project-journey-complete-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.project-journey-message {
+  animation: project-journey-message-in 650ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
+.project-journey-signal {
+  animation: project-journey-signal-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

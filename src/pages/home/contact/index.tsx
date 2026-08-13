@@ -125,50 +125,59 @@ export const Contact = () => {
 
       <footer className="border-t-2 border-current bg-foreground px-5 text-background md:px-8 lg:px-12">
         <div className="content-shell">
-          <div className="grid border-b border-background/25 md:grid-cols-[minmax(17rem,0.75fr)_minmax(24rem,1.25fr)_12rem]">
-            <div className="flex min-h-36 items-center justify-between gap-8 py-7 md:min-h-48 md:pr-10">
-              <span className="text-[clamp(4.5rem,9vw,8.5rem)] font-black leading-none tracking-[-0.04em]">
-                MK<span className="text-[#ff583d]">/</span>
+          {highestPriorityProject && (
+            <Link
+              to={`/projects/${highestPriorityProject.slug}`}
+              unstyled
+              className="group relative block overflow-hidden border-b border-background/25 py-11 md:py-14">
+              <span className="absolute inset-x-0 top-0 flex h-1" aria-hidden="true">
+                <span className="w-1/4 bg-[#ff583d]" />
+                <span className="w-1/4 bg-[#ffd400]" />
+                <span className="w-1/4 bg-[#4f5dff]" />
+                <span className="w-1/4 bg-[#74f0b3]" />
               </span>
-              <span className="hidden max-w-44 text-right font-mono text-xs font-semibold uppercase leading-relaxed tracking-[0.08em] text-background/60 sm:block">
+
+              <div className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs font-semibold uppercase tracking-[0.1em]">
+                <span>Next case study</span>
+                <span className="text-background/45" aria-hidden="true">
+                  /
+                </span>
+                <span className="text-background/60">
+                  {highestPriorityProject.title} · {highestPriorityProject.category} · {highestPriorityProject.year}
+                </span>
+              </div>
+
+              <span className="flex items-end justify-between gap-6">
+                <span className="footer-project-title transition-transform duration-300 ease-out group-hover:translate-x-2 group-focus-visible:translate-x-2 motion-reduce:transition-none">
+                  View project.
+                </span>
+                <ArrowUpRight
+                  className="mb-1 size-10 shrink-0 stroke-[1.5] transition-transform duration-300 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none md:size-14"
+                  aria-hidden="true"
+                />
+              </span>
+            </Link>
+          )}
+
+          <div className="grid border-b border-background/25 md:grid-cols-[1fr_auto] md:items-stretch">
+            <div className="flex min-h-16 items-center py-5 md:min-h-20 md:pr-10">
+              <span className="font-mono text-xs font-semibold uppercase leading-relaxed tracking-[0.08em] text-background/55">
                 Questions first. Tools second.
               </span>
             </div>
 
-            {highestPriorityProject && (
-              <Link
-                to={`/projects/${highestPriorityProject.slug}`}
-                unstyled
-                className="group relative flex min-h-40 flex-col justify-between overflow-hidden border-t border-background/25 bg-background p-6 text-foreground md:min-h-48 md:border-l md:border-t-0">
-                <span className="absolute inset-x-0 top-0 h-2 bg-[#6c4eff]" aria-hidden="true" />
-                <span className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                  {highestPriorityProject.title}
-                </span>
-                <span className="flex items-end justify-between gap-6 text-[clamp(2.75rem,4vw,4.5rem)] font-black leading-[0.86] tracking-[-0.04em]">
-                  View project
-                  <ArrowUpRight
-                    className="mb-1 size-9 shrink-0 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
-                    aria-hidden="true"
-                  />
-                </span>
-              </Link>
-            )}
-
             <a
               href="#hero"
-              className="group flex min-h-20 flex-col justify-between border-t border-background/25 p-4 font-bold hover:bg-background hover:text-foreground md:min-h-48 md:border-l md:border-t-0">
-              <span className="size-2 bg-[#74f0b3]" aria-hidden="true" />
-              <span className="flex items-center justify-between gap-3">
-                Back to top
-                <ArrowUpRight
-                  className="size-4 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
-                  aria-hidden="true"
-                />
-              </span>
+              className="group flex min-h-16 items-center justify-between gap-10 border-t border-background/25 py-5 font-bold md:min-w-52 md:border-l md:border-t-0 md:px-7">
+              Back to top
+              <ArrowUpRight
+                className="size-5 transition-transform duration-200 group-hover:-translate-y-1 group-focus-visible:-translate-y-1 motion-reduce:transition-none"
+                aria-hidden="true"
+              />
             </a>
           </div>
 
-          <div className="flex flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/60 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/55 sm:flex-row sm:items-center sm:justify-between">
             <p>© {currentYear}</p>
             <p>Made with care. Tested in code.</p>
           </div>

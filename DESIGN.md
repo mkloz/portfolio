@@ -21,7 +21,22 @@ typography:
     emailRailMin: '2.35rem'
     heroMin: '3.2rem'
     displayMin: '3.65rem'
+    utilityDisplayMin: '3.5rem'
+    utilityDisplayMax: '6rem'
+    utilityHeroMin: '3.2rem'
+    utilityHeroMax: '7.5rem'
+    utilitySectionMin: '3.25rem'
+    projectHeroMin: '3.5rem'
+    projectHeroMax: '5.25rem'
+    caseStudyPrimaryMin: '2.75rem'
+    caseStudyPrimaryMax: '4.5rem'
+    caseStudySupportingMin: '2.5rem'
+    caseStudySupportingMax: '3.75rem'
     contactMin: '4rem'
+    contactUtilityMin: '3.75rem'
+    contactUtilityMax: '7.5rem'
+    contactQuestionUtilityMax: '7rem'
+    contactEmailUtilityMax: '5rem'
     contactEmailMax: '6.5rem'
     headlineMax: '8rem'
     heroMax: '9.5rem'
@@ -169,6 +184,9 @@ Cabinet Grotesk supplies broad, forceful headlines and compact project names. IB
 - **Title** (800, 2rem to 4rem, about 0.9): projects, capabilities, timeline events, and build phases.
 - **Body** (500, 17px to 21px, 1.5 to 1.65): factual explanations with a measure near 60 characters.
 - **Label** (600, about 11px, 0.12em tracking, uppercase): project state, dates, navigation, and layer names.
+- **Project Hero** (800, fluid 3.5rem to 5.25rem, 0.82): the case-study title, deliberately below the homepage role scale.
+- **Case-study Primary** (800, fluid 2.75rem to 4.5rem, 0.88): pivotal narrative moments such as product scope, working proof, and decisions.
+- **Case-study Supporting** (800, fluid 2.5rem to 3.75rem, 0.9): stack and gallery headings that organize evidence without competing with it.
 
 **The Two-Line Role Rule.** The role occupies two lines in the first viewport. Supporting copy stays to one sentence.
 
@@ -223,6 +241,14 @@ Project tabs expand on hover, focus, or click. The active panel contains the tit
 ### Screen-print portrait
 
 The portrait uses three horizontal image slices. Fine-pointer movement shifts those slices by a few pixels and returns them with an exponential ease. Touch and reduced-motion users receive the intact image.
+
+### Closing route
+
+The footer is one compact ink field rather than a row of competing panels. The highest-priority case study owns the dominant upper plane, identified by a thin four-channel signal rule and a clear project reading. One short working principle and the back-to-top control share a quieter utility row below it; the identity mark is intentionally omitted because the preceding contact section has already established the person.
+
+### Portfolio journey
+
+The case-study hero records unique project visits in local browser storage and separates the current project rank from actual portfolio progress. Its signal bar fills as each new case study is opened. After all six have been opened and the visitor reaches the end of the final one, a one-time ink completion field thanks them, resolves the four signal colors across the top edge, and routes to contact after a short readable pause. Reduced-motion mode preserves the message and redirect while removing the entrance choreography.
 
 ## Do's and Don'ts
 

@@ -16,12 +16,14 @@ import {
   X
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Link } from '@/components/common/link';
 import type { GalleryItem, Project } from '@/data/projects';
 import { getTechnologyByName } from '@/data/technologies';
 import { useTheme } from '@/hooks/theme.store';
 import { getProjectAccent } from '@/lib/project-accent';
+import { celebrateProjectJourney, readProjectJourney, visitProject, writeProjectJourney } from '@/lib/project-journey';
 import { cn } from '@/lib/utils';
 import { ProjectService } from '@/services/project.service';
 
@@ -115,34 +117,43 @@ const formatPlaybackTime = (seconds: number) => {
     .padStart(2, '0')}`;
 };
 
-const SectionHeading = ({
-  title,
-  description,
-  compact = false,
-  inverse = false
+const SIGNAL_COLORS = ['#74f0b3', '#ffd400', '#465bff', '#ff583d', '#6c4eff'] as const;
+const PORTFOLIO_PROJECT_SLUGS = ProjectService.getAllProjects().map((project) => project.slug);
+
+const ProjectSignalRail = ({
+  items,
+  label,
+  reverse = false,
+  duration = 42
 }: {
-  title: string;
-  description?: string;
-  compact?: boolean;
-  inverse?: boolean;
+  items: { label: string; color: string }[];
+  label: string;
+  reverse?: boolean;
+  duration?: number;
 }) => (
   <div
-    className={cn(
-      'grid gap-5 border-t-2 border-current pt-5 md:grid-cols-12',
-      compact ? 'mb-8 md:mb-10' : 'mb-12 md:mb-16'
-    )}>
-    <h2 className="text-[clamp(3rem,5vw,4.75rem)] font-black leading-[0.88] tracking-[-0.04em] md:col-span-8">
-      {title}
-    </h2>
-    {description && (
-      <p
-        className={cn(
-          'max-w-lg self-end text-lg leading-relaxed md:col-span-4',
-          inverse ? 'text-background/65' : 'text-muted-foreground'
-        )}>
-        {description}
-      </p>
-    )}
+    className="signal-rail-wrap overflow-hidden border-y border-background/20 bg-foreground py-3 text-background"
+    role="group"
+    aria-label={`${label}: ${items.map((item) => item.label).join(', ')}`}
+    tabIndex={0}>
+    <div
+      className={cn(
+        'signal-rail flex w-max whitespace-nowrap font-mono text-xs font-semibold uppercase tracking-[0.12em] md:text-sm',
+        reverse && 'signal-rail-reverse'
+      )}
+      style={{ animationDuration: `${duration}s` }}
+      aria-hidden="true">
+      {[0, 1].map((copy) => (
+        <span key={copy} className="flex shrink-0 items-center gap-7 pr-7">
+          {items.map((item) => (
+            <span key={`${copy}-${item.label}`} className="flex items-center gap-7">
+              {item.label}
+              <span className="size-1.5 rounded-full" style={{ backgroundColor: item.color }} />
+            </span>
+          ))}
+        </span>
+      ))}
+    </div>
   </div>
 );
 
@@ -234,6 +245,7 @@ const GalleryDialog = ({
 };
 
 export const ProjectDetailPage = ({ project }: { project: Project }) => {
+  const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState(0);
   const [activeTechnologyGroup, setActiveTechnologyGroup] = useState(0);
   const [isDemoPlaying, setIsDemoPlaying] = useState(false);
@@ -244,6 +256,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [expandedStep, setExpandedStep] = useState<number | null>(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [showAllGallery, setShowAllGallery] = useState(false);
+  const [projectJourney, setProjectJourney] = useState(() => readProjectJourney(PORTFOLIO_PROJECT_SLUGS));
+  const [showJourneyComplete, setShowJourneyComplete] = useState(false);
   const { theme } = useTheme();
   const image = typeof project.image === 'string' ? project.image : project.image[theme];
   const demo = project.demo?.[activeDemo];
@@ -252,12 +266,25 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const demoFrameRef = useRef<HTMLDivElement>(null);
   const demoTransitionRef = useRef<number | null>(null);
+  const journeyRedirectRef = useRef<number | null>(null);
   const accent = getProjectAccent(project.slug);
   const currentProjectRank = ProjectService.getPriorityRank(project.slug);
   const nextProject = ProjectService.getNextPriorityProject(project.slug);
   const nextProjectRank = nextProject ? ProjectService.getPriorityRank(nextProject.slug) : undefined;
   const projectCount = ProjectService.getAllProjects().length;
+  const visitedProjectCount = projectJourney.visited.length;
+  const projectJourneyProgress = projectCount > 0 ? visitedProjectCount / projectCount : 0;
   const technologyGroups = getProjectTechnologyGroups(project);
+  const projectFlowItems = project.highlights.map((highlight, index) => ({
+    label: highlight.title,
+    color: SIGNAL_COLORS[index % SIGNAL_COLORS.length]
+  }));
+  const technologySignalItems = technologyGroups.flatMap((group) =>
+    group.technologies.map((technology) => ({
+      label: technology,
+      color: PROJECT_SYSTEM_META[group.name].color
+    }))
+  );
   const activeTechnologyGroupData = technologyGroups[activeTechnologyGroup] ?? technologyGroups[0];
   const activeGroup = activeTechnologyGroupData?.name ?? 'Full-Stack';
   const activeTechnologies = activeTechnologyGroupData?.technologies ?? [];
@@ -298,6 +325,49 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   }, [project.slug]);
 
   useEffect(() => {
+    const nextJourney = visitProject(
+      readProjectJourney(PORTFOLIO_PROJECT_SLUGS),
+      project.slug,
+      PORTFOLIO_PROJECT_SLUGS
+    );
+    writeProjectJourney(nextJourney);
+    setProjectJourney(nextJourney);
+  }, [project.slug]);
+
+  useEffect(() => {
+    const journeyIsComplete =
+      projectJourney.visited.length === PORTFOLIO_PROJECT_SLUGS.length && !projectJourney.celebrated;
+    if (!journeyIsComplete) return;
+
+    const revealCompletionAtPageEnd = () => {
+      const remainingDistance = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+      if (remainingDistance > Math.min(240, window.innerHeight * 0.2)) return;
+
+      const completedJourney = celebrateProjectJourney(projectJourney, PORTFOLIO_PROJECT_SLUGS);
+      writeProjectJourney(completedJourney);
+      setProjectJourney(completedJourney);
+      setShowJourneyComplete(true);
+    };
+
+    revealCompletionAtPageEnd();
+    window.addEventListener('scroll', revealCompletionAtPageEnd, { passive: true });
+    window.addEventListener('resize', revealCompletionAtPageEnd);
+    return () => {
+      window.removeEventListener('scroll', revealCompletionAtPageEnd);
+      window.removeEventListener('resize', revealCompletionAtPageEnd);
+    };
+  }, [projectJourney]);
+
+  useEffect(() => {
+    if (!showJourneyComplete) return;
+
+    journeyRedirectRef.current = window.setTimeout(() => navigate('/#contact'), 3600);
+    return () => {
+      if (journeyRedirectRef.current) window.clearTimeout(journeyRedirectRef.current);
+    };
+  }, [navigate, showJourneyComplete]);
+
+  useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = isDemoMuted;
@@ -319,198 +389,142 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     <div className="min-h-screen bg-background text-foreground">
       <ProjectHeader />
       <main>
-        <section id="hero" className="relative overflow-hidden bg-foreground text-background">
+        <section id="hero" className="relative overflow-hidden border-b border-current/25">
           <div className="content-shell px-5 pb-12 pt-28 md:px-8 lg:px-12">
-            <div className="flex min-h-14 items-center justify-between gap-6 border-y border-background/25 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-background/60">
-              <span>
-                Case study {String(currentProjectRank ?? 1).padStart(2, '0')} / {String(projectCount).padStart(2, '0')}
-              </span>
-              <span className="text-right">
-                {project.category} · {project.year} · {project.status}
-              </span>
-            </div>
-
-            <div className="relative flex min-h-[clamp(22rem,48vh,30rem)] items-center border-b border-background/25 py-16 md:py-20">
+            <div className="border-y border-current/25">
+              <div className="flex min-h-14 items-center justify-between gap-6 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+                <span>
+                  Case study {String(currentProjectRank ?? 1).padStart(2, '0')} /{' '}
+                  {String(projectCount).padStart(2, '0')}
+                </span>
+                <span className="text-right">
+                  Viewed {String(visitedProjectCount).padStart(2, '0')} / {String(projectCount).padStart(2, '0')}
+                </span>
+              </div>
               <span
-                className="absolute left-0 top-0 h-2 w-[min(12rem,32vw)]"
-                style={{ backgroundColor: accent.background }}
-                aria-hidden="true"
-              />
-              <h1 className="max-w-full break-words text-[clamp(4rem,8vw,7rem)] font-black leading-[0.76] tracking-[-0.04em]">
-                {project.title}
-                <span style={{ color: accent.background }}>.</span>
-              </h1>
-            </div>
-
-            <div className="grid border-b border-background/25 lg:grid-cols-12">
-              <p className="max-w-[20ch] py-9 text-[clamp(2rem,3.5vw,3.5rem)] font-black leading-[0.94] tracking-[-0.03em] lg:col-span-8 lg:py-10 lg:pr-10">
-                {project.tagline}
-              </p>
-
-              <div className="flex flex-wrap content-center gap-x-7 gap-y-2 border-t border-background/25 py-7 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-8">
-                {project.website && (
-                  <a
-                    href={project.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex min-h-12 items-center gap-2 border-b border-background/50 font-bold">
-                    Open live site
-                    <ArrowUpRight
-                      className="size-4 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
-                      aria-hidden="true"
-                    />
-                  </a>
-                )}
-                {project.github.map((repo) => (
-                  <a
-                    key={repo.link}
-                    href={repo.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex min-h-12 items-center gap-2 font-bold text-background/60 hover:text-background">
-                    <Github className="size-4" aria-hidden="true" />
-                    {repo.name}
-                    <ArrowUpRight
-                      className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
-                      aria-hidden="true"
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="tech-stack" className="border-b border-current/25 py-24 md:py-32">
-          <div className="content-shell px-5 md:px-8 lg:px-12">
-            <SectionHeading
-              title="The working system."
-              description="The project stack grouped by the responsibility each tool carries."
-            />
-            <div className="grid border-y border-current/25 lg:grid-cols-12">
-              <div
-                className="lg:col-span-4 lg:border-r lg:border-current/25"
-                role="tablist"
-                aria-label="Project technology groups">
-                {technologyGroups.map((category, index) => (
-                  <button
-                    key={category.name}
-                    role="tab"
-                    aria-selected={activeTechnologyGroup === index}
-                    aria-controls="project-technology-panel"
-                    onClick={() => setActiveTechnologyGroup(index)}
-                    className={cn(
-                      'flex min-h-14 w-full items-center justify-between border-b border-current/20 px-5 text-left text-2xl font-black tracking-[-0.03em] last:border-0',
-                      activeTechnologyGroup === index
-                        ? 'bg-foreground text-background'
-                        : 'text-foreground hover:bg-foreground hover:text-background'
-                    )}>
-                    {category.name}
-                    <span
-                      className="h-1 w-9"
-                      style={{ backgroundColor: PROJECT_SYSTEM_META[category.name].color }}
-                      aria-hidden="true"
-                    />
-                  </button>
-                ))}
-              </div>
-              <div
-                id="project-technology-panel"
-                role="tabpanel"
-                className="relative min-h-[34rem] overflow-hidden bg-[#080808] text-white lg:col-span-8">
-                <img
-                  key={activeSystemMeta.image}
-                  src={activeSystemMeta.image}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
+                role="progressbar"
+                aria-label="Portfolio case studies viewed"
+                aria-valuemin={0}
+                aria-valuemax={projectCount}
+                aria-valuenow={visitedProjectCount}
+                className="block h-2 overflow-hidden bg-current/10">
+                <span
+                  className="block h-full origin-left transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+                  style={{ backgroundColor: accent.background, transform: `scaleX(${projectJourneyProgress})` }}
                 />
-                <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
-                <div className="relative flex min-h-[34rem] max-w-full flex-col justify-end p-6 sm:max-w-[72%] md:p-10 lg:max-w-[68%]">
-                  <span
-                    className="mb-5 block h-2 w-20"
-                    style={{ backgroundColor: activeSystemMeta.color }}
+              </span>
+            </div>
+
+            <div className="grid border-b border-current/25 lg:grid-cols-12">
+              <div className="relative flex min-h-[22rem] flex-col justify-end py-14 lg:col-span-8 lg:min-h-[30rem] lg:border-r lg:border-current/25 lg:pr-12">
+                <h1 className="project-hero-type max-w-full break-words">
+                  {project.title}
+                  <span style={{ color: accent.background }}>.</span>
+                </h1>
+                <p className="mt-9 max-w-[22ch] text-[clamp(1.75rem,2.5vw,2.625rem)] font-black leading-[1.02] tracking-[-0.025em]">
+                  {project.tagline}
+                </p>
+              </div>
+
+              <div className="flex flex-col justify-between gap-10 py-10 lg:col-span-4 lg:min-h-[30rem] lg:pl-10">
+                <p className="max-w-[30rem] text-xl font-semibold leading-relaxed">{project.description}</p>
+                <dl className="border-t border-current/25">
+                  {[
+                    ['Scope', project.category],
+                    ['Year', project.year],
+                    ['Status', project.status],
+                    ['System', `${technologyGroups.length} responsibility layers`]
+                  ].map(([label, value]) => (
+                    <div key={label} className="grid grid-cols-[6rem_1fr] gap-5 border-b border-current/25 py-4">
+                      <dt className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+                        {label}
+                      </dt>
+                      <dd className="font-bold">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-2 border-b border-current/25 py-5">
+              <span className="h-3 w-3 shrink-0" style={{ backgroundColor: accent.background }} aria-hidden="true" />
+              {project.website && (
+                <a
+                  href={project.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-h-12 items-center gap-2 border-b border-current/50 font-bold">
+                  Open live product
+                  <ArrowUpRight
+                    className="size-4 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
                     aria-hidden="true"
                   />
-                  <div className="flex flex-wrap items-end justify-between gap-4">
-                    <h3 className="text-5xl font-black tracking-[-0.04em] md:text-6xl">{activeGroup}</h3>
-                    <span className="font-mono text-xs uppercase tracking-[0.08em] text-white/65">
-                      {activeTechnologies.length} tools
-                    </span>
-                  </div>
-                  <ul
-                    className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4"
-                    aria-label={`${activeGroup} technologies used in ${project.title}`}>
-                    {activeTechnologies.map((technology) => (
-                      <li
-                        key={technology}
-                        className="flex items-center gap-3 border-b border-white/25 pb-3 text-base font-bold">
-                        <span
-                          className="size-2 shrink-0"
-                          style={{ backgroundColor: activeSystemMeta.color }}
-                          aria-hidden="true"
-                        />
-                        {technology}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="overview" className="border-b border-current/25 py-24 md:py-32">
-          <div className="content-shell grid gap-12 px-5 md:px-8 lg:grid-cols-12 lg:px-12">
-            <div className="lg:col-span-4">
-              <div className="lg:sticky lg:top-24">
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                  Product overview
-                </p>
-                <h2 className="mt-5 text-[clamp(3rem,5vw,4.75rem)] font-black leading-[0.88] tracking-[-0.04em]">
-                  Product capabilities.
-                </h2>
-                <p className="mt-7 max-w-sm text-lg leading-relaxed text-muted-foreground">{project.description}</p>
-              </div>
-            </div>
-            <div className="border-t-2 border-current lg:col-span-8">
-              {project.highlights.map(({ title, description, icon: Icon }, index) => (
-                <article
-                  key={title}
-                  className="grid gap-4 border-b border-current/25 py-6 sm:grid-cols-[3rem_1fr] md:grid-cols-[3rem_13rem_1fr] md:items-start md:gap-6">
-                  <span className="font-mono text-sm font-semibold text-muted-foreground">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div className="flex items-start gap-3">
-                    <span
-                      className="mt-0.5 flex size-9 shrink-0 items-center justify-center"
-                      style={{ backgroundColor: accent.background, color: accent.foreground }}>
-                      <Icon className="size-4" aria-hidden="true" />
-                    </span>
-                    <h3 className="text-xl font-black leading-tight tracking-[-0.025em]">{title}</h3>
-                  </div>
-                  <p className="max-w-xl text-base leading-relaxed text-muted-foreground">{description}</p>
-                </article>
+                </a>
+              )}
+              {project.github.map((repo) => (
+                <a
+                  key={repo.link}
+                  href={repo.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-h-12 items-center gap-2 font-bold text-muted-foreground hover:text-foreground">
+                  <Github className="size-4" aria-hidden="true" />
+                  {repo.name}
+                  <ArrowUpRight
+                    className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
+                    aria-hidden="true"
+                  />
+                </a>
               ))}
             </div>
           </div>
         </section>
 
+        <ProjectSignalRail items={projectFlowItems} label={`${project.title} product flow`} duration={34} />
+
+        <section id="overview" className="border-b border-current/25 py-24 md:py-32">
+          <div className="content-shell px-5 md:px-8 lg:px-12">
+            <div className="grid gap-12 lg:grid-cols-12">
+              <div className="lg:col-span-5">
+                <div className="lg:sticky lg:top-24">
+                  <h2 className="case-study-primary-type max-w-[10ch]">What the product had to hold together.</h2>
+                </div>
+              </div>
+              <div className="grid border-t-2 border-current sm:grid-cols-2 lg:col-span-7">
+                {project.highlights.map(({ title, description, icon: Icon }, index) => (
+                  <article
+                    key={title}
+                    className="flex min-h-56 flex-col justify-between border-b border-current/25 p-6 odd:sm:border-r md:p-8">
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="font-mono text-xs font-semibold text-muted-foreground">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <Icon className="size-5" style={{ color: accent.background }} aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black leading-tight tracking-[-0.02em] md:text-2xl">{title}</h3>
+                      <p className="mt-3 max-w-md text-base leading-relaxed text-muted-foreground">{description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {project.demo && project.demo.length > 0 && (
-          <section id="demo" className="bg-foreground py-28 text-background md:py-40">
+          <section id="demo" className="bg-foreground py-24 text-background md:py-32">
             <div className="content-shell px-5 md:px-8 lg:px-12">
-              <SectionHeading
-                title="See it move."
-                description={
-                  project.demo.length > 1
-                    ? 'Recorded walkthroughs of the working product.'
-                    : 'A recorded walkthrough of the working product.'
-                }
-                inverse
-              />
-              <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-                <div className="border-y border-current/25 lg:col-span-4">
+              <div className="mb-12 grid gap-8 border-t-2 border-current pt-5 lg:grid-cols-12 lg:items-end">
+                <h2 className="case-study-primary-type max-w-[11ch] lg:col-span-8">The product, working.</h2>
+                <p className="max-w-lg text-lg leading-relaxed text-background/65 lg:col-span-4">
+                  {project.demo.length > 1
+                    ? 'Switch between recorded views of the same working product.'
+                    : 'A recorded view of the working product.'}
+                </p>
+              </div>
+              <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
+                <div className="order-2 border-y border-current/25 lg:order-1 lg:col-span-3">
                   {project.demo.length > 1 ? (
                     <div className="grid grid-cols-3 lg:grid-cols-1" role="group" aria-label="Choose demo device">
                       {project.demo.map((item, index) => {
@@ -655,7 +669,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   )}
                 </div>
                 {demo && (
-                  <div className="flex min-h-[22rem] items-center justify-center md:min-h-[32rem] lg:col-span-8">
+                  <div className="order-1 flex min-h-[22rem] items-center justify-center md:min-h-[32rem] lg:order-2 lg:col-span-9">
                     <div
                       ref={demoFrameRef}
                       className={cn(
@@ -708,15 +722,13 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           </section>
         )}
 
-        <section id="journey" className="border-b border-current/25 py-28 md:py-40">
+        <section id="journey" className="border-b border-current/25 py-24 md:py-32">
           <div className="content-shell grid gap-14 px-5 md:px-8 lg:grid-cols-12 lg:px-12">
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-24">
-                <h2 className="text-[clamp(3rem,5vw,4.75rem)] font-black leading-[0.88] tracking-[-0.04em]">
-                  Build log.
-                </h2>
+                <h2 className="case-study-primary-type max-w-[10ch]">Decisions that shaped it.</h2>
                 <p className="mt-7 max-w-sm text-lg leading-relaxed text-muted-foreground">
-                  The implementation sequence, pivotal choices, and what each phase delivered.
+                  The implementation sequence matters where it exposes a choice, constraint, or delivered result.
                 </p>
               </div>
             </div>
@@ -748,7 +760,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                         {String(index + 1).padStart(2, '0')}
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-3xl font-black leading-[0.95] tracking-[-0.03em] md:text-4xl">
+                        <span className="block text-2xl font-black leading-[1] tracking-[-0.025em] md:text-3xl">
                           {step.title}
                         </span>
                         <span
@@ -832,21 +844,109 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           </div>
         </section>
 
+        <section id="tech-stack" className="border-b border-current/25 py-20 md:py-28">
+          <div className="content-shell px-5 md:px-8 lg:px-12">
+            <div className="mb-10 grid gap-5 border-t-2 border-current pt-5 md:grid-cols-12">
+              <h2 className="case-study-supporting-type md:col-span-8">The working system.</h2>
+              <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
+                Choose a responsibility to inspect the tools behind this project.
+              </p>
+            </div>
+
+            <div className="grid border-y border-current/25 lg:grid-cols-12">
+              <div
+                className="lg:col-span-4 lg:border-r lg:border-current/25"
+                role="tablist"
+                aria-label="Technology groups">
+                {technologyGroups.map((group, index) => (
+                  <button
+                    key={group.name}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTechnologyGroup === index}
+                    aria-controls="project-technology-panel"
+                    onClick={() => setActiveTechnologyGroup(index)}
+                    className={cn(
+                      'flex min-h-14 w-full items-center justify-between border-b border-current/20 px-5 text-left text-xl font-black tracking-[-0.025em] last:border-0 md:text-2xl',
+                      activeTechnologyGroup === index
+                        ? 'bg-foreground text-background'
+                        : 'hover:bg-foreground hover:text-background'
+                    )}>
+                    {group.name}
+                    <span
+                      className="h-1 w-9"
+                      style={{ backgroundColor: PROJECT_SYSTEM_META[group.name].color }}
+                      aria-hidden="true"
+                    />
+                  </button>
+                ))}
+              </div>
+
+              <div
+                id="project-technology-panel"
+                role="tabpanel"
+                className="relative min-h-[30rem] overflow-hidden bg-[#080808] text-white lg:col-span-8">
+                <img
+                  key={activeSystemMeta.image}
+                  src={activeSystemMeta.image}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
+                />
+                <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
+                <div className="relative flex min-h-[30rem] max-w-full flex-col justify-end p-6 sm:max-w-[78%] md:p-9 lg:max-w-[72%]">
+                  <span
+                    className="mb-5 block h-2 w-20"
+                    style={{ backgroundColor: activeSystemMeta.color }}
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-[clamp(2.5rem,4vw,3.75rem)] font-black leading-[0.9] tracking-[-0.03em]">
+                    {activeGroup}
+                  </h3>
+                  <ul
+                    className="mt-7 grid gap-x-6 gap-y-3 sm:grid-cols-2 md:grid-cols-3"
+                    aria-label={`${activeGroup} technologies used in ${project.title}`}>
+                    {activeTechnologies.map((technology) => (
+                      <li key={technology} className="flex items-center gap-3 border-b border-white/25 pb-3 font-bold">
+                        <span
+                          className="size-2 shrink-0"
+                          style={{ backgroundColor: activeSystemMeta.color }}
+                          aria-hidden="true"
+                        />
+                        {technology}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <ProjectSignalRail
+          items={technologySignalItems}
+          label={`${project.title} technology stack`}
+          reverse
+          duration={58}
+        />
+
         {project.gallery.length > 0 && (
           <section id="gallery" className="border-b border-current/25 py-20 md:py-24">
             <div className="content-shell px-5 md:px-8 lg:px-12">
-              <SectionHeading
-                title="Selected evidence."
-                description="Interface screens and technical diagrams, kept together for closer inspection."
-                compact
-              />
-              <div className="grid gap-px border border-current/25 bg-current/25 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mb-10 grid gap-5 border-t-2 border-current pt-5 md:grid-cols-12">
+                <h2 className="case-study-supporting-type md:col-span-8">Inspect the evidence.</h2>
+                <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
+                  Screens and diagrams remain available for close inspection, after the project story.
+                </p>
+              </div>
+              <div className="grid gap-px border border-current/25 bg-current/25 sm:grid-cols-2 lg:grid-cols-4">
                 {project.gallery.map((item, index) => (
                   <button
                     key={item.image}
                     onClick={() => setLightboxIndex(index)}
-                    className={cn('group min-h-11 bg-background text-left', !showAllGallery && index >= 9 && 'hidden')}>
-                    <span className="flex h-[clamp(13rem,20vw,18rem)] items-center overflow-hidden bg-white p-2">
+                    className={cn('group min-h-11 bg-background text-left', !showAllGallery && index >= 8 && 'hidden')}>
+                    <span className="flex h-[clamp(11rem,16vw,15rem)] items-center overflow-hidden bg-white p-2">
                       <img
                         src={item.image}
                         alt=""
@@ -867,7 +967,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   </button>
                 ))}
               </div>
-              {project.gallery.length > 9 && (
+              {project.gallery.length > 8 && (
                 <button
                   type="button"
                   onClick={() => setShowAllGallery((visible) => !visible)}
@@ -925,6 +1025,46 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           onIndexChange={setLightboxIndex}
           onClose={() => setLightboxIndex(null)}
         />
+      )}
+
+      {showJourneyComplete && (
+        <div
+          className="project-journey-complete fixed inset-0 z-[200] flex bg-[#080808] px-5 text-[#f4f2ed] md:px-8 lg:px-12"
+          role="status"
+          aria-live="polite">
+          <span className="absolute inset-x-0 top-0 flex h-2" aria-hidden="true">
+            {SIGNAL_COLORS.slice(0, 4).map((color, index) => (
+              <span
+                key={color}
+                className="project-journey-signal w-1/4 origin-left"
+                style={{ backgroundColor: color, animationDelay: `${index * 80}ms` }}
+              />
+            ))}
+          </span>
+          <div className="content-shell flex flex-1 flex-col justify-between py-12 md:py-16">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#f4f2ed]/55">
+              06 / 06 · Portfolio viewed
+            </p>
+            <div className="project-journey-message">
+              <h2 className="max-w-[9ch] text-[clamp(3.75rem,8vw,6rem)] font-black leading-[0.82] tracking-[-0.04em]">
+                Thank you<span className="text-[#ff583d]">.</span>
+              </h2>
+              <p className="mt-7 max-w-md text-xl font-semibold leading-relaxed text-[#f4f2ed]/70">
+                You have seen the whole portfolio. Let&apos;s talk about what needs to work next.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('/#contact')}
+              className="group inline-flex min-h-12 items-center gap-3 self-start border-b border-current text-lg font-bold">
+              Continue to contact
+              <ArrowUpRight
+                className="size-5 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
