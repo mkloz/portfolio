@@ -50,6 +50,7 @@ export const technologies = {
   awss3: technology('AWS S3', 'DevOps'),
   aws: technology('AWS', 'DevOps'),
   oraclecloud: technology('Oracle Cloud', 'DevOps'),
+  cloudflarepages: technology('Cloudflare Pages', 'DevOps'),
   vercel: technology('Vercel', 'DevOps'),
   teamcity: technology('TeamCity', 'DevOps'),
   terraform: technology('Terraform', 'DevOps'),

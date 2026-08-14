@@ -41,7 +41,7 @@ const CATEGORIES = [
     color: '#ff583d',
     canvasTint: [1, 0.345, 0.239] as [number, number, number],
     image: '/editorial/system-devops.jpg',
-    technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Vercel', 'Linux']
+    technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Cloudflare Pages', 'Linux']
   },
   {
     name: 'Tools',

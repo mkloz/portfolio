@@ -5,7 +5,7 @@
     <h1 align="center">Portfolio</h1>
 </p>
 <p align="center">
-  <a href="https://portfolio.mkloz.com">🌐 Website</a> |
+  <a href="https://www.mkloz.com">🌐 Website</a> |
   <a href="https://github.com/mkloz/portfolio">💻 Source Code</a> |
   <a href="mailto:mykhailo.kloz@gmail.com">📧 Contact</a>
 </p>
@@ -31,7 +31,7 @@
     <img src="https://img.shields.io/badge/React_Router-CA4245?style=flat&logo=react-router&logoColor=white" alt="React Router">
     <img src="https://img.shields.io/badge/ESLint-4B32C3.svg?style=flat&logo=ESLint&logoColor=white" alt="ESLint">
     <img src="https://img.shields.io/badge/Prettier-F7B93E.svg?style=flat&logo=Prettier&logoColor=white" alt="Prettier">
-    <img src="https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white" alt="Vercel">
+    <img src="https://img.shields.io/badge/Cloudflare_Pages-F38020?style=flat&logo=cloudflare&logoColor=white" alt="Cloudflare Pages">
     <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white" alt="Git">
 </p>
 <hr>
@@ -84,7 +84,7 @@ Portfolio is a modern, responsive portfolio website showcasing my development sk
 - **Icons**: [Lucide React](https://lucide.dev/), [React Icons](https://react-icons.github.io/react-icons/)
 - **UI Components**: [Vaul](https://vaul.emilkowal.ski/) (Drawer), [Sonner](https://sonner.emilkowal.ski/) (Toasts)
 - **Development**: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [Husky](https://typicode.github.io/husky/), [lint-staged](https://github.com/okonet/lint-staged)
-- **Deployment**: [Vercel](https://vercel.com/)
+- **Deployment**: [Cloudflare Pages](https://pages.cloudflare.com/) through GitHub Actions and Wrangler
 
 ---
 
@@ -160,7 +160,18 @@ npm run check
 
 # Run the full CI/release gate
 npm run check:release
+
+# Serve the production artifact with the Cloudflare Pages runtime
+npm run build && npm run pages:dev
 ```
+
+### Cloudflare Pages CI/CD
+
+`.github/workflows/ci-cd.yml` builds and verifies one immutable `dist` artifact. Same-repository pull requests can deploy that artifact to a Pages preview, while pushes to `main` deploy it to production. Deployment requires `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` secrets plus the optional `CLOUDFLARE_PAGES_PROJECT_NAME` variable.
+
+The production build also creates route-specific HTML, a real 404 page, security headers, `robots.txt`, `sitemap.xml`, `llm.txt`, the standard `llms.txt`, `llms-full.txt`, `humans.txt`, and `portfolio.json`.
+
+Cloudflare Pages middleware redirects the legacy `me.mkloz.com`, `portfolio.mkloz.com`, and production `pages.dev` hostnames to the canonical `www.mkloz.com` origin while leaving certificate-validation requests untouched.
 
 ## 📂 Project Structure
 

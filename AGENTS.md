@@ -6,9 +6,9 @@ Read the narrow rule or skill named below only when it applies to the task.
 ## Product and stack
 
 This is Michael Kloz's personal portfolio: a React 18 + TypeScript + Vite site
-deployed on Vercel. It uses React Router, Tailwind CSS v4, Radix/shadcn-style
-primitives, Zustand, and static TypeScript data for portfolio
-content.
+deployed to Cloudflare Pages through GitHub Actions. It uses React Router,
+Tailwind CSS v4, Radix/shadcn-style primitives, Zustand, and static TypeScript
+data for portfolio content.
 
 ## Working agreement
 
@@ -76,6 +76,8 @@ the root cause, and run the smallest relevant verification.
 - `npm run check` - formatting, lint, type, and test confidence gate.
 - `npm run check:release` - full formatting, lint, type, and production-build
   gate used by CI.
+- `npm run pages:dev` - serve the built Pages artifact through Wrangler.
+- `npm run discovery:verify` - validate route shells and discovery artifacts.
 - `npx skills update -p -y` - update lock-managed project skills.
 - `npx impeccable update` - update the separately managed Impeccable skill.
 

@@ -100,7 +100,7 @@ export const projectSummaries: ProjectSummary[] = [
       dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-dark.png'
     },
     secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/404.png',
-    technologies: ['React', 'TS', 'Tailwind CSS', 'ShadCN', 'Vite'],
+    technologies: ['React', 'TS', 'Tailwind CSS', 'ShadCN', 'Vite', 'Cloudflare Pages', 'GitHub Actions'],
     github: [{ name: 'Portfolio Frontend', link: 'https://github.com/mkloz/portfolio' }],
     year: 2025,
     category: 'Frontend',

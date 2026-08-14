@@ -13,6 +13,7 @@ dist-ssr
 *.local
 
 .eslintcache
+.wrangler/
 
 # Editor directories and files
 !.vscode/extensions.json
