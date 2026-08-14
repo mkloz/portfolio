@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /contact/success
 
 User-agent: OAI-SearchBot
 Allow: /

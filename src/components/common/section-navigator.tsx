@@ -72,7 +72,7 @@ export const SectionNavigator = ({ items, className }: { items: NavigatorItem[];
               event.preventDefault();
               goToSection(item.id);
             }}>
-            <span className="translate-x-1.5 whitespace-nowrap bg-background px-1.5 py-0.5 font-mono text-[0.55rem] font-semibold uppercase tracking-[0.08em] text-foreground opacity-0 transition-[opacity,transform] duration-200 group-hover/section:translate-x-0 group-hover/section:opacity-100 group-focus-visible/section:translate-x-0 group-focus-visible/section:opacity-100">
+            <span className="section-navigator-label translate-x-1.5 whitespace-nowrap bg-background px-1.5 py-0.5 font-mono text-[0.61rem] font-semibold uppercase tracking-[0.08em] text-foreground opacity-0 transition-[opacity,transform] duration-200">
               {item.label}
             </span>
             <span

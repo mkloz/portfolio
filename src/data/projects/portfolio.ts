@@ -9,8 +9,8 @@ export const portfolioProject: Project = {
   slug: 'portfolio',
   description: 'Responsive portfolio with project case studies, demos, implementation notes, and image galleries.',
   image: {
-    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-light.png',
-    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-dark.png'
+    light: '/project-media/portfolio/portfolio-light.webp',
+    dark: '/project-media/portfolio/portfolio-dark.webp'
   },
   highlights: [
     {
@@ -201,39 +201,39 @@ export const portfolioProject: Project = {
   gallery: [
     {
       title: 'Project Stack',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/project-stack.png'
+      image: '/project-media/portfolio/project-stack.webp'
     },
     {
       title: '404 Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/404.png'
+      image: '/project-media/portfolio/404.webp'
     },
     {
       title: 'Highlights',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/highlights.png'
+      image: '/project-media/portfolio/highlights.webp'
     },
     {
       title: 'Contact Section',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/contact.png'
+      image: '/project-media/portfolio/contact.webp'
     },
     {
       title: 'Projects Section',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/projects.png'
+      image: '/project-media/portfolio/projects.webp'
     },
     {
       title: 'Hero Section',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/hero.png'
+      image: '/project-media/portfolio/hero.webp'
     },
     {
       title: 'Demo',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo.png'
+      image: '/project-media/portfolio/demo.webp'
     },
     {
       title: 'Journey',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/journey.png'
+      image: '/project-media/portfolio/journey.webp'
     },
     {
       title: 'Project Hero',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/project-hero.png'
+      image: '/project-media/portfolio/project-hero.webp'
     }
   ],
 
@@ -248,19 +248,19 @@ export const portfolioProject: Project = {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-desktop-demo.mp4',
       device: 'desktop',
       length: '',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-desktop-preview.png'
+      preview: '/project-media/portfolio/demo-desktop-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-tablet-demo.mp4',
       device: 'tablet',
       length: '',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-tablet-preview.png'
+      preview: '/project-media/portfolio/demo-tablet-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-mobile-demo.mp4',
       device: 'mobile',
       length: '',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/demo-mobile-preview.png'
+      preview: '/project-media/portfolio/demo-mobile-preview.webp'
     }
   ]
 };

@@ -4,8 +4,9 @@ import { projectSummaries } from './project-summaries';
 export const SITE_URL = 'https://www.mkloz.com';
 export const SITE_NAME = 'Mykhailo Kloz';
 export const SITE_DESCRIPTION =
-  'Mykhailo Kloz is a full-stack developer building product interfaces and the systems behind them.';
-export const SITE_IMAGE = `${SITE_URL}/editorial/portrait-screenprint.webp`;
+  'Mykhailo Kloz is a full-stack developer building clear product interfaces, dependable APIs, data systems, and production-ready software.';
+export const SITE_IMAGE = `${SITE_URL}/social-card.png`;
+const PERSON_IMAGE = `${SITE_URL}/editorial/portrait-screenprint-480.webp`;
 
 export interface DiscoveryRoute {
   path: string;
@@ -22,7 +23,7 @@ const absoluteUrl = (value: string) => (value.startsWith('http') ? value : `${SI
 export const discoveryRoutes: DiscoveryRoute[] = [
   {
     path: '/',
-    title: `${SITE_NAME} | Full-Stack Developer`,
+    title: `${SITE_NAME} — Full-Stack Developer`,
     description: SITE_DESCRIPTION,
     image: SITE_IMAGE,
     indexable: true,
@@ -39,8 +40,8 @@ export const discoveryRoutes: DiscoveryRoute[] = [
   })),
   {
     path: '/contact/success',
-    title: `Message sent | ${SITE_NAME}`,
-    description: 'Confirmation that a portfolio contact message was sent.',
+    title: `Message received — ${SITE_NAME}`,
+    description: 'Your message has been delivered to Mykhailo Kloz.',
     image: SITE_IMAGE,
     indexable: false,
     kind: 'utility'
@@ -49,7 +50,7 @@ export const discoveryRoutes: DiscoveryRoute[] = [
 
 export const notFoundDiscoveryRoute: DiscoveryRoute = {
   path: '/404',
-  title: `Page not found | ${SITE_NAME}`,
+  title: `Page not found — ${SITE_NAME}`,
   description: 'This route does not connect to the portfolio.',
   image: SITE_IMAGE,
   indexable: false,
@@ -66,7 +67,7 @@ export const getDiscoveryStructuredData = (route: DiscoveryRoute): Record<string
     '@type': 'Person',
     name: ME.name,
     url: SITE_URL,
-    image: SITE_IMAGE,
+    image: PERSON_IMAGE,
     jobTitle: ME.title,
     sameAs: [ME.social.github, ME.social.linkedin]
   };

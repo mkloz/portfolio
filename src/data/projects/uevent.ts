@@ -9,8 +9,8 @@ export const ueventProject: Project = {
   slug: 'uevent',
   description: 'Event platform with ticket management, Stripe payments, location search, and real-time notifications.',
   image: {
-    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-dark.png',
-    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-light.png'
+    dark: '/project-media/uevent/uevent-dark.webp',
+    light: '/project-media/uevent/uevent-light.webp'
   },
 
   highlights: [
@@ -298,51 +298,51 @@ export const ueventProject: Project = {
   gallery: [
     {
       title: 'UEvent (light)',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-light.png'
+      image: '/project-media/uevent/uevent-light.webp'
     },
     {
       title: 'Introduction',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/introduction.png'
+      image: '/project-media/uevent/introduction.webp'
     },
     {
       title: 'Authentication',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/auth.png'
+      image: '/project-media/uevent/auth.webp'
     },
     {
       title: '404 Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/404.png'
+      image: '/project-media/uevent/404.webp'
     },
     {
       title: 'Event Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/event.png'
+      image: '/project-media/uevent/event.webp'
     },
     {
       title: 'User Profile',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/profile.png'
+      image: '/project-media/uevent/profile.webp'
     },
     {
       title: 'Company Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/company.png'
+      image: '/project-media/uevent/company.webp'
     },
     {
       title: 'Database Schema',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/db-schema.png'
+      image: '/project-media/uevent/db-schema.webp'
     },
     {
       title: 'Company News',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/company-news.png'
+      image: '/project-media/uevent/company-news.webp'
     },
     {
       title: 'Deployment Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/deployment-diagram.png'
+      image: '/project-media/uevent/deployment-diagram.webp'
     },
     {
       title: 'Interactive Map',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/map.png'
+      image: '/project-media/uevent/map.webp'
     },
     {
       title: 'Use Case Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/use-case-diagram.png'
+      image: '/project-media/uevent/use-case-diagram.webp'
     }
   ],
 
@@ -357,19 +357,19 @@ export const ueventProject: Project = {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-desktop-demo.mp4',
       device: 'desktop',
       length: '4:26',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-desktop-preview.png'
+      preview: '/project-media/uevent/demo-desktop-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-mobile-demo.mp4',
       device: 'mobile',
       length: '3:01',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-mobile-preview.png'
+      preview: '/project-media/uevent/demo-mobile-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-tablet-demo.mp4',
       device: 'tablet',
       length: '3:52',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/demo-tablet-preview.png'
+      preview: '/project-media/uevent/demo-tablet-preview.webp'
     }
   ]
 };

@@ -34,18 +34,22 @@ const renderDiscoveryHead = (route: DiscoveryRoute) => {
   return `<!-- discovery:start -->
   <title>${escapeHtml(route.title)}</title>
   <meta name="description" content="${escapeHtml(route.description)}" />
+  <meta name="author" content="${SITE_NAME}" />
   <meta name="robots" content="${robots}" />
   <link rel="canonical" href="${escapeHtml(canonicalUrl)}" />
   <meta property="og:type" content="${route.kind === 'project' ? 'article' : 'website'}" />
   <meta property="og:site_name" content="${SITE_NAME}" />
+  <meta property="og:locale" content="en_GB" />
   <meta property="og:title" content="${escapeHtml(route.title)}" />
   <meta property="og:description" content="${escapeHtml(route.description)}" />
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}" />
   <meta property="og:image" content="${escapeHtml(route.image)}" />
+  <meta property="og:image:alt" content="${escapeHtml(route.kind === 'project' ? `${route.title} interface` : 'Mykhailo Kloz portfolio')}" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${escapeHtml(route.title)}" />
   <meta name="twitter:description" content="${escapeHtml(route.description)}" />
   <meta name="twitter:image" content="${escapeHtml(route.image)}" />
+  <meta name="twitter:image:alt" content="${escapeHtml(route.kind === 'project' ? `${route.title} interface` : 'Mykhailo Kloz portfolio')}" />
   <script id="portfolio-structured-data" type="application/ld+json">${structuredData}</script>
   <!-- discovery:end -->`;
 };
@@ -105,11 +109,13 @@ const renderRouteDocument = (source: string, route: DiscoveryRoute) => {
     /<!-- discovery:start -->[\s\S]*?<!-- discovery:end -->/u,
     renderDiscoveryHead(route)
   );
-  return withHead.replace('<div id="root"></div>', `<div id="root">${renderFallback(route)}</div>`);
+  const withFallback = withHead.replace('<div id="root"></div>', `<div id="root">${renderFallback(route)}</div>`);
+  return route.kind === 'home' ? withFallback : withFallback.replace(/\s*<link[^>]*data-home-only[^>]*\/>/u, '');
 };
 
 const renderRobotsTxt = () => `User-agent: *
 Allow: /
+Disallow: /contact/success
 
 User-agent: OAI-SearchBot
 Allow: /

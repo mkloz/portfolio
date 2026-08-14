@@ -9,8 +9,8 @@ export const usofProject: Project = {
   slug: 'usof',
   description: 'A Reddit-like full-stack application with posts, comments, voting, and user authentication.',
   image: {
-    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-dark.png',
-    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-light.png'
+    dark: '/project-media/usof/usof-dark.webp',
+    light: '/project-media/usof/usof-light.webp'
   },
 
   highlights: [
@@ -290,51 +290,51 @@ export const usofProject: Project = {
   gallery: [
     {
       title: 'Main UI Overview',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-light.png'
+      image: '/project-media/usof/usof-light.webp'
     },
     {
       title: 'Introduction to USOF',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/introduction.png'
+      image: '/project-media/usof/introduction.webp'
     },
     {
       title: 'Article View',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/article.png'
+      image: '/project-media/usof/article.webp'
     },
     {
       title: 'Posts Feed',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/posts.png'
+      image: '/project-media/usof/posts.webp'
     },
     {
       title: 'Categories',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/categories.png'
+      image: '/project-media/usof/categories.webp'
     },
     {
       title: 'Favorites',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/favorites.png'
+      image: '/project-media/usof/favorites.webp'
     },
     {
       title: 'User Profile',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/user.png'
+      image: '/project-media/usof/user.webp'
     },
     {
       title: 'Dark Mode',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/dark-mode.png'
+      image: '/project-media/usof/dark-mode.webp'
     },
     {
       title: 'Database Schema',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/db-schema.png'
+      image: '/project-media/usof/db-schema.webp'
     },
     {
       title: 'Deployment Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/deploy-diagram.png'
+      image: '/project-media/usof/deploy-diagram.webp'
     },
     {
       title: 'Use Case Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/use-case-diagram.png'
+      image: '/project-media/usof/use-case-diagram.webp'
     },
     {
       title: 'OpenAPI Documentation',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/open-api.png'
+      image: '/project-media/usof/open-api.webp'
     }
   ],
 
@@ -348,19 +348,19 @@ export const usofProject: Project = {
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-desktop.mp4',
       device: 'desktop',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-desktop-preview.png',
+      preview: '/project-media/usof/demo-desktop-preview.webp',
       length: '2:15'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-mobile.mp4',
       device: 'mobile',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-mobile-preview.png',
+      preview: '/project-media/usof/demo-mobile-preview.webp',
       length: '1:27'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-tablet.mp4',
       device: 'tablet',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/demo-tablet-preview.png',
+      preview: '/project-media/usof/demo-tablet-preview.webp',
       length: '1:26'
     }
   ]

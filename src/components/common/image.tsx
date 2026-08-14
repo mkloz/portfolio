@@ -46,6 +46,8 @@ export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
       ),
       wrapperClassName,
       showNoImage = true,
+      loading = 'lazy',
+      decoding = 'async',
       style,
       ...props
     },
@@ -103,6 +105,8 @@ export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
             }}
             src={actualSrc || '/placeholder.svg'}
             alt={alt}
+            loading={loading}
+            decoding={decoding}
             style={imageStyle}
             className={cn(className)}
             onLoad={handleLoad}

@@ -4,58 +4,51 @@ import { useMemo, useState } from 'react';
 import { SystemCanvasEffect } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
 import { projectSummaries } from '@/data/project-summaries';
+import { SYSTEM_EFFECT_META } from '@/data/system-effects';
+import { useHoverIntent } from '@/hooks/use-hover-intent';
 import { cn } from '@/lib/utils';
 
 const CATEGORIES = [
   {
     name: 'Frontend',
-    effect: 'grid',
+    ...SYSTEM_EFFECT_META.Frontend,
     icon: Code2,
-    color: '#ffd400',
-    canvasTint: [1, 0.83, 0] as [number, number, number],
     image: '/editorial/system-frontend-960.webp',
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Next.js', 'Zustand']
   },
   {
     name: 'Backend',
-    effect: 'particles',
+    ...SYSTEM_EFFECT_META.Backend,
     icon: ServerCog,
-    color: '#465bff',
-    canvasTint: [0.275, 0.357, 1] as [number, number, number],
-    image: '/editorial/system-backend.jpg',
+    image: '/editorial/system-backend.webp',
     technologies: ['Node.js', 'NestJS', 'Prisma', 'Express', 'JWT', 'Socket.IO']
   },
   {
     name: 'Database',
-    effect: 'decrypt',
+    ...SYSTEM_EFFECT_META.Database,
     icon: Database,
-    color: '#74f0b3',
-    canvasTint: [0.455, 0.941, 0.702] as [number, number, number],
-    image: '/editorial/system-database.jpg',
+    image: '/editorial/system-database.webp',
     technologies: ['PostgreSQL', 'Redis', 'MongoDB', 'MySQL']
   },
   {
     name: 'DevOps',
-    effect: 'particles',
+    ...SYSTEM_EFFECT_META.DevOps,
     icon: CloudCog,
-    color: '#ff583d',
-    canvasTint: [1, 0.345, 0.239] as [number, number, number],
-    image: '/editorial/system-devops.jpg',
+    image: '/editorial/system-devops.webp',
     technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Cloudflare Pages', 'Linux']
   },
   {
     name: 'Tools',
-    effect: 'decrypt',
+    ...SYSTEM_EFFECT_META.Tools,
     icon: Wrench,
-    color: '#6c4eff',
-    canvasTint: [0.424, 0.306, 1] as [number, number, number],
-    image: '/editorial/system-tools.jpg',
+    image: '/editorial/system-tools.webp',
     technologies: ['Git', 'ESLint', 'Prettier', 'Jest', 'Swagger']
   }
 ] as const;
 
 export const Skills = () => {
   const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]['name']>('Frontend');
+  const { schedule: previewCategory, cancel: cancelCategoryPreview } = useHoverIntent(setActiveCategory, 70);
   const projects = projectSummaries;
   const active = CATEGORIES.find((category) => category.name === activeCategory) ?? CATEGORIES[0];
   const evidenceProjects = useMemo(
@@ -63,6 +56,9 @@ export const Skills = () => {
     [activeCategory, projects]
   );
   const activeIndex = CATEGORIES.findIndex((category) => category.name === activeCategory);
+  const activeImageSrcSet = active.image.includes('-960.webp')
+    ? `${active.image.replace('-960.webp', '-640.webp')} 640w, ${active.image} 960w`
+    : `${active.image.replace(/\.webp$/, '-640.webp')} 640w, ${active.image} 1200w`;
   const selectAdjacentCategory = (direction: number) => {
     const nextIndex = (activeIndex + direction + CATEGORIES.length) % CATEGORIES.length;
     setActiveCategory(CATEGORIES[nextIndex].name);
@@ -97,6 +93,9 @@ export const Skills = () => {
                 aria-selected={activeCategory === category.name}
                 tabIndex={activeCategory === category.name ? 0 : -1}
                 aria-controls="technology-list"
+                onMouseEnter={() => previewCategory(category.name)}
+                onMouseLeave={cancelCategoryPreview}
+                onPointerDown={cancelCategoryPreview}
                 onClick={() => setActiveCategory(category.name)}
                 onKeyDown={(event) => {
                   if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
@@ -136,6 +135,8 @@ export const Skills = () => {
               <img
                 key={active.image}
                 src={active.image}
+                srcSet={activeImageSrcSet}
+                sizes="(max-width: 1023px) 100vw, 67vw"
                 alt={`${active.name} engineering workbench`}
                 loading="lazy"
                 decoding="async"
@@ -149,6 +150,8 @@ export const Skills = () => {
                 className="absolute inset-0 size-full">
                 <img
                   src={active.image}
+                  srcSet={activeImageSrcSet}
+                  sizes="(max-width: 1023px) 100vw, 67vw"
                   alt=""
                   aria-hidden="true"
                   loading="lazy"

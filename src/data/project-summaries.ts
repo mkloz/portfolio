@@ -42,10 +42,10 @@ export const projectSummaries: ProjectSummary[] = [
     description:
       'Design tool platform with canvas-based editor providing professional, simple and easy to use design tools.',
     image: {
-      dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-dark.png',
-      light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-light.png'
+      dark: '/project-previews/webster-dark.webp',
+      light: '/project-previews/webster-light.webp'
     },
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/introduction.png',
+    secondaryImage: '/project-previews/webster-introduction.webp',
     technologies: ['React', 'Konva', 'Nest.js', 'PostgreSQL', 'TypeScript'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/webster-frontend' },
@@ -60,10 +60,10 @@ export const projectSummaries: ProjectSummary[] = [
     slug: 'chronos',
     description: 'Calendar system for scheduling events and coordinating shared calendars.',
     image: {
-      light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-light.png',
-      dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-dark.png'
+      light: '/project-previews/chronos-light.webp',
+      dark: '/project-previews/chronos-dark.webp'
     },
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/introduction.png',
+    secondaryImage: '/project-previews/chronos-introduction.webp',
     technologies: ['React', 'Nest.js', 'PostgreSQL', 'TS', 'Prisma'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/chronos-frontend' },
@@ -78,10 +78,10 @@ export const projectSummaries: ProjectSummary[] = [
     slug: 'usof',
     description: 'A Reddit-like full-stack application with posts, comments, voting, and user authentication.',
     image: {
-      dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-dark.png',
-      light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/usof-light.png'
+      dark: '/project-previews/usof-dark.webp',
+      light: '/project-previews/usof-light.webp'
     },
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/usof/introduction.png',
+    secondaryImage: '/project-previews/usof-introduction.webp',
     technologies: ['React', 'Node.js', 'Express', 'MySQL', 'TypeScript'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/usof-frontend' },
@@ -96,10 +96,10 @@ export const projectSummaries: ProjectSummary[] = [
     slug: 'portfolio',
     description: 'Responsive portfolio with project case studies, demos, implementation notes, and image galleries.',
     image: {
-      light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-light.png',
-      dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/portfolio-dark.png'
+      light: '/project-previews/portfolio-light.webp',
+      dark: '/project-previews/portfolio-dark.webp'
     },
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/portfolio/404.png',
+    secondaryImage: '/project-previews/portfolio-404.webp',
     technologies: ['React', 'TS', 'Tailwind CSS', 'ShadCN', 'Vite', 'Cloudflare Pages', 'GitHub Actions'],
     github: [{ name: 'Portfolio Frontend', link: 'https://github.com/mkloz/portfolio' }],
     year: 2025,
@@ -110,8 +110,8 @@ export const projectSummaries: ProjectSummary[] = [
     title: 'Citywheels',
     slug: 'citywheels',
     description: 'E-commerce store with product discovery, checkout, administration, and order management.',
-    image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/hero.png',
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/auth.png',
+    image: '/project-previews/citywheels-hero.webp',
+    secondaryImage: '/project-previews/citywheels-auth.webp',
     technologies: ['Next.js', 'React', 'NestJS', 'MySQL', 'TypeScript'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/citywheels-frontend' },
@@ -133,3 +133,13 @@ export const getNextPriorityProject = (slug: string) => {
   if (currentIndex < 0) return undefined;
   return projectSummaries[(currentIndex + 1) % projectSummaries.length];
 };
+
+const RESPONSIVE_IMAGE_ROOTS = ['/project-previews/', '/project-media/', '/editorial/uevent-'] as const;
+
+export const getResponsiveImageSrcSet = (src: string) => {
+  if (!src.endsWith('.webp') || !RESPONSIVE_IMAGE_ROOTS.some((root) => src.startsWith(root))) return undefined;
+  return `${src.replace(/\.webp$/, '-480.webp')} 480w, ${src} 960w`;
+};
+
+export const getSmallImageSrc = (src: string) =>
+  getResponsiveImageSrcSet(src) ? src.replace(/\.webp$/, '-480.webp') : src;

@@ -23,18 +23,31 @@ export const RouteMetadata = () => {
     const robots = route.indexable ? 'index, follow' : 'noindex, nofollow, noarchive';
 
     document.title = route.title;
+    document.documentElement.lang = 'en-GB';
     setMeta('name', 'description', route.description);
     setMeta('name', 'robots', robots);
+    setMeta('name', 'author', SITE_NAME);
     setMeta('property', 'og:type', route.kind === 'project' ? 'article' : 'website');
     setMeta('property', 'og:site_name', SITE_NAME);
+    setMeta('property', 'og:locale', 'en_GB');
     setMeta('property', 'og:title', route.title);
     setMeta('property', 'og:description', route.description);
     setMeta('property', 'og:url', canonicalUrl);
     setMeta('property', 'og:image', route.image);
+    setMeta(
+      'property',
+      'og:image:alt',
+      route.kind === 'project' ? `${route.title} interface` : 'Mykhailo Kloz portfolio'
+    );
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', route.title);
     setMeta('name', 'twitter:description', route.description);
     setMeta('name', 'twitter:image', route.image);
+    setMeta(
+      'name',
+      'twitter:image:alt',
+      route.kind === 'project' ? `${route.title} interface` : 'Mykhailo Kloz portfolio'
+    );
 
     let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
     if (!canonical) {
