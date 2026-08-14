@@ -62,20 +62,20 @@ export const portfolioProject: Project = {
     'Lucide React',
     'ESLint',
     'S3',
-    'Vercel',
+    'Cloudflare Pages',
     'CI/CD',
 
     // Supporting Technologies
     'Prettier'
   ],
-  liveDemo: 'https://portfolio.mkloz.com',
+  liveDemo: 'https://www.mkloz.com',
   github: [
     {
       name: 'Portfolio Frontend',
       link: 'https://github.com/mkloz/portfolio'
     }
   ],
-  website: 'https://portfolio.mkloz.com',
+  website: 'https://www.mkloz.com',
   featured: false,
   year: 2025,
   progress: 90,
@@ -94,7 +94,7 @@ export const portfolioProject: Project = {
     technologies.vite,
     technologies.react,
     technologies.aws,
-    technologies.vercel,
+    technologies.cloudflarepages,
     technologies.eslint,
     technologies.shadcn,
     technologies.git,
@@ -175,8 +175,8 @@ export const portfolioProject: Project = {
         duration: '1 day',
         decisions: [
           {
-            decision: 'Deploy the website to Vercel',
-            reasoning: 'Vercel hosts the production website'
+            decision: 'Deploy the website to Cloudflare Pages',
+            reasoning: "Pages serves the verified static build from Cloudflare's edge network"
           },
           {
             decision: 'Set up multiple domains',
@@ -188,7 +188,7 @@ export const portfolioProject: Project = {
           }
         ],
         achievements: [
-          'Deployed the website to Vercel',
+          'Deployed the website to Cloudflare Pages',
           'Set up multiple domains for the website',
           'CI/CD pipeline for the website',
           'Set up a monitoring system for the website',
