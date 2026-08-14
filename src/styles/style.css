@@ -859,8 +859,9 @@
   .mobile-scroll-strip {
     scrollbar-width: none;
     overscroll-behavior-inline: contain;
+    overscroll-behavior-block: auto;
     scroll-padding-inline: 1.25rem;
-    touch-action: pan-x;
+    touch-action: pan-x pan-y;
     -webkit-overflow-scrolling: touch;
   }
 
