@@ -37,7 +37,7 @@ export const ThemeToggle = () => {
             ...originRef.current
           });
         }}
-        className="relative min-h-11 min-w-11 rounded-full p-0! text-foreground/50 transition-[color,background-color] duration-200 hover:bg-foreground/8 hover:text-foreground data-[state=on]:bg-transparent data-[state=on]:text-foreground/50 data-[state=on]:hover:bg-foreground/8 data-[state=on]:hover:text-foreground">
+        className="floating-header-button relative min-h-11 min-w-11 rounded-full p-0!">
         {isDark ? <MoonIcon className="size-[1.125rem]" /> : <SunIcon className="size-[1.125rem]" />}
       </Toggle>
     </div>

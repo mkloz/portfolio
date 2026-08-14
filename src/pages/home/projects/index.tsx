@@ -5,6 +5,7 @@ import { EvidenceMagnifier } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
 import { getResponsiveImageSrcSet, projectSummaries, type ProjectSummary } from '@/data/project-summaries';
 import { useTheme } from '@/hooks/theme.store';
+import { useHoverIntent } from '@/hooks/use-hover-intent';
 import { getProjectAccent } from '@/lib/project-accent';
 import { cn } from '@/lib/utils';
 
@@ -72,6 +73,7 @@ const ProjectMedia = ({
 export const Projects = () => {
   const projects = projectSummaries;
   const [activeIndex, setActiveIndex] = useState(0);
+  const { schedule: previewProject, cancel: cancelProjectPreview } = useHoverIntent(setActiveIndex, 90);
   const selectAdjacentProject = (index: number, direction: number) => {
     const nextIndex = (index + direction + projects.length) % projects.length;
     setActiveIndex(nextIndex);
@@ -207,7 +209,7 @@ export const Projects = () => {
           })}
         </div>
 
-        <div className="hidden overflow-hidden border-2 border-current lg:flex lg:h-[42rem] lg:flex-row">
+        <div className="project-accordion hidden overflow-hidden border-2 border-current lg:flex lg:h-[38rem] lg:flex-row xl:h-[40rem]">
           {projects.map((project, index) => {
             const active = activeIndex === index;
             const accent = getProjectAccent(project.slug);
@@ -215,17 +217,22 @@ export const Projects = () => {
             return (
               <article
                 key={project.slug}
-                onMouseEnter={() => setActiveIndex(index)}
-                onFocusCapture={() => setActiveIndex(index)}
+                data-active={active}
+                onMouseEnter={() => previewProject(index)}
+                onMouseLeave={cancelProjectPreview}
+                onFocusCapture={() => {
+                  cancelProjectPreview();
+                  setActiveIndex(index);
+                }}
                 className={cn(
-                  'project-panel group/project relative flex min-w-0 flex-col border-current bg-background text-foreground lg:h-full lg:border-r-2 lg:last:border-r-0',
-                  index > 0 && 'border-t-2 lg:border-t-0',
-                  active ? 'lg:flex-[7]' : 'lg:flex-[1]'
+                  'project-panel group/project relative flex min-w-0 flex-col overflow-hidden border-current bg-background text-foreground lg:h-full lg:border-r-2 lg:last:border-r-0',
+                  index > 0 && 'border-t-2 lg:border-t-0'
                 )}>
                 <button
                   data-project-index={index}
                   data-signal
                   data-signal-color={accent.background}
+                  onPointerDown={cancelProjectPreview}
                   onClick={() => setActiveIndex(index)}
                   onKeyDown={(event) => {
                     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
@@ -268,7 +275,7 @@ export const Projects = () => {
                 </button>
 
                 {active && (
-                  <div className="relative flex h-full min-w-0 flex-1 flex-col p-5 md:p-8">
+                  <div className="project-panel-body relative grid h-full min-w-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-6 p-5 md:p-7 xl:gap-8 xl:p-8">
                     <Link
                       to={`/projects/${project.slug}`}
                       unstyled
@@ -289,9 +296,9 @@ export const Projects = () => {
                       <span className="meta-type hidden font-mono md:block">{String(index + 1).padStart(2, '0')}</span>
                     </div>
 
-                    <div className="mt-6 grid flex-1 gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+                    <div className="grid min-h-0 gap-6 lg:grid-cols-[minmax(0,1.38fr)_minmax(14rem,0.62fr)] lg:items-center xl:gap-8">
                       <ProjectMedia project={project} />
-                      <div className="flex flex-col justify-end">
+                      <div className="flex min-w-0 flex-col justify-center">
                         <p className="text-lg font-medium leading-relaxed">{project.description}</p>
                         <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
                           {project.technologies.slice(0, 5).map((technology) => (

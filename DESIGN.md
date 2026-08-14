@@ -10,6 +10,13 @@ colors:
   hot-coral: '#ff583d'
   acid-mint: '#74f0b3'
   violet: '#6c4eff'
+  project-blue: '#3d5afe'
+  project-orange: '#ff8a30'
+  canvas-black: '#000000'
+  canvas-status-green: '#4ade80'
+  aws-s3-brand: '#e25444'
+  aws-s3-brand-shadow: '#7b1d13'
+  aws-s3-brand-deep: '#58150d'
 typography:
   scale:
     micro: '0.6rem'
@@ -17,12 +24,13 @@ typography:
     microLabel: '0.62rem'
     microProject: '0.64rem'
     label: '0.68rem'
+    projectTaglineMin: '1.5rem'
     contactEmailMin: '2.1rem'
     emailRailMin: '2.35rem'
-    heroMin: '3.2rem'
+    heroMin: '4rem'
     mobileHeroMin: '2.9rem'
     mobileHeroMax: '3.75rem'
-    displayMin: '3.65rem'
+    displayMin: '3.5rem'
     utilityDisplayMin: '3.5rem'
     utilityDisplayMax: '6rem'
     mobileFooterProjectMin: '3.5rem'
@@ -34,8 +42,8 @@ typography:
     utilityHeroMin: '3.2rem'
     utilityHeroMax: '7.5rem'
     utilitySectionMin: '3.25rem'
-    projectHeroMin: '3.5rem'
-    projectHeroMax: '5.25rem'
+    projectHeroMin: '4.5rem'
+    projectHeroMax: '8rem'
     mobileProjectHeroShortMin: '4.5rem'
     mobileProjectHeroShortMax: '5.75rem'
     mobileProjectHeroMediumMin: '3.75rem'
@@ -44,19 +52,29 @@ typography:
     caseStudyPrimaryMax: '4.5rem'
     caseStudySupportingMin: '2.5rem'
     caseStudySupportingMax: '3.75rem'
+    mobileCaseStudyMin: '2.35rem'
+    mobileCaseStudyMax: '3rem'
+    mobileContactQuestionMin: '2.8rem'
+    mobileContactEmailMin: '1.45rem'
     contactMin: '4rem'
     contactUtilityMin: '3.75rem'
     contactUtilityMax: '7.5rem'
     contactQuestionUtilityMax: '7rem'
     contactEmailUtilityMax: '5rem'
     contactEmailMax: '6.5rem'
-    headlineMax: '8rem'
-    heroMax: '9.5rem'
+    footerProjectMin: '4rem'
+    footerProjectMax: '7rem'
+    projectFooterMin: '4.25rem'
+    projectFooterMax: '8rem'
+    headlineMax: '6rem'
+    heroMax: '9rem'
     contactQuestionMax: '10rem'
-    displayMax: '11rem'
+    displayMax: '6rem'
+    notFoundMin: '4rem'
+    notFoundMax: '13rem'
   display:
     fontFamily: 'Cabinet Grotesk, Archivo, Arial, sans-serif'
-    fontSize: 'clamp(3.65rem, 12vw, 11rem)'
+    fontSize: 'clamp(3.5rem, 8vw, 6rem)'
     fontWeight: 800
     lineHeight: 0.78
     letterSpacing: '-0.055em'
@@ -68,7 +86,7 @@ typography:
     letterSpacing: '-0.04em'
   hero:
     fontFamily: 'Cabinet Grotesk, Archivo, Arial, sans-serif'
-    fontSize: 'clamp(3.2rem, 8.7vw, 9.5rem)'
+    fontSize: 'clamp(4rem, 8.5vw, 9rem)'
     fontWeight: 800
     lineHeight: 0.82
     letterSpacing: '-0.06em'
@@ -143,7 +161,7 @@ components:
 
 The portfolio behaves like a control-room ledger. Large type states the role, while thin rules, mono readings, live evidence panes, and real project media connect each claim to a working artifact. Black, warm paper, and white carry almost the entire interface. Color identifies an active route, project, or interaction.
 
-The system combines editorial scale with technical precision. The screen-print portrait, project accordion, build trace, capability map, and case-study log are different instruments inside the same visual world.
+The system combines editorial scale with technical precision. The code-rendered portrait, project accordion, build trace, capability map, and case-study log are different instruments inside the same visual world.
 
 **Key Characteristics:**
 
@@ -153,7 +171,7 @@ The system combines editorial scale with technical precision. The screen-print p
 - Sparse signal colors tied to state or project identity
 - One explanatory scroll sequence, with direct interactions elsewhere
 
-The authored media is part of the shipped world. The identity-preserving hero portrait ships as the responsive `public/editorial/portrait-screenprint-480.webp`, while the working-system compositions use responsive WebP sources sized to their rendered surfaces.
+The authored media is part of the shipped world. The identity-preserving hero source ships as `public/editorial/portrait-screenprint-480.webp`, but it is sampled only as an offscreen luminance map for the visible canvas portrait. Working-system compositions use responsive WebP sources sized to their rendered surfaces.
 
 ## Colors
 
@@ -187,7 +205,7 @@ The interaction system behaves like a signal being acquired, routed, and confirm
 
 - **Route signal:** internal page changes replace the old page immediately and reveal the incoming page from the top edge while the four signal channels briefly resolve across that edge. Navigation never waits for the motion.
 - **Theme signal:** theme changes radiate from the control that caused them, keeping the relationship between action and result visible.
-- **Direct instruments:** project panels, system tabs, the build log, demo devices, portrait channels, and gallery frames change in place. Arrow-key navigation mirrors click and touch behavior where the control is a tab or accordion set.
+- **Direct instruments:** project panels, system tabs, the build log, demo devices, the particle portrait field, and gallery frames change in place. Arrow-key navigation mirrors click and touch behavior where the control is a tab or accordion set.
 - **Long-page orientation:** a discreet desktop section index shows the active reading position and reveals labels only on hover or focus.
 - **Feedback:** meaningful actions answer immediately—copy confirms in place, selected media resolves with a clipped signal transition, and gallery inspection supports arrows, Escape, and touch swipes.
 - **Motion budget:** route and theme transitions are the authored focal motions. Project media depth is fine-pointer only; all continuous rails pause while the page is hidden and on direct user focus or hover.
@@ -208,12 +226,12 @@ Cabinet Grotesk supplies broad, forceful headlines and compact project names. IB
 
 ### Hierarchy
 
-- **Display** (800, fluid 3.4rem to 10.6rem, 0.78): the role, project name, next-project route, and 404 state.
-- **Headline** (800, fluid 3.5rem to 8rem, 0.88): major home and case-study sections.
+- **Display** (800, fluid 3.5rem to 6rem, 0.86): supporting display statements and compact utility routes.
+- **Headline** (800, fluid 3.25rem to 6rem, 0.9): major home and case-study sections.
 - **Title** (800, 2rem to 4rem, about 0.9): projects, capabilities, timeline events, and build phases.
 - **Body** (500, 17px to 21px, 1.5 to 1.65): factual explanations with a measure near 60 characters.
 - **Label** (600, about 11px, 0.12em tracking, uppercase): project state, dates, navigation, and layer names.
-- **Project Hero** (800, fluid 3.5rem to 5.25rem, 0.82): the case-study title, deliberately below the homepage role scale.
+- **Project Hero** (800, fluid 4.5rem to 8rem, 0.82): the case-study title, deliberately below the homepage role scale.
 - **Case-study Primary** (800, fluid 2.75rem to 4.5rem, 0.88): pivotal narrative moments such as product scope, working proof, and decisions.
 - **Case-study Supporting** (800, fluid 2.5rem to 3.75rem, 0.9): stack and gallery headings that organize evidence without competing with it.
 
@@ -229,7 +247,7 @@ Mobile uses a related but purpose-built composition rather than stacked desktop 
 
 ## Elevation & Depth
 
-The interface is flat by default. Tonal inversion, overlap, crop, and borders create depth. The screen-print portrait and secondary project screenshot may use a soft ambient shadow because they behave like physical prints placed over the composition. There are no glow halos or glass surfaces.
+The interface is flat by default. Tonal inversion, overlap, crop, and borders create depth. The canvas portrait behaves like a technical instrument embedded in the page, while the secondary project screenshot may use a soft ambient shadow because it behaves like a physical print. There are no glow halos or glass surfaces.
 
 **The Evidence Above Chrome Rule.** A real image, diagram, or demonstration occupies the focal media area. Decorative UI chrome never substitutes for missing evidence.
 
@@ -267,9 +285,9 @@ The fixed header combines the MK mark, compact identity reading, mono route labe
 
 Project tabs expand on hover, focus, or click. The active panel contains the title, factual summary, layered project imagery, technologies, source link, and case-study action. Inactive project names remain visible for direct comparison and navigation.
 
-### Screen-print portrait
+### Code-rendered portrait
 
-The portrait uses three horizontal image slices. Fine-pointer movement shifts those slices by a few pixels and returns them with an exponential ease. Touch and reduced-motion users receive the intact image.
+The visible portrait is a canvas-generated halftone and ASCII particle field derived from an offscreen luminance sample. Density-sized print particles preserve the face, glasses, hair, and shoulders while selected dark regions resolve into sparse code glyphs. A restrained red-and-blue registration fringe connects the resting print to the interactive color system. Fine-pointer proximity displaces local particles; click or tap sends a four-color reconstruction pulse through the face before every particle returns to its registered position. Touch retains the tap response, and reduced-motion renders the stable portrait without displacement.
 
 ### Closing route
 

@@ -119,7 +119,10 @@ export const LoadingOverlay = ({ initial = false, phase = 'visible' }: { initial
         </div>
 
         <div className="loading-progress-track relative h-3 overflow-hidden border border-white/30" aria-hidden="true">
-          <span className="loading-progress-fill absolute inset-y-0 left-0" style={{ width: `${progress}%` }} />
+          <span
+            className="loading-progress-fill absolute inset-y-0 left-0"
+            style={initial ? { transform: `scaleX(${progress / 100})` } : undefined}
+          />
           <span className="absolute inset-0 grid grid-cols-4">
             <span />
             <span className="border-l border-white/35" />

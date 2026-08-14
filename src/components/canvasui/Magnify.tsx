@@ -371,7 +371,7 @@ function createMagnify(elements: MagnifyElements, options: MagnifyOptions = {}):
     top: '0',
     pointerEvents: 'none',
     whiteSpace: 'pre',
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+    fontFamily: '"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace',
     fontSize: '10px',
     lineHeight: '1.8',
     letterSpacing: '0.14em',

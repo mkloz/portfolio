@@ -73,11 +73,20 @@ export const Seo = () => {
   useEffect(() => {
     const projectSlug = pathname.match(/^\/projects\/([^/]+)\/?$/)?.[1];
     const project = seoRoutes.projects.find((item) => item.slug === projectSlug);
-    const isIndexable = pathname === '/' || Boolean(project);
+    const isHome = pathname === '/';
+    const isSuccess = pathname === '/contact/success';
+    const isIndexable = isHome || Boolean(project);
     const title =
-      project?.title ?? (pathname === '/' ? seoRoutes.site.defaultTitle : `Page not found — ${seoRoutes.site.name}`);
-    const description = project?.description ?? seoRoutes.site.description;
-    const canonicalPath = project ? `/projects/${project.slug}` : '/';
+      project?.title ??
+      (isHome
+        ? seoRoutes.site.defaultTitle
+        : isSuccess
+          ? `Message received — ${seoRoutes.site.name}`
+          : `Page not found — ${seoRoutes.site.name}`);
+    const description = isSuccess
+      ? 'Your message has been delivered to Mykhailo Kloz.'
+      : (project?.description ?? seoRoutes.site.description);
+    const canonicalPath = project ? `/projects/${project.slug}` : isSuccess ? '/contact/success' : '/';
     const canonical = absoluteUrl(canonicalPath);
     const image = absoluteUrl(project?.image ?? seoRoutes.site.image);
 
@@ -115,7 +124,11 @@ export const Seo = () => {
       structuredData.dataset.routeSeo = '';
       document.head.append(structuredData);
     }
-    structuredData.text = JSON.stringify(getStructuredData(project));
+    if (isIndexable) {
+      structuredData.text = JSON.stringify(getStructuredData(project));
+    } else {
+      structuredData.remove();
+    }
   }, [pathname]);
 
   return null;

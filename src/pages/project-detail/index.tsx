@@ -27,6 +27,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
+import { SystemCanvasEffect } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
 import { SectionNavigator } from '@/components/common/section-navigator';
 import {
@@ -37,9 +38,11 @@ import {
   projectSummaries
 } from '@/data/project-summaries';
 import type { GalleryItem, Project } from '@/data/projects';
+import { SYSTEM_EFFECT_META } from '@/data/system-effects';
 import { getTechnologyByName } from '@/data/technologies';
 import { useTheme } from '@/hooks/theme.store';
 import { useIsMobile } from '@/hooks/use-breakpoint';
+import { useHoverIntent } from '@/hooks/use-hover-intent';
 import { useRouteScroll } from '@/hooks/use-route-scroll';
 import { getProjectAccent } from '@/lib/project-accent';
 import { celebrateProjectJourney, readProjectJourney, visitProject, writeProjectJourney } from '@/lib/project-journey';
@@ -58,13 +61,16 @@ const TECHNOLOGY_GROUP_ORDER = ['Frontend', 'Backend', 'Database', 'DevOps', 'To
 
 type TechnologyCategory = Project['detailedTechnologies'][number]['category'];
 
-const PROJECT_SYSTEM_META: Record<TechnologyCategory, { color: string; image: string; icon: typeof Code2 }> = {
-  Frontend: { color: '#ffd400', image: '/editorial/project-system-frontend.webp', icon: Code2 },
-  Backend: { color: '#465bff', image: '/editorial/project-system-backend.webp', icon: ServerCog },
-  Database: { color: '#74f0b3', image: '/editorial/project-system-database.webp', icon: Database },
-  DevOps: { color: '#ff583d', image: '/editorial/project-system-devops.webp', icon: CloudCog },
-  Tools: { color: '#6c4eff', image: '/editorial/project-system-tools.webp', icon: Wrench },
-  'Full-Stack': { color: '#6c4eff', image: '/editorial/systems-workbench.webp', icon: Layers3 }
+const PROJECT_SYSTEM_META: Record<
+  TechnologyCategory,
+  (typeof SYSTEM_EFFECT_META)[keyof typeof SYSTEM_EFFECT_META] & { image: string; icon: typeof Code2 }
+> = {
+  Frontend: { ...SYSTEM_EFFECT_META.Frontend, image: '/editorial/project-system-frontend.webp', icon: Code2 },
+  Backend: { ...SYSTEM_EFFECT_META.Backend, image: '/editorial/project-system-backend.webp', icon: ServerCog },
+  Database: { ...SYSTEM_EFFECT_META.Database, image: '/editorial/project-system-database.webp', icon: Database },
+  DevOps: { ...SYSTEM_EFFECT_META.DevOps, image: '/editorial/project-system-devops.webp', icon: CloudCog },
+  Tools: { ...SYSTEM_EFFECT_META.Tools, image: '/editorial/project-system-tools.webp', icon: Wrench },
+  'Full-Stack': { ...SYSTEM_EFFECT_META['Full-Stack'], image: '/editorial/systems-workbench.webp', icon: Layers3 }
 };
 
 const EXTRA_TECHNOLOGY_CATEGORIES: Record<string, TechnologyCategory> = {
@@ -435,6 +441,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState(0);
   const [activeTechnologyGroup, setActiveTechnologyGroup] = useState(0);
+  const { schedule: previewTechnologyGroup, cancel: cancelTechnologyGroupPreview } = useHoverIntent(
+    setActiveTechnologyGroup,
+    70
+  );
   const [isDemoPlaying, setIsDemoPlaying] = useState(false);
   const [isDemoMuted, setIsDemoMuted] = useState(true);
   const [isDemoFullscreen, setIsDemoFullscreen] = useState(false);
@@ -478,6 +488,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const activeGroup = activeTechnologyGroupData?.name ?? 'Full-Stack';
   const activeTechnologies = activeTechnologyGroupData?.technologies ?? [];
   const activeSystemMeta = PROJECT_SYSTEM_META[activeGroup];
+  const activeSystemImageSrcSet = activeSystemMeta.image.endsWith('.webp')
+    ? `${activeSystemMeta.image.replace(/\.webp$/, '-640.webp')} 640w, ${activeSystemMeta.image} 1200w`
+    : undefined;
   const deviceConfig = demo ? DEVICE_CONFIG[demo.device] : DEVICE_CONFIG.desktop;
   const playbackDuration = demoDuration || (demo ? parseDemoLength(demo.length) : 0);
   const closeGallery = useCallback(() => setLightboxIndex(null), []);
@@ -1136,6 +1149,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                       aria-selected={activeTechnologyGroup === index}
                       tabIndex={activeTechnologyGroup === index ? 0 : -1}
                       aria-controls="project-technology-panel"
+                      onMouseEnter={() => previewTechnologyGroup(index)}
+                      onMouseLeave={cancelTechnologyGroupPreview}
+                      onPointerDown={cancelTechnologyGroupPreview}
                       onClick={() => setActiveTechnologyGroup(index)}
                       onKeyDown={(event) => {
                         if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
@@ -1175,21 +1191,34 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 <img
                   key={activeSystemMeta.image}
                   src={activeSystemMeta.image}
-                  srcSet={
-                    activeSystemMeta.image.endsWith('.webp')
-                      ? `${activeSystemMeta.image.replace(/\.webp$/, '-640.webp')} 640w, ${activeSystemMeta.image} 1200w`
-                      : undefined
-                  }
+                  srcSet={activeSystemImageSrcSet}
                   sizes="(max-width: 1023px) 100vw, 67vw"
                   alt=""
                   loading="lazy"
                   decoding="async"
                   className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
                 />
-                <span className="absolute inset-0 bg-black/40" aria-hidden="true" />
+                <SystemCanvasEffect
+                  key={`${activeSystemMeta.image}-effect`}
+                  variant={activeSystemMeta.effect}
+                  tint={activeSystemMeta.canvasTint}
+                  color={activeSystemMeta.color}
+                  className="absolute inset-0 size-full">
+                  <img
+                    src={activeSystemMeta.image}
+                    srcSet={activeSystemImageSrcSet}
+                    sizes="(max-width: 1023px) 100vw, 67vw"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className="size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
+                  />
+                </SystemCanvasEffect>
+                <span className="pointer-events-none absolute inset-0 z-[2] bg-black/40" aria-hidden="true" />
                 <div
                   key={activeGroup}
-                  className="system-panel-content relative flex min-h-[23rem] max-w-[90%] flex-col justify-end p-5 sm:max-w-[78%] md:min-h-[30rem] md:p-9 lg:max-w-[72%]">
+                  className="system-panel-content pointer-events-none relative z-10 flex min-h-[23rem] max-w-[90%] flex-col justify-end p-5 sm:max-w-[78%] md:min-h-[30rem] md:p-9 lg:max-w-[72%]">
                   <h3 className="text-[clamp(2.5rem,4vw,3.75rem)] font-black leading-[0.9] tracking-[-0.03em]">
                     {activeGroup}
                   </h3>
@@ -1252,6 +1281,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                       src={item.image}
                       srcSet={getResponsiveImageSrcSet(item.image)}
                       sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+                      width={960}
+                      height={540}
                       alt={item.title}
                       loading="lazy"
                       decoding="async"
