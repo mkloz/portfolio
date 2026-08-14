@@ -687,11 +687,6 @@
     isolation: isolate;
   }
 
-  main section[data-section-motion] {
-    position: relative;
-    overflow-x: clip;
-  }
-
   .canvas-inspection > canvas:last-child,
   .canvas-system-effect > canvas:last-child {
     z-index: 2;

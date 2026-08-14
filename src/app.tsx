@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { InteractionLayer } from './components/common/interaction-layer';
 import { LoadingOverlay } from './components/common/loading-overlay';
 import { RouteSignal } from './components/common/route-signal';
-import { SectionTransitions } from './components/common/section-transitions';
 import { SignalCanvas } from './components/common/signal-canvas';
 import { useThemeSync } from './hooks/theme.store';
 
@@ -43,7 +42,6 @@ export const App = () => {
       </Suspense>
       {showInitialLoading && <LoadingOverlay initial />}
       <RouteSignal />
-      <SectionTransitions />
       <SignalCanvas />
       <InteractionLayer />
     </div>
