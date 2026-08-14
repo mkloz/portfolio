@@ -7,7 +7,7 @@ if (!inputUrl) throw new Error('Usage: node scripts/deployment/smoke.mjs <deploy
 const baseUrl = new URL(inputUrl);
 const portfolio = JSON.parse(await readFile(new URL('../../dist/portfolio.json', import.meta.url), 'utf8'));
 const htmlRoutes = ['/', ...portfolio.projects.map((project) => `/projects/${project.slug}`), '/contact/success'];
-const retryAttempts = 12;
+const retryAttempts = 45;
 const retryDelayMs = 2_000;
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
