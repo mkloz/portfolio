@@ -19,11 +19,7 @@ export const Hero = () => {
         <div className="grid lg:min-h-[calc(clamp(44rem,100svh,58rem)-7.5rem)] lg:grid-cols-12">
           <div className="flex min-w-0 flex-col py-10 lg:col-span-7 lg:border-r lg:border-current/25 lg:py-16 lg:pr-10 xl:pr-14">
             <div className="my-auto">
-              <h1
-                aria-label="Full-stack developer."
-                className="hero-type interactive-type uppercase"
-                data-signal
-                data-signal-color="#ff583d">
+              <h1 aria-label="Full-stack developer." className="hero-type interactive-type uppercase">
                 <span aria-hidden="true" className="interactive-type-line block" data-ghost="Full-stack">
                   Full-stack
                 </span>

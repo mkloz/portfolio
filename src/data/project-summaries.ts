@@ -23,10 +23,10 @@ export const projectSummaries: ProjectSummary[] = [
     description:
       'Event platform with ticket management, Stripe payments, location search, and real-time notifications.',
     image: {
-      dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-dark.png',
-      light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/uevent-light.png'
+      dark: '/editorial/uevent-dark.webp',
+      light: '/editorial/uevent-dark.webp'
     },
-    secondaryImage: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/uevent/introduction.png',
+    secondaryImage: '/editorial/uevent-introduction.webp',
     technologies: ['Nest.js', 'React', 'PostgreSQL', 'TS', 'Prisma'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/uevent-frontend' },

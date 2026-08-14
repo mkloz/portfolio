@@ -12,7 +12,7 @@ const About = () => {
     <section id="about" className="border-b border-white/25 bg-[#080808] py-28 text-[#f4f2ed] md:py-40">
       <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-12">
-          <h2 className="section-type reactive-heading max-w-[9ch] lg:col-span-8">The route here.</h2>
+          <h2 className="section-type max-w-[9ch] lg:col-span-8">The route here.</h2>
           <div className="self-end border-t border-white/25 pt-6 lg:col-span-4">
             <p className="text-xl font-semibold leading-relaxed text-white/78">
               Frontend care, backend depth, and one connected view of the product.

@@ -1,6 +1,7 @@
 import { ArrowUpRight, Github } from 'lucide-react';
 import { useState } from 'react';
 
+import { EvidenceMagnifier } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
 import { projectSummaries, type ProjectSummary } from '@/data/project-summaries';
 import { useTheme } from '@/hooks/theme.store';
@@ -22,18 +23,31 @@ const ProjectMedia = ({
   return (
     <div
       className={cn('project-media reactive-media relative', compact ? 'pb-0 pr-0' : 'pb-10 pr-7 md:pb-14 md:pr-12')}
-      data-cursor="View project"
       data-reactive
       data-depth>
-      <div className="overflow-hidden border-2 border-current bg-[#080808]">
-        <img
-          src={enabled ? image : undefined}
-          alt={`${project.title} interface`}
-          loading="lazy"
-          decoding="async"
-          className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
-        />
-      </div>
+      {enabled && !compact ? (
+        <EvidenceMagnifier className="overflow-hidden border-2 border-current bg-[#080808]">
+          <img
+            src={image}
+            alt={`${project.title} interface`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
+          />
+        </EvidenceMagnifier>
+      ) : enabled ? (
+        <div className="overflow-hidden border-2 border-current bg-[#080808]">
+          <img
+            src={image}
+            alt={`${project.title} interface`}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
+          />
+        </div>
+      ) : (
+        <div className="aspect-[16/10] overflow-hidden border-2 border-current bg-[#080808]" aria-hidden="true" />
+      )}
       {!compact && project.secondaryImage && (
         <div className="absolute bottom-0 right-0 w-[38%] rotate-2 border-2 border-current bg-white p-1 transition-transform duration-500 group-hover/project:-translate-y-2 group-hover/project:rotate-0">
           <img
@@ -65,7 +79,7 @@ export const Projects = () => {
     <section id="projects" className="border-b border-current/25 py-20 md:py-40">
       <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="mb-10 grid gap-5 md:mb-14 lg:grid-cols-12 lg:items-end">
-          <h2 className="section-type reactive-heading lg:col-span-8">Selected work.</h2>
+          <h2 className="section-type lg:col-span-8">Selected work.</h2>
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground lg:col-span-4">
             Product interfaces, APIs, payments, collaboration tools, and deployment work. Open a panel for the case
             study and implementation evidence.
@@ -133,9 +147,18 @@ export const Projects = () => {
                   <div className="overflow-hidden">
                     <div
                       className={cn(
-                        'p-5 transition-[opacity,transform] duration-300 motion-reduce:transition-none',
+                        'relative p-5 transition-[opacity,transform] duration-300 motion-reduce:transition-none',
                         active ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
                       )}>
+                      <Link
+                        to={`/projects/${project.slug}`}
+                        unstyled
+                        tabIndex={active ? 0 : -1}
+                        aria-label={`View ${project.title} case study`}
+                        data-cursor={`View ${project.title}`}
+                        className="absolute inset-0 z-10 cursor-pointer">
+                        <span className="sr-only">View {project.title} case study</span>
+                      </Link>
                       <p className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
                         {project.category} · {project.year}
                       </p>
@@ -150,7 +173,7 @@ export const Projects = () => {
                           </li>
                         ))}
                       </ul>
-                      <div className="mt-6 grid grid-cols-[1fr_auto] border-y border-current/25">
+                      <div className="relative z-20 mt-6 grid grid-cols-[1fr_auto] border-y border-current/25">
                         <Link
                           to={`/projects/${project.slug}`}
                           unstyled
@@ -239,7 +262,15 @@ export const Projects = () => {
                 </button>
 
                 {active && (
-                  <div className="flex h-full min-w-0 flex-1 flex-col p-5 md:p-8">
+                  <div className="relative flex h-full min-w-0 flex-1 flex-col p-5 md:p-8">
+                    <Link
+                      to={`/projects/${project.slug}`}
+                      unstyled
+                      aria-label={`View ${project.title} case study`}
+                      data-cursor={`View ${project.title}`}
+                      className="absolute inset-0 z-10 cursor-pointer">
+                      <span className="sr-only">View {project.title} case study</span>
+                    </Link>
                     <div className="flex items-start justify-between gap-6">
                       <div>
                         <p className="meta-type font-mono font-semibold uppercase tracking-[0.1em]">
@@ -263,7 +294,7 @@ export const Projects = () => {
                             </li>
                           ))}
                         </ul>
-                        <div className="mt-7 flex flex-wrap gap-3">
+                        <div className="relative z-20 mt-7 flex flex-wrap gap-3">
                           <Link
                             to={`/projects/${project.slug}`}
                             unstyled

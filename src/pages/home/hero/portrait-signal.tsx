@@ -143,7 +143,7 @@ export const PortraitSignal = () => {
           <img
             src={portraitSrc}
             alt="Screen-print portrait of Mykhailo Kloz"
-            fetchPriority="high"
+            {...({ fetchpriority: 'high' } as Record<string, string>)}
             decoding="async"
             width="480"
             height="678"

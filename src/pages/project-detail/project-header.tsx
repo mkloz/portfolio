@@ -29,15 +29,17 @@ export const ProjectHeader = () => {
 
   return (
     <>
-      <Link
-        to="/#projects"
-        unstyled
-        aria-label="Back to portfolio"
-        data-signal
-        data-signal-color="#ff583d"
-        className="reactive-header-control fixed left-5 top-4 z-50 flex size-11 items-center justify-center bg-transparent text-white/55 mix-blend-difference transition-opacity duration-200 hover:text-white focus-visible:text-white md:left-8 lg:left-12">
-        <House className="size-[1.125rem]" aria-hidden="true" />
-      </Link>
+      <div className="reactive-header-control fixed left-5 top-4 z-50 md:left-8 lg:left-12">
+        <Link
+          to="/#projects"
+          unstyled
+          aria-label="Back to portfolio"
+          data-signal
+          data-signal-color="#ff583d"
+          className="flex size-11 items-center justify-center bg-transparent text-white/55 mix-blend-difference transition-opacity duration-200 hover:text-white focus-visible:text-white">
+          <House className="size-[1.125rem]" aria-hidden="true" />
+        </Link>
+      </div>
 
       <div className="reactive-header-control fixed right-5 top-4 z-50 md:right-8 lg:right-12">
         <ThemeToggle />

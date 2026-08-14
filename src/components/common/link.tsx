@@ -100,13 +100,13 @@ export const Link = ({ onClick, withArrowRight, withArrowLeft, unstyled = false,
         if (destination.pathname === location.pathname) return;
 
         e.preventDefault();
-        const transition = runViewTransition(
-          () => {
-            flushSync(() => navigate(to));
-            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-          },
-          { kind: 'route' }
-        );
+        const navigateToDestination = () => {
+          flushSync(() => navigate(to));
+          window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        };
+        const transition = runViewTransition(navigateToDestination, { kind: 'route' });
+
+        void transition.catch(() => navigateToDestination());
 
         if (destination.hash) {
           void transition.then(() => {

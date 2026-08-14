@@ -34,7 +34,7 @@ export const Contact = () => {
     <section id="contact" className="bg-background text-foreground">
       <div className="content-shell px-5 py-20 md:px-8 md:py-32 lg:px-12">
         <div className="grid gap-8 md:gap-12 lg:grid-cols-12 lg:items-end">
-          <h2 aria-label="Tell me what needs to work." className="contact-question reactive-heading lg:col-span-9">
+          <h2 aria-label="Tell me what needs to work." className="contact-question lg:col-span-9">
             {CLOSING_WORDS.map((word) => (
               <span key={word} data-contact-word aria-hidden="true" className="mr-[0.18em] inline-block">
                 {word}
@@ -104,8 +104,6 @@ export const Contact = () => {
               to={`/projects/${highestPriorityProject.slug}`}
               unstyled
               data-cursor={`View ${highestPriorityProject.title}`}
-              data-signal
-              data-signal-color="#6c4eff"
               className="group relative -mx-5 block overflow-hidden border-b border-background/25 px-5 py-11 md:mx-0 md:px-0 md:py-14">
               <span className="absolute inset-x-0 top-0 flex h-1" aria-hidden="true">
                 <span className="w-1/4 bg-[#ff583d]" />
@@ -125,7 +123,10 @@ export const Contact = () => {
               </div>
 
               <span className="flex items-end justify-between gap-6">
-                <span className="footer-project-title whitespace-nowrap transition-transform duration-300 ease-out group-hover:translate-x-2 group-focus-visible:translate-x-2 motion-reduce:transition-none">
+                <span
+                  className="footer-project-title relative w-fit whitespace-nowrap"
+                  data-signal
+                  data-signal-color="#6c4eff">
                   View project.
                 </span>
                 <ArrowUpRight
@@ -138,7 +139,7 @@ export const Contact = () => {
 
           <div className="grid md:grid-cols-[1fr_auto] md:items-stretch md:border-b md:border-background/25">
             <div className="hidden min-h-16 items-center py-5 md:flex md:min-h-20 md:pr-10">
-              <span className="font-mono text-xs font-semibold uppercase leading-relaxed tracking-[0.08em] text-background/55">
+              <span className="font-mono text-xs font-semibold uppercase leading-relaxed tracking-[0.08em] text-background/65">
                 Questions first. Tools second.
               </span>
             </div>
@@ -154,7 +155,7 @@ export const Contact = () => {
             </a>
           </div>
 
-          <div className="hidden flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/55 sm:flex sm:flex-row sm:items-center sm:justify-between">
+          <div className="hidden flex-col gap-2 py-5 font-mono text-xs uppercase tracking-[0.08em] text-background/65 sm:flex sm:flex-row sm:items-center sm:justify-between">
             <p>© {currentYear}</p>
             <p>Made with care. Tested in code.</p>
           </div>

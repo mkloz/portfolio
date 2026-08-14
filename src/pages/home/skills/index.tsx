@@ -1,6 +1,7 @@
 import { ArrowUpRight, CloudCog, Code2, Database, ServerCog, Wrench } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
+import { SystemCanvasEffect } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
 import { projectSummaries } from '@/data/project-summaries';
 import { cn } from '@/lib/utils';
@@ -8,36 +9,46 @@ import { cn } from '@/lib/utils';
 const CATEGORIES = [
   {
     name: 'Frontend',
+    effect: 'grid',
     icon: Code2,
     color: '#ffd400',
+    canvasTint: [1, 0.83, 0] as [number, number, number],
     image: '/editorial/system-frontend-960.webp',
     technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Next.js', 'Zustand']
   },
   {
     name: 'Backend',
+    effect: 'particles',
     icon: ServerCog,
     color: '#465bff',
+    canvasTint: [0.275, 0.357, 1] as [number, number, number],
     image: '/editorial/system-backend.jpg',
     technologies: ['Node.js', 'NestJS', 'Prisma', 'Express', 'JWT', 'Socket.IO']
   },
   {
     name: 'Database',
+    effect: 'decrypt',
     icon: Database,
     color: '#74f0b3',
+    canvasTint: [0.455, 0.941, 0.702] as [number, number, number],
     image: '/editorial/system-database.jpg',
     technologies: ['PostgreSQL', 'Redis', 'MongoDB', 'MySQL']
   },
   {
     name: 'DevOps',
+    effect: 'particles',
     icon: CloudCog,
     color: '#ff583d',
+    canvasTint: [1, 0.345, 0.239] as [number, number, number],
     image: '/editorial/system-devops.jpg',
     technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Vercel', 'Linux']
   },
   {
     name: 'Tools',
+    effect: 'decrypt',
     icon: Wrench,
     color: '#6c4eff',
+    canvasTint: [0.424, 0.306, 1] as [number, number, number],
     image: '/editorial/system-tools.jpg',
     technologies: ['Git', 'ESLint', 'Prettier', 'Jest', 'Swagger']
   }
@@ -64,7 +75,7 @@ export const Skills = () => {
     <section id="skills" className="border-b border-current/25 py-20 md:py-40">
       <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="grid gap-5 border-t-2 border-current pt-5 lg:grid-cols-12 lg:gap-10">
-          <h2 className="section-type reactive-heading lg:col-span-8">Working system.</h2>
+          <h2 className="section-type lg:col-span-8">Working system.</h2>
           <p className="max-w-xl self-end text-lg leading-relaxed text-muted-foreground lg:col-span-4">
             Choose a responsibility to see the tools and projects that carry it. Every tool shown here appears in the
             project record.
@@ -125,14 +136,29 @@ export const Skills = () => {
               <img
                 key={active.image}
                 src={active.image}
-                alt={`${active.name} engineering workbench with technology marks integrated into the scene`}
+                alt={`${active.name} engineering workbench`}
                 loading="lazy"
                 decoding="async"
                 className="absolute inset-0 size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
               />
+              <SystemCanvasEffect
+                key={`${active.image}-effect`}
+                variant={active.effect}
+                tint={active.canvasTint}
+                color={active.color}
+                className="absolute inset-0 size-full">
+                <img
+                  src={active.image}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
+                />
+              </SystemCanvasEffect>
               <div
                 key={active.name}
-                className="system-panel-content relative flex min-h-[24rem] max-w-[82%] flex-col justify-end p-5 sm:max-w-[58%] md:min-h-[36rem] md:max-w-[52%] md:p-10">
+                className="system-panel-content pointer-events-none relative z-10 flex min-h-[24rem] max-w-[82%] flex-col justify-end p-5 sm:max-w-[58%] md:min-h-[36rem] md:max-w-[52%] md:p-10">
                 <h3 className="text-4xl font-black tracking-[-0.04em] md:text-7xl">{active.name}</h3>
                 <p className="mt-4 max-w-56 text-sm leading-relaxed text-white/70">
                   Proven across {evidenceProjects.length} {evidenceProjects.length === 1 ? 'project' : 'projects'}{' '}

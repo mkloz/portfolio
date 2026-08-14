@@ -9,10 +9,10 @@ import {
   Github,
   Layers3,
   Maximize2,
+  Minimize2,
   Monitor,
   Pause,
   Play,
-  RotateCcw,
   ServerCog,
   Smartphone,
   Tablet,
@@ -275,9 +275,11 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [activeTechnologyGroup, setActiveTechnologyGroup] = useState(0);
   const [isDemoPlaying, setIsDemoPlaying] = useState(false);
   const [isDemoMuted, setIsDemoMuted] = useState(true);
+  const [isDemoFullscreen, setIsDemoFullscreen] = useState(false);
   const [isDemoTransitioning, setIsDemoTransitioning] = useState(false);
   const [demoProgress, setDemoProgress] = useState(0);
   const [demoDuration, setDemoDuration] = useState(0);
+  const [demoAspectRatio, setDemoAspectRatio] = useState<number | null>(null);
   const [expandedStep, setExpandedStep] = useState<number | null>(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [showAllGallery, setShowAllGallery] = useState(false);
@@ -336,6 +338,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       setActiveDemo(index);
       setDemoProgress(0);
       setDemoDuration(0);
+      setDemoAspectRatio(null);
       return;
     }
     setIsDemoTransitioning(true);
@@ -344,8 +347,29 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       setActiveDemo(index);
       setDemoProgress(0);
       setDemoDuration(0);
+      setDemoAspectRatio(null);
       window.requestAnimationFrame(() => window.requestAnimationFrame(() => setIsDemoTransitioning(false)));
     }, 160);
+  };
+
+  const seekDemo = (time: number) => {
+    const nextTime = Math.max(0, Math.min(time, playbackDuration || 0));
+    setDemoProgress(nextTime);
+    if (videoRef.current) videoRef.current.currentTime = nextTime;
+  };
+
+  const toggleDemoFullscreen = async () => {
+    const frame = demoFrameRef.current;
+    const video = videoRef.current as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null;
+    if (document.fullscreenElement) {
+      await document.exitFullscreen().catch(() => undefined);
+      return;
+    }
+    if (frame?.requestFullscreen) {
+      await frame.requestFullscreen().catch(() => undefined);
+      return;
+    }
+    video?.webkitEnterFullscreen?.();
   };
 
   const selectAdjacentTechnologyGroup = (direction: number) => {
@@ -364,6 +388,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     setIsDemoMuted(true);
     setDemoProgress(0);
     setDemoDuration(0);
+    setDemoAspectRatio(null);
     setShowAllGallery(false);
   }, [project.slug]);
 
@@ -421,6 +446,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     }
   }, [activeDemo, isDemoMuted, isDemoPlaying]);
 
+  useEffect(() => {
+    const updateFullscreenState = () => setIsDemoFullscreen(document.fullscreenElement === demoFrameRef.current);
+    document.addEventListener('fullscreenchange', updateFullscreenState);
+    return () => document.removeEventListener('fullscreenchange', updateFullscreenState);
+  }, []);
+
   useEffect(
     () => () => {
       if (demoTransitionRef.current) window.clearTimeout(demoTransitionRef.current);
@@ -439,7 +470,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       <SectionNavigator items={sectionNavigationItems} className="2xl:right-8" />
       <main>
         <section id="hero" className="relative overflow-hidden border-b border-current/25">
-          <div className="content-shell px-5 pb-8 pt-16 md:px-8 md:pb-12 md:pt-16 lg:px-12">
+          <div className="content-shell px-5 pb-8 pt-8 md:px-8 md:pb-12 md:pt-8 lg:px-12">
             <div className="border-y border-current/25">
               <div className="flex min-h-14 items-center justify-between gap-6 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
                 <span>
@@ -468,8 +499,6 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
               <div className="relative flex min-h-0 flex-col justify-end py-10 lg:col-span-8 lg:min-h-[30rem] lg:border-r lg:border-current/25 lg:py-14 lg:pr-12">
                 <h1
                   className="project-hero-type interactive-type reactive-heading max-w-full break-words"
-                  data-signal
-                  data-signal-color={accent.background}
                   data-mobile-title-size={
                     project.title.length <= 6 ? 'short' : project.title.length <= 9 ? 'medium' : 'long'
                   }>
@@ -552,9 +581,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-24">
-                  <h2 className="case-study-primary-type reactive-heading max-w-[10ch]">
-                    What the product had to hold together.
-                  </h2>
+                  <h2 className="case-study-primary-type max-w-[10ch]">What the product had to hold together.</h2>
                 </div>
               </div>
               <div className="grid border-t-2 border-current sm:grid-cols-2 lg:col-span-7">
@@ -589,9 +616,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="demo" className="bg-foreground py-16 text-background md:py-32">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-12 md:gap-8 lg:grid-cols-12 lg:items-end">
-                <h2 className="case-study-primary-type reactive-heading max-w-[11ch] lg:col-span-8">
-                  The product, working.
-                </h2>
+                <h2 className="case-study-primary-type max-w-[11ch] lg:col-span-8">The product, working.</h2>
                 <p className="max-w-lg text-lg leading-relaxed text-background/65 lg:col-span-4">
                   {project.demo.length > 1
                     ? 'Switch between recorded views of the same working product.'
@@ -644,85 +669,6 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                       </span>
                     </div>
                   ) : null}
-                  <div className="border-t border-current/25 p-4 lg:block">
-                    <div className="flex items-center justify-between gap-4 font-mono text-xs uppercase tracking-[0.08em]">
-                      <span>Playback</span>
-                      <span className="text-background/65">
-                        {formatPlaybackTime(demoProgress)} / {demo?.length ?? '0:00'}
-                      </span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0"
-                      max={playbackDuration || 1}
-                      step="0.1"
-                      value={Math.min(demoProgress, playbackDuration || 1)}
-                      disabled={!demo}
-                      onChange={(event) => {
-                        const nextTime = Number(event.target.value);
-                        setDemoProgress(nextTime);
-                        if (videoRef.current) videoRef.current.currentTime = nextTime;
-                      }}
-                      aria-label={`Seek ${demo?.device ?? ''} demo`}
-                      className="mt-4 h-6 w-full cursor-pointer accent-current disabled:cursor-not-allowed disabled:opacity-40"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 border-t border-current/25">
-                    <button
-                      type="button"
-                      onClick={() => setIsDemoPlaying((playing) => !playing)}
-                      data-signal
-                      data-signal-color={accent.background}
-                      className="flex min-h-14 items-center justify-center gap-2 border-b border-r border-current/25 bg-background px-3 font-bold text-foreground">
-                      {isDemoPlaying ? (
-                        <Pause className="size-4" aria-hidden="true" />
-                      ) : (
-                        <Play className="size-4" aria-hidden="true" />
-                      )}
-                      {isDemoPlaying ? 'Stop' : 'Play'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsDemoPlaying(false);
-                        window.requestAnimationFrame(() => {
-                          if (!videoRef.current) return;
-                          videoRef.current.currentTime = 0;
-                          setDemoProgress(0);
-                        });
-                      }}
-                      data-signal
-                      data-signal-color={accent.background}
-                      className="flex min-h-14 items-center justify-center gap-2 border-b border-current/25 px-3 font-bold">
-                      <RotateCcw className="size-4" aria-hidden="true" />
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsDemoMuted((muted) => !muted)}
-                      data-signal
-                      data-signal-color={accent.background}
-                      className="flex min-h-14 items-center justify-center gap-2 border-r border-current/25 px-3 font-bold">
-                      {isDemoMuted ? (
-                        <VolumeX className="size-4" aria-hidden="true" />
-                      ) : (
-                        <Volume2 className="size-4" aria-hidden="true" />
-                      )}
-                      {isDemoMuted ? 'Unmute' : 'Mute'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const frame = demoFrameRef.current;
-                        if (frame?.requestFullscreen) void frame.requestFullscreen().catch(() => undefined);
-                      }}
-                      data-signal
-                      data-signal-color={accent.background}
-                      className="flex min-h-14 items-center justify-center gap-2 px-3 font-bold">
-                      <Maximize2 className="size-4" aria-hidden="true" />
-                      Full screen
-                    </button>
-                  </div>
                   {demo && (
                     <dl className="hidden grid-cols-2 border-t border-current/25 text-sm sm:grid">
                       <div className="border-b border-r border-current/25 p-4">
@@ -761,12 +707,13 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   <div className="order-1 flex min-h-[15rem] min-w-0 items-center justify-center md:min-h-[32rem] lg:order-2 lg:col-span-9">
                     <div
                       ref={demoFrameRef}
+                      data-demo-fullscreen={isDemoFullscreen ? 'true' : 'false'}
                       className={cn(
-                        'max-w-full origin-center border border-background bg-background p-2 text-foreground transition-[width,opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none md:p-4',
+                        'demo-player-frame max-w-full origin-center border border-background bg-background p-2 text-foreground transition-[width,opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none md:p-3',
                         deviceConfig.frame,
                         isDemoTransitioning ? 'scale-[0.985] opacity-0' : 'scale-100 opacity-100'
                       )}>
-                      <div className="mb-3 flex items-center gap-2">
+                      <div className="demo-player-chrome mb-2 flex items-center gap-2">
                         <span className="size-2.5 rounded-full bg-[#ff583d]" aria-hidden="true" />
                         <span className="size-2.5 rounded-full bg-[#465bff]" aria-hidden="true" />
                         <span className="size-2.5 rounded-full bg-[#ffd400]" aria-hidden="true" />
@@ -774,15 +721,23 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           {project.liveDemo?.replace('https://', '') ?? project.title}
                         </span>
                       </div>
-                      <div className={cn('relative overflow-hidden bg-black', deviceConfig.ratio)}>
+                      <div
+                        className={cn('demo-player-viewport relative overflow-hidden bg-black', deviceConfig.ratio)}
+                        style={{ aspectRatio: isDemoFullscreen ? 'auto' : (demoAspectRatio ?? undefined) }}>
                         <video
                           ref={videoRef}
                           key={demo.link}
                           muted={isDemoMuted}
                           playsInline
-                          preload="none"
+                          preload="metadata"
                           poster={demo.preview ?? image}
-                          onLoadedMetadata={(event) => setDemoDuration(event.currentTarget.duration)}
+                          onLoadedMetadata={(event) => {
+                            const video = event.currentTarget;
+                            setDemoDuration(video.duration);
+                            if (video.videoWidth > 0 && video.videoHeight > 0) {
+                              setDemoAspectRatio(video.videoWidth / video.videoHeight);
+                            }
+                          }}
                           onTimeUpdate={(event) => setDemoProgress(event.currentTarget.currentTime)}
                           onPlay={() => setIsDemoPlaying(true)}
                           onPause={() => setIsDemoPlaying(false)}
@@ -803,6 +758,59 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           </button>
                         )}
                       </div>
+                      <div className="demo-player-controls grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 border-t border-white/20 bg-[#080808] px-2 py-2 text-white sm:gap-3 sm:px-3">
+                        <button
+                          type="button"
+                          onClick={() => setIsDemoPlaying((playing) => !playing)}
+                          className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
+                          aria-label={isDemoPlaying ? 'Pause video' : 'Play video'}>
+                          {isDemoPlaying ? (
+                            <Pause className="size-4" aria-hidden="true" />
+                          ) : (
+                            <Play className="ml-0.5 size-4" aria-hidden="true" />
+                          )}
+                        </button>
+
+                        <div className="grid min-w-0 gap-1">
+                          <input
+                            type="range"
+                            min="0"
+                            max={playbackDuration || 1}
+                            step="0.1"
+                            value={Math.min(demoProgress, playbackDuration || 1)}
+                            onChange={(event) => seekDemo(Number(event.target.value))}
+                            aria-label="Seek video"
+                            className="h-5 min-w-0 w-full cursor-pointer accent-white"
+                          />
+                          <span className="font-mono text-[0.65rem] tracking-[0.04em] text-white/65">
+                            {formatPlaybackTime(demoProgress)} / {formatPlaybackTime(playbackDuration)}
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setIsDemoMuted((muted) => !muted)}
+                          className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
+                          aria-label={isDemoMuted ? 'Unmute video' : 'Mute video'}>
+                          {isDemoMuted ? (
+                            <VolumeX className="size-4" aria-hidden="true" />
+                          ) : (
+                            <Volume2 className="size-4" aria-hidden="true" />
+                          )}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => void toggleDemoFullscreen()}
+                          className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
+                          aria-label={isDemoFullscreen ? 'Exit full screen' : 'Enter full screen'}>
+                          {isDemoFullscreen ? (
+                            <Minimize2 className="size-4" aria-hidden="true" />
+                          ) : (
+                            <Maximize2 className="size-4" aria-hidden="true" />
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -815,7 +823,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <div className="content-shell grid gap-8 px-5 md:px-8 lg:grid-cols-12 lg:gap-14 lg:px-12">
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-24">
-                <h2 className="case-study-primary-type reactive-heading max-w-[10ch]">Decisions that shaped it.</h2>
+                <h2 className="case-study-primary-type max-w-[10ch]">Decisions that shaped it.</h2>
                 <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground md:mt-7">
                   The implementation sequence matters where it exposes a choice, constraint, or delivered result.
                 </p>
@@ -941,7 +949,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
         <section id="tech-stack" className="border-b border-current/25 py-16 md:py-28">
           <div className="content-shell px-5 md:px-8 lg:px-12">
             <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-              <h2 className="case-study-supporting-type reactive-heading md:col-span-8">The working system.</h2>
+              <h2 className="case-study-supporting-type md:col-span-8">The working system.</h2>
               <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
                 Choose a responsibility to inspect the tools behind this project.
               </p>
@@ -1049,7 +1057,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="gallery" className="border-b border-current/25 py-16 md:py-24">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-                <h2 className="case-study-supporting-type reactive-heading md:col-span-8">Inspect the evidence.</h2>
+                <h2 className="case-study-supporting-type md:col-span-8">Inspect the evidence.</h2>
                 <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
                   Screens and diagrams remain available for close inspection, after the project story.
                 </p>
@@ -1116,8 +1124,6 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <Link
               to={`/projects/${nextProject.slug}`}
               unstyled
-              data-signal
-              data-signal-color={getProjectAccent(nextProject.slug).background}
               className="content-shell group grid min-h-[20rem] content-between px-5 py-14 md:min-h-[26rem] md:px-8 md:py-20 lg:px-12">
               <div className="flex items-center justify-between gap-3 whitespace-nowrap font-mono text-[0.6rem] uppercase tracking-[0.08em] text-background/70 sm:text-xs sm:tracking-[0.12em]">
                 <span className="shrink-0">Next project</span>
@@ -1131,7 +1137,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 </span>
               </div>
               <h2
-                className="project-footer-title reactive-heading break-words font-black leading-[0.82] tracking-[-0.04em]"
+                className="project-footer-title relative w-fit max-w-full break-words font-black leading-[0.82] tracking-[-0.04em]"
+                data-signal
+                data-signal-color={getProjectAccent(nextProject.slug).background}
                 data-mobile-title-size={
                   nextProject.title.length <= 6 ? 'short' : nextProject.title.length <= 9 ? 'medium' : 'long'
                 }>

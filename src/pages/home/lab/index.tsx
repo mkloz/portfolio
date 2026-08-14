@@ -90,7 +90,7 @@ export const Lab = () => (
 
     <div className="content-shell px-5 py-16 md:px-8 md:py-24 lg:px-12 lg:py-28">
       <div className="grid gap-8 border-t border-background/25 pt-5 lg:grid-cols-12 lg:items-end">
-        <h2 className="reactive-heading max-w-[10ch] text-[clamp(3.25rem,5vw,6rem)] font-black leading-[0.88] tracking-[-0.04em] lg:col-span-7">
+        <h2 className="max-w-[10ch] text-[clamp(3.25rem,5vw,6rem)] font-black leading-[0.88] tracking-[-0.04em] lg:col-span-7">
           One product. Every layer.
         </h2>
         <div className="lg:col-span-4 lg:col-start-9">
@@ -110,6 +110,7 @@ export const Lab = () => (
         {OWNERSHIP_LAYERS.map((layer, index) => (
           <li
             key={layer.label}
+            data-reactive
             className="reactive-layer relative grid min-h-[19rem] w-[82vw] max-w-[20rem] shrink-0 snap-start content-between gap-7 border-r border-background/25 px-5 py-7 last:border-r-0 md:min-h-[20rem] md:w-auto md:max-w-none md:border-b md:px-7 md:[&:nth-child(2n)]:border-r-0 md:[&:nth-last-child(-n+2)]:border-b-0 lg:min-h-[21rem] lg:border-b-0 lg:border-r lg:[&:nth-child(2n)]:border-r lg:last:border-r-0 lg:first:pl-0 lg:last:pr-0">
             <div>
               <div className="flex items-center gap-4">
