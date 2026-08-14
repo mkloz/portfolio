@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="MK slash">
+  <rect width="64" height="64" fill="#f4f2ed" />
+  <path fill="#080808" d="M5 14h8l5.5 15L24 14h8v36h-7V29l-6.5 15L12 29v21H5V14Z" />
+  <path fill="#080808" d="M34 14h7v13l9-13h8L46 31l12 19h-8L41 36v14h-7V14Z" />
+  <path fill="#ff583d" d="M54 50h7l3-18v-18h-5L54 50Z" />
+  <path fill="#465bff" d="M0 0h20v3H0z" />
+  <path fill="#ffd400" d="M20 0h15v3H20z" />
+  <path fill="#74f0b3" d="M35 0h15v3H35z" />
+  <path fill="#ff583d" d="M50 0h14v3H50z" />
+</svg>
