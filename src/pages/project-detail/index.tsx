@@ -13,6 +13,7 @@ import {
   Monitor,
   Pause,
   Play,
+  RefreshCw,
   ServerCog,
   Smartphone,
   Tablet,
@@ -23,6 +24,11 @@ import {
   ZoomIn,
   ZoomOut
 } from 'lucide-react';
+import type {
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent
+} from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
@@ -144,7 +150,42 @@ const formatPlaybackTime = (seconds: number) => {
 const SIGNAL_COLORS = ['#74f0b3', '#ffd400', '#465bff', '#ff583d', '#6c4eff'] as const;
 const PORTFOLIO_PROJECT_SLUGS = projectSummaries.map((project) => project.slug);
 const GALLERY_DIAGRAM_PATTERN = /diagram|schema|openapi|readme|stack/i;
-const GALLERY_ZOOM_LEVELS = [1, 1.5, 2] as const;
+const GALLERY_ZOOM_LEVELS = [1, 1.5, 2, 3] as const;
+const GALLERY_ZOOM_MIN = GALLERY_ZOOM_LEVELS[0];
+const GALLERY_ZOOM_MAX = GALLERY_ZOOM_LEVELS[GALLERY_ZOOM_LEVELS.length - 1];
+const GALLERY_DOUBLE_TAP_DELAY = 320;
+const GALLERY_GESTURE_HINT_STORAGE_KEY = 'mkloz:gallery-gestures-seen:v1';
+
+type GalleryTouchPoint = {
+  x: number;
+  y: number;
+};
+
+type DemoMediaStatus = 'loading' | 'ready' | 'buffering' | 'error';
+
+const clampGalleryZoom = (zoom: number) => Math.min(GALLERY_ZOOM_MAX, Math.max(GALLERY_ZOOM_MIN, zoom));
+
+const shouldShowGalleryGestureHint = () => {
+  if (typeof window === 'undefined' || !window.matchMedia('(pointer: coarse)').matches) return false;
+  try {
+    return window.localStorage.getItem(GALLERY_GESTURE_HINT_STORAGE_KEY) !== 'true';
+  } catch {
+    return true;
+  }
+};
+
+const rememberGalleryGestures = () => {
+  try {
+    window.localStorage.setItem(GALLERY_GESTURE_HINT_STORAGE_KEY, 'true');
+  } catch {
+    // The hint can reappear when storage is unavailable.
+  }
+};
+
+const getTouchDistance = (points: GalleryTouchPoint[]) => {
+  const [first, second] = points;
+  return Math.hypot(second.x - first.x, second.y - first.y);
+};
 
 const ProjectSignalRail = ({
   items,
@@ -197,13 +238,30 @@ const GalleryDialog = ({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const swipeStartRef = useRef<number | null>(null);
+  const touchPointsRef = useRef<Map<number, GalleryTouchPoint>>(new Map());
+  const touchGestureRef = useRef<{
+    didPinch: boolean;
+    panStart: (GalleryTouchPoint & { scrollLeft: number; scrollTop: number }) | null;
+    pinchDistance: number | null;
+    pinchZoom: number;
+    swipeStartX: number | null;
+    tapStart: GalleryTouchPoint | null;
+  }>({ didPinch: false, panStart: null, pinchDistance: null, pinchZoom: 1, swipeStartX: null, tapStart: null });
+  const desktopPanRef = useRef<(GalleryTouchPoint & { scrollLeft: number; scrollTop: number }) | null>(null);
+  const lastTapRef = useRef<(GalleryTouchPoint & { time: number }) | null>(null);
   const activeIndexRef = useRef(index);
   const closeTimerRef = useRef<number | null>(null);
   const isClosingRef = useRef(false);
   const returnFocusRef = useRef<HTMLElement | null>(document.activeElement as HTMLElement | null);
-  const [zoomIndex, setZoomIndex] = useState(0);
+  const [zoom, setZoom] = useState<number>(GALLERY_ZOOM_MIN);
   const [isClosing, setIsClosing] = useState(false);
+  const [isPanning, setIsPanning] = useState(false);
+  const [showGestureHint, setShowGestureHint] = useState(shouldShowGalleryGestureHint);
+
+  const dismissGestureHint = useCallback(() => {
+    setShowGestureHint(false);
+    rememberGalleryGestures();
+  }, []);
 
   const requestClose = useCallback(() => {
     if (isClosingRef.current) return;
@@ -219,11 +277,30 @@ const GalleryDialog = ({
 
   useEffect(() => {
     activeIndexRef.current = index;
-    setZoomIndex(0);
+    touchPointsRef.current.clear();
+    touchGestureRef.current = {
+      didPinch: false,
+      panStart: null,
+      pinchDistance: null,
+      pinchZoom: GALLERY_ZOOM_MIN,
+      swipeStartX: null,
+      tapStart: null
+    };
+    desktopPanRef.current = null;
+    lastTapRef.current = null;
+    setIsPanning(false);
+    setZoom(GALLERY_ZOOM_MIN);
   }, [index]);
 
   useEffect(() => {
+    if (!showGestureHint) return;
+    const timer = window.setTimeout(dismissGestureHint, 4500);
+    return () => window.clearTimeout(timer);
+  }, [dismissGestureHint, showGestureHint]);
+
+  useEffect(() => {
     const previousOverflow = document.body.style.overflow;
+    const returnFocus = returnFocusRef.current;
     document.body.style.overflow = 'hidden';
     closeButtonRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
@@ -253,14 +330,194 @@ const GalleryDialog = ({
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKeyDown);
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
-      returnFocusRef.current?.focus();
+      returnFocus?.focus();
     };
   }, [gallery.length, onIndexChange, requestClose]);
 
   const item = gallery[index];
-  const zoom = GALLERY_ZOOM_LEVELS[zoomIndex];
   const showPrevious = () => onIndexChange((index - 1 + gallery.length) % gallery.length);
   const showNext = () => onIndexChange((index + 1) % gallery.length);
+
+  const zoomOut = () => {
+    setZoom((current) => {
+      const next = [...GALLERY_ZOOM_LEVELS].reverse().find((level) => level < current - 0.01);
+      return next ?? GALLERY_ZOOM_MIN;
+    });
+  };
+
+  const zoomIn = () => {
+    setZoom((current) => {
+      const next = GALLERY_ZOOM_LEVELS.find((level) => level > current + 0.01);
+      return next ?? GALLERY_ZOOM_MAX;
+    });
+  };
+
+  const toggleGalleryZoom = () => {
+    setZoom((current) => (current > GALLERY_ZOOM_MIN + 0.01 ? GALLERY_ZOOM_MIN : 2));
+  };
+
+  useEffect(() => {
+    const adjacentImages = [
+      gallery[(index - 1 + gallery.length) % gallery.length]?.image,
+      gallery[(index + 1) % gallery.length]?.image
+    ].filter(Boolean) as string[];
+    const preloaders = adjacentImages.map((src) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = src;
+      return image;
+    });
+    return () => preloaders.forEach((image) => image.removeAttribute('src'));
+  }, [gallery, index]);
+
+  const startTouchGesture = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse') {
+      if (event.button !== 0 || zoom <= GALLERY_ZOOM_MIN + 0.01 || !stageRef.current) return;
+      event.currentTarget.setPointerCapture(event.pointerId);
+      desktopPanRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+        scrollLeft: stageRef.current.scrollLeft,
+        scrollTop: stageRef.current.scrollTop
+      };
+      setIsPanning(true);
+      return;
+    }
+
+    if (event.pointerType !== 'touch') return;
+
+    dismissGestureHint();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const point = { x: event.clientX, y: event.clientY };
+    const points = touchPointsRef.current;
+    points.set(event.pointerId, point);
+
+    if (points.size === 1) {
+      touchGestureRef.current.didPinch = false;
+      touchGestureRef.current.swipeStartX = zoom <= GALLERY_ZOOM_MIN + 0.01 ? event.clientX : null;
+      touchGestureRef.current.tapStart = point;
+      touchGestureRef.current.panStart =
+        zoom > GALLERY_ZOOM_MIN + 0.01 && stageRef.current
+          ? {
+              ...point,
+              scrollLeft: stageRef.current.scrollLeft,
+              scrollTop: stageRef.current.scrollTop
+            }
+          : null;
+      return;
+    }
+
+    if (points.size === 2) {
+      touchGestureRef.current.didPinch = true;
+      touchGestureRef.current.swipeStartX = null;
+      touchGestureRef.current.panStart = null;
+      touchGestureRef.current.pinchDistance = getTouchDistance([...points.values()]);
+      touchGestureRef.current.pinchZoom = zoom;
+      touchGestureRef.current.tapStart = null;
+    }
+  };
+
+  const moveTouchGesture = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && desktopPanRef.current && stageRef.current) {
+      event.preventDefault();
+      stageRef.current.scrollLeft = desktopPanRef.current.scrollLeft - (event.clientX - desktopPanRef.current.x);
+      stageRef.current.scrollTop = desktopPanRef.current.scrollTop - (event.clientY - desktopPanRef.current.y);
+      return;
+    }
+
+    if (event.pointerType !== 'touch' || !touchPointsRef.current.has(event.pointerId)) return;
+
+    const points = touchPointsRef.current;
+    points.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+    if (points.size >= 2 && touchGestureRef.current.pinchDistance) {
+      event.preventDefault();
+      const distance = getTouchDistance([...points.values()].slice(0, 2));
+      const nextZoom = touchGestureRef.current.pinchZoom * (distance / touchGestureRef.current.pinchDistance);
+      setZoom(clampGalleryZoom(nextZoom));
+      return;
+    }
+
+    const panStart = touchGestureRef.current.panStart;
+    const stage = stageRef.current;
+    if (points.size === 1 && panStart && stage && zoom > GALLERY_ZOOM_MIN + 0.01) {
+      event.preventDefault();
+      stage.scrollLeft = panStart.scrollLeft - (event.clientX - panStart.x);
+      stage.scrollTop = panStart.scrollTop - (event.clientY - panStart.y);
+    }
+  };
+
+  const endTouchGesture = (event: ReactPointerEvent<HTMLDivElement>, allowSwipe: boolean) => {
+    if (event.pointerType === 'mouse') {
+      desktopPanRef.current = null;
+      setIsPanning(false);
+      if (event.currentTarget.hasPointerCapture(event.pointerId))
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      return;
+    }
+
+    if (event.pointerType !== 'touch') return;
+
+    const points = touchPointsRef.current;
+    const gesture = touchGestureRef.current;
+    const wasPinching = gesture.didPinch || points.size > 1;
+    const tapStart = gesture.tapStart;
+    points.delete(event.pointerId);
+
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    if (points.size === 1) {
+      const remainingPoint = [...points.values()][0];
+      const stage = stageRef.current;
+      gesture.pinchDistance = null;
+      gesture.panStart =
+        stage && zoom > GALLERY_ZOOM_MIN + 0.01
+          ? {
+              ...remainingPoint,
+              scrollLeft: stage.scrollLeft,
+              scrollTop: stage.scrollTop
+            }
+          : null;
+      return;
+    }
+
+    if (allowSwipe && !wasPinching && zoom <= GALLERY_ZOOM_MIN + 0.01 && gesture.swipeStartX !== null) {
+      const distance = event.clientX - gesture.swipeStartX;
+      if (Math.abs(distance) >= 45) {
+        onIndexChange(distance > 0 ? (index - 1 + gallery.length) % gallery.length : (index + 1) % gallery.length);
+      }
+    }
+
+    if (
+      allowSwipe &&
+      !wasPinching &&
+      tapStart &&
+      Math.hypot(event.clientX - tapStart.x, event.clientY - tapStart.y) < 12
+    ) {
+      const now = performance.now();
+      const previousTap = lastTapRef.current;
+      if (
+        previousTap &&
+        now - previousTap.time <= GALLERY_DOUBLE_TAP_DELAY &&
+        Math.hypot(event.clientX - previousTap.x, event.clientY - previousTap.y) < 32
+      ) {
+        toggleGalleryZoom();
+        lastTapRef.current = null;
+      } else {
+        lastTapRef.current = { x: event.clientX, y: event.clientY, time: now };
+      }
+    }
+
+    gesture.didPinch = false;
+    gesture.panStart = null;
+    gesture.pinchDistance = null;
+    gesture.pinchZoom = zoom;
+    gesture.swipeStartX = null;
+    gesture.tapStart = null;
+    if (zoom < 1.04) setZoom(GALLERY_ZOOM_MIN);
+  };
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -280,20 +537,6 @@ const GalleryDialog = ({
       aria-modal="true"
       aria-label={`Gallery image: ${item.title}`}
       data-state={isClosing ? 'closing' : 'open'}
-      onPointerDown={(event) => {
-        if (event.pointerType === 'touch' && zoom === 1) swipeStartRef.current = event.clientX;
-      }}
-      onPointerUp={(event) => {
-        if (zoom > 1) {
-          swipeStartRef.current = null;
-          return;
-        }
-        if (event.pointerType !== 'touch' || swipeStartRef.current === null) return;
-        const distance = event.clientX - swipeStartRef.current;
-        swipeStartRef.current = null;
-        if (Math.abs(distance) < 45) return;
-        onIndexChange(distance > 0 ? (index - 1 + gallery.length) % gallery.length : (index + 1) % gallery.length);
-      }}
       className="gallery-dialog fixed inset-0 z-[200] grid min-w-0 grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-[#080808] text-white">
       <header className="gallery-dialog-header grid min-h-16 grid-cols-[1fr_auto] items-center gap-4 border-b border-white/25 px-4 md:min-h-20 md:grid-cols-[1fr_auto_auto] md:px-8">
         <p className="min-w-0 truncate font-semibold md:text-lg">
@@ -305,8 +548,8 @@ const GalleryDialog = ({
         <div className="hidden items-center border border-white/30 md:flex" role="group" aria-label="Image zoom">
           <button
             type="button"
-            onClick={() => setZoomIndex((current) => Math.max(0, current - 1))}
-            disabled={zoomIndex === 0}
+            onClick={zoomOut}
+            disabled={zoom <= GALLERY_ZOOM_MIN}
             className="gallery-tool-control flex size-11 items-center justify-center border-r border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
             aria-label="Zoom out">
             <ZoomOut className="size-4" aria-hidden="true" />
@@ -316,8 +559,8 @@ const GalleryDialog = ({
           </span>
           <button
             type="button"
-            onClick={() => setZoomIndex((current) => Math.min(GALLERY_ZOOM_LEVELS.length - 1, current + 1))}
-            disabled={zoomIndex === GALLERY_ZOOM_LEVELS.length - 1}
+            onClick={zoomIn}
+            disabled={zoom >= GALLERY_ZOOM_MAX}
             className="gallery-tool-control flex size-11 items-center justify-center border-l border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
             aria-label="Zoom in">
             <ZoomIn className="size-4" aria-hidden="true" />
@@ -344,7 +587,19 @@ const GalleryDialog = ({
           />
         </button>
 
-        <div ref={stageRef} className="gallery-dialog-stage min-h-0 overflow-auto bg-[#f4f2ed] p-2 md:p-5">
+        <div
+          ref={stageRef}
+          onPointerDown={startTouchGesture}
+          onPointerMove={moveTouchGesture}
+          onPointerUp={(event) => endTouchGesture(event, true)}
+          onPointerCancel={(event) => endTouchGesture(event, false)}
+          onDoubleClick={() => {
+            if (!window.matchMedia('(pointer: coarse)').matches) toggleGalleryZoom();
+          }}
+          className={cn(
+            'gallery-dialog-stage min-h-0 overflow-auto bg-[#f4f2ed] p-2 md:p-5',
+            zoom > GALLERY_ZOOM_MIN + 0.01 ? (isPanning ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-zoom-in'
+          )}>
           <div className="flex h-full min-h-full min-w-full items-center justify-center">
             <img
               key={item.image}
@@ -377,8 +632,8 @@ const GalleryDialog = ({
           aria-label="Image zoom">
           <button
             type="button"
-            onClick={() => setZoomIndex((current) => Math.max(0, current - 1))}
-            disabled={zoomIndex === 0}
+            onClick={zoomOut}
+            disabled={zoom <= GALLERY_ZOOM_MIN}
             className="gallery-tool-control flex size-11 items-center justify-center border-r border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
             aria-label="Zoom out">
             <ZoomOut className="size-4" aria-hidden="true" />
@@ -388,12 +643,21 @@ const GalleryDialog = ({
           </span>
           <button
             type="button"
-            onClick={() => setZoomIndex((current) => Math.min(GALLERY_ZOOM_LEVELS.length - 1, current + 1))}
-            disabled={zoomIndex === GALLERY_ZOOM_LEVELS.length - 1}
+            onClick={zoomIn}
+            disabled={zoom >= GALLERY_ZOOM_MAX}
             className="gallery-tool-control flex size-11 items-center justify-center border-l border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
             aria-label="Zoom in">
             <ZoomIn className="size-4" aria-hidden="true" />
           </button>
+        </div>
+
+        <div
+          className={cn(
+            'pointer-events-none absolute left-1/2 top-3 z-10 -translate-x-1/2 whitespace-nowrap border border-white/35 bg-[#080808] px-3 py-2 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.09em] text-white transition-[opacity,transform] duration-300 motion-reduce:transition-none md:hidden',
+            showGestureHint ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
+          )}
+          aria-hidden="true">
+          Swipe to browse <span className="px-1.5 text-[#ffd400]">·</span> Pinch to zoom
         </div>
       </div>
 
@@ -449,6 +713,8 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [isDemoMuted, setIsDemoMuted] = useState(true);
   const [isDemoFullscreen, setIsDemoFullscreen] = useState(false);
   const [isDemoTransitioning, setIsDemoTransitioning] = useState(false);
+  const [pendingDemoIndex, setPendingDemoIndex] = useState<number | null>(null);
+  const [demoMediaStatus, setDemoMediaStatus] = useState<DemoMediaStatus>('loading');
   const [demoProgress, setDemoProgress] = useState(0);
   const [demoDuration, setDemoDuration] = useState(0);
   const [demoAspectRatio, setDemoAspectRatio] = useState<number | null>(null);
@@ -464,7 +730,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const SingleDemoIcon = singleDemo ? DEVICE_CONFIG[singleDemo.device].icon : Monitor;
   const videoRef = useRef<HTMLVideoElement>(null);
   const demoFrameRef = useRef<HTMLDivElement>(null);
+  const demoSurfaceClickRef = useRef<number | null>(null);
   const demoTransitionRef = useRef<number | null>(null);
+  const resumeDemoAfterSwitchRef = useRef<number | null>(null);
   const journeyRedirectRef = useRef<number | null>(null);
   const accent = getProjectAccent(project.slug);
   const currentProjectRank = getProjectPriorityRank(project.slug);
@@ -508,8 +776,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   const selectDemo = (index: number) => {
     if (index === activeDemo || isDemoTransitioning) return;
+    if (demoSurfaceClickRef.current) window.clearTimeout(demoSurfaceClickRef.current);
+    resumeDemoAfterSwitchRef.current = isDemoPlaying ? index : null;
     videoRef.current?.pause();
     setIsDemoPlaying(false);
+    setPendingDemoIndex(index);
+    setDemoMediaStatus('loading');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setActiveDemo(index);
       setDemoProgress(0);
@@ -548,6 +820,64 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     video?.webkitEnterFullscreen?.();
   };
 
+  const retryDemo = () => {
+    setDemoMediaStatus('loading');
+    setIsDemoPlaying(false);
+    videoRef.current?.load();
+  };
+
+  const toggleDemoPlayback = () => {
+    resumeDemoAfterSwitchRef.current = null;
+    if (demoMediaStatus === 'error') {
+      retryDemo();
+      return;
+    }
+    setIsDemoPlaying((playing) => !playing);
+  };
+
+  const handleDemoSurfaceClick = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (demoSurfaceClickRef.current) {
+      window.clearTimeout(demoSurfaceClickRef.current);
+      demoSurfaceClickRef.current = null;
+    }
+    if (event.detail > 1) return;
+    if (demoMediaStatus === 'error') {
+      retryDemo();
+      return;
+    }
+
+    demoSurfaceClickRef.current = window.setTimeout(() => {
+      toggleDemoPlayback();
+      demoSurfaceClickRef.current = null;
+    }, 220);
+  };
+
+  const handleDemoSurfaceDoubleClick = () => {
+    if (demoSurfaceClickRef.current) {
+      window.clearTimeout(demoSurfaceClickRef.current);
+      demoSurfaceClickRef.current = null;
+    }
+    void toggleDemoFullscreen();
+  };
+
+  const handleDemoSurfaceKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    const key = event.key.toLowerCase();
+    if (key === 'enter' || key === ' ') {
+      event.preventDefault();
+      toggleDemoPlayback();
+      return;
+    }
+    if (key === 'm') {
+      event.preventDefault();
+      setIsDemoMuted((muted) => !muted);
+      return;
+    }
+    if (key === 'f') {
+      event.preventDefault();
+      void toggleDemoFullscreen();
+    }
+  };
+
   const selectAdjacentTechnologyGroup = (direction: number) => {
     const nextIndex = (activeTechnologyGroup + direction + technologyGroups.length) % technologyGroups.length;
     setActiveTechnologyGroup(nextIndex);
@@ -562,9 +892,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     setActiveTechnologyGroup(0);
     setIsDemoPlaying(false);
     setIsDemoMuted(true);
+    setPendingDemoIndex(null);
+    setDemoMediaStatus('loading');
     setDemoProgress(0);
     setDemoDuration(0);
     setDemoAspectRatio(null);
+    resumeDemoAfterSwitchRef.current = null;
   }, [project.slug]);
 
   useEffect(() => {
@@ -615,7 +948,11 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     if (!video) return;
     video.muted = isDemoMuted;
     if (isDemoPlaying) {
-      void video.play().catch(() => setIsDemoPlaying(false));
+      setDemoMediaStatus((status) => (status === 'error' ? status : 'buffering'));
+      void video.play().catch(() => {
+        setIsDemoPlaying(false);
+        setDemoMediaStatus('error');
+      });
     } else {
       video.pause();
     }
@@ -629,6 +966,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   useEffect(
     () => () => {
+      if (demoSurfaceClickRef.current) window.clearTimeout(demoSurfaceClickRef.current);
       if (demoTransitionRef.current) window.clearTimeout(demoTransitionRef.current);
     },
     []
@@ -814,14 +1152,19 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                             data-signal
                             data-signal-color={accent.background}
                             aria-pressed={activeDemo === index}
+                            aria-busy={pendingDemoIndex === index}
                             className={cn(
                               'reactive-tab flex min-h-14 min-w-[6.5rem] flex-1 snap-start items-center justify-center gap-2 border-r border-current/25 px-2 text-left text-sm font-bold capitalize last:border-r-0 sm:min-w-[7rem] lg:min-h-16 lg:min-w-0 lg:justify-start lg:gap-3 lg:border-b lg:border-r-0 lg:px-3 lg:text-base lg:last:border-b-0',
                               activeDemo === index && 'bg-background text-foreground'
                             )}>
-                            <Icon
-                              className={cn('size-5', item.device === 'tablet' && '-rotate-90')}
-                              aria-hidden="true"
-                            />
+                            {pendingDemoIndex === index ? (
+                              <span className="demo-switch-indicator" aria-hidden="true" />
+                            ) : (
+                              <Icon
+                                className={cn('size-5', item.device === 'tablet' && '-rotate-90')}
+                                aria-hidden="true"
+                              />
+                            )}
                             <span>
                               <span>{item.device}</span>
                               <span className="mt-0.5 block font-mono text-xs opacity-60">{item.length}</span>
@@ -895,7 +1238,23 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                         </span>
                       </div>
                       <div
-                        className={cn('demo-player-viewport relative overflow-hidden bg-black', deviceConfig.ratio)}
+                        role="button"
+                        tabIndex={0}
+                        aria-keyshortcuts="Enter Space M F"
+                        aria-label={
+                          demoMediaStatus === 'error'
+                            ? 'Retry video'
+                            : isDemoPlaying
+                              ? 'Pause video'
+                              : `Play ${demo.device} demo`
+                        }
+                        onClick={handleDemoSurfaceClick}
+                        onDoubleClick={handleDemoSurfaceDoubleClick}
+                        onKeyDown={handleDemoSurfaceKeyDown}
+                        className={cn(
+                          'demo-player-viewport group relative cursor-pointer select-none overflow-hidden bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white',
+                          deviceConfig.ratio
+                        )}
                         style={{ aspectRatio: isDemoFullscreen ? 'auto' : (demoAspectRatio ?? undefined) }}>
                         <video
                           ref={videoRef}
@@ -904,6 +1263,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           playsInline
                           preload="metadata"
                           poster={isMobile ? getSmallImageSrc(demoPoster) : demoPoster}
+                          onLoadStart={() => setDemoMediaStatus('loading')}
                           onLoadedMetadata={(event) => {
                             const video = event.currentTarget;
                             setDemoDuration(video.duration);
@@ -911,10 +1271,29 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                               setDemoAspectRatio(video.videoWidth / video.videoHeight);
                             }
                           }}
+                          onCanPlay={() => {
+                            setDemoMediaStatus('ready');
+                            setPendingDemoIndex(null);
+                            if (resumeDemoAfterSwitchRef.current === activeDemo) {
+                              resumeDemoAfterSwitchRef.current = null;
+                              setIsDemoPlaying(true);
+                            }
+                          }}
                           onTimeUpdate={(event) => setDemoProgress(event.currentTarget.currentTime)}
                           onPlay={() => setIsDemoPlaying(true)}
+                          onPlaying={() => setDemoMediaStatus('ready')}
+                          onWaiting={() => setDemoMediaStatus('buffering')}
+                          onStalled={() => setDemoMediaStatus('buffering')}
+                          onSeeking={() => setDemoMediaStatus('buffering')}
+                          onSeeked={() => setDemoMediaStatus('ready')}
                           onPause={() => setIsDemoPlaying(false)}
                           onEnded={() => setIsDemoPlaying(false)}
+                          onError={() => {
+                            resumeDemoAfterSwitchRef.current = null;
+                            setIsDemoPlaying(false);
+                            setPendingDemoIndex(null);
+                            setDemoMediaStatus('error');
+                          }}
                           className={cn(
                             'demo-media-treatment size-full object-contain',
                             !isDemoPlaying && demoProgress <= 0.05 && 'is-poster'
@@ -923,24 +1302,55 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           Your browser does not support video playback.
                         </video>
                         {!isDemoPlaying && (
-                          <button
-                            type="button"
-                            onClick={() => setIsDemoPlaying(true)}
-                            className="absolute inset-0 flex items-center justify-center bg-black/35 text-white transition-colors duration-200 hover:bg-black/25 motion-reduce:transition-none"
-                            aria-label={`Play ${demo.device} demo`}>
+                          <span
+                            className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/35 text-white transition-colors duration-200 group-hover:bg-black/25 motion-reduce:transition-none"
+                            aria-hidden="true">
                             <span className="flex size-16 items-center justify-center rounded-full border-2 border-white bg-black/60">
                               <Play className="ml-1 size-6" aria-hidden="true" />
                             </span>
-                          </button>
+                          </span>
+                        )}
+                        {(demoMediaStatus === 'loading' || demoMediaStatus === 'buffering') && (
+                          <span
+                            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/55 text-white"
+                            role="status"
+                            aria-live="polite">
+                            <span className="demo-buffering-indicator" aria-hidden="true">
+                              {SIGNAL_COLORS.slice(0, 4).map((color) => (
+                                <span key={color} style={{ backgroundColor: color }} />
+                              ))}
+                            </span>
+                            <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.12em]">
+                              {pendingDemoIndex !== null
+                                ? `Switching to ${project.demo?.[pendingDemoIndex]?.device ?? 'recording'}`
+                                : demoMediaStatus === 'buffering'
+                                  ? 'Buffering recording'
+                                  : 'Preparing recording'}
+                            </span>
+                          </span>
+                        )}
+                        {demoMediaStatus === 'error' && (
+                          <span
+                            className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/80 px-6 text-center text-white"
+                            role="alert">
+                            <RefreshCw className="size-6" aria-hidden="true" />
+                            <span className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.12em]">
+                              Recording unavailable · select to retry
+                            </span>
+                          </span>
                         )}
                       </div>
                       <div className="demo-player-controls grid grid-cols-[auto_1fr_auto_auto] items-center gap-2 border-t border-white/20 bg-[#080808] px-2 py-2 text-white sm:gap-3 sm:px-3">
                         <button
                           type="button"
-                          onClick={() => setIsDemoPlaying((playing) => !playing)}
+                          onClick={toggleDemoPlayback}
                           className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
-                          aria-label={isDemoPlaying ? 'Pause video' : 'Play video'}>
-                          {isDemoPlaying ? (
+                          aria-label={
+                            demoMediaStatus === 'error' ? 'Retry video' : isDemoPlaying ? 'Pause video' : 'Play video'
+                          }>
+                          {demoMediaStatus === 'error' ? (
+                            <RefreshCw className="size-4" aria-hidden="true" />
+                          ) : isDemoPlaying ? (
                             <Pause className="size-4" aria-hidden="true" />
                           ) : (
                             <Play className="ml-0.5 size-4" aria-hidden="true" />
@@ -955,6 +1365,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                             step="0.1"
                             value={Math.min(demoProgress, playbackDuration || 1)}
                             onChange={(event) => seekDemo(Number(event.target.value))}
+                            disabled={demoDuration <= 0 || demoMediaStatus === 'error'}
                             aria-label="Seek video"
                             className="h-5 min-w-0 w-full cursor-pointer accent-white"
                           />
@@ -967,7 +1378,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           type="button"
                           onClick={() => setIsDemoMuted((muted) => !muted)}
                           className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
-                          aria-label={isDemoMuted ? 'Unmute video' : 'Mute video'}>
+                          aria-label={isDemoMuted ? 'Unmute video' : 'Mute video'}
+                          aria-keyshortcuts="M"
+                          title={isDemoMuted ? 'Unmute video (M)' : 'Mute video (M)'}>
                           {isDemoMuted ? (
                             <VolumeX className="size-4" aria-hidden="true" />
                           ) : (
@@ -979,7 +1392,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           type="button"
                           onClick={() => void toggleDemoFullscreen()}
                           className="flex size-11 items-center justify-center border border-white/25 transition-colors hover:bg-white hover:text-black focus-visible:bg-white focus-visible:text-black"
-                          aria-label={isDemoFullscreen ? 'Exit full screen' : 'Enter full screen'}>
+                          aria-label={isDemoFullscreen ? 'Exit full screen' : 'Enter full screen'}
+                          aria-keyshortcuts="F"
+                          title={isDemoFullscreen ? 'Exit full screen (F)' : 'Enter full screen (F)'}>
                           {isDemoFullscreen ? (
                             <Minimize2 className="size-4" aria-hidden="true" />
                           ) : (

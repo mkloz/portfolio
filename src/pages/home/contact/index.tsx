@@ -9,7 +9,7 @@ import { PersonalService } from '@/services/personal.service';
 const CLOSING_WORDS = ['Tell', 'me', 'what', 'needs', 'to', 'work.'];
 
 export const Contact = () => {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'fallback'>('idle');
   const copyTimerRef = useRef<number>();
   const contact = PersonalService.getContactInfo();
   const social = PersonalService.getSocialLinks();
@@ -22,13 +22,18 @@ export const Contact = () => {
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(contact.email);
-      setCopied(true);
+      setCopyStatus('copied');
       window.clearTimeout(copyTimerRef.current);
-      copyTimerRef.current = window.setTimeout(() => setCopied(false), 1800);
+      copyTimerRef.current = window.setTimeout(() => setCopyStatus('idle'), 1800);
     } catch {
+      setCopyStatus('fallback');
+      window.clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = window.setTimeout(() => setCopyStatus('idle'), 2400);
       window.location.href = `mailto:${contact.email}`;
     }
   };
+
+  const copyLabel = copyStatus === 'copied' ? 'Copied' : copyStatus === 'fallback' ? 'Email opened' : 'Copy email';
 
   return (
     <section id="contact" className="bg-background text-foreground">
@@ -87,12 +92,14 @@ export const Contact = () => {
             data-magnetic
             data-signal
             data-signal-color="#ffd400"
-            data-cursor={copied ? 'Copied' : 'Copy address'}
-            data-state={copied ? 'copied' : 'idle'}
+            data-cursor={
+              copyStatus === 'copied' ? 'Copied' : copyStatus === 'fallback' ? 'Email opened' : 'Copy address'
+            }
+            data-state={copyStatus}
             className="copy-email-control flex min-h-14 min-w-40 items-center justify-center gap-2 border-t-2 border-current bg-[#ffd400] px-5 font-bold text-[#080808] sm:min-h-16 md:min-h-full md:border-l-2 md:border-t-0"
             aria-live="polite">
-            {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-            {copied ? 'Copied' : 'Copy email'}
+            {copyStatus === 'idle' ? <Copy aria-hidden="true" /> : <Check aria-hidden="true" />}
+            {copyLabel}
           </button>
         </div>
       </div>

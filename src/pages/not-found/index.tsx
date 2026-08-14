@@ -7,6 +7,14 @@ import { projectSummaries } from '@/data/project-summaries';
 export const NotFound = () => {
   const navigate = useNavigate();
   const projects = projectSummaries.slice(0, 3);
+  const goBack = () => {
+    const historyIndex = window.history.state?.idx;
+    if (typeof historyIndex === 'number' && historyIndex > 0) {
+      navigate(-1);
+      return;
+    }
+    navigate('/#hero');
+  };
 
   return (
     <main className="min-h-svh bg-[#080808] text-white">
@@ -50,9 +58,7 @@ export const NotFound = () => {
           <button onClick={() => navigate('/#projects')} className="inline-flex min-h-12 items-center gap-2 font-bold">
             Project ledger <ArrowUpRight aria-hidden="true" />
           </button>
-          <button
-            onClick={() => navigate(-1)}
-            className="inline-flex min-h-12 items-center gap-2 text-white/65 hover:text-white">
+          <button onClick={goBack} className="inline-flex min-h-12 items-center gap-2 text-white/65 hover:text-white">
             <ArrowLeft aria-hidden="true" /> Go back
           </button>
         </div>

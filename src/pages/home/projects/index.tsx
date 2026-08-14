@@ -1,5 +1,6 @@
-import { ArrowUpRight, Github } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowUpRight, Check, Github } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { EvidenceMagnifier } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
@@ -7,7 +8,10 @@ import { getResponsiveImageSrcSet, projectSummaries, type ProjectSummary } from 
 import { useTheme } from '@/hooks/theme.store';
 import { useHoverIntent } from '@/hooks/use-hover-intent';
 import { getProjectAccent } from '@/lib/project-accent';
+import { readProjectJourney } from '@/lib/project-journey';
 import { cn } from '@/lib/utils';
+
+const PROJECT_SLUGS = projectSummaries.map((project) => project.slug);
 
 const ProjectMedia = ({
   project,
@@ -73,15 +77,31 @@ const ProjectMedia = ({
 export const Projects = () => {
   const projects = projectSummaries;
   const [activeIndex, setActiveIndex] = useState(0);
+  const [visitedProjectSlugs, setVisitedProjectSlugs] = useState(
+    () => new Set(readProjectJourney(PROJECT_SLUGS).visited)
+  );
+  const navigate = useNavigate();
   const { schedule: previewProject, cancel: cancelProjectPreview } = useHoverIntent(setActiveIndex, 90);
   const selectAdjacentProject = (index: number, direction: number) => {
     const nextIndex = (index + direction + projects.length) % projects.length;
     setActiveIndex(nextIndex);
     const visibleTrigger = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(`[data-project-index="${nextIndex}"]`)
+      document.querySelectorAll<HTMLElement>(`[data-project-index="${nextIndex}"]`)
     ).find((trigger) => trigger.offsetParent !== null);
     window.requestAnimationFrame(() => visibleTrigger?.focus());
   };
+
+  useEffect(() => {
+    const syncVisitedProjects = () => setVisitedProjectSlugs(new Set(readProjectJourney(PROJECT_SLUGS).visited));
+    window.addEventListener('focus', syncVisitedProjects);
+    window.addEventListener('pageshow', syncVisitedProjects);
+    window.addEventListener('storage', syncVisitedProjects);
+    return () => {
+      window.removeEventListener('focus', syncVisitedProjects);
+      window.removeEventListener('pageshow', syncVisitedProjects);
+      window.removeEventListener('storage', syncVisitedProjects);
+    };
+  }, []);
 
   return (
     <section id="projects" className="border-b border-current/25 py-20 md:py-40">
@@ -98,6 +118,7 @@ export const Projects = () => {
           {projects.map((project, index) => {
             const active = activeIndex === index;
             const accent = getProjectAccent(project.slug);
+            const visited = visitedProjectSlugs.has(project.slug);
             const triggerId = `mobile-project-trigger-${project.slug}`;
             const panelId = `mobile-project-panel-${project.slug}`;
 
@@ -111,6 +132,7 @@ export const Projects = () => {
                   type="button"
                   aria-expanded={active}
                   aria-controls={panelId}
+                  aria-label={`${String(index + 1).padStart(2, '0')} ${project.title}${visited ? ', viewed' : ''}`}
                   onClick={() => setActiveIndex(index)}
                   onKeyDown={(event) => {
                     if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
@@ -128,14 +150,24 @@ export const Projects = () => {
                   )}>
                   <span className="font-mono text-[0.65rem] opacity-60">{String(index + 1).padStart(2, '0')}</span>
                   <span className="text-lg font-black tracking-[-0.025em]">{project.title}</span>
-                  <ArrowUpRight
-                    className={cn(
-                      'size-5 transition-transform duration-300 motion-reduce:transition-none',
-                      active ? 'rotate-45' : 'rotate-0'
+                  <span className="flex items-center gap-2">
+                    {visited && (
+                      <span
+                        className="flex size-5 items-center justify-center rounded-full"
+                        style={{ backgroundColor: accent.background, color: accent.foreground }}
+                        title="Viewed">
+                        <Check className="size-3.5" aria-hidden="true" />
+                      </span>
                     )}
-                    style={{ color: accent.background }}
-                    aria-hidden="true"
-                  />
+                    <ArrowUpRight
+                      className={cn(
+                        'size-5 transition-transform duration-300 motion-reduce:transition-none',
+                        active ? 'rotate-45' : 'rotate-0'
+                      )}
+                      style={{ color: accent.background }}
+                      aria-hidden="true"
+                    />
+                  </span>
                   <span
                     className="absolute bottom-0 left-0 top-0 w-1"
                     style={{ backgroundColor: accent.background }}
@@ -213,6 +245,7 @@ export const Projects = () => {
           {projects.map((project, index) => {
             const active = activeIndex === index;
             const accent = getProjectAccent(project.slug);
+            const visited = visitedProjectSlugs.has(project.slug);
 
             return (
               <article
@@ -233,7 +266,7 @@ export const Projects = () => {
                   data-signal
                   data-signal-color={accent.background}
                   onPointerDown={cancelProjectPreview}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => (active ? navigate(`/projects/${project.slug}`) : setActiveIndex(index))}
                   onKeyDown={(event) => {
                     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
                       event.preventDefault();
@@ -245,6 +278,11 @@ export const Projects = () => {
                     }
                   }}
                   aria-expanded={active}
+                  aria-label={
+                    active
+                      ? `View ${project.title} case study${visited ? ', viewed' : ''}`
+                      : `${String(index + 1).padStart(2, '0')} ${project.title}${visited ? ', viewed' : ''}`
+                  }
                   className={cn(
                     'relative flex min-h-20 w-full items-center justify-between gap-4 overflow-hidden px-5 text-left font-black',
                     active
@@ -259,19 +297,44 @@ export const Projects = () => {
                     )}
                     style={{ color: accent.background }}
                   />
-                  <span className="font-mono text-xs">{String(index + 1).padStart(2, '0')}</span>
-                  <span
-                    className={cn(
-                      'text-3xl tracking-[-0.05em]',
-                      active ? 'lg:text-lg' : 'lg:rotate-180 lg:text-4xl lg:[writing-mode:vertical-rl]'
-                    )}>
-                    {project.title}
-                  </span>
-                  <ArrowUpRight
-                    className={cn('size-5', !active && 'lg:rotate-45')}
-                    style={{ color: accent.background }}
-                    aria-hidden="true"
-                  />
+                  {active ? (
+                    <>
+                      <span className="text-lg tracking-[-0.025em]">View case study</span>
+                      <span className="flex items-center gap-3">
+                        {visited && (
+                          <span
+                            className="flex size-5 items-center justify-center rounded-full"
+                            style={{ backgroundColor: accent.background, color: accent.foreground }}
+                            title="Viewed">
+                            <Check className="size-3.5" aria-hidden="true" />
+                          </span>
+                        )}
+                        <ArrowUpRight className="size-5" style={{ color: accent.background }} aria-hidden="true" />
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="flex items-center gap-2 lg:flex-col">
+                        <span className="font-mono text-xs">{String(index + 1).padStart(2, '0')}</span>
+                        {visited && (
+                          <span
+                            className="flex size-5 items-center justify-center rounded-full"
+                            style={{ backgroundColor: accent.background, color: accent.foreground }}
+                            title="Viewed">
+                            <Check className="size-3.5" aria-hidden="true" />
+                          </span>
+                        )}
+                      </span>
+                      <span className="text-3xl tracking-[-0.05em] lg:rotate-180 lg:text-4xl lg:[writing-mode:vertical-rl]">
+                        {project.title}
+                      </span>
+                      <ArrowUpRight
+                        className="size-5 lg:rotate-45"
+                        style={{ color: accent.background }}
+                        aria-hidden="true"
+                      />
+                    </>
+                  )}
                 </button>
 
                 {active && (
@@ -279,6 +342,7 @@ export const Projects = () => {
                     <Link
                       to={`/projects/${project.slug}`}
                       unstyled
+                      aria-current="true"
                       aria-label={`View ${project.title} case study`}
                       data-cursor={`View ${project.title}`}
                       className="absolute inset-0 z-10 cursor-pointer">

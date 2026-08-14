@@ -331,6 +331,42 @@
     filter: grayscale(0.78) sepia(0.08) saturate(0.5) contrast(1.13) brightness(0.88);
   }
 
+  .demo-switch-indicator {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 999px;
+    animation: demo-switch-spin 680ms linear infinite;
+  }
+
+  .demo-buffering-indicator {
+    display: flex;
+    height: 1.5rem;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .demo-buffering-indicator > span {
+    width: 0.3rem;
+    height: 1.25rem;
+    transform: scaleY(0.35);
+    animation: demo-buffering-signal 760ms cubic-bezier(0.22, 1, 0.36, 1) infinite alternate;
+  }
+
+  .demo-buffering-indicator > span:nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .demo-buffering-indicator > span:nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .demo-buffering-indicator > span:nth-child(4) {
+    animation-delay: 270ms;
+  }
+
   [data-magnetic] {
     translate: var(--magnetic-x, 0px) var(--magnetic-y, 0px);
     transition:
@@ -498,11 +534,8 @@
       opacity 180ms ease;
   }
 
-  .reactive-capability,
-  .reactive-meta-row,
   .reactive-decision,
   .reactive-achievement,
-  .reactive-token,
   .reactive-link {
     position: relative;
   }
@@ -547,11 +580,8 @@
   }
 
   .reactive-link::before,
-  .reactive-token::after,
-  .reactive-meta-row::after,
   .reactive-decision::before,
-  .reactive-achievement::after,
-  .reactive-capability::after {
+  .reactive-achievement::after {
     content: '';
     pointer-events: none;
     position: absolute;
@@ -569,8 +599,6 @@
     transform-origin: left;
   }
 
-  .reactive-token::after,
-  .reactive-meta-row::after,
   .reactive-achievement::after {
     inset: auto 0 0;
     height: 1px;
@@ -584,13 +612,6 @@
     transform-origin: top;
   }
 
-  .reactive-capability::after {
-    inset: 0 auto 0 0;
-    width: 4px;
-    transform: scaleY(0);
-    transform-origin: bottom;
-  }
-
   @media (hover: hover) and (pointer: fine) {
     .reactive-link:hover,
     .reactive-link:focus-visible {
@@ -599,42 +620,11 @@
 
     .reactive-link:hover::before,
     .reactive-link:focus-visible::before,
-    .reactive-token:hover::after,
-    .reactive-meta-row:hover::after,
-    .reactive-achievement:hover::after,
-    .reactive-capability:hover::after {
+    .reactive-achievement:hover::after {
       opacity: 0.7;
       transform: scale(1);
     }
 
-    .reactive-token:hover {
-      transform: translateX(0.25rem);
-    }
-
-    .reactive-token:hover > span:first-child {
-      transform: scaleX(2.15);
-    }
-
-    .reactive-token > span:first-child {
-      transform-origin: left;
-      transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reactive-meta-row:hover {
-      background-color: color-mix(in srgb, currentColor 5%, transparent);
-      transform: translateX(0.3rem);
-    }
-
-    .reactive-capability:hover {
-      background-color: color-mix(in srgb, currentColor 5%, transparent);
-      transform: translateY(-0.2rem);
-    }
-
-    .reactive-capability:hover svg {
-      transform: rotate(-8deg) scale(1.16);
-    }
-
-    .reactive-capability svg,
     .reactive-tab svg,
     .reactive-timeline > span,
     .reactive-stack-row button > span {
@@ -939,7 +929,8 @@
   min-height: 0;
   scrollbar-color: rgb(8 8 8 / 45%) transparent;
   overscroll-behavior: contain;
-  touch-action: pan-x pan-y;
+  touch-action: none;
+  user-select: none;
 }
 
 .gallery-dialog-image {
@@ -1274,6 +1265,24 @@ html[data-page-visibility='hidden'] .signal-rail {
 @keyframes signal-rail-flow {
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes demo-switch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes demo-buffering-signal {
+  0%,
+  15% {
+    opacity: 0.45;
+    transform: scaleY(0.35);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
   }
 }
 

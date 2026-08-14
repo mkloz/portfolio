@@ -292,17 +292,12 @@ export const PortraitSignal = () => {
           const normalizedX = column / columns;
           const normalizedY = row / rows;
 
-          if (normalizedY > 0.59 && normalizedX > 0.62) {
-            const shoulderProgress = Math.min(1, (normalizedY - 0.59) / 0.41);
-            const roundedShoulderEdge = 0.7 + Math.sin(shoulderProgress * Math.PI * 0.5) * 0.15;
-            const shoulderFeather = 0.04;
-            if (normalizedX > roundedShoulderEdge) continue;
-
-            const edgeCoverage = Math.min(1, (roundedShoulderEdge - normalizedX) / shoulderFeather);
-            if (hash > edgeCoverage && normalizedX > roundedShoulderEdge - shoulderFeather) continue;
-
-            const sweaterDensity = (0.24 + hash * 0.2) * Math.min(1, edgeCoverage * 1.35);
-            density = Math.max(density, sweaterDensity);
+          if (normalizedY > 0.56 && normalizedX > 0.56) {
+            const shoulderProgress = Math.min(1, (normalizedY - 0.56) / 0.44);
+            const roundedShoulderEdge = 0.61 + Math.sin(shoulderProgress * Math.PI * 0.5) * 0.34;
+            const edgeCoverage = Math.min(1, Math.max(0, (roundedShoulderEdge - normalizedX) / 0.045));
+            const sweaterTexture = (0.27 + hash * 0.2) * edgeCoverage;
+            density = Math.max(density, sweaterTexture);
           }
 
           const inkCoverage = Math.min(1, density * 1.08 + edge * 0.34);
