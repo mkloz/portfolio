@@ -71,10 +71,9 @@ export const Skills = () => {
     <section id="skills" className="border-b border-current/25 py-20 md:py-40">
       <div className="content-shell px-5 md:px-8 lg:px-12">
         <div className="grid gap-5 border-t-2 border-current pt-5 lg:grid-cols-12 lg:gap-10">
-          <h2 className="section-type lg:col-span-8">Working system.</h2>
+          <h2 className="section-type lg:col-span-8">Tools behind the work.</h2>
           <p className="max-w-xl self-end text-lg leading-relaxed text-muted-foreground lg:col-span-4">
-            Choose a responsibility to see the tools and projects that carry it. Every tool shown here appears in the
-            project record.
+            Pick an area to see the tools I use and the projects where I used them.
           </p>
         </div>
 
@@ -164,8 +163,7 @@ export const Skills = () => {
                 className="system-panel-content pointer-events-none relative z-10 flex min-h-[24rem] max-w-[82%] flex-col justify-end p-5 sm:max-w-[58%] md:min-h-[36rem] md:max-w-[52%] md:p-10">
                 <h3 className="text-4xl font-black tracking-[-0.04em] md:text-7xl">{active.name}</h3>
                 <p className="mt-4 max-w-56 text-sm leading-relaxed text-white/70">
-                  Proven across {evidenceProjects.length} {evidenceProjects.length === 1 ? 'project' : 'projects'}{' '}
-                  below.
+                  Used in {evidenceProjects.length} {evidenceProjects.length === 1 ? 'project' : 'projects'} below.
                 </p>
                 <ul
                   className="mt-5 flex max-w-md flex-wrap gap-x-5 gap-y-2 md:mt-7"
@@ -186,7 +184,7 @@ export const Skills = () => {
               </div>
             </div>
             <div className="flex min-h-14 flex-wrap items-center gap-x-5 gap-y-1 border-t border-current/25 px-4 py-2">
-              <span className="meta-type font-mono uppercase tracking-[0.08em] text-muted-foreground">Evidence</span>
+              <span className="meta-type font-mono uppercase tracking-[0.08em] text-muted-foreground">Seen in</span>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
                 {evidenceProjects.map((project) => (
                   <Link

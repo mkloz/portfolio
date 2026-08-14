@@ -6,7 +6,7 @@ import { Link } from '@/components/common/link';
 import { projectSummaries } from '@/data/project-summaries';
 import { PersonalService } from '@/services/personal.service';
 
-const CLOSING_WORDS = ['Tell', 'me', 'what', 'needs', 'to', 'work.'];
+const CLOSING_WORDS = ['Have', 'something', 'to', 'build?'];
 
 export const Contact = () => {
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'fallback'>('idle');
@@ -39,7 +39,7 @@ export const Contact = () => {
     <section id="contact" className="bg-background text-foreground">
       <div className="content-shell px-5 py-20 md:px-8 md:py-32 lg:px-12">
         <div className="grid gap-8 md:gap-12 lg:grid-cols-12 lg:items-end">
-          <h2 aria-label="Tell me what needs to work." className="contact-question lg:col-span-9">
+          <h2 aria-label="Have something to build?" className="contact-question lg:col-span-9">
             {CLOSING_WORDS.map((word) => (
               <span key={word} data-contact-word aria-hidden="true" className="mr-[0.18em] inline-block">
                 {word}
@@ -49,8 +49,8 @@ export const Contact = () => {
 
           <div className="border-t border-current/30 pt-6 lg:col-span-3">
             <p className="text-lg font-semibold leading-relaxed">
-              Based in Manchester. Send the problem, not a polished brief. A job description, rough project outline, or
-              technical question is enough.
+              I&apos;m based in Manchester and happy to hear about full-stack roles or project ideas. A job description,
+              rough outline, or a few lines about the problem is plenty.
             </p>
             <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-sm font-bold md:mt-8">
               <a

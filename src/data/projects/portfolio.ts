@@ -7,45 +7,45 @@ export const portfolioProject: Project = {
   // Basic info
   title: 'Portfolio',
   slug: 'portfolio',
-  description: 'Responsive portfolio with project case studies, demos, implementation notes, and image galleries.',
+  description: 'This portfolio, built to make my work easy to explore through case studies, demos, and project notes.',
   image: {
     light: '/project-media/portfolio/portfolio-light.webp',
     dark: '/project-media/portfolio/portfolio-dark.webp'
   },
   highlights: [
     {
-      title: 'Responsive interface',
-      description: 'Layouts designed for desktop and mobile use',
+      title: 'Made for every screen',
+      description: 'Each page has a layout designed for both desktop and mobile use',
       icon: Sparkles,
       stats: 'Animated'
     },
     {
-      title: 'Responsive Layout',
-      description: 'Fully responsive design optimized for all device sizes and orientations',
+      title: 'Flexible layouts',
+      description: 'Content adjusts to different screen sizes and orientations',
       icon: Monitor,
       stats: 'All devices'
     },
     {
-      title: 'Interactive Elements',
-      description: 'Engaging animations and interactive components built with Framer Motion',
+      title: 'Thoughtful interaction',
+      description: 'Motion and interactive details respond to the visitor without hiding the content',
       icon: MousePointer,
       stats: 'Interactive'
     },
     {
-      title: 'Dark Mode',
+      title: 'Light and dark themes',
       description: 'Persistent light and dark themes',
       icon: Moon,
       stats: 'Theme aware'
     },
     {
-      title: 'Performance Optimized',
-      description: 'Optimized for speed with lazy loading, code splitting, and efficient rendering',
+      title: 'Faster loading',
+      description: 'Lazy loading and code splitting keep the initial download smaller',
       icon: Zap,
       stats: '95+ score'
     },
     {
-      title: 'Accessibility',
-      description: 'Built with accessibility in mind using semantic HTML and ARIA attributes',
+      title: 'Accessible by design',
+      description: 'Semantic HTML, keyboard support, and clear labels make the site easier to use',
       icon: Eye,
       stats: 'WCAG 2.1'
     }
@@ -81,9 +81,9 @@ export const portfolioProject: Project = {
   progress: 90,
 
   // Detailed info
-  tagline: 'Selected work and implementation notes',
+  tagline: 'A clearer way to explore my work.',
   longDescription:
-    'This portfolio presents selected development work through responsive case-study pages. Each project can include implementation notes, demos, source links, and an image gallery. The interface is built with React and TypeScript and supports light and dark themes.',
+    'This portfolio brings my projects together in one place. Each case study combines a plain overview with demos, build notes, source links, and a gallery for closer inspection.',
   status: 'In Progress',
   category: 'Frontend',
   duration: '3 weeks',
@@ -108,20 +108,20 @@ export const portfolioProject: Project = {
     steps: [
       {
         id: 'planning',
-        title: 'Design & Planning',
+        title: 'Planning the experience',
         duration: '1 week',
         decisions: [
           {
             decision: 'Choose React with TypeScript for type safety',
-            reasoning: 'Ensures code reliability and better developer experience'
+            reasoning: 'Types make component changes safer as the site grows'
           },
           {
             decision: 'Use Tailwind CSS for styling',
-            reasoning: 'Rapid development with consistent design system'
+            reasoning: 'It keeps the visual rules close to the components that use them'
           },
           {
-            decision: 'Staning design',
-            reasoning: 'Defining the layout and visual direction before implementation'
+            decision: 'Set the visual direction before implementation',
+            reasoning: 'A clear layout and type system made later design choices more consistent'
           }
         ],
         achievements: [
@@ -133,7 +133,7 @@ export const portfolioProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'Core Development',
+        title: 'Building the site',
         duration: '1 week',
 
         technologies: [
@@ -150,15 +150,15 @@ export const portfolioProject: Project = {
         decisions: [
           {
             decision: 'Implement custom theme system with dark/light mode',
-            reasoning: 'Consistent components and browser-native interaction patterns'
+            reasoning: 'Both themes use the same components and familiar browser controls'
           },
           {
-            decision: 'Add advanced animations and micro-interactions',
-            reasoning: 'Keeps optional motion separate from core navigation and content'
+            decision: 'Add purposeful motion and small interaction details',
+            reasoning: 'Motion adds character while the content and navigation still work without it'
           },
           {
             decision: 'Implement project case-study pages',
-            reasoning: 'Keeps implementation evidence with each project'
+            reasoning: 'Each project needs enough context to explain the work alongside the screenshots'
           }
         ],
         achievements: [
@@ -171,7 +171,7 @@ export const portfolioProject: Project = {
       },
       {
         id: 'deployment',
-        title: 'Deployment',
+        title: 'Publishing the site',
         duration: '1 day',
         decisions: [
           {
@@ -180,19 +180,19 @@ export const portfolioProject: Project = {
           },
           {
             decision: 'Set up multiple domains',
-            reasoning: 'Multiple domains for the website to be used for SEO'
+            reasoning: 'Each public address can point visitors to the same canonical site'
           },
           {
             decision: 'CI/CD pipeline',
-            reasoning: 'Automate the deployment process'
+            reasoning: 'Every verified change can be published through the same repeatable process'
           }
         ],
         achievements: [
           'Deployed the website to Cloudflare Pages',
           'Set up multiple domains for the website',
-          'CI/CD pipeline for the website',
-          'Set up a monitoring system for the website',
-          'Set up a backup system for the website'
+          'Added an automated build and deployment pipeline',
+          'Added site monitoring',
+          'Added a backup process'
         ]
       }
     ]

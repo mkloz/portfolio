@@ -418,7 +418,7 @@ export const PortraitSignal = () => {
       <div className="grid grid-cols-[minmax(0,1fr)_3.5rem] border-y-2 border-current">
         <button
           type="button"
-          aria-label="MK portrait — displace and reassemble a code-rendered portrait of Mykhailo Kloz"
+          aria-label="MK portrait, displace and reassemble a code-rendered portrait of Mykhailo Kloz"
           onPointerMove={movePortrait}
           onPointerLeave={() => controllerRef.current?.leave()}
           onPointerDown={(event) => {

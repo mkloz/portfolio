@@ -39,9 +39,9 @@ const getTileMotion = (index: number): TileMotion => {
 };
 
 const getLoadingStage = (progress: number) => {
-  if (progress < 34) return 'Building structure';
-  if (progress < 72) return 'Preparing project media';
-  if (progress < 100) return 'Connecting interactions';
+  if (progress < 34) return 'Getting things ready';
+  if (progress < 72) return 'Loading project images';
+  if (progress < 100) return 'Adding the finishing touches';
   return 'Ready';
 };
 
@@ -74,7 +74,7 @@ export const LoadingOverlay = ({ initial = false, phase = 'visible' }: { initial
   }, [initial]);
 
   const initialPhaseClass = initial ? `initial-loading-overlay loading-overlay-${phase}` : 'loading-stage-loop';
-  const stage = initial ? getLoadingStage(progress) : 'Loading page';
+  const stage = initial ? getLoadingStage(progress) : 'Opening page';
 
   return (
     <div
@@ -98,12 +98,12 @@ export const LoadingOverlay = ({ initial = false, phase = 'visible' }: { initial
         <div className="loading-stage-body grid flex-1 content-center gap-7 py-8 md:grid-cols-12 md:content-end md:items-end md:gap-10 md:pb-12">
           <div className="loading-status-copy md:col-span-8">
             <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white/55 md:text-xs">
-              Loading portfolio
+              Opening portfolio
             </p>
             <p
               className="loading-stage-title mt-3 font-black uppercase leading-[0.78] tracking-[-0.065em]"
               aria-hidden="true">
-              Loading<span className="text-[#ff583d]">.</span>
+              Almost there<span className="text-[#ff583d]">.</span>
             </p>
           </div>
 
@@ -132,9 +132,9 @@ export const LoadingOverlay = ({ initial = false, phase = 'visible' }: { initial
         </div>
 
         <footer className="loading-stage-footer grid min-h-16 grid-cols-3 items-center gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.11em] text-white/45 md:min-h-20 md:text-xs">
-          <span className={progress >= 1 ? 'is-complete' : ''}>Structure</span>
-          <span className={`text-center ${progress >= 34 ? 'is-complete' : ''}`}>Media</span>
-          <span className={`text-right ${progress >= 72 ? 'is-complete' : ''}`}>Interactions</span>
+          <span className={progress >= 1 ? 'is-complete' : ''}>Pages</span>
+          <span className={`text-center ${progress >= 34 ? 'is-complete' : ''}`}>Images</span>
+          <span className={`text-right ${progress >= 72 ? 'is-complete' : ''}`}>Details</span>
         </footer>
       </div>
     </div>

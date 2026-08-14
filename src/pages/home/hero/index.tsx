@@ -31,7 +31,7 @@ export const Hero = () => {
 
             <div className="mt-10 grid gap-6 border-t border-current/25 pt-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end lg:mt-16 lg:gap-8 lg:pt-6">
               <p className="max-w-[33rem] text-lg font-semibold leading-snug md:text-2xl">
-                I turn complex product requirements into clear, working software.
+                I design and build web products that feel clear to use and stay reliable behind the scenes.
               </p>
               <button
                 onClick={() => scrollToSection('projects')}

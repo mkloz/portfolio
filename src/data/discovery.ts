@@ -4,7 +4,7 @@ import { projectSummaries } from './project-summaries';
 export const SITE_URL = 'https://www.mkloz.com';
 export const SITE_NAME = 'Mykhailo Kloz';
 export const SITE_DESCRIPTION =
-  'Mykhailo Kloz is a full-stack developer building clear product interfaces, dependable APIs, data systems, and production-ready software.';
+  'Mykhailo Kloz designs and builds clear, reliable web products, from accessible interfaces to the systems behind them.';
 export const SITE_IMAGE = `${SITE_URL}/social-card.png`;
 const PERSON_IMAGE = `${SITE_URL}/editorial/portrait-screenprint-480.webp`;
 
@@ -23,7 +23,7 @@ const absoluteUrl = (value: string) => (value.startsWith('http') ? value : `${SI
 export const discoveryRoutes: DiscoveryRoute[] = [
   {
     path: '/',
-    title: `${SITE_NAME} — Full-Stack Developer`,
+    title: `${SITE_NAME} | Full-Stack Developer`,
     description: SITE_DESCRIPTION,
     image: SITE_IMAGE,
     indexable: true,
@@ -40,8 +40,8 @@ export const discoveryRoutes: DiscoveryRoute[] = [
   })),
   {
     path: '/contact/success',
-    title: `Message received — ${SITE_NAME}`,
-    description: 'Your message has been delivered to Mykhailo Kloz.',
+    title: `Message received | ${SITE_NAME}`,
+    description: 'Your message has reached Mykhailo Kloz.',
     image: SITE_IMAGE,
     indexable: false,
     kind: 'utility'
@@ -50,8 +50,8 @@ export const discoveryRoutes: DiscoveryRoute[] = [
 
 export const notFoundDiscoveryRoute: DiscoveryRoute = {
   path: '/404',
-  title: `Page not found — ${SITE_NAME}`,
-  description: 'This route does not connect to the portfolio.',
+  title: `Page not found | ${SITE_NAME}`,
+  description: "The page you were looking for isn't here.",
   image: SITE_IMAGE,
   indexable: false,
   kind: 'not-found'

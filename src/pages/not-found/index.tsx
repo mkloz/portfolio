@@ -20,8 +20,8 @@ export const NotFound = () => {
     <main className="min-h-svh bg-[#080808] text-white">
       <div className="mx-auto flex min-h-svh max-w-[100rem] flex-col px-5 py-7 md:px-8 lg:px-12">
         <div className="flex items-center justify-between border-b border-white/25 pb-5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.13em]">
-          <span>MK / Route monitor</span>
-          <span className="text-[#ff583d]">404 / Signal lost</span>
+          <span>MK / Portfolio</span>
+          <span className="text-[#ff583d]">404 / Page not found</span>
         </div>
 
         <div className="grid flex-1 items-center gap-12 py-16 lg:grid-cols-12">
@@ -32,7 +32,8 @@ export const NotFound = () => {
               turn<span className="text-[#ffd400]">.</span>
             </h1>
             <p className="mt-8 max-w-lg text-xl font-medium leading-relaxed text-white/65">
-              This route does not connect to the portfolio. Use the project ledger or return to the previous page.
+              This page isn&apos;t here. Try one of these projects, return to all projects, or go back to where you
+              were.
             </p>
           </div>
 
@@ -56,7 +57,7 @@ export const NotFound = () => {
 
         <div className="flex flex-wrap gap-5 border-t border-white/25 pt-5">
           <button onClick={() => navigate('/#projects')} className="inline-flex min-h-12 items-center gap-2 font-bold">
-            Project ledger <ArrowUpRight aria-hidden="true" />
+            See all projects <ArrowUpRight aria-hidden="true" />
           </button>
           <button onClick={goBack} className="inline-flex min-h-12 items-center gap-2 text-white/65 hover:text-white">
             <ArrowLeft aria-hidden="true" /> Go back

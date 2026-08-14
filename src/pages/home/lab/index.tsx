@@ -5,33 +5,33 @@ import { Link } from '@/components/common/link';
 const OWNERSHIP_LAYERS = [
   {
     label: 'Interface',
-    action: 'Design the experience.',
-    responsibility: 'Flows, responsive states, interaction, and accessibility.',
-    output: 'A clear product people can use',
+    action: 'Make it easy to use.',
+    responsibility: 'Clear journeys, responsive layouts, thoughtful interaction, and accessible choices.',
+    output: 'A product people can understand',
     color: '#74f0b3',
     foreground: '#080808'
   },
   {
     label: 'Application',
-    action: 'Build the behaviour.',
-    responsibility: 'Domain logic, APIs, authentication, payments, and realtime.',
-    output: 'Rules that hold beyond the screen',
+    action: 'Make it work.',
+    responsibility: 'The rules behind accounts, payments, updates, and everyday actions.',
+    output: 'Behaviour that stays predictable',
     color: '#ffd400',
     foreground: '#080808'
   },
   {
     label: 'Data',
-    action: 'Model the system.',
-    responsibility: 'Schemas, relationships, queries, caching, and consistency.',
-    output: 'State the whole product can trust',
+    action: 'Keep it organised.',
+    responsibility: 'The structure that keeps information accurate, quick to find, and dependable.',
+    output: 'Information the product can rely on',
     color: '#465bff',
     foreground: '#ffffff'
   },
   {
     label: 'Production',
-    action: 'Ship and keep it running.',
-    responsibility: 'Containers, CI/CD, deployment, routing, and monitoring.',
-    output: 'A service ready for real use',
+    action: "Put it in people's hands.",
+    responsibility: 'Testing, deployment, monitoring, and the work that keeps it available.',
+    output: 'A product that is ready to use',
     color: '#ff583d',
     foreground: '#080808'
   }
@@ -95,10 +95,11 @@ export const Lab = () => (
         </h2>
         <div className="lg:col-span-4 lg:col-start-9">
           <p className="max-w-md text-xl font-semibold leading-relaxed text-background">
-            I can design, build, connect, and ship a complete web product independently.
+            I can take a web product from the first idea to a working release without losing sight of the people using
+            it.
           </p>
           <p className="mt-4 max-w-md text-base leading-relaxed text-background/65">
-            The value is not knowing every tool. It is owning the handoffs between them.
+            The important part is making everything work together, not collecting a long list of tools.
           </p>
         </div>
       </div>
@@ -138,13 +139,13 @@ export const Lab = () => (
 
       <div className="grid gap-5 border-b border-background/30 py-6 md:grid-cols-[1fr_auto] md:items-center md:py-7">
         <p className="max-w-3xl text-xl font-black leading-tight tracking-[-0.025em] md:text-3xl">
-          One continuous responsibility—from the first decision to the live service.
+          I stay responsible from the first sketch to the live product.
         </p>
         <Link
           to="/projects/uevent"
           unstyled
           className="reactive-link group inline-flex min-h-12 items-center gap-2 justify-self-start border-b border-background/50 font-bold hover:border-background">
-          See the complete build
+          See how I built UEvent
           <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:rotate-45" aria-hidden="true" />
         </Link>
       </div>

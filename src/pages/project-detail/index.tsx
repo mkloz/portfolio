@@ -764,12 +764,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const closeGallery = useCallback(() => setLightboxIndex(null), []);
   const sectionNavigationItems = useMemo(
     () => [
-      { id: 'hero', label: 'Summary', color: accent.background },
-      { id: 'overview', label: 'Product', color: '#ffd400' },
-      ...(project.demo?.length ? [{ id: 'demo', label: 'Working proof', color: '#465bff' }] : []),
-      { id: 'journey', label: 'Decisions', color: '#74f0b3' },
-      { id: 'tech-stack', label: 'System', color: '#6c4eff' },
-      ...(project.gallery.length ? [{ id: 'gallery', label: 'Evidence', color: '#ff583d' }] : [])
+      { id: 'hero', label: 'Overview', color: accent.background },
+      { id: 'overview', label: 'Features', color: '#ffd400' },
+      ...(project.demo?.length ? [{ id: 'demo', label: 'Demo', color: '#465bff' }] : []),
+      { id: 'journey', label: 'How I built it', color: '#74f0b3' },
+      { id: 'tech-stack', label: 'Tools', color: '#6c4eff' },
+      ...(project.gallery.length ? [{ id: 'gallery', label: 'Gallery', color: '#ff583d' }] : [])
     ],
     [accent.background, project.demo?.length, project.gallery.length]
   );
@@ -977,7 +977,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
       <a
         href="#overview"
         className="fixed left-4 top-4 z-[190] -translate-y-24 bg-primary px-4 py-3 text-primary-foreground focus:translate-y-0">
-        Skip to project details
+        Skip to project overview
       </a>
       <ProjectHeader />
       <SectionNavigator items={sectionNavigationItems} className="2xl:right-8" />
@@ -1030,7 +1030,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                     ['Scope', project.category],
                     ['Year', project.year],
                     ['Status', project.status],
-                    ['System', `${technologyGroups.length} responsibility layers`]
+                    ['Coverage', `${technologyGroups.length} parts of the product`]
                   ].map(([label, value]) => (
                     <div
                       key={label}
@@ -1059,7 +1059,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   data-signal
                   data-signal-color={accent.background}
                   className="group col-span-2 inline-flex min-h-14 items-center justify-between gap-2 border-b border-current/25 px-3 font-bold md:min-h-12 md:justify-start md:border-current/50 md:px-0">
-                  Open live product
+                  Visit the live product
                   <ArrowUpRight
                     className="size-4 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
                     aria-hidden="true"
@@ -1094,7 +1094,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
             <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-5">
                 <div className="lg:sticky lg:top-24">
-                  <h2 className="case-study-primary-type max-w-[10ch]">What the product had to hold together.</h2>
+                  <h2 className="case-study-primary-type max-w-[10ch]">What the product needed to do.</h2>
                 </div>
               </div>
               <div className="grid border-t-2 border-current sm:grid-cols-2 lg:col-span-7">
@@ -1127,11 +1127,11 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="demo" className="bg-foreground py-16 text-background md:py-32">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-12 md:gap-8 lg:grid-cols-12 lg:items-end">
-                <h2 className="case-study-primary-type max-w-[11ch] lg:col-span-8">The product, working.</h2>
+                <h2 className="case-study-primary-type max-w-[11ch] lg:col-span-8">See it in action.</h2>
                 <p className="max-w-lg text-lg leading-relaxed text-background/65 lg:col-span-4">
                   {project.demo.length > 1
-                    ? 'Switch between recorded views of the same working product.'
-                    : 'A recorded view of the working product.'}
+                    ? 'Choose a screen size and watch the product being used.'
+                    : 'Watch the product being used.'}
                 </p>
               </div>
               <div className="grid min-w-0 gap-6 lg:grid-cols-12 lg:gap-8 lg:items-stretch">
@@ -1211,7 +1211,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="group flex min-h-14 items-center justify-between border-t border-current/25 px-4 font-bold">
-                      Open working product
+                      Try the live product
                       <ArrowUpRight
                         className="size-4 transition-transform duration-200 group-hover:rotate-45 motion-reduce:transition-none"
                         aria-hidden="true"
@@ -1414,9 +1414,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <div className="content-shell grid gap-8 px-5 md:px-8 lg:grid-cols-12 lg:gap-14 lg:px-12">
             <div className="lg:col-span-4">
               <div className="lg:sticky lg:top-24">
-                <h2 className="case-study-primary-type max-w-[10ch]">Decisions that shaped it.</h2>
+                <h2 className="case-study-primary-type max-w-[10ch]">How I built it.</h2>
                 <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted-foreground md:mt-7">
-                  The implementation sequence matters where it exposes a choice, constraint, or delivered result.
+                  The main choices, trade-offs, and results from each stage of the build.
                 </p>
               </div>
             </div>
@@ -1490,7 +1490,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           )}>
                           <div>
                             <h3 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
-                              Decisions
+                              What I chose
                             </h3>
                             <ul className="mt-6 space-y-6 text-base leading-relaxed text-muted-foreground">
                               {step.decisions.map((item) => (
@@ -1505,7 +1505,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           </div>
                           <div>
                             <h3 className="border-b border-current/25 pb-3 text-xl font-black tracking-[-0.02em]">
-                              Delivered
+                              What I built
                             </h3>
                             <ul className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground">
                               {step.achievements.map((achievement) => (
@@ -1540,9 +1540,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
         <section id="tech-stack" className="border-b border-current/25 py-16 md:py-28">
           <div className="content-shell px-5 md:px-8 lg:px-12">
             <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-              <h2 className="case-study-supporting-type md:col-span-8">The working system.</h2>
+              <h2 className="case-study-supporting-type md:col-span-8">Tools behind the project.</h2>
               <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
-                Choose a responsibility to inspect the tools behind this project.
+                Pick an area to see the tools I used there.
               </p>
             </div>
 
@@ -1670,13 +1670,13 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <section id="gallery" className="border-b border-current/25 py-16 md:py-24">
             <div className="content-shell px-5 md:px-8 lg:px-12">
               <div className="mb-8 grid gap-5 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:items-end">
-                <h2 className="case-study-supporting-type md:col-span-7">Inspect the evidence.</h2>
+                <h2 className="case-study-supporting-type md:col-span-7">Look closer.</h2>
                 <div className="flex items-end justify-between gap-5 md:col-span-5">
                   <p className="max-w-sm text-base leading-relaxed text-muted-foreground md:text-lg">
-                    Screens and diagrams, available at full size.
+                    Open any screen or diagram for a full-size view.
                   </p>
                   <span className="shrink-0 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                    {String(project.gallery.length).padStart(2, '0')} artefacts
+                    {String(project.gallery.length).padStart(2, '0')} items
                   </span>
                 </div>
               </div>
@@ -1750,7 +1750,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 {nextProject.title}
               </h2>
               <span className="inline-flex min-h-12 items-center gap-2 justify-self-start border-b border-current text-lg font-bold">
-                Open case study
+                View next project
                 <ArrowUpRight className="transition-transform duration-200 group-hover:rotate-45" aria-hidden="true" />
               </span>
             </Link>
@@ -1790,7 +1790,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 Thank you<span className="text-[#ff583d]">.</span>
               </h2>
               <p className="mt-7 max-w-md text-xl font-semibold leading-relaxed text-[#f4f2ed]/70">
-                You have seen the whole portfolio. Let&apos;s talk about what needs to work next.
+                You made it through all six projects. If one sparked an idea, I&apos;d love to hear about it.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-3">
@@ -1798,7 +1798,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 type="button"
                 onClick={() => navigate('/#contact')}
                 className="group inline-flex min-h-12 items-center gap-3 border-b border-current text-lg font-bold">
-                Continue to contact
+                Get in touch
                 <ArrowUpRight
                   className="size-5 transition-transform duration-200 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none"
                   aria-hidden="true"

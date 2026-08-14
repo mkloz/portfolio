@@ -7,7 +7,7 @@ export const ueventProject: Project = {
   // Basic info
   title: 'UEvent',
   slug: 'uevent',
-  description: 'Event platform with ticket management, Stripe payments, location search, and real-time notifications.',
+  description: 'An event platform where people can find events, buy tickets, and get updates as plans change.',
   image: {
     dark: '/project-media/uevent/uevent-dark.webp',
     light: '/project-media/uevent/uevent-light.webp'
@@ -15,38 +15,38 @@ export const ueventProject: Project = {
 
   highlights: [
     {
-      title: 'Secure Payment Processing',
-      description: 'Stripe ticket purchases with webhook handling and payment verification',
+      title: 'Ticket payments',
+      description: 'People can buy tickets securely with Stripe, while the product verifies each payment',
       icon: CreditCard,
       stats: '100% secure'
     },
     {
-      title: 'Real-time Notifications',
-      description: 'Built live notification system using Redis and WebSockets for instant event updates',
+      title: 'Live updates',
+      description: 'People receive event updates as soon as something changes',
       icon: Bell,
       stats: '< 100ms'
     },
     {
-      title: 'Interactive Maps',
-      description: 'Google Maps integration for location-based event discovery and venue visualization',
+      title: 'Map-based discovery',
+      description: 'Maps help people find nearby events and understand where each venue is',
       icon: MapPin,
       stats: 'GPS accurate'
     },
     {
-      title: 'Company Profiles',
-      description: 'Professional event organizer profiles with follower system and event management',
+      title: 'Organiser profiles',
+      description: 'Organisers can build a profile, publish events, manage them, and grow a following',
       icon: Building,
       stats: '500+ orgs'
     },
     {
-      title: 'Advanced Search',
-      description: 'Event filters for location, category, date, and price range',
+      title: 'Event search',
+      description: 'People can narrow events by location, category, date, and price',
       icon: Search,
       stats: '10+ filters'
     },
     {
-      title: 'Mobile Optimized',
-      description: 'Fully responsive design optimized for mobile event discovery and ticket purchasing',
+      title: 'Works across screens',
+      description: 'Finding an event and buying a ticket works on phones, tablets, and desktops',
       icon: Smartphone,
       stats: 'Mobile first'
     }
@@ -97,9 +97,9 @@ export const ueventProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Connect Through Events',
+  tagline: 'Find events. Bring people together.',
   longDescription:
-    'UEvent lets people discover, create, and manage events. It combines Stripe payments, real-time notifications, interactive maps, tickets, and social features in one application.',
+    'UEvent helps people discover local events, buy tickets, and stay updated. Organisers can publish events, manage attendees, and receive payments in the same product.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '2 months',
@@ -139,7 +139,7 @@ export const ueventProject: Project = {
     steps: [
       {
         id: 'planning',
-        title: 'Planning & Architecture',
+        title: 'Planning the product',
         duration: '1 week',
         technologies: [
           'System Design',
@@ -153,15 +153,15 @@ export const ueventProject: Project = {
         decisions: [
           {
             decision: 'Google Maps API for location-based event discovery',
-            reasoning: 'Better integration with location services and familiar UX'
+            reasoning: 'It gives people a familiar way to search by location and inspect venues'
           },
           {
             decision: 'Google OAuth for authentication',
-            reasoning: 'Better integration with Google services and familiar UX'
+            reasoning: 'It makes sign-in quicker for people who already use a Google account'
           },
           {
             decision: 'Stripe for payment processing',
-            reasoning: 'Card payments, webhooks, and payment verification'
+            reasoning: 'It handles card payments, webhooks, and payment checks in one service'
           }
         ],
         achievements: [
@@ -175,21 +175,21 @@ export const ueventProject: Project = {
       },
       {
         id: 'database',
-        title: 'Database & Payment Integration',
+        title: 'Organising data and payments',
         duration: '1 week',
         technologies: ['PostgreSQL', 'Prisma', 'Stripe', 'AWS S3', 'Linux'],
         decisions: [
           {
             decision: 'AWS S3 for file storage',
-            reasoning: 'File storage for event images'
+            reasoning: 'Event images needed durable storage outside the application server'
           },
           {
             decision: 'Shadow database for Stripe integration',
-            reasoning: 'Better performance and scalability'
+            reasoning: 'It keeps payment work separate as the product grows'
           },
           {
             decision: 'Redis for authentication sessions',
-            reasoning: 'Fast and reliable authentication sessions'
+            reasoning: 'Sessions need fast reads and predictable expiry'
           }
         ],
         achievements: [
@@ -202,21 +202,21 @@ export const ueventProject: Project = {
       },
       {
         id: 'backend',
-        title: 'NestJS API Development',
+        title: 'Building the API',
         duration: '3 weeks',
         technologies: ['Nest.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'JWT', 'Swagger', 'React Mail', 'Zod'],
         decisions: [
           {
             decision: 'React Mail for email notifications',
-            reasoning: 'Simple email notifications with excellent developer experience'
+            reasoning: 'It made notification emails straightforward to build and maintain'
           },
           {
             decision: 'Position sensitive search for event discovery',
-            reasoning: 'Better event discovery with location-based search'
+            reasoning: 'Search results need to reflect the area a person is interested in'
           },
           {
             decision: 'Stripe marketplace for event creation',
-            reasoning: 'Periodic payment for event creators'
+            reasoning: 'It supports recurring payments from event creators'
           }
         ],
         achievements: [
@@ -230,7 +230,7 @@ export const ueventProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'React Frontend Development',
+        title: 'Building the interface',
         duration: '3 weeks',
         technologies: [
           'React',
@@ -245,21 +245,21 @@ export const ueventProject: Project = {
         decisions: [
           {
             decision: 'Landing page with animated background and interactive elements',
-            reasoning: 'Better user engagement and brand awareness'
+            reasoning: 'It gives the product a distinctive first impression without hiding the main actions'
           },
           {
             decision: 'Event discovery page with filtering and sorting',
-            reasoning: 'Better user experience and event discovery'
+            reasoning: 'Filters and sorting help people find a relevant event faster'
           },
           {
             decision: 'Theme and color scheme',
-            reasoning: 'Customizable and consistent design system'
+            reasoning: 'Shared colours and components keep the experience consistent'
           }
         ],
         achievements: [
           'React application built with hooks',
           'Responsive design system with Tailwind CSS',
-          'Advanced event discovery with filtering',
+          'Event discovery with filtering',
           'User profile management',
           'Company profile pages with following system',
           'Event creation and management system'
@@ -267,21 +267,21 @@ export const ueventProject: Project = {
       },
       {
         id: 'deployment',
-        title: 'Testing & Deployment',
+        title: 'Testing and launch',
         duration: '1 day',
         technologies: ['Docker', 'AWS', 'Linux', 'CI/CD Pipeline', 'Nginx', 'PM2', 'Vercel', 'Oracle Cloud', 'SSH'],
         decisions: [
           {
             decision: 'Oracle Cloud for production deployment',
-            reasoning: 'Cloud hosting for the production application'
+            reasoning: 'It provided a home for the production services'
           },
           {
             decision: 'Nginx for reverse proxy',
-            reasoning: 'Reverse proxy for both services'
+            reasoning: 'It routes traffic to the frontend and API'
           },
           {
             decision: 'PM2 for process management',
-            reasoning: 'Process management for both services'
+            reasoning: 'It keeps both Node services running and restarts them after a failure'
           }
         ],
         achievements: [

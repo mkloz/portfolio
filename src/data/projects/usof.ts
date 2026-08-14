@@ -7,7 +7,7 @@ export const usofProject: Project = {
   // Basic info
   title: 'Usof',
   slug: 'usof',
-  description: 'A Reddit-like full-stack application with posts, comments, voting, and user authentication.',
+  description: 'A community app for publishing posts, joining discussions, and voting on what matters.',
   image: {
     dark: '/project-media/usof/usof-dark.webp',
     light: '/project-media/usof/usof-light.webp'
@@ -15,38 +15,38 @@ export const usofProject: Project = {
 
   highlights: [
     {
-      title: 'Social Platform',
-      description: 'Complete Reddit-like social media platform with posts, comments, and voting system',
+      title: 'Community discussions',
+      description: 'People can publish posts, comment, and take part in topic-based communities',
       icon: MessageSquare,
       stats: 'Social ready'
     },
     {
-      title: 'Voting System',
-      description: 'Real-time upvote/downvote functionality with karma tracking and post ranking',
+      title: 'Community voting',
+      description: "Votes shape post rankings and contribute to each person's karma",
       icon: ThumbsUp,
       stats: 'Real-time'
     },
     {
-      title: 'Content Creation',
-      description: 'Rich text editor for posts with markdown support',
+      title: 'Writing posts',
+      description: 'A rich text editor supports longer posts and Markdown formatting',
       icon: Edit,
       stats: 'Rich editor'
     },
     {
-      title: 'User Profiles',
-      description: 'User profiles with activity history, karma, and account settings',
+      title: 'Personal profiles',
+      description: 'Profiles bring together activity, karma, and account settings',
       icon: UserCircle,
       stats: 'Full profiles'
     },
     {
-      title: 'Clean UI/UX',
-      description: 'Responsive interface for desktop and mobile',
+      title: 'Works across screens',
+      description: 'The interface adapts to desktop and mobile use',
       icon: LayoutDashboard,
       stats: 'Clean UI/UX'
     },
     {
-      title: 'API Documentation',
-      description: 'Swagger API documentation with interactive request testing',
+      title: 'Documented API',
+      description: 'Interactive documentation makes each API route easier to understand and test',
       icon: FileText,
       stats: '25+ endpoints'
     }
@@ -94,9 +94,9 @@ export const usofProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Posts, comments, and community voting',
+  tagline: 'Share ideas. Join the conversation.',
   longDescription:
-    'USOF is a Reddit-style social platform for sharing content and building communities. Users can create posts, comment, and vote while tracking their karma and influence. The platform offers real-time updates and image sharing for a complete social experience.',
+    'Usof is a community app for sharing posts and joining discussions. People can comment, vote, follow their activity, and build karma as they take part.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '2.5 months',
@@ -133,17 +133,17 @@ export const usofProject: Project = {
     steps: [
       {
         id: 'planning',
-        title: 'Planning & Architecture',
+        title: 'Planning the community',
         duration: '1 week',
         technologies: ['System Design', 'Database Design', 'API Planning', 'UI/UX Design', 'Field Research'],
         decisions: [
           {
-            decision: 'Monorepo vs Separate Repositories',
-            reasoning: 'Chose separate repositories for better deployment flexibility and team collaboration'
+            decision: 'Separate repositories for the frontend and API',
+            reasoning: 'Each service could be deployed and worked on independently'
           },
           {
-            decision: 'UI/UX Design',
-            reasoning: 'Responsive layouts for desktop and mobile'
+            decision: 'Design for desktop and mobile',
+            reasoning: 'People should be able to read and join discussions from either screen size'
           }
         ],
         achievements: [
@@ -155,25 +155,25 @@ export const usofProject: Project = {
       },
       {
         id: 'database',
-        title: 'Database Design',
+        title: 'Organising community data',
         duration: '1 week',
         technologies: ['MySQL', 'Prisma', 'Database Migrations', 'Triggers', 'Stored Procedures'],
         decisions: [
           {
             decision: 'Normalized database design',
-            reasoning: 'Ensure data integrity and efficient queries for social media features'
+            reasoning: 'Posts, comments, votes, and people needed clear relationships and dependable data'
           },
           {
             decision: 'Triggers for real-time updates',
-            reasoning: 'Real-time updates for posts, comments, and votes'
+            reasoning: 'Changes to posts, comments, and votes needed to appear quickly'
           },
           {
-            decision: 'Stored Procedures for complex queries',
-            reasoning: 'Complex queries for feed algorithms'
+            decision: 'Stored procedures for complex queries',
+            reasoning: 'Feed ranking required queries that were easier to manage close to the database'
           }
         ],
         achievements: [
-          'Optimized database schema with proper indexing',
+          'Indexed the database for quicker feed queries',
           'User, Post, Comment, Vote relationship modeling',
           'Category and tag system implementation',
           'Database seeding scripts for development',
@@ -183,7 +183,7 @@ export const usofProject: Project = {
       },
       {
         id: 'backend',
-        title: 'Backend Development',
+        title: 'Building the API',
         duration: '4 weeks',
         technologies: [
           'Node.js',
@@ -202,15 +202,15 @@ export const usofProject: Project = {
         decisions: [
           {
             decision: 'Prisma for database ORM',
-            reasoning: 'Better TypeScript integration and more intuitive query builder'
+            reasoning: 'Its TypeScript support made database queries easier to write and review'
           },
           {
             decision: 'Nodemailer for email notifications',
-            reasoning: 'Simple email notifications with excellent developer experience'
+            reasoning: 'It covered the account emails the product needed without extra complexity'
           },
           {
             decision: 'OpenAPI for documentation',
-            reasoning: 'Interactive API documentation for better developer experience'
+            reasoning: 'Interactive documentation makes each route easier to understand and test'
           }
         ],
         achievements: [
@@ -224,7 +224,7 @@ export const usofProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'React Frontend Development',
+        title: 'Building the interface',
         duration: '5 weeks',
         technologies: [
           'React',
@@ -242,7 +242,7 @@ export const usofProject: Project = {
         decisions: [
           {
             decision: 'React Query for server state',
-            reasoning: 'Excellent caching and synchronization for social media data'
+            reasoning: 'It keeps posts and comments cached while refreshing them when they change'
           },
           {
             decision: 'Zustand for client state',
@@ -250,31 +250,31 @@ export const usofProject: Project = {
           },
           {
             decision: 'ShadCN UI components',
-            reasoning: 'Consistent design system with accessibility built-in'
+            reasoning: 'It provided consistent controls with accessible behaviour already considered'
           }
         ],
         achievements: [
           'Responsive Reddit-like interface',
           'Infinite scroll for posts and comments',
           'Real-time voting and comment updates',
-          'Advanced post editor with markdown support',
+          'Post editor with Markdown support',
           'Search and filtering functionality',
           'Dark/light theme support'
         ]
       },
       {
         id: 'deployment',
-        title: 'Deployment & DevOps',
+        title: 'Preparing for launch',
         duration: '1 day',
         technologies: ['Docker', 'Azure', 'AWS S3', 'Linux', 'Nginx', 'PM2', 'SSH', 'Oracle Cloud'],
         decisions: [
           {
             decision: 'Oracle Cloud for production deployment',
-            reasoning: 'Cloud hosting for the production application'
+            reasoning: 'It provided a home for the production services'
           },
           {
             decision: 'Nginx for reverse proxy',
-            reasoning: 'Reverse proxy for both services'
+            reasoning: 'It routes traffic to the frontend and API'
           }
         ],
         achievements: [

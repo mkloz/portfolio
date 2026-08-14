@@ -7,8 +7,7 @@ export const websterProject: Project = {
   // Basic info
   title: 'Webster',
   slug: 'webster',
-  description:
-    'Design tool platform with canvas-based editor providing professional, simple and easy to use design tools.',
+  description: 'A browser-based design tool for creating and exporting visual work on a flexible canvas.',
   image: {
     dark: '/project-media/webster/webster-dark.webp',
     light: '/project-media/webster/webster-light.webp'
@@ -16,26 +15,26 @@ export const websterProject: Project = {
 
   highlights: [
     {
-      title: 'Canvas-Based Editor',
-      description: 'High-performance design editor built with Konva.js for complex shape manipulation and rendering',
+      title: 'Browser-based canvas',
+      description: 'People can arrange shapes, images, and text directly in the browser',
       icon: Palette,
       stats: '60 FPS'
     },
     {
-      title: 'Asset Library',
-      description: 'Asset upload, organization, and search',
+      title: 'Saved assets',
+      description: 'Uploaded assets stay organised and easy to find',
       icon: FolderOpen,
       stats: 'Cloud sync'
     },
     {
-      title: 'Export System',
-      description: 'Multi-format export options including PNG, SVG, PDF with custom resolution settings',
+      title: 'Flexible export',
+      description: 'Finished designs can be exported in several formats and resolutions',
       icon: Download,
       stats: '5 formats'
     },
     {
-      title: 'Performance Optimized',
-      description: 'Canvas virtualization and optimized rendering for handling hundreds of design elements',
+      title: 'Smooth editing',
+      description: 'The canvas stays responsive while handling hundreds of design elements',
       icon: Zap,
       stats: '1000+ objects'
     }
@@ -79,9 +78,9 @@ export const websterProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Design Without Limits',
+  tagline: 'Create freely, right in the browser.',
   longDescription:
-    'Webster combines a canvas editor built with React and Konva.js with a NestJS backend. It includes project and asset management, reusable templates, and tools for arranging content on the canvas.',
+    'Webster is a browser-based design editor. People can arrange content on a flexible canvas, manage projects and assets, reuse templates, and export finished work.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '1.5 months',
@@ -121,22 +120,21 @@ export const websterProject: Project = {
     steps: [
       {
         id: 'design',
-        title: 'Planning & Design',
+        title: 'Planning the editor',
         duration: '1 week',
         technologies: ['System Design', 'Canvas Architecture', 'API Planning', 'UI/UX Desig', 'Research'],
         decisions: [
           {
             decision: 'Konva.js for canvas rendering',
-            reasoning:
-              'High-performance 2D canvas library with excellent React integration and complex shape manipulation'
+            reasoning: 'It handles complex shapes smoothly and works well with React'
           },
           {
-            decision: 'Minimalistic UI/UX design',
-            reasoning: 'Simple and clean design for a better user experience'
+            decision: 'Keep the editor interface simple',
+            reasoning: 'The canvas should stay central while the controls remain easy to find'
           },
           {
             decision: 'Frontend focus',
-            reasoning: 'Deliver the best possible design editor for the user in the shortest time possible'
+            reasoning: 'The editor was the core experience, so it received most of the build time'
           }
         ],
         achievements: [
@@ -148,13 +146,13 @@ export const websterProject: Project = {
       },
       {
         id: 'backend',
-        title: 'NestJS API Development',
+        title: 'Building the API',
         duration: '1 week',
         technologies: ['Nest.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'JWT', 'Swagger', 'React Mail'],
         decisions: [
           {
-            decision: 'Json state save',
-            reasoning: 'Simple and easy to implement'
+            decision: 'Save canvas state as JSON',
+            reasoning: 'It keeps each design portable and straightforward to restore'
           },
           {
             decision: 'PostgreSQL for database',
@@ -162,7 +160,7 @@ export const websterProject: Project = {
           },
           {
             decision: 'No tablet and mobile support',
-            reasoning: 'Focus on the desktop version'
+            reasoning: 'The first release focused on the larger screens used for detailed design work'
           }
         ],
         achievements: [
@@ -176,7 +174,7 @@ export const websterProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'React Canvas Editor',
+        title: 'Building the canvas editor',
         duration: '4 weeks',
         technologies: [
           'React',
@@ -192,22 +190,22 @@ export const websterProject: Project = {
         ],
         decisions: [
           {
-            decision: 'Focus on simple but accessible UI/UX',
-            reasoning: 'To allow users across all skill levels to use the design editor'
+            decision: 'Keep the controls clear and accessible',
+            reasoning: 'People should be able to start designing without learning a complicated interface'
           },
           {
             decision: 'Multiple themes',
-            reasoning: 'Make user in control of the design editor'
+            reasoning: 'People can choose the workspace that feels more comfortable'
           },
           {
             decision: 'No real-time collaboration',
-            reasoning: 'To focus on the design editor and not the collaboration'
+            reasoning: 'I kept the scope centred on making the editor itself useful'
           }
         ],
         achievements: [
           'Canvas-based design editor with layer management',
-          'Professional design tools and shape manipulation',
-          'Intuitive user interface with tool palette',
+          'Detailed design tools and shape controls',
+          'A clear interface with an easy-to-find tool palette',
           'Drag-and-drop functionality',
           'Keyboard shortcuts and hotkeys',
           'Undo/redo system implementation'
@@ -215,20 +213,25 @@ export const websterProject: Project = {
       },
       {
         id: 'deployment',
-        title: 'Deployment',
+        title: 'Preparing for launch',
         duration: '2 days',
         technologies: ['Docker', 'AWS S3', 'Nginx', 'Linux', 'SSH', 'PM2', 'Oracle Cloud'],
         decisions: [
           {
             decision: 'Linux for server',
-            reasoning: 'To allow for easy deployment and scaling'
+            reasoning: 'It provides a predictable environment for deployment and scaling'
           },
           {
             decision: 'Backup on failure',
-            reasoning: 'To allow easy recovery on DDOS attacks'
+            reasoning: 'The service needs a clear recovery path after an outage or attack'
           }
         ],
-        achievements: ['Network Secure', 'Stress stable', 'Scaleable arthitecture', 'Future proof']
+        achievements: [
+          'Secured the network',
+          'Tested the service under load',
+          'Prepared the architecture to scale',
+          'Added a recovery path'
+        ]
       }
     ]
   },

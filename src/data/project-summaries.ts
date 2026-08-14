@@ -20,8 +20,7 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'UEvent',
     slug: 'uevent',
-    description:
-      'Event platform with ticket management, Stripe payments, location search, and real-time notifications.',
+    description: 'An event platform where people can find events, buy tickets, and get updates as plans change.',
     image: {
       dark: '/editorial/uevent-dark.webp',
       light: '/editorial/uevent-dark.webp'
@@ -39,8 +38,7 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'Webster',
     slug: 'webster',
-    description:
-      'Design tool platform with canvas-based editor providing professional, simple and easy to use design tools.',
+    description: 'A browser-based design tool for creating and exporting visual work on a flexible canvas.',
     image: {
       dark: '/project-previews/webster-dark.webp',
       light: '/project-previews/webster-light.webp'
@@ -58,7 +56,7 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'Chronos',
     slug: 'chronos',
-    description: 'Calendar system for scheduling events and coordinating shared calendars.',
+    description: 'A calendar app for planning events and sharing schedules with other people.',
     image: {
       light: '/project-previews/chronos-light.webp',
       dark: '/project-previews/chronos-dark.webp'
@@ -76,7 +74,7 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'Usof',
     slug: 'usof',
-    description: 'A Reddit-like full-stack application with posts, comments, voting, and user authentication.',
+    description: 'A community app for publishing posts, joining discussions, and voting on what matters.',
     image: {
       dark: '/project-previews/usof-dark.webp',
       light: '/project-previews/usof-light.webp'
@@ -94,7 +92,8 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'Portfolio',
     slug: 'portfolio',
-    description: 'Responsive portfolio with project case studies, demos, implementation notes, and image galleries.',
+    description:
+      'This portfolio, built to make my work easy to explore through case studies, demos, and project notes.',
     image: {
       light: '/project-previews/portfolio-light.webp',
       dark: '/project-previews/portfolio-dark.webp'
@@ -109,7 +108,7 @@ export const projectSummaries: ProjectSummary[] = [
   {
     title: 'Citywheels',
     slug: 'citywheels',
-    description: 'E-commerce store with product discovery, checkout, administration, and order management.',
+    description: 'An online shop for browsing vehicles, checking out, and managing products and orders.',
     image: '/project-previews/citywheels-hero.webp',
     secondaryImage: '/project-previews/citywheels-auth.webp',
     technologies: ['Next.js', 'React', 'NestJS', 'MySQL', 'TypeScript'],

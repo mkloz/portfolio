@@ -21,10 +21,10 @@ export const HomePage = () => {
       <Header />
       <SectionNavigator
         items={[
-          { id: 'hero', label: 'Identity', color: '#ff583d' },
-          { id: 'projects', label: 'Work', color: '#ffd400' },
-          { id: 'lab', label: 'Layers', color: '#465bff' },
-          { id: 'skills', label: 'System', color: '#74f0b3' },
+          { id: 'hero', label: 'Hello', color: '#ff583d' },
+          { id: 'projects', label: 'Projects', color: '#ffd400' },
+          { id: 'lab', label: 'What I cover', color: '#465bff' },
+          { id: 'skills', label: 'Tools', color: '#74f0b3' },
           { id: 'contact', label: 'Contact', color: '#6c4eff' }
         ]}
       />

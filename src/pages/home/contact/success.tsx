@@ -27,7 +27,7 @@ const Success = () => {
 
           <div className="border-t border-white/25 pt-6 lg:col-span-4">
             <p className="max-w-md text-lg font-semibold leading-relaxed text-white/75">
-              Your message is through. I’ll read the context and get back to you as soon as I can.
+              Your message arrived. I&apos;ll read it and get back to you as soon as I can.
             </p>
             <div className="mt-8 grid border-y border-white/25">
               <Link
@@ -55,7 +55,7 @@ const Success = () => {
         </section>
 
         <footer className="flex items-center justify-between gap-5 border-t border-white/25 pt-5 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-white/45">
-          <span>Signal complete</span>
+          <span>Message sent</span>
           <span>Manchester / UK</span>
         </footer>
       </div>

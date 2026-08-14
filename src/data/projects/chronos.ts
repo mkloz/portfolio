@@ -7,41 +7,41 @@ export const chronosProject: Project = {
   // Basic info
   title: 'Chronos',
   slug: 'chronos',
-  description: 'Calendar system for scheduling events and coordinating shared calendars.',
+  description: 'A calendar app for planning events and sharing schedules with other people.',
   highlights: [
     {
-      title: 'Intuitive UI',
-      description: 'User-friendly interface with responsive design and smooth animations',
+      title: 'Clear interface',
+      description: 'The calendar stays easy to read and use across different screen sizes',
       icon: Calendar,
       stats: '100% responsive'
     },
     {
-      title: 'Multiple Views',
-      description: 'Flexible calendar views including month, week, day, and agenda with smooth transitions',
+      title: 'Four calendar views',
+      description: 'People can move between month, week, day, and agenda views',
       icon: Grid3X3,
       stats: '4 views'
     },
     {
-      title: 'Drag & Drop',
-      description: 'Intuitive drag-and-drop event management with real-time updates and validation',
+      title: 'Move events directly',
+      description: 'Events can be rescheduled by dragging them to a new time',
       icon: Move,
       stats: 'Instant'
     },
     {
-      title: 'Team Collaboration',
-      description: 'Calendar sharing and team collaboration with permission-based access control',
+      title: 'Shared calendars',
+      description: 'People can share calendars while keeping control of who can make changes',
       icon: UserCheck,
       stats: 'Team ready'
     },
     {
-      title: 'Recurring Events',
-      description: 'Advanced recurring event patterns with custom rules and exception handling',
+      title: 'Recurring events',
+      description: 'Repeating events support custom schedules and one-off changes',
       icon: Repeat,
       stats: 'Smart rules'
     },
     {
-      title: 'Real-time Sync',
-      description: 'Instant synchronization across all devices with WebSocket-based live updates',
+      title: 'Live sync',
+      description: 'Calendar changes appear across connected devices as they happen',
       icon: RefreshCw,
       stats: '< 50ms sync'
     }
@@ -86,9 +86,9 @@ export const chronosProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Your Time, Perfected',
+  tagline: 'Plan your time together.',
   longDescription:
-    'Chronos is a calendar application built with React and NestJS. It supports event scheduling, shared calendars, real-time synchronization, multiple calendar views, and authentication.',
+    'Chronos helps people plan events and coordinate shared calendars. It includes four calendar views, repeating events, live updates, and account access.',
   image: {
     light: '/project-media/chronos/chronos-light.webp',
     dark: '/project-media/chronos/chronos-dark.webp'
@@ -135,17 +135,17 @@ export const chronosProject: Project = {
     steps: [
       {
         id: 'planning',
-        title: 'Project Planning',
+        title: 'Planning the calendar',
         duration: '1 week',
         technologies: ['System Design', 'Database Design', 'API Planning'],
         decisions: [
           {
             decision: 'NestJS over Express',
-            reasoning: 'Built-in dependency injection, decorators, and enterprise-grade architecture'
+            reasoning: 'Its built-in structure helped keep a larger API organised'
           },
           {
-            decision: 'Dont use Ready to use Calendar lib',
-            reasoning: 'It was too complex and not flexible enough'
+            decision: 'Build the calendar instead of using a ready-made library',
+            reasoning: 'Existing options were too rigid for the interactions I wanted to support'
           },
           {
             decision: 'Use Day.js over Moment.js',
@@ -162,13 +162,13 @@ export const chronosProject: Project = {
       },
       {
         id: 'database',
-        title: 'Database Setup',
+        title: 'Organising calendar data',
         duration: '1 week',
         technologies: ['PostgreSQL', 'Prisma', 'Redis', 'AWS S3'],
         decisions: [
           {
             decision: 'Redis for caching',
-            reasoning: 'Improve performance for frequently accessed calendar data'
+            reasoning: 'Frequently used calendar data needed faster access'
           },
           {
             decision: 'AWS S3 for file storage',
@@ -176,11 +176,11 @@ export const chronosProject: Project = {
           },
           {
             decision: 'PostgreSQL for database',
-            reasoning: 'Relational database for complex calendar data and relationships'
+            reasoning: 'Calendar events and permissions depend on clear relationships between records'
           }
         ],
         achievements: [
-          'Optimized database schema with proper indexing',
+          'Indexed the database for quicker calendar queries',
           'Redis caching layer implementation',
           'File upload system with S3 integration',
           'Database migration and seeding scripts',
@@ -189,7 +189,7 @@ export const chronosProject: Project = {
       },
       {
         id: 'backend',
-        title: 'NestJS API Development',
+        title: 'Building the API',
         duration: '2 weeks',
         technologies: [
           'Nest.js',
@@ -206,7 +206,7 @@ export const chronosProject: Project = {
         decisions: [
           {
             decision: 'React Mails for email sending',
-            reasoning: 'Simple and easy to use'
+            reasoning: 'It made account and calendar emails straightforward to build'
           },
           {
             decision: 'Prisma over TypeORM',
@@ -214,7 +214,7 @@ export const chronosProject: Project = {
           },
           {
             decision: 'JWT for authentication',
-            reasoning: 'Stateless authentication suitable for API-first architecture'
+            reasoning: 'It keeps authentication separate from any one client application'
           }
         ],
         achievements: [
@@ -228,13 +228,13 @@ export const chronosProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'React Frontend Development',
+        title: 'Building the interface',
         duration: '3 weeks',
         technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Zustand', 'React Query', 'Day.js', 'ShadCN'],
         decisions: [
           {
             decision: 'Vite over Create React App',
-            reasoning: 'Faster development experience and better build performance'
+            reasoning: 'It kept local development and production builds quick'
           },
           {
             decision: 'Zustand over Redux',
@@ -242,17 +242,17 @@ export const chronosProject: Project = {
           },
           {
             decision: 'React Query for server state',
-            reasoning: 'Excellent caching and synchronization for API data'
+            reasoning: 'It keeps remote calendar data cached and in sync'
           },
           {
             decision: 'Landing page',
-            reasoning: 'Simple navigation and preview of the app'
+            reasoning: 'It introduces the product and gives people a clear way into the calendar'
           }
         ],
         achievements: [
           'Responsive calendar interface with multiple views',
           'Drag-and-drop event scheduling',
-          'Advanced event creation with recurrence',
+          'Recurring events with custom schedules',
           'Calendar sharing and collaboration features',
           'Dark/light theme support',
           'Easy auth process'
@@ -260,7 +260,7 @@ export const chronosProject: Project = {
       },
       {
         id: 'deployment',
-        title: 'Integration & Deployment',
+        title: 'Connecting and launching it',
         duration: '1 day',
         technologies: [
           'Docker',
@@ -276,22 +276,22 @@ export const chronosProject: Project = {
         ],
         decisions: [
           {
-            decision: 'Versel for hosting',
-            reasoning: 'Simple and easy to use'
+            decision: 'Vercel for hosting',
+            reasoning: 'It gave the frontend a simple deployment path'
           },
           {
             decision: 'Nginx for reverse proxy',
-            reasoning: 'Simple and easy to use'
+            reasoning: 'It routes incoming traffic to the right service'
           },
           {
             decision: 'PM2 for process management',
-            reasoning: 'Simple and easy to use'
+            reasoning: 'It keeps the Node service running and restarts it after a failure'
           }
         ],
         achievements: [
           'Dockerized application with multi-stage builds',
           'Environment-specific configurations',
-          'Production deployment on AWS, Oracle Cloud, Asure',
+          'Production deployment on AWS, Oracle Cloud, and Azure',
           'SSL certificate setup',
           'Performance monitoring integration'
         ]

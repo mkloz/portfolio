@@ -7,30 +7,30 @@ export const citywheelsProject: Project = {
   // Basic info
   title: 'Citywheels',
   slug: 'citywheels',
-  description: 'E-commerce store with product discovery, checkout, administration, and order management.',
+  description: 'An online shop for browsing vehicles, checking out, and managing products and orders.',
   image: '/project-media/citywheels/hero.webp',
   highlights: [
     {
-      title: 'E-commerce Platform',
-      description: 'Complete online store with product catalog, shopping cart, and order management',
+      title: 'Online shopping',
+      description: 'People can browse products, fill a basket, check out, and follow their order',
       icon: ShoppingCart,
       stats: 'Full featured'
     },
     {
-      title: 'Inventory System',
-      description: 'Real-time inventory tracking with low stock alerts and automated reordering',
+      title: 'Stock management',
+      description: 'Stock levels stay current, with alerts when a product is running low',
       icon: Package,
       stats: 'Auto alerts'
     },
     {
-      title: 'SEO Optimized',
-      description: 'Next.js SSR implementation for optimal search engine visibility and performance',
+      title: 'Search-friendly pages',
+      description: 'Server-rendered product pages load quickly and are easier for search engines to read',
       icon: TrendingUp,
       stats: '95+ score'
     },
     {
-      title: 'User Accounts',
-      description: 'Customer accounts with order history, wishlist, and personalized recommendations',
+      title: 'Customer accounts',
+      description: 'Customers can revisit orders, save favourites, and manage their details',
       icon: User,
       stats: 'Personalized'
     }
@@ -74,9 +74,9 @@ export const citywheelsProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Online store for wheels and vehicles',
+  tagline: 'Find the right ride online.',
   longDescription:
-    'Citywheels is an e-commerce store for bicycles, skateboards, scooters, and related products. It includes responsive product browsing, payments, inventory management, administration, and order handling.',
+    'Citywheels is an online shop for bicycles, skateboards, scooters, and related products. Customers can browse, buy, and manage orders, while staff can look after products and stock.',
   status: 'Completed',
   category: 'Full-Stack',
   duration: '2.5 months',
@@ -107,7 +107,7 @@ export const citywheelsProject: Project = {
     steps: [
       {
         id: 'design',
-        title: 'Design',
+        title: 'Planning the shop',
         duration: '2 weeks',
         technologies: ['Figma'],
         decisions: [
@@ -117,34 +117,34 @@ export const citywheelsProject: Project = {
           },
           {
             decision: 'SQL database',
-            reasoning: 'SQL is a mature database technology that is well-understood and has a large community'
+            reasoning: 'Products, orders, stock, and customers have clear relationships'
           },
           {
-            decision: 'Basic database structure',
-            reasoning: 'Implementing a basic database structure for the project'
+            decision: 'Start with the core store data',
+            reasoning: 'The first schema focused on the records needed to browse, buy, and fulfil an order'
           }
         ],
         achievements: [
           'Design system with consistent UI components',
-          'Different pages for the website',
-          'Multiple responsive designs for the website',
-          'Consistent buttons variations',
-          'Right colors for the website'
+          'Designed the main shopping pages',
+          'Prepared responsive layouts',
+          'Defined consistent button styles',
+          'Defined the site colour palette'
         ]
       },
       {
         id: 'backend',
-        title: 'Backend Development',
+        title: 'Building the API',
         duration: '3 weeks',
         technologies: ['Node.js', 'NestJS', 'Prisma', 'MySQL', 'JWT', 'Jest', 'TypeScript'],
         decisions: [
           {
             decision: 'TypeScript over JavaScript',
-            reasoning: 'Better type safety and developer experience'
+            reasoning: 'Types make product and order changes safer to work with'
           },
           {
             decision: 'NestJS over Express.js',
-            reasoning: 'Better structure for complex e-commerce logic and built-in TypeScript support'
+            reasoning: "Its built-in structure suited the store's growing order and inventory rules"
           },
           {
             decision: 'MySQL over PostgreSQL',
@@ -162,7 +162,7 @@ export const citywheelsProject: Project = {
       },
       {
         id: 'frontend',
-        title: 'Frontend Setup',
+        title: 'Building the storefront',
         duration: '4 weeks',
         technologies: [
           'Next.js',
@@ -178,43 +178,43 @@ export const citywheelsProject: Project = {
         decisions: [
           {
             decision: 'Next.js over Create React App',
-            reasoning: 'Needed SSR for SEO optimization and better performance for e-commerce'
+            reasoning: 'Server-rendered product pages load quickly and are easier for search engines to read'
           },
           {
             decision: 'ShadCN UI over custom components',
-            reasoning: 'Faster development with consistent, accessible design system'
+            reasoning: 'It provided consistent, accessible controls without rebuilding every basic component'
           },
           {
             decision: 'Zod for form validation',
-            reasoning: 'Type-safe validation with excellent TypeScript integration'
+            reasoning: 'The same typed rules can check forms before data reaches the API'
           }
         ],
         achievements: [
           'Responsive design system with Tailwind CSS',
           'Type-safe form handling with Zod validation',
           'Accessible UI components with ShadCN',
-          'Optimized image handling with Next.js Image',
+          'Responsive image handling with Next.js Image',
           'SEO-friendly routing and meta tags'
         ]
       },
 
       {
         id: 'deployment',
-        title: 'Deployment & DevOps',
+        title: 'Testing and launch',
         duration: '1 week',
         technologies: ['Docker', 'GitHub Actions', 'AWS', 'Vercel'],
         decisions: [
           {
             decision: 'Docker containerization',
-            reasoning: 'Consistent deployment across environments and easier scaling'
+            reasoning: 'The application runs in the same environment during development and deployment'
           },
           {
             decision: 'GitHub Actions for CI/CD',
-            reasoning: 'Automated testing and deployment pipeline'
+            reasoning: 'Tests and deployments follow the same repeatable process on every change'
           },
           {
             decision: 'Vercel for frontend, AWS for backend',
-            reasoning: 'Optimal performance and cost-effectiveness for each service'
+            reasoning: 'Each part of the product could run on hosting suited to its needs'
           }
         ],
         achievements: [

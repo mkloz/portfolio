@@ -109,8 +109,8 @@ export const Projects = () => {
         <div className="mb-10 grid gap-5 md:mb-14 lg:grid-cols-12 lg:items-end">
           <h2 className="section-type lg:col-span-8">Selected work.</h2>
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground lg:col-span-4">
-            Product interfaces, APIs, payments, collaboration tools, and deployment work. Open a panel for the case
-            study and implementation evidence.
+            Six products I designed and built. Open one to see the finished work, the choices behind it, and how it came
+            together.
           </p>
         </div>
 
