@@ -8,7 +8,7 @@ export const citywheelsProject: Project = {
   title: 'Citywheels',
   slug: 'citywheels',
   description: 'E-commerce store with product discovery, checkout, administration, and order management.',
-  image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/hero.png',
+  image: '/project-media/citywheels/hero.webp',
   highlights: [
     {
       title: 'E-commerce Platform',
@@ -232,51 +232,51 @@ export const citywheelsProject: Project = {
   gallery: [
     {
       title: 'Homepage Hero',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/hero.png'
+      image: '/project-media/citywheels/hero.webp'
     },
     {
       title: 'Authentication',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/auth.png'
+      image: '/project-media/citywheels/auth.webp'
     },
     {
       title: 'Shopping Cart',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/cart.png'
+      image: '/project-media/citywheels/cart.webp'
     },
     {
       title: 'Product Catalog',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/catalog.png'
+      image: '/project-media/citywheels/catalog.webp'
     },
     {
       title: 'Categories',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/categories.png'
+      image: '/project-media/citywheels/categories.webp'
     },
     {
       title: 'Favorites',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/favorites.png'
+      image: '/project-media/citywheels/favorites.webp'
     },
     {
       title: 'Order',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/order.png'
+      image: '/project-media/citywheels/order.webp'
     },
     {
       title: 'Product Details',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/product.png'
+      image: '/project-media/citywheels/product.webp'
     },
     {
       title: 'Sections',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/sections.png'
+      image: '/project-media/citywheels/sections.webp'
     },
     {
       title: 'Project Readme',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/readme.png'
+      image: '/project-media/citywheels/readme.webp'
     },
     {
       title: 'OpenAPI Documentation',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/open-api.png'
+      image: '/project-media/citywheels/open-api.webp'
     },
     {
       title: 'Database Schema',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/db-schema.png'
+      image: '/project-media/citywheels/db-schema.webp'
     }
   ],
 
@@ -296,13 +296,13 @@ export const citywheelsProject: Project = {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/citywheels-tablet.mp4',
       device: 'tablet',
       length: '1:41',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/demo-tablet-thumb.png'
+      preview: '/project-media/citywheels/demo-tablet-thumb.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/citywheels-mobile.mp4',
       device: 'mobile',
       length: '1:39',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/citywheels/demo-mobile-thumb.png'
+      preview: '/project-media/citywheels/demo-mobile-thumb.webp'
     }
   ]
 };

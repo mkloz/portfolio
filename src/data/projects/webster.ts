@@ -10,8 +10,8 @@ export const websterProject: Project = {
   description:
     'Design tool platform with canvas-based editor providing professional, simple and easy to use design tools.',
   image: {
-    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-dark.png',
-    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-light.png'
+    dark: '/project-media/webster/webster-dark.webp',
+    light: '/project-media/webster/webster-light.webp'
   },
 
   highlights: [
@@ -236,51 +236,51 @@ export const websterProject: Project = {
   gallery: [
     {
       title: 'Webster (Dark)',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-dark.png'
+      image: '/project-media/webster/webster-dark.webp'
     },
     {
       title: 'Introduction',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/introduction.png'
+      image: '/project-media/webster/introduction.webp'
     },
     {
       title: 'Dimension Selector',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/dimention-selector.png'
+      image: '/project-media/webster/dimention-selector.webp'
     },
     {
       title: '404 Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/404.png'
+      image: '/project-media/webster/404.webp'
     },
     {
       title: 'Import Image Feature',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/import-image.png'
+      image: '/project-media/webster/import-image.webp'
     },
     {
       title: 'Authentication Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/auth.png'
+      image: '/project-media/webster/auth.webp'
     },
     {
       title: 'Open Project Feature',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/open-project.png'
+      image: '/project-media/webster/open-project.webp'
     },
     {
       title: 'Database Schema Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/db-schema.png'
+      image: '/project-media/webster/db-schema.webp'
     },
     {
       title: 'Shared Project Page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/shared.png'
+      image: '/project-media/webster/shared.webp'
     },
     {
       title: 'Deployment Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/deploy-diagram.png'
+      image: '/project-media/webster/deploy-diagram.webp'
     },
     {
       title: 'User Profile',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/user.png'
+      image: '/project-media/webster/user.webp'
     },
     {
       title: 'Use Case Diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/use-case-diagram.png'
+      image: '/project-media/webster/use-case-diagram.webp'
     }
   ],
 
@@ -295,7 +295,7 @@ export const websterProject: Project = {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/webster-desktop-demo.mp4',
       device: 'desktop',
       length: '3:17',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/webster/demo-desktop-preview.png'
+      preview: '/project-media/webster/demo-desktop-preview.webp'
     }
   ]
 };

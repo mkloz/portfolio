@@ -4,17 +4,32 @@ import { Outlet } from 'react-router-dom';
 import { InteractionLayer } from './components/common/interaction-layer';
 import { LoadingOverlay } from './components/common/loading-overlay';
 import { RouteSignal } from './components/common/route-signal';
+import { Seo } from './components/common/seo';
 import { SignalCanvas } from './components/common/signal-canvas';
 import { useThemeSync } from './hooks/theme.store';
 
+type InitialLoadingPhase = 'entering' | 'visible' | 'exiting' | 'hidden';
+
 export const App = () => {
   useThemeSync();
-  const [showInitialLoading, setShowInitialLoading] = useState(true);
+  const [initialLoadingPhase, setInitialLoadingPhase] = useState<InitialLoadingPhase>('entering');
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const timer = window.setTimeout(() => setShowInitialLoading(false), reduceMotion ? 80 : 720);
-    return () => window.clearTimeout(timer);
+    if (reduceMotion) {
+      const timer = window.setTimeout(() => setInitialLoadingPhase('hidden'), 80);
+      return () => window.clearTimeout(timer);
+    }
+
+    const visibleTimer = window.setTimeout(() => setInitialLoadingPhase('visible'), 760);
+    const exitTimer = window.setTimeout(() => setInitialLoadingPhase('exiting'), 1740);
+    const unmountTimer = window.setTimeout(() => setInitialLoadingPhase('hidden'), 2820);
+
+    return () => {
+      window.clearTimeout(visibleTimer);
+      window.clearTimeout(exitTimer);
+      window.clearTimeout(unmountTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -35,12 +50,26 @@ export const App = () => {
     return () => window.clearTimeout(handle);
   }, []);
 
+  useEffect(() => {
+    if (initialLoadingPhase === 'hidden') return;
+
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.documentElement.style.overflow = previousOverflow;
+    };
+  }, [initialLoadingPhase]);
+
+  const showInitialLoading = initialLoadingPhase !== 'hidden';
+
   return (
     <div className="min-h-screen transition-colors duration-300">
+      <Seo />
       <Suspense fallback={showInitialLoading ? null : <LoadingOverlay />}>
         <Outlet />
       </Suspense>
-      {showInitialLoading && <LoadingOverlay initial />}
+      {showInitialLoading && <LoadingOverlay initial phase={initialLoadingPhase} />}
       <RouteSignal />
       <SignalCanvas />
       <InteractionLayer />

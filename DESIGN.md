@@ -153,7 +153,7 @@ The system combines editorial scale with technical precision. The screen-print p
 - Sparse signal colors tied to state or project identity
 - One explanatory scroll sequence, with direct interactions elsewhere
 
-The authored media is part of the shipped world: `public/editorial/interface-workshop.webp` is the assembly still life in the capability map, and `public/editorial/portrait-screenprint.webp` is the identity-preserving hero portrait. Both were generated in `stylized-concept` mode and optimized to WebP.
+The authored media is part of the shipped world. The identity-preserving hero portrait ships as the responsive `public/editorial/portrait-screenprint-480.webp`, while the working-system compositions use responsive WebP sources sized to their rendered surfaces.
 
 ## Colors
 

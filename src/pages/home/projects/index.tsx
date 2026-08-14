@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { EvidenceMagnifier } from '@/components/common/canvas-effects';
 import { Link } from '@/components/common/link';
-import { projectSummaries, type ProjectSummary } from '@/data/project-summaries';
+import { getResponsiveImageSrcSet, projectSummaries, type ProjectSummary } from '@/data/project-summaries';
 import { useTheme } from '@/hooks/theme.store';
 import { getProjectAccent } from '@/lib/project-accent';
 import { cn } from '@/lib/utils';
@@ -29,6 +29,8 @@ const ProjectMedia = ({
         <EvidenceMagnifier className="overflow-hidden border-2 border-current bg-[#080808]">
           <img
             src={image}
+            srcSet={getResponsiveImageSrcSet(image)}
+            sizes="(max-width: 1023px) calc(100vw - 2.5rem), 44vw"
             alt={`${project.title} interface`}
             loading="lazy"
             decoding="async"
@@ -39,6 +41,8 @@ const ProjectMedia = ({
         <div className="overflow-hidden border-2 border-current bg-[#080808]">
           <img
             src={image}
+            srcSet={getResponsiveImageSrcSet(image)}
+            sizes="(max-width: 1023px) calc(100vw - 2.5rem), 44vw"
             alt={`${project.title} interface`}
             loading="lazy"
             decoding="async"
@@ -52,6 +56,8 @@ const ProjectMedia = ({
         <div className="absolute bottom-0 right-0 w-[38%] rotate-2 border-2 border-current bg-white p-1 transition-transform duration-500 group-hover/project:-translate-y-2 group-hover/project:rotate-0">
           <img
             src={enabled ? project.secondaryImage : undefined}
+            srcSet={enabled ? getResponsiveImageSrcSet(project.secondaryImage) : undefined}
+            sizes="(max-width: 767px) 36vw, 17vw"
             alt=""
             loading="lazy"
             decoding="async"

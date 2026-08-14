@@ -1,0 +1,13 @@
+{
+  "name": "Mykhailo Kloz — Full-Stack Developer",
+  "short_name": "MK Portfolio",
+  "description": "Selected full-stack product work by Mykhailo Kloz.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f2ed",
+  "theme_color": "#f4f2ed",
+  "icons": [
+    { "src": "/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

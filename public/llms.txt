@@ -1,0 +1,19 @@
+# Mykhailo Kloz — Full-Stack Developer
+
+Mykhailo Kloz builds product interfaces and the systems behind them, including APIs, data models, payments, real-time features, and deployment workflows.
+
+## Main pages
+
+- [Portfolio](https://mkloz.com/): Selected work, full-stack scope, technology evidence, and contact details.
+- [UEvent case study](https://mkloz.com/projects/uevent): Event discovery, ticketing, payments, maps, and real-time notifications.
+- [Webster case study](https://mkloz.com/projects/webster): Canvas-based design tooling and its supporting full-stack system.
+- [Chronos case study](https://mkloz.com/projects/chronos): Calendar scheduling and shared coordination.
+- [Usof case study](https://mkloz.com/projects/usof): Community publishing, voting, and authentication.
+- [Portfolio case study](https://mkloz.com/projects/portfolio): The design and implementation of this portfolio.
+- [Citywheels case study](https://mkloz.com/projects/citywheels): E-commerce discovery, checkout, administration, and order management.
+
+## Contact
+
+- Email: mykhailo.kloz@gmail.com
+- GitHub: https://github.com/mkloz
+- LinkedIn: https://www.linkedin.com/in/mkloz

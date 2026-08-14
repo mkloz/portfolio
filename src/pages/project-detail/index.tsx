@@ -19,17 +19,27 @@ import {
   Volume2,
   VolumeX,
   Wrench,
-  X
+  X,
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { Link } from '@/components/common/link';
 import { SectionNavigator } from '@/components/common/section-navigator';
-import { getNextPriorityProject, getProjectPriorityRank, projectSummaries } from '@/data/project-summaries';
+import {
+  getNextPriorityProject,
+  getProjectPriorityRank,
+  getResponsiveImageSrcSet,
+  getSmallImageSrc,
+  projectSummaries
+} from '@/data/project-summaries';
 import type { GalleryItem, Project } from '@/data/projects';
 import { getTechnologyByName } from '@/data/technologies';
 import { useTheme } from '@/hooks/theme.store';
+import { useIsMobile } from '@/hooks/use-breakpoint';
 import { useRouteScroll } from '@/hooks/use-route-scroll';
 import { getProjectAccent } from '@/lib/project-accent';
 import { celebrateProjectJourney, readProjectJourney, visitProject, writeProjectJourney } from '@/lib/project-journey';
@@ -49,11 +59,11 @@ const TECHNOLOGY_GROUP_ORDER = ['Frontend', 'Backend', 'Database', 'DevOps', 'To
 type TechnologyCategory = Project['detailedTechnologies'][number]['category'];
 
 const PROJECT_SYSTEM_META: Record<TechnologyCategory, { color: string; image: string; icon: typeof Code2 }> = {
-  Frontend: { color: '#ffd400', image: '/editorial/project-system-frontend.jpg', icon: Code2 },
-  Backend: { color: '#465bff', image: '/editorial/project-system-backend.jpg', icon: ServerCog },
-  Database: { color: '#74f0b3', image: '/editorial/project-system-database.jpg', icon: Database },
-  DevOps: { color: '#ff583d', image: '/editorial/project-system-devops.jpg', icon: CloudCog },
-  Tools: { color: '#6c4eff', image: '/editorial/project-system-tools.jpg', icon: Wrench },
+  Frontend: { color: '#ffd400', image: '/editorial/project-system-frontend.webp', icon: Code2 },
+  Backend: { color: '#465bff', image: '/editorial/project-system-backend.webp', icon: ServerCog },
+  Database: { color: '#74f0b3', image: '/editorial/project-system-database.webp', icon: Database },
+  DevOps: { color: '#ff583d', image: '/editorial/project-system-devops.webp', icon: CloudCog },
+  Tools: { color: '#6c4eff', image: '/editorial/project-system-tools.webp', icon: Wrench },
   'Full-Stack': { color: '#6c4eff', image: '/editorial/systems-workbench.webp', icon: Layers3 }
 };
 
@@ -127,6 +137,8 @@ const formatPlaybackTime = (seconds: number) => {
 
 const SIGNAL_COLORS = ['#74f0b3', '#ffd400', '#465bff', '#ff583d', '#6c4eff'] as const;
 const PORTFOLIO_PROJECT_SLUGS = projectSummaries.map((project) => project.slug);
+const GALLERY_DIAGRAM_PATTERN = /diagram|schema|openapi|readme|stack/i;
+const GALLERY_ZOOM_LEVELS = [1, 1.5, 2] as const;
 
 const ProjectSignalRail = ({
   items,
@@ -178,17 +190,42 @@ const GalleryDialog = ({
 }) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const swipeStartRef = useRef<number | null>(null);
+  const activeIndexRef = useRef(index);
+  const closeTimerRef = useRef<number | null>(null);
+  const isClosingRef = useRef(false);
   const returnFocusRef = useRef<HTMLElement | null>(document.activeElement as HTMLElement | null);
+  const [zoomIndex, setZoomIndex] = useState(0);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const requestClose = useCallback(() => {
+    if (isClosingRef.current) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onClose();
+      return;
+    }
+
+    isClosingRef.current = true;
+    setIsClosing(true);
+    closeTimerRef.current = window.setTimeout(onClose, 180);
+  }, [onClose]);
+
+  useEffect(() => {
+    activeIndexRef.current = index;
+    setZoomIndex(0);
+  }, [index]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     closeButtonRef.current?.focus();
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-      if (event.key === 'ArrowLeft') onIndexChange((index - 1 + gallery.length) % gallery.length);
-      if (event.key === 'ArrowRight') onIndexChange((index + 1) % gallery.length);
+      if (event.key === 'Escape') requestClose();
+      if (event.key === 'ArrowLeft') {
+        onIndexChange((activeIndexRef.current - 1 + gallery.length) % gallery.length);
+      }
+      if (event.key === 'ArrowRight') onIndexChange((activeIndexRef.current + 1) % gallery.length);
       if (event.key === 'Tab') {
         const controls = dialogRef.current?.querySelectorAll<HTMLElement>(
           'button, [href], [tabindex]:not([tabindex="-1"])'
@@ -209,67 +246,192 @@ const GalleryDialog = ({
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener('keydown', onKeyDown);
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
       returnFocusRef.current?.focus();
     };
-  }, [gallery.length, index, onClose, onIndexChange]);
+  }, [gallery.length, onIndexChange, requestClose]);
 
   const item = gallery[index];
-  return (
+  const zoom = GALLERY_ZOOM_LEVELS[zoomIndex];
+  const showPrevious = () => onIndexChange((index - 1 + gallery.length) % gallery.length);
+  const showNext = () => onIndexChange((index + 1) % gallery.length);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const stage = stageRef.current;
+      if (!stage) return;
+      stage.scrollLeft = (stage.scrollWidth - stage.clientWidth) / 2;
+      stage.scrollTop = (stage.scrollHeight - stage.clientHeight) / 2;
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [index, zoom]);
+
+  return createPortal(
     <div
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-label={`Gallery image: ${item.title}`}
+      data-state={isClosing ? 'closing' : 'open'}
       onPointerDown={(event) => {
-        if (event.pointerType === 'touch') swipeStartRef.current = event.clientX;
+        if (event.pointerType === 'touch' && zoom === 1) swipeStartRef.current = event.clientX;
       }}
       onPointerUp={(event) => {
+        if (zoom > 1) {
+          swipeStartRef.current = null;
+          return;
+        }
         if (event.pointerType !== 'touch' || swipeStartRef.current === null) return;
         const distance = event.clientX - swipeStartRef.current;
         swipeStartRef.current = null;
         if (Math.abs(distance) < 45) return;
         onIndexChange(distance > 0 ? (index - 1 + gallery.length) % gallery.length : (index + 1) % gallery.length);
       }}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#080808] p-4 text-white">
-      <div className="absolute inset-x-4 top-4 flex items-center justify-between gap-4">
-        <p className="font-semibold">
-          {item.title}{' '}
-          <span className="ml-2 font-mono text-sm text-white/55">
-            {index + 1}/{gallery.length}
+      className="gallery-dialog fixed inset-0 z-[200] grid min-w-0 grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-[#080808] text-white">
+      <header className="gallery-dialog-header grid min-h-16 grid-cols-[1fr_auto] items-center gap-4 border-b border-white/25 px-4 md:min-h-20 md:grid-cols-[1fr_auto_auto] md:px-8">
+        <p className="min-w-0 truncate font-semibold md:text-lg">
+          <span className="mr-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-white/50 md:text-xs">
+            {String(index + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}
           </span>
+          {item.title}
         </p>
+        <div className="hidden items-center border border-white/30 md:flex" role="group" aria-label="Image zoom">
+          <button
+            type="button"
+            onClick={() => setZoomIndex((current) => Math.max(0, current - 1))}
+            disabled={zoomIndex === 0}
+            className="gallery-tool-control flex size-11 items-center justify-center border-r border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Zoom out">
+            <ZoomOut className="size-4" aria-hidden="true" />
+          </button>
+          <span className="w-16 text-center font-mono text-xs font-semibold tabular-nums" aria-live="polite">
+            {Math.round(zoom * 100)}%
+          </span>
+          <button
+            type="button"
+            onClick={() => setZoomIndex((current) => Math.min(GALLERY_ZOOM_LEVELS.length - 1, current + 1))}
+            disabled={zoomIndex === GALLERY_ZOOM_LEVELS.length - 1}
+            className="gallery-tool-control flex size-11 items-center justify-center border-l border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Zoom in">
+            <ZoomIn className="size-4" aria-hidden="true" />
+          </button>
+        </div>
         <button
           ref={closeButtonRef}
-          onClick={onClose}
-          className="flex size-12 items-center justify-center rounded-full border-2 border-white"
+          onClick={requestClose}
+          className="gallery-tool-control flex size-11 items-center justify-center rounded-full border border-white/60 md:size-12"
           aria-label="Close gallery">
-          <X aria-hidden="true" />
+          <X className="size-5" aria-hidden="true" />
         </button>
+      </header>
+
+      <div className="gallery-dialog-workspace relative grid min-h-0 grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-stretch md:grid-cols-[5rem_minmax(0,1fr)_5rem]">
+        <button
+          type="button"
+          onClick={showPrevious}
+          className="gallery-direction-control group flex min-h-11 items-center justify-center border-r border-white/20"
+          aria-label="Previous image">
+          <ChevronLeft
+            className="size-5 transition-transform duration-150 group-hover:-translate-x-1"
+            aria-hidden="true"
+          />
+        </button>
+
+        <div ref={stageRef} className="gallery-dialog-stage min-h-0 overflow-auto bg-[#f4f2ed] p-2 md:p-5">
+          <div className="flex h-full min-h-full min-w-full items-center justify-center">
+            <img
+              key={item.image}
+              src={item.image}
+              alt={item.title}
+              draggable="false"
+              className={cn(
+                'gallery-dialog-image shrink-0 object-contain',
+                zoom === 1 ? 'size-full max-h-full max-w-full' : 'h-auto max-w-none'
+              )}
+              style={zoom === 1 ? undefined : { width: `${zoom * 100}%`, maxWidth: 'none' }}
+            />
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={showNext}
+          className="gallery-direction-control group flex min-h-11 items-center justify-center border-l border-white/20"
+          aria-label="Next image">
+          <ChevronRight
+            className="size-5 transition-transform duration-150 group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </button>
+
+        <div
+          className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center border border-white/40 bg-[#080808] shadow-[0_0_0_1px_rgba(0,0,0,0.35)] md:hidden"
+          role="group"
+          aria-label="Image zoom">
+          <button
+            type="button"
+            onClick={() => setZoomIndex((current) => Math.max(0, current - 1))}
+            disabled={zoomIndex === 0}
+            className="gallery-tool-control flex size-11 items-center justify-center border-r border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Zoom out">
+            <ZoomOut className="size-4" aria-hidden="true" />
+          </button>
+          <span className="w-14 text-center font-mono text-xs font-semibold tabular-nums" aria-live="polite">
+            {Math.round(zoom * 100)}%
+          </span>
+          <button
+            type="button"
+            onClick={() => setZoomIndex((current) => Math.min(GALLERY_ZOOM_LEVELS.length - 1, current + 1))}
+            disabled={zoomIndex === GALLERY_ZOOM_LEVELS.length - 1}
+            className="gallery-tool-control flex size-11 items-center justify-center border-l border-white/30 disabled:cursor-not-allowed disabled:opacity-30"
+            aria-label="Zoom in">
+            <ZoomIn className="size-4" aria-hidden="true" />
+          </button>
+        </div>
       </div>
-      <button
-        onClick={() => onIndexChange((index - 1 + gallery.length) % gallery.length)}
-        className="absolute left-4 flex size-12 items-center justify-center rounded-full border-2 border-white"
-        aria-label="Previous image">
-        <ChevronLeft aria-hidden="true" />
-      </button>
-      <img
-        key={item.image}
-        src={item.image}
-        alt={item.title}
-        className="gallery-dialog-image max-h-[80vh] max-w-[82vw] object-contain"
-      />
-      <button
-        onClick={() => onIndexChange((index + 1) % gallery.length)}
-        className="absolute right-4 flex size-12 items-center justify-center rounded-full border-2 border-white"
-        aria-label="Next image">
-        <ChevronRight aria-hidden="true" />
-      </button>
-    </div>
+
+      <footer className="gallery-dialog-footer min-w-0 overflow-hidden border-t border-white/25 px-4 py-3 md:px-8 md:py-4">
+        <div
+          className="gallery-thumbnail-strip flex w-full min-w-0 max-w-full gap-2 overflow-x-auto pb-1"
+          role="list"
+          aria-label="Gallery thumbnails">
+          {gallery.map((thumbnail, thumbnailIndex) => (
+            <button
+              type="button"
+              role="listitem"
+              key={thumbnail.image}
+              onClick={() => onIndexChange(thumbnailIndex)}
+              aria-label={`View ${thumbnail.title}`}
+              aria-current={thumbnailIndex === index ? 'true' : undefined}
+              className="gallery-thumbnail group relative h-14 w-20 shrink-0 overflow-hidden border border-white/25 bg-white p-1 md:h-16 md:w-24">
+              <img
+                src={getSmallImageSrc(thumbnail.image)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="size-full object-contain opacity-60 transition-opacity duration-150 group-hover:opacity-100"
+              />
+              <span
+                className={cn(
+                  'absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 transition-transform duration-150',
+                  thumbnailIndex === index && 'scale-x-100'
+                )}
+                style={{ backgroundColor: SIGNAL_COLORS[thumbnailIndex % SIGNAL_COLORS.length] }}
+                aria-hidden="true"
+              />
+            </button>
+          ))}
+        </div>
+      </footer>
+    </div>,
+    document.body
   );
 };
 
 export const ProjectDetailPage = ({ project }: { project: Project }) => {
   useRouteScroll(project.slug);
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const [activeDemo, setActiveDemo] = useState(0);
   const [activeTechnologyGroup, setActiveTechnologyGroup] = useState(0);
@@ -282,12 +444,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const [demoAspectRatio, setDemoAspectRatio] = useState<number | null>(null);
   const [expandedStep, setExpandedStep] = useState<number | null>(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [showAllGallery, setShowAllGallery] = useState(false);
   const [projectJourney, setProjectJourney] = useState(() => readProjectJourney(PORTFOLIO_PROJECT_SLUGS));
   const [showJourneyComplete, setShowJourneyComplete] = useState(false);
   const { theme } = useTheme();
   const image = typeof project.image === 'string' ? project.image : project.image[theme];
   const demo = project.demo?.[activeDemo];
+  const demoPoster = demo?.preview ?? image;
   const singleDemo = project.demo?.length === 1 ? project.demo[0] : undefined;
   const SingleDemoIcon = singleDemo ? DEVICE_CONFIG[singleDemo.device].icon : Monitor;
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -318,6 +480,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
   const activeSystemMeta = PROJECT_SYSTEM_META[activeGroup];
   const deviceConfig = demo ? DEVICE_CONFIG[demo.device] : DEVICE_CONFIG.desktop;
   const playbackDuration = demoDuration || (demo ? parseDemoLength(demo.length) : 0);
+  const closeGallery = useCallback(() => setLightboxIndex(null), []);
   const sectionNavigationItems = useMemo(
     () => [
       { id: 'hero', label: 'Summary', color: accent.background },
@@ -389,7 +552,6 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
     setDemoProgress(0);
     setDemoDuration(0);
     setDemoAspectRatio(null);
-    setShowAllGallery(false);
   }, [project.slug]);
 
   useEffect(() => {
@@ -588,23 +750,21 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 {project.highlights.map(({ title, description, icon: Icon }, index) => (
                   <article
                     key={title}
-                    className="reactive-capability grid min-h-0 grid-cols-[1.5rem_1fr_auto] gap-2 border-b border-current/25 px-2 py-5 sm:flex sm:min-h-56 sm:flex-col sm:justify-between sm:p-6 sm:odd:border-r md:p-8">
-                    <div className="contents sm:flex sm:items-center sm:justify-between sm:gap-4">
-                      <span className="font-mono text-xs font-semibold text-muted-foreground">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <Icon
-                        className="order-3 size-5 sm:order-none"
-                        style={{ color: accent.background }}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div className="col-start-2 row-start-1 sm:block">
-                      <h3 className="text-lg font-black leading-tight tracking-[-0.02em] md:text-2xl">{title}</h3>
-                      <p className="mt-2 max-w-md text-base leading-relaxed text-muted-foreground sm:mt-3">
-                        {description}
-                      </p>
-                    </div>
+                    className="reactive-capability grid min-h-0 grid-cols-[2rem_minmax(0,1fr)_auto] grid-rows-[auto_1fr] gap-x-3 gap-y-3 border-b border-current/25 px-4 py-5 sm:min-h-56 sm:gap-x-4 sm:p-6 sm:odd:border-r md:grid-cols-[2.5rem_minmax(0,1fr)_auto] md:p-8">
+                    <span className="self-center font-mono text-base font-bold text-muted-foreground">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="self-center text-xl font-black leading-none tracking-[-0.02em] md:text-2xl">
+                      {title}
+                    </h3>
+                    <Icon
+                      className="size-5 self-center md:size-6"
+                      style={{ color: accent.background }}
+                      aria-hidden="true"
+                    />
+                    <p className="col-span-2 col-start-2 row-start-2 max-w-md text-base leading-relaxed text-muted-foreground">
+                      {description}
+                    </p>
                   </article>
                 ))}
               </div>
@@ -730,7 +890,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           muted={isDemoMuted}
                           playsInline
                           preload="metadata"
-                          poster={demo.preview ?? image}
+                          poster={isMobile ? getSmallImageSrc(demoPoster) : demoPoster}
                           onLoadedMetadata={(event) => {
                             const video = event.currentTarget;
                             setDemoDuration(video.duration);
@@ -742,7 +902,10 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                           onPlay={() => setIsDemoPlaying(true)}
                           onPause={() => setIsDemoPlaying(false)}
                           onEnded={() => setIsDemoPlaying(false)}
-                          className="size-full object-contain">
+                          className={cn(
+                            'demo-media-treatment size-full object-contain',
+                            !isDemoPlaying && demoProgress <= 0.05 && 'is-poster'
+                          )}>
                           <source src={demo.link} type="video/mp4" />
                           Your browser does not support video playback.
                         </video>
@@ -1012,6 +1175,12 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 <img
                   key={activeSystemMeta.image}
                   src={activeSystemMeta.image}
+                  srcSet={
+                    activeSystemMeta.image.endsWith('.webp')
+                      ? `${activeSystemMeta.image.replace(/\.webp$/, '-640.webp')} 640w, ${activeSystemMeta.image} 1200w`
+                      : undefined
+                  }
+                  sizes="(max-width: 1023px) 100vw, 67vw"
                   alt=""
                   loading="lazy"
                   decoding="async"
@@ -1056,60 +1225,49 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
         {project.gallery.length > 0 && (
           <section id="gallery" className="border-b border-current/25 py-16 md:py-24">
             <div className="content-shell px-5 md:px-8 lg:px-12">
-              <div className="mb-8 grid gap-4 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:gap-5">
-                <h2 className="case-study-supporting-type md:col-span-8">Inspect the evidence.</h2>
-                <p className="max-w-lg self-end text-lg leading-relaxed text-muted-foreground md:col-span-4">
-                  Screens and diagrams remain available for close inspection, after the project story.
-                </p>
+              <div className="mb-8 grid gap-5 border-t-2 border-current pt-5 md:mb-10 md:grid-cols-12 md:items-end">
+                <h2 className="case-study-supporting-type md:col-span-7">Inspect the evidence.</h2>
+                <div className="flex items-end justify-between gap-5 md:col-span-5">
+                  <p className="max-w-sm text-base leading-relaxed text-muted-foreground md:text-lg">
+                    Screens and diagrams, available at full size.
+                  </p>
+                  <span className="shrink-0 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                    {String(project.gallery.length).padStart(2, '0')} artefacts
+                  </span>
+                </div>
               </div>
-              <div className="mobile-scroll-strip -mx-5 flex snap-x snap-mandatory gap-px overflow-x-auto bg-current/25 px-5 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:border sm:border-current/25 sm:px-0 lg:grid-cols-4">
+              <div className="evidence-wall grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
                 {project.gallery.map((item, index) => (
                   <button
                     key={item.image}
+                    type="button"
+                    aria-label={`Open ${item.title} full size`}
                     onClick={() => setLightboxIndex(index)}
                     data-cursor="Inspect"
+                    data-gallery-kind={GALLERY_DIAGRAM_PATTERN.test(item.title) ? 'diagram' : 'screen'}
                     data-signal
                     data-signal-color={SIGNAL_COLORS[index % SIGNAL_COLORS.length]}
-                    data-evidence
-                    className={cn(
-                      'group min-h-11 w-[84vw] max-w-[20rem] shrink-0 snap-start bg-background text-left sm:w-auto sm:max-w-none',
-                      !showAllGallery && index >= 8 && 'sm:hidden'
-                    )}>
-                    <span className="flex h-48 items-center overflow-hidden bg-white p-2 sm:h-[clamp(11rem,16vw,15rem)]">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        loading="lazy"
-                        decoding="async"
-                        className="size-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                    </span>
-                    <span className="flex min-h-14 items-center justify-between gap-4 px-4 py-3 font-bold group-hover:bg-foreground group-hover:text-background">
-                      <span>{item.title}</span>
-                      <span className="flex items-center gap-1.5 text-sm font-semibold">
-                        Full size
-                        <ArrowUpRight
-                          className="size-3.5 transition-transform group-hover:rotate-45"
-                          aria-hidden="true"
-                        />
-                      </span>
+                    className="evidence-wall-card group relative flex aspect-video items-center justify-center overflow-hidden border border-[#080808] bg-[#080808]">
+                    <img
+                      src={item.image}
+                      srcSet={getResponsiveImageSrcSet(item.image)}
+                      sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 33vw, 25vw"
+                      alt={item.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="evidence-wall-image size-full"
+                    />
+                    <span
+                      className="evidence-wall-signal absolute inset-x-0 top-0 h-1 origin-left scale-x-0 transition-transform duration-150 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                      style={{ backgroundColor: SIGNAL_COLORS[index % SIGNAL_COLORS.length] }}
+                      aria-hidden="true"
+                    />
+                    <span className="evidence-wall-open absolute bottom-3 right-3 flex size-11 translate-y-2 items-center justify-center bg-foreground text-background opacity-0 transition-[opacity,transform] duration-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                      <Maximize2 className="size-4" aria-hidden="true" />
                     </span>
                   </button>
                 ))}
               </div>
-              {project.gallery.length > 8 && (
-                <button
-                  type="button"
-                  onClick={() => setShowAllGallery((visible) => !visible)}
-                  aria-expanded={showAllGallery}
-                  className="mt-8 hidden min-h-12 items-center gap-3 border-b-2 border-current text-lg font-bold sm:inline-flex">
-                  {showAllGallery ? 'Show selected evidence' : `View all ${project.gallery.length} artefacts`}
-                  <ChevronDown
-                    className={cn('size-5 transition-transform', showAllGallery && 'rotate-180')}
-                    aria-hidden="true"
-                  />
-                </button>
-              )}
             </div>
           </section>
         )}
@@ -1159,7 +1317,7 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           gallery={project.gallery}
           index={lightboxIndex}
           onIndexChange={setLightboxIndex}
-          onClose={() => setLightboxIndex(null)}
+          onClose={closeGallery}
         />
       )}
 

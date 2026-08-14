@@ -90,8 +90,8 @@ export const chronosProject: Project = {
   longDescription:
     'Chronos is a calendar application built with React and NestJS. It supports event scheduling, shared calendars, real-time synchronization, multiple calendar views, and authentication.',
   image: {
-    light: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-light.png',
-    dark: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-dark.png'
+    light: '/project-media/chronos/chronos-light.webp',
+    dark: '/project-media/chronos/chronos-dark.webp'
   },
   status: 'Completed',
   category: 'Full-Stack',
@@ -302,51 +302,51 @@ export const chronosProject: Project = {
   gallery: [
     {
       title: 'Authentication screen',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/auth.png'
+      image: '/project-media/chronos/auth.webp'
     },
     {
       title: 'Introduction screen',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/introduction.png'
+      image: '/project-media/chronos/introduction.webp'
     },
     {
       title: 'Dashboard overview',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/dashboard.png'
+      image: '/project-media/chronos/dashboard.webp'
     },
     {
       title: '404 error page',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/404.png'
+      image: '/project-media/chronos/404.webp'
     },
     {
       title: 'Hero section image',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/hero.png'
+      image: '/project-media/chronos/hero.webp'
     },
     {
       title: 'Month view',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/month.png'
+      image: '/project-media/chronos/month.webp'
     },
     {
       title: 'Responsive layout preview',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/responsive.png'
+      image: '/project-media/chronos/responsive.webp'
     },
     {
       title: 'Chronos dark hero',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-dark.png'
+      image: '/project-media/chronos/chronos-dark.webp'
     },
     {
       title: 'Year view',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/year.png'
+      image: '/project-media/chronos/year.webp'
     },
     {
       title: 'Database schema diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/db-schema.png'
+      image: '/project-media/chronos/db-schema.webp'
     },
     {
       title: 'Deployment diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/deploy-diagram.png'
+      image: '/project-media/chronos/deploy-diagram.webp'
     },
     {
       title: 'Use case diagram',
-      image: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/use-case-diagram.png'
+      image: '/project-media/chronos/use-case-diagram.webp'
     }
   ],
 
@@ -361,19 +361,19 @@ export const chronosProject: Project = {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-desktop-demo.mp4',
       device: 'desktop',
       length: '2:59',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-desktop-preview.png'
+      preview: '/project-media/chronos/demo-desktop-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-mobile-demo.mp4',
       device: 'mobile',
       length: '1:25',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-mobile-preview.png'
+      preview: '/project-media/chronos/demo-mobile-preview.webp'
     },
     {
       link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/chronos-tablet-demo.mp4',
       device: 'tablet',
       length: '2:02',
-      preview: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/chronos/demo-tablet-preview.png'
+      preview: '/project-media/chronos/demo-tablet-preview.webp'
     }
   ]
 };

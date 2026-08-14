@@ -1,0 +1,80 @@
+{
+  "site": {
+    "url": "https://mkloz.com",
+    "name": "Mykhailo Kloz",
+    "defaultTitle": "Mykhailo Kloz — Full-Stack Developer",
+    "description": "Mykhailo Kloz is a full-stack developer building clear product interfaces, dependable APIs, data systems, and production-ready software.",
+    "image": "/social-card.png",
+    "locale": "en_GB",
+    "language": "en-GB",
+    "sameAs": ["https://github.com/mkloz", "https://www.linkedin.com/in/mkloz"]
+  },
+  "projects": [
+    {
+      "slug": "uevent",
+      "name": "UEvent",
+      "title": "UEvent Case Study — Mykhailo Kloz",
+      "description": "Explore the UEvent full-stack case study: event discovery, ticketing, Stripe payments, location search, and real-time notifications.",
+      "image": "/project-previews/uevent-dark.webp",
+      "year": 2025,
+      "category": "Full-Stack",
+      "technologies": ["React", "NestJS", "PostgreSQL", "TypeScript", "Prisma", "Stripe"],
+      "repository": "https://github.com/mkloz/uevent-frontend"
+    },
+    {
+      "slug": "webster",
+      "name": "Webster",
+      "title": "Webster Case Study — Mykhailo Kloz",
+      "description": "Explore the Webster full-stack case study: a canvas-based design platform built with React, Konva, NestJS, PostgreSQL, and TypeScript.",
+      "image": "/project-previews/webster-dark.webp",
+      "year": 2025,
+      "category": "Full-Stack",
+      "technologies": ["React", "Konva", "NestJS", "PostgreSQL", "TypeScript"],
+      "repository": "https://github.com/mkloz/webster-frontend"
+    },
+    {
+      "slug": "chronos",
+      "name": "Chronos",
+      "title": "Chronos Case Study — Mykhailo Kloz",
+      "description": "Explore the Chronos full-stack case study: a calendar system for scheduling events and coordinating shared calendars.",
+      "image": "/project-previews/chronos-dark.webp",
+      "year": 2025,
+      "category": "Full-Stack",
+      "technologies": ["React", "NestJS", "PostgreSQL", "TypeScript", "Prisma"],
+      "repository": "https://github.com/mkloz/chronos-frontend"
+    },
+    {
+      "slug": "usof",
+      "name": "Usof",
+      "title": "Usof Case Study — Mykhailo Kloz",
+      "description": "Explore the Usof full-stack case study: a community application with posts, comments, voting, categories, and authentication.",
+      "image": "/project-previews/usof-dark.webp",
+      "year": 2024,
+      "category": "Full-Stack",
+      "technologies": ["React", "Node.js", "Express", "MySQL", "TypeScript"],
+      "repository": "https://github.com/mkloz/usof-frontend"
+    },
+    {
+      "slug": "portfolio",
+      "name": "Portfolio",
+      "title": "Portfolio Case Study — Mykhailo Kloz",
+      "description": "Explore the portfolio case study: responsive project stories, working demos, implementation notes, and detailed evidence galleries.",
+      "image": "/project-previews/portfolio-dark.webp",
+      "year": 2025,
+      "category": "Frontend",
+      "technologies": ["React", "TypeScript", "Tailwind CSS", "Vite"],
+      "repository": "https://github.com/mkloz/portfolio"
+    },
+    {
+      "slug": "citywheels",
+      "name": "Citywheels",
+      "title": "Citywheels Case Study — Mykhailo Kloz",
+      "description": "Explore the Citywheels full-stack case study: e-commerce product discovery, checkout, administration, and order management.",
+      "image": "/project-previews/citywheels-hero.webp",
+      "year": 2023,
+      "category": "Full-Stack",
+      "technologies": ["Next.js", "React", "NestJS", "MySQL", "TypeScript"],
+      "repository": "https://github.com/mkloz/citywheels-frontend"
+    }
+  ]
+}

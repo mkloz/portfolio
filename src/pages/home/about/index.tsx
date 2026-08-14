@@ -29,6 +29,8 @@ const About = () => {
           <div className="relative min-h-[28rem] overflow-hidden border-b border-white/30 lg:col-span-5 lg:border-b-0 lg:border-r">
             <img
               src="/editorial/systems-workbench.webp"
+              srcSet="/editorial/systems-workbench-640.webp 640w, /editorial/systems-workbench.webp 1200w"
+              sizes="(max-width: 1023px) 100vw, 42vw"
               alt="Editorial model of connected interface, service, and data layers"
               loading="lazy"
               decoding="async"
