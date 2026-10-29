@@ -4,6 +4,7 @@ export interface ProjectAccent {
 }
 
 const PROJECT_ACCENTS: Record<string, ProjectAccent> = {
+  findafew: { background: '#0d9488', foreground: '#ffffff' },
   uevent: { background: '#6c4eff', foreground: '#ffffff' },
   webster: { background: '#ff583d', foreground: '#080808' },
   chronos: { background: '#ffd400', foreground: '#080808' },

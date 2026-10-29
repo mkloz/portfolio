@@ -18,6 +18,24 @@ export interface ProjectSummary {
 /** Recruiter-facing order, strongest evidence first. */
 export const projectSummaries: ProjectSummary[] = [
   {
+    title: 'Findafew',
+    slug: 'findafew',
+    description: 'A small-group planning app that turns shared interests into real-world activity plans.',
+    image: {
+      dark: '/project-media/findafew/product-discover.webp',
+      light: '/project-media/findafew/product-discover.webp'
+    },
+    secondaryImage: '/project-media/findafew/product-shape.webp',
+    technologies: ['React', 'TypeScript', 'NestJS', 'PostgreSQL', 'Socket.IO'],
+    github: [
+      { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend' },
+      { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend' }
+    ],
+    year: 2026,
+    category: 'Full-Stack',
+    evidenceCategories: ['Full-Stack', 'Frontend', 'Backend', 'Database', 'DevOps', 'Tools']
+  },
+  {
     title: 'UEvent',
     slug: 'uevent',
     description: 'An event platform where people can find events, buy tickets, and get updates as plans change.',
@@ -88,22 +106,6 @@ export const projectSummaries: ProjectSummary[] = [
     year: 2024,
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
-  },
-  {
-    title: 'Portfolio',
-    slug: 'portfolio',
-    description:
-      'This portfolio, built to make my work easy to explore through case studies, demos, and project notes.',
-    image: {
-      light: '/project-previews/portfolio-light.webp',
-      dark: '/project-previews/portfolio-dark.webp'
-    },
-    secondaryImage: '/project-previews/portfolio-404.webp',
-    technologies: ['React', 'TS', 'Tailwind CSS', 'ShadCN', 'Vite', 'Cloudflare Pages', 'GitHub Actions'],
-    github: [{ name: 'Portfolio Frontend', link: 'https://github.com/mkloz/portfolio' }],
-    year: 2025,
-    category: 'Frontend',
-    evidenceCategories: ['Full-Stack', 'Frontend', 'DevOps', 'Tools']
   },
   {
     title: 'Citywheels',

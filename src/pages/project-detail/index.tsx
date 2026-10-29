@@ -1783,14 +1783,14 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           </span>
           <div className="content-shell flex flex-1 flex-col justify-between py-12 md:py-16">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#f4f2ed]/55">
-              06 / 06 · Portfolio viewed
+              {String(projectCount).padStart(2, '0')} / {String(projectCount).padStart(2, '0')} · Portfolio viewed
             </p>
             <div className="project-journey-message">
               <h2 className="max-w-[9ch] text-[clamp(3.75rem,8vw,6rem)] font-black leading-[0.82] tracking-[-0.04em]">
                 Thank you<span className="text-[#ff583d]">.</span>
               </h2>
               <p className="mt-7 max-w-md text-xl font-semibold leading-relaxed text-[#f4f2ed]/70">
-                You made it through all six projects. If one sparked an idea, I&apos;d love to hear about it.
+                You made it through all {projectCount} projects. If one sparked an idea, I&apos;d love to hear about it.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-3">

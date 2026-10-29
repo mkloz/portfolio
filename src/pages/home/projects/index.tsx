@@ -219,7 +219,7 @@ export const Projects = () => {
                           unstyled
                           tabIndex={active ? 0 : -1}
                           className="flex min-h-14 items-center justify-between gap-3 pr-4 font-bold">
-                          Open case study <ArrowUpRight className="size-4" aria-hidden="true" />
+                          Explore the build <ArrowUpRight className="size-4" aria-hidden="true" />
                         </Link>
                         {project.github[0] && (
                           <a
@@ -299,7 +299,7 @@ export const Projects = () => {
                   />
                   {active ? (
                     <>
-                      <span className="text-lg tracking-[-0.025em]">View case study</span>
+                      <span className="text-lg tracking-[-0.025em]">Explore this build</span>
                       <span className="flex items-center gap-3">
                         {visited && (
                           <span
@@ -375,12 +375,12 @@ export const Projects = () => {
                           <Link
                             to={`/projects/${project.slug}`}
                             unstyled
-                            data-cursor="Open case"
+                            data-cursor="Explore build"
                             data-magnetic
                             data-signal
                             data-signal-color={accent.background}
                             className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-current px-5 font-bold transition-transform hover:-translate-y-1">
-                            Case study <ArrowUpRight className="size-4" aria-hidden="true" />
+                            Explore the build <ArrowUpRight className="size-4" aria-hidden="true" />
                           </Link>
                           {project.github[0] && (
                             <a

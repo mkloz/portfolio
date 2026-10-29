@@ -5,6 +5,11 @@ import { NotFound } from '../not-found';
 import { ProjectDetailPage } from '.';
 
 const PROJECT_ROUTES = {
+  findafew: lazy(() =>
+    import('@/data/projects/findafew').then(({ findafewProject }) => ({
+      default: () => <ProjectDetailPage project={findafewProject} />
+    }))
+  ),
   uevent: lazy(() =>
     import('@/data/projects/uevent').then(({ ueventProject }) => ({
       default: () => <ProjectDetailPage project={ueventProject} />
@@ -23,11 +28,6 @@ const PROJECT_ROUTES = {
   usof: lazy(() =>
     import('@/data/projects/usof').then(({ usofProject }) => ({
       default: () => <ProjectDetailPage project={usofProject} />
-    }))
-  ),
-  portfolio: lazy(() =>
-    import('@/data/projects/portfolio').then(({ portfolioProject }) => ({
-      default: () => <ProjectDetailPage project={portfolioProject} />
     }))
   ),
   citywheels: lazy(() =>

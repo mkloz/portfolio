@@ -3,7 +3,7 @@ import type { ElementType } from 'react';
 import type { Technology } from '../technologies';
 import { chronosProject } from './chronos';
 import { citywheelsProject } from './citywheels';
-import { portfolioProject } from './portfolio';
+import { findafewProject } from './findafew';
 import { ueventProject } from './uevent';
 import { usofProject } from './usof';
 import { websterProject } from './webster';
@@ -116,11 +116,11 @@ export interface Project {
  * next-case-study path in project footers.
  */
 export const projects: Project[] = [
+  findafewProject,
   ueventProject,
   websterProject,
   chronosProject,
   usofProject,
-  portfolioProject,
   citywheelsProject
 ];
 
