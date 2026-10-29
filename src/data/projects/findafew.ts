@@ -53,7 +53,7 @@ export const findafewProject: Project = {
     'Prisma',
     'Redis',
     'Socket.IO',
-    'AWS S3',
+    'Oracle Cloud',
     'Docker',
     'Cloudflare Pages',
     'Vite',
@@ -65,8 +65,8 @@ export const findafewProject: Project = {
   ],
   liveDemo: 'https://findafew.today',
   github: [
-    { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend' },
-    { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend' }
+    { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend', private: true },
+    { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend', private: true }
   ],
   website: 'https://findafew.today',
   featured: true,
@@ -77,12 +77,12 @@ export const findafewProject: Project = {
   longDescription:
     'Findafew helps adults move from an activity they want to do to a small group and a practical plan. People can explore open plans or start one of their own, see whether a group comes together, and review the people and details before deciding whether to take part.',
   image: {
-    light: '/project-media/findafew/product-discover.webp',
-    dark: '/project-media/findafew/product-discover.webp'
+    light: '/project-media/findafew/findafew-light.webp',
+    dark: '/project-media/findafew/findafew-dark.webp'
   },
-  status: 'Maintenance',
+  status: 'In Progress',
   category: 'Full-Stack',
-  duration: '7 months',
+  duration: '8 months',
 
   detailedTechnologies: [
     technologies.react,
@@ -96,7 +96,7 @@ export const findafewProject: Project = {
     technologies.redis,
     technologies.socketio,
     technologies.jwt,
-    technologies.awss3,
+    technologies.oraclecloud,
     technologies.docker,
     technologies.githubactions,
     technologies.cloudflarepages,
@@ -156,7 +156,7 @@ export const findafewProject: Project = {
         id: 'database',
         title: 'Organising plans and people',
         duration: '3 weeks',
-        technologies: ['PostgreSQL', 'Prisma', 'Redis', 'AWS S3'],
+        technologies: ['PostgreSQL', 'Prisma', 'Redis', 'OCI Object Storage'],
         decisions: [
           {
             decision: 'Use PostgreSQL for the domain model',
@@ -169,7 +169,8 @@ export const findafewProject: Project = {
           },
           {
             decision: 'Keep media in object storage',
-            reasoning: 'S3-backed storage keeps uploaded media outside the core transactional data model'
+            reasoning:
+              'Uploaded media lives in OCI Object Storage behind a storage port, outside the transactional data model and independent of one provider'
           }
         ],
         achievements: [
@@ -203,7 +204,7 @@ export const findafewProject: Project = {
         achievements: [
           'Implemented account, profile, interest, plan, group, and invite APIs',
           'Added real-time chat, presence, notification, and plan events',
-          'Documented the API with Swagger and generated OpenAPI contracts',
+          'Documented the API with Swagger and checked generated OpenAPI contracts for breaking changes',
           'Added validation, rate limiting, health checks, and structured error handling'
         ]
       },
@@ -221,6 +222,11 @@ export const findafewProject: Project = {
           'Tailwind CSS'
         ],
         decisions: [
+          {
+            decision: 'Build a deterministic Scenario Mode',
+            reasoning:
+              'Synthetic, stateful product worlds let every screen and edge case be reviewed and tested in the browser without a backend or real accounts'
+          },
           {
             decision: 'Use a feature-first frontend structure',
             reasoning:
@@ -240,23 +246,29 @@ export const findafewProject: Project = {
           'Built onboarding, explore, home, plan creation, group review, and activity routes',
           'Added profile, preferences, notifications, appearance, and safety settings',
           'Connected cached server state with live Socket.IO updates',
-          'Added keyboard support, reduced-motion behavior, and PWA install guidance'
+          'Added keyboard support, reduced-motion behavior, and PWA install guidance',
+          'Covered 120+ product states with Scenario Mode and Playwright interaction suites'
         ]
       },
       {
         id: 'deployment',
         title: 'Releasing a dependable product',
         duration: '2 weeks',
-        technologies: ['Docker', 'GitHub Actions', 'Cloudflare Pages', 'AWS', 'Nginx'],
+        technologies: ['GitHub Actions', 'Cloudflare Pages', 'Oracle Cloud', 'Nginx', 'Docker'],
         decisions: [
           {
             decision: 'Deploy the frontend to Cloudflare Pages',
             reasoning: 'The static PWA build benefits from edge delivery and a direct CI release path'
           },
           {
+            decision: 'Run the API on a self-managed ARM host',
+            reasoning:
+              'An Oracle Cloud ARM server behind Nginx keeps realtime connections, workers, and storage access under direct control'
+          },
+          {
             decision: 'Run production checks before publishing',
             reasoning:
-              'Browser environment validation, build checks, and PWA QA catch release issues before they reach users'
+              'Production environment validation, build checks, and PWA QA catch release issues before they reach users'
           },
           {
             decision: 'Keep the public API namespace explicit',
@@ -264,7 +276,8 @@ export const findafewProject: Project = {
           }
         ],
         achievements: [
-          'Added CI gates for linting, type safety, tests, builds, and security checks',
+          'Added CI gates for linting, types, unit, integration, and end-to-end tests, Pact contracts, and builds',
+          'Added secret scanning, CodeQL, dependency review, and OpenAPI breaking-change checks',
           'Published the installable frontend at findafew.today',
           'Added production smoke checks for API, realtime, and PWA behavior',
           'Documented deployment, recovery, and provider boundaries'
@@ -275,47 +288,49 @@ export const findafewProject: Project = {
 
   gallery: [
     {
-      title: 'Find open plans',
-      image: '/project-media/findafew/product-discover.webp'
+      title: 'Explore open plans',
+      image: '/project-media/findafew/findafew-dark.webp'
     },
     {
-      title: 'Shape a plan',
-      image: '/project-media/findafew/product-shape.webp'
+      title: 'Start, discover, and chat',
+      image: '/project-media/findafew/showcase-app.webp'
     },
     {
-      title: 'Watch a group form',
-      image: '/project-media/findafew/product-forming.webp'
+      title: 'Discover what fits',
+      image: '/project-media/findafew/showcase-discover.webp'
     },
     {
-      title: 'Review the proposed group',
-      image: '/project-media/findafew/product-review.webp'
+      title: 'Start a plan',
+      image: '/project-media/findafew/showcase-start-a-plan.webp'
     },
     {
-      title: 'Open the group room',
-      image: '/project-media/findafew/product-room.webp'
+      title: 'Meet your group',
+      image: '/project-media/findafew/showcase-your-group.webp'
     },
     {
-      title: 'Landing hero',
+      title: 'On the day',
+      image: '/project-media/findafew/showcase-on-the-day.webp'
+    },
+    {
+      title: 'Getting started',
+      image: '/project-media/findafew/showcase-getting-started.webp'
+    },
+    {
+      title: 'Make it yours',
+      image: '/project-media/findafew/showcase-make-it-yours.webp'
+    },
+    {
+      title: 'Landing page',
       image: '/project-media/findafew/landing-hero.webp'
-    },
-    {
-      title: 'A time, a place, a few people',
-      image: '/project-media/findafew/landing-plan.webp'
-    },
-    {
-      title: 'How it works',
-      image: '/project-media/findafew/landing-how-it-works.webp'
-    },
-    {
-      title: 'Choice and control',
-      image: '/project-media/findafew/landing-trust.webp'
     }
   ],
 
+  // Counted from both repositories: TypeScript source excluding generated
+  // files, feature areas plus backend domain modules, and all commits.
   stats: {
-    linesOfCode: 'Product codebase',
-    commits: '536',
-    features: 'End-to-end',
-    technologies: '20+'
+    linesOfCode: '400k+',
+    commits: '750+',
+    features: '50+',
+    technologies: '24'
   }
 };

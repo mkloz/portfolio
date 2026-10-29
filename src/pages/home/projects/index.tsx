@@ -221,9 +221,9 @@ export const Projects = () => {
                           className="flex min-h-14 items-center justify-between gap-3 pr-4 font-bold">
                           Explore the build <ArrowUpRight className="size-4" aria-hidden="true" />
                         </Link>
-                        {project.github[0] && (
+                        {getPublicRepository(project) && (
                           <a
-                            href={project.github[0].link}
+                            href={getPublicRepository(project)?.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`${project.title} source code`}
@@ -382,9 +382,9 @@ export const Projects = () => {
                             className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-current px-5 font-bold transition-transform hover:-translate-y-1">
                             Explore the build <ArrowUpRight className="size-4" aria-hidden="true" />
                           </Link>
-                          {project.github[0] && (
+                          {getPublicRepository(project) && (
                             <a
-                              href={project.github[0].link}
+                              href={getPublicRepository(project)?.link}
                               data-cursor="Source"
                               target="_blank"
                               rel="noopener noreferrer"
@@ -405,3 +405,7 @@ export const Projects = () => {
     </section>
   );
 };
+
+function getPublicRepository(project: ProjectSummary) {
+  return project.github.find((repository) => !repository.private);
+}

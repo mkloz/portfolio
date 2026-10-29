@@ -12,6 +12,8 @@ import { websterProject } from './webster';
 export interface GitHubLink {
   name: string;
   link: string;
+  /** Private repositories are named but never linked, so visitors never hit a 404. */
+  private?: boolean;
 }
 
 export interface KeyDecision {

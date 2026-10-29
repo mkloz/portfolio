@@ -100,7 +100,9 @@ export const getDiscoveryStructuredData = (route: DiscoveryRoute): Record<string
           dateCreated: String(project.year),
           author: { '@type': 'Person', name: ME.name, url: SITE_URL },
           programmingLanguage: project.technologies,
-          codeRepository: project.github.map((repository) => repository.link)
+          codeRepository: project.github
+            .filter((repository) => !repository.private)
+            .map((repository) => repository.link)
         }
       ];
     }

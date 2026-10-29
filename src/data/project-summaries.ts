@@ -9,7 +9,7 @@ export interface ProjectSummary {
   image: { dark: string; light: string } | string;
   secondaryImage?: string;
   technologies: string[];
-  github: { name: string; link: string }[];
+  github: { name: string; link: string; private?: boolean }[];
   year: number;
   category: ProjectCategory;
   evidenceCategories: TechnologyCategory[];
@@ -22,14 +22,14 @@ export const projectSummaries: ProjectSummary[] = [
     slug: 'findafew',
     description: 'A small-group planning app that turns shared interests into real-world activity plans.',
     image: {
-      dark: '/project-media/findafew/product-discover.webp',
-      light: '/project-media/findafew/product-discover.webp'
+      dark: '/project-previews/findafew-dark.webp',
+      light: '/project-previews/findafew-light.webp'
     },
-    secondaryImage: '/project-media/findafew/product-shape.webp',
+    secondaryImage: '/project-previews/findafew-introduction.webp',
     technologies: ['React', 'TypeScript', 'NestJS', 'PostgreSQL', 'Socket.IO'],
     github: [
-      { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend' },
-      { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend' }
+      { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend', private: true },
+      { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend', private: true }
     ],
     year: 2026,
     category: 'Full-Stack',

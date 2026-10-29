@@ -8,6 +8,7 @@ import {
   Database,
   Github,
   Layers3,
+  LockKeyhole,
   Maximize2,
   Minimize2,
   Monitor,
@@ -1066,23 +1067,33 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   />
                 </a>
               )}
-              {project.github.map((repo) => (
-                <a
-                  key={repo.link}
-                  href={repo.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-signal
-                  data-signal-color={accent.background}
-                  className="group inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 hover:text-foreground md:min-h-12 md:border-r-0 md:px-0">
-                  <Github className="size-4" aria-hidden="true" />
-                  {repo.name}
-                  <ArrowUpRight
-                    className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))}
+              {project.github.map((repo) =>
+                repo.private ? (
+                  <span
+                    key={repo.link}
+                    className="inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 md:min-h-12 md:border-r-0 md:px-0">
+                    <LockKeyhole className="size-4" aria-hidden="true" />
+                    {repo.name}
+                    <span className="text-xs font-semibold uppercase tracking-[0.08em]">Private</span>
+                  </span>
+                ) : (
+                  <a
+                    key={repo.link}
+                    href={repo.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-signal
+                    data-signal-color={accent.background}
+                    className="group inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 hover:text-foreground md:min-h-12 md:border-r-0 md:px-0">
+                    <Github className="size-4" aria-hidden="true" />
+                    {repo.name}
+                    <ArrowUpRight
+                      className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </a>
+                )
+              )}
             </div>
           </div>
         </section>
