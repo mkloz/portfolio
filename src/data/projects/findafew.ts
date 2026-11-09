@@ -322,6 +322,18 @@ export const findafewProject: Project = {
     {
       title: 'Landing page',
       image: '/project-media/findafew/landing-hero.webp'
+    },
+    {
+      title: 'Group formation diagram',
+      image: '/project-media/findafew/group-formation-diagram.webp'
+    },
+    {
+      title: 'Architecture diagram',
+      image: '/project-media/findafew/architecture-diagram.webp'
+    },
+    {
+      title: 'Database schema',
+      image: '/project-media/findafew/database-schema.webp'
     }
   ],
 
@@ -332,5 +344,25 @@ export const findafewProject: Project = {
     commits: '750+',
     features: '50+',
     technologies: '24'
-  }
+  },
+  demo: [
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/findafew/findafew-desktop-demo.mp4',
+      device: 'desktop',
+      length: '1:23',
+      preview: '/project-media/findafew/demo-desktop-preview.webp'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/findafew/findafew-mobile-demo.mp4',
+      device: 'mobile',
+      length: '1:23',
+      preview: '/project-media/findafew/demo-mobile-preview.webp'
+    },
+    {
+      link: 'https://mkloz-portfolio.s3.us-east-1.amazonaws.com/findafew/findafew-tablet-demo.mp4',
+      device: 'tablet',
+      length: '1:23',
+      preview: '/project-media/findafew/demo-tablet-preview.webp'
+    }
+  ]
 };
