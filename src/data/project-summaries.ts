@@ -9,8 +9,14 @@ export interface ProjectSummary {
   image: { dark: string; light: string } | string;
   secondaryImage?: string;
   technologies: string[];
-  github: { name: string; link: string }[];
+  github: { name: string; link: string; private?: boolean }[];
   year: number;
+  /**
+   * Lines in the project's repositories, counted the same way for each: tracked
+   * TypeScript, JavaScript, CSS, and Prisma source and tests, without blank or
+   * comment-only lines, generated files, dependencies, assets, or build output.
+   */
+  linesOfCode: string;
   category: ProjectCategory;
   evidenceCategories: TechnologyCategory[];
 }
@@ -18,105 +24,119 @@ export interface ProjectSummary {
 /** Recruiter-facing order, strongest evidence first. */
 export const projectSummaries: ProjectSummary[] = [
   {
+    title: 'Findafew',
+    slug: 'findafew',
+    description:
+      'A social planning app that matches people into small groups by personality and interests. Built solo, with real-time chat, AI-assisted moderation, and 3,000+ automated tests.',
+    image: {
+      dark: '/project-previews/findafew-dark.webp',
+      light: '/project-previews/findafew-light.webp'
+    },
+    secondaryImage: '/project-previews/findafew-introduction.webp',
+    technologies: ['React', 'NestJS', 'PostgreSQL', 'Socket.IO', 'OpenAI API'],
+    github: [
+      { name: 'Frontend', link: 'https://github.com/mkloz/findafew-frontend', private: true },
+      { name: 'Backend', link: 'https://github.com/mkloz/findafew-backend', private: true }
+    ],
+    year: 2026,
+    linesOfCode: '533k',
+    category: 'Full-Stack',
+    evidenceCategories: ['Full-Stack', 'Frontend', 'Backend', 'Database', 'DevOps', 'Tools']
+  },
+  {
     title: 'UEvent',
     slug: 'uevent',
-    description: 'An event platform where people can find events, buy tickets, and get updates as plans change.',
+    description:
+      'An event platform where people find events on a map and buy tickets, and organisers get paid through their own Stripe accounts.',
     image: {
       dark: '/editorial/uevent-dark.webp',
       light: '/editorial/uevent-dark.webp'
     },
     secondaryImage: '/editorial/uevent-introduction.webp',
-    technologies: ['Nest.js', 'React', 'PostgreSQL', 'TS', 'Prisma'],
+    technologies: ['React', 'NestJS', 'PostgreSQL', 'Stripe', 'Google Maps API'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/uevent-frontend' },
       { name: 'Backend', link: 'https://github.com/mkloz/uevent-backend' }
     ],
     year: 2025,
+    linesOfCode: '28.7k',
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
   },
   {
     title: 'Webster',
     slug: 'webster',
-    description: 'A browser-based design tool for creating and exporting visual work on a flexible canvas.',
+    description:
+      'A browser design editor built on Konva: draw, lay out images and text, undo anything, and export to PNG, JPG, or PDF.',
     image: {
       dark: '/project-previews/webster-dark.webp',
       light: '/project-previews/webster-light.webp'
     },
     secondaryImage: '/project-previews/webster-introduction.webp',
-    technologies: ['React', 'Konva', 'Nest.js', 'PostgreSQL', 'TypeScript'],
+    technologies: ['React', 'Konva', 'NestJS', 'PostgreSQL', 'AWS S3'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/webster-frontend' },
       { name: 'Backend', link: 'https://github.com/mkloz/webster-backend' }
     ],
     year: 2025,
+    linesOfCode: '19.4k',
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
   },
   {
     title: 'Chronos',
     slug: 'chronos',
-    description: 'A calendar app for planning events and sharing schedules with other people.',
+    description:
+      'A shared calendar with drag-and-drop scheduling, recurring events, role-based sharing, and public holidays imported for any country.',
     image: {
       light: '/project-previews/chronos-light.webp',
       dark: '/project-previews/chronos-dark.webp'
     },
     secondaryImage: '/project-previews/chronos-introduction.webp',
-    technologies: ['React', 'Nest.js', 'PostgreSQL', 'TS', 'Prisma'],
+    technologies: ['React', 'NestJS', 'PostgreSQL', 'Redis', 'Prisma'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/chronos-frontend' },
       { name: 'Backend', link: 'https://github.com/mkloz/chronos-backend' }
     ],
     year: 2025,
+    linesOfCode: '14.9k',
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
   },
   {
     title: 'Usof',
     slug: 'usof',
-    description: 'A community app for publishing posts, joining discussions, and voting on what matters.',
+    description:
+      'A community forum for posts, comments, and voting, on a hand-built Express API with database-level karma and automated backups.',
     image: {
       dark: '/project-previews/usof-dark.webp',
       light: '/project-previews/usof-light.webp'
     },
     secondaryImage: '/project-previews/usof-introduction.webp',
-    technologies: ['React', 'Node.js', 'Express', 'MySQL', 'TypeScript'],
+    technologies: ['React', 'Express', 'MySQL', 'Prisma', 'TypeScript'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/usof-frontend' },
       { name: 'Backend', link: 'https://github.com/mkloz/usof-backend' }
     ],
     year: 2024,
+    linesOfCode: '12.9k',
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
   },
   {
-    title: 'Portfolio',
-    slug: 'portfolio',
-    description:
-      'This portfolio, built to make my work easy to explore through case studies, demos, and project notes.',
-    image: {
-      light: '/project-previews/portfolio-light.webp',
-      dark: '/project-previews/portfolio-dark.webp'
-    },
-    secondaryImage: '/project-previews/portfolio-404.webp',
-    technologies: ['React', 'TS', 'Tailwind CSS', 'ShadCN', 'Vite', 'Cloudflare Pages', 'GitHub Actions'],
-    github: [{ name: 'Portfolio Frontend', link: 'https://github.com/mkloz/portfolio' }],
-    year: 2025,
-    category: 'Frontend',
-    evidenceCategories: ['Full-Stack', 'Frontend', 'DevOps', 'Tools']
-  },
-  {
     title: 'Citywheels',
     slug: 'citywheels',
-    description: 'An online shop for browsing vehicles, checking out, and managing products and orders.',
+    description:
+      'A vehicle web store with a Next.js storefront and a NestJS API, deployed by a pipeline that tests against a real MySQL database first.',
     image: '/project-previews/citywheels-hero.webp',
     secondaryImage: '/project-previews/citywheels-auth.webp',
-    technologies: ['Next.js', 'React', 'NestJS', 'MySQL', 'TypeScript'],
+    technologies: ['Next.js', 'NestJS', 'MySQL', 'GitHub Actions', 'Docker'],
     github: [
       { name: 'Frontend', link: 'https://github.com/mkloz/citywheels-frontend' },
       { name: 'Backend API', link: 'https://github.com/mkloz/citywheels-backend' }
     ],
     year: 2023,
+    linesOfCode: '18.4k',
     category: 'Full-Stack',
     evidenceCategories: ['Full-Stack', 'DevOps', 'Frontend', 'Database', 'Backend', 'Tools']
   }

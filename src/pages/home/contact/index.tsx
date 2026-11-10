@@ -110,7 +110,7 @@ export const Contact = () => {
             <Link
               to={`/projects/${highestPriorityProject.slug}`}
               unstyled
-              data-cursor={`View ${highestPriorityProject.title}`}
+              data-cursor="Step inside"
               className="group relative -mx-5 block overflow-hidden border-b border-background/25 px-5 py-11 md:mx-0 md:px-0 md:py-14">
               <span className="absolute inset-x-0 top-0 flex h-1" aria-hidden="true">
                 <span className="w-1/4 bg-[#ff583d]" />
@@ -130,11 +130,11 @@ export const Contact = () => {
               </div>
 
               <span className="flex items-end justify-between gap-6">
-                <span
-                  className="footer-project-title relative w-fit whitespace-nowrap"
-                  data-signal
-                  data-signal-color="#6c4eff">
-                  View project.
+                <span className="min-w-0" data-signal data-signal-color="#6c4eff">
+                  <span className="footer-project-title relative block w-fit">Step inside.</span>
+                  <span className="mt-4 block max-w-xl text-base font-medium leading-relaxed text-background/65 md:text-lg">
+                    See the product, the decisions, and the details behind the build.
+                  </span>
                 </span>
                 <ArrowUpRight
                   className="mb-1 size-10 shrink-0 stroke-[1.5] transition-transform duration-300 group-hover:rotate-45 group-focus-visible:rotate-45 motion-reduce:transition-none md:size-14"

@@ -29,14 +29,14 @@ describe('ProjectService', () => {
 
   it('exposes the deliberate recruiter-facing priority ranking', () => {
     expect(projects.map((project) => project.slug)).toEqual([
+      'findafew',
       'uevent',
       'webster',
       'chronos',
       'usof',
-      'portfolio',
       'citywheels'
     ]);
-    expect(ProjectService.getPriorityRank('uevent')).toBe(1);
+    expect(ProjectService.getPriorityRank('uevent')).toBe(2);
     expect(ProjectService.getPriorityRank('citywheels')).toBe(6);
     expect(ProjectService.getPriorityRank('missing-project')).toBeUndefined();
   });
@@ -44,7 +44,7 @@ describe('ProjectService', () => {
   it('advances through project footers by priority and wraps to the strongest project', () => {
     expect(ProjectService.getNextPriorityProject('uevent')?.slug).toBe('webster');
     expect(ProjectService.getNextPriorityProject('webster')?.slug).toBe('chronos');
-    expect(ProjectService.getNextPriorityProject('citywheels')?.slug).toBe('uevent');
-    expect(ProjectService.getNextPriorityProject('missing-project')?.slug).toBe('uevent');
+    expect(ProjectService.getNextPriorityProject('citywheels')?.slug).toBe('findafew');
+    expect(ProjectService.getNextPriorityProject('missing-project')?.slug).toBe('findafew');
   });
 });

@@ -11,7 +11,6 @@ import {
   getDiscoveryStructuredData,
   notFoundDiscoveryRoute,
   SITE_DESCRIPTION,
-  SITE_IMAGE,
   SITE_NAME,
   SITE_URL
 } from './src/data/discovery';
@@ -274,6 +273,6 @@ export default defineConfig({
   },
   server: {
     port: 3000,
-    strictPort: true
+    strictPort: false
   }
 });

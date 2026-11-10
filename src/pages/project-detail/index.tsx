@@ -8,6 +8,7 @@ import {
   Database,
   Github,
   Layers3,
+  LockKeyhole,
   Maximize2,
   Minimize2,
   Monitor,
@@ -945,18 +946,28 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   useEffect(() => {
     const video = videoRef.current;
+    if (video) video.muted = isDemoMuted;
+  }, [activeDemo, isDemoMuted]);
+
+  useEffect(() => {
+    const video = videoRef.current;
     if (!video) return;
-    video.muted = isDemoMuted;
     if (isDemoPlaying) {
+      // A video that is already playing never fires `playing` again, so only a start shows the buffering state.
+      if (!video.paused) return;
       setDemoMediaStatus((status) => (status === 'error' ? status : 'buffering'));
-      void video.play().catch(() => {
+      void video.play().catch((error: unknown) => {
+        // An interrupted start (a pause, a switch, the element being replaced) is not a failure, and a blocked
+        // autoplay just stays paused; the video's own error event reports media that cannot play.
+        const name = error instanceof DOMException ? error.name : '';
+        if (name === 'AbortError' || videoRef.current !== video) return;
         setIsDemoPlaying(false);
-        setDemoMediaStatus('error');
+        setDemoMediaStatus(name === 'NotAllowedError' ? 'ready' : 'error');
       });
     } else {
       video.pause();
     }
-  }, [activeDemo, isDemoMuted, isDemoPlaying]);
+  }, [activeDemo, isDemoPlaying]);
 
   useEffect(() => {
     const updateFullscreenState = () => setIsDemoFullscreen(document.fullscreenElement === demoFrameRef.current);
@@ -986,11 +997,13 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <div className="content-shell px-5 pb-8 pt-8 md:px-8 md:pb-12 md:pt-8 lg:px-12">
             <div className="border-y border-current/25">
               <div className="flex min-h-14 items-center justify-between gap-6 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                <span>
+                {/* Insets leave room for the header controls that rest in this row at the top. */}
+                <span className="whitespace-nowrap pl-14">
                   Case study {String(currentProjectRank ?? 1).padStart(2, '0')} /{' '}
                   {String(projectCount).padStart(2, '0')}
                 </span>
-                <span className="text-right">
+                {/* On phones the progress bar below carries this count. */}
+                <span className="hidden whitespace-nowrap pr-14 text-right sm:inline">
                   Viewed {String(visitedProjectCount).padStart(2, '0')} / {String(projectCount).padStart(2, '0')}
                 </span>
               </div>
@@ -1028,8 +1041,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 <dl className="border-t border-current/25">
                   {[
                     ['Scope', project.category],
-                    ['Year', project.year],
+                    ['Year', project.yearRange ?? project.year],
                     ['Status', project.status],
+                    ['Code', `${project.stats.linesOfCode} lines`],
                     ['Coverage', `${technologyGroups.length} parts of the product`]
                   ].map(([label, value]) => (
                     <div
@@ -1066,23 +1080,33 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                   />
                 </a>
               )}
-              {project.github.map((repo) => (
-                <a
-                  key={repo.link}
-                  href={repo.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-signal
-                  data-signal-color={accent.background}
-                  className="group inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 hover:text-foreground md:min-h-12 md:border-r-0 md:px-0">
-                  <Github className="size-4" aria-hidden="true" />
-                  {repo.name}
-                  <ArrowUpRight
-                    className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
-                    aria-hidden="true"
-                  />
-                </a>
-              ))}
+              {project.github.map((repo) =>
+                repo.private ? (
+                  <span
+                    key={repo.link}
+                    className="inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 md:min-h-12 md:border-r-0 md:px-0">
+                    <LockKeyhole className="size-4" aria-hidden="true" />
+                    {repo.name}
+                    <span className="text-xs font-semibold uppercase tracking-[0.08em]">Private</span>
+                  </span>
+                ) : (
+                  <a
+                    key={repo.link}
+                    href={repo.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-signal
+                    data-signal-color={accent.background}
+                    className="group inline-flex min-h-14 items-center gap-2 border-r border-current/25 px-3 font-bold text-muted-foreground last:border-r-0 hover:text-foreground md:min-h-12 md:border-r-0 md:px-0">
+                    <Github className="size-4" aria-hidden="true" />
+                    {repo.name}
+                    <ArrowUpRight
+                      className="size-3.5 transition-transform group-hover:rotate-45 motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </a>
+                )
+              )}
             </div>
           </div>
         </section>
@@ -1783,14 +1807,14 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           </span>
           <div className="content-shell flex flex-1 flex-col justify-between py-12 md:py-16">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#f4f2ed]/55">
-              06 / 06 · Portfolio viewed
+              {String(projectCount).padStart(2, '0')} / {String(projectCount).padStart(2, '0')} · Portfolio viewed
             </p>
             <div className="project-journey-message">
               <h2 className="max-w-[9ch] text-[clamp(3.75rem,8vw,6rem)] font-black leading-[0.82] tracking-[-0.04em]">
                 Thank you<span className="text-[#ff583d]">.</span>
               </h2>
               <p className="mt-7 max-w-md text-xl font-semibold leading-relaxed text-[#f4f2ed]/70">
-                You made it through all six projects. If one sparked an idea, I&apos;d love to hear about it.
+                You made it through all {projectCount} projects. If one sparked an idea, I&apos;d love to hear about it.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-x-7 gap-y-3">

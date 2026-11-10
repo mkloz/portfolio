@@ -1,4 +1,4 @@
-import { Calendar, Grid3X3, Move, RefreshCw, Repeat, UserCheck } from 'lucide-react';
+import { CalendarDays, LayoutDashboard, Mail, Move, Repeat, UserCheck } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -7,74 +7,48 @@ export const chronosProject: Project = {
   // Basic info
   title: 'Chronos',
   slug: 'chronos',
-  description: 'A calendar app for planning events and sharing schedules with other people.',
+  description:
+    'A shared calendar with drag-and-drop scheduling, recurring events, role-based sharing, and public holidays imported for any country.',
   highlights: [
     {
-      title: 'Clear interface',
-      description: 'The calendar stays easy to read and use across different screen sizes',
-      icon: Calendar,
-      stats: '100% responsive'
-    },
-    {
-      title: 'Four calendar views',
-      description: 'People can move between month, week, day, and agenda views',
-      icon: Grid3X3,
-      stats: '4 views'
-    },
-    {
-      title: 'Move events directly',
-      description: 'Events can be rescheduled by dragging them to a new time',
+      title: 'Drag, drop, and resize',
+      description: 'Move an event to a new slot, or drag its edge to change how long it runs, right in the week view',
       icon: Move,
-      stats: 'Instant'
-    },
-    {
-      title: 'Shared calendars',
-      description: 'People can share calendars while keeping control of who can make changes',
-      icon: UserCheck,
-      stats: 'Team ready'
+      stats: 'Direct editing'
     },
     {
       title: 'Recurring events',
-      description: 'Repeating events support custom schedules and one-off changes',
+      description: 'Repeat by the minute, hour, day, week, month, or year, with a custom interval and count',
       icon: Repeat,
-      stats: 'Smart rules'
+      stats: '6 frequencies'
     },
     {
-      title: 'Live sync',
-      description: 'Calendar changes appear across connected devices as they happen',
-      icon: RefreshCw,
-      stats: '< 50ms sync'
+      title: 'Role-based sharing',
+      description: 'Calendars are private, shared, or public, with owner, admin, and member roles',
+      icon: UserCheck,
+      stats: '3 roles'
+    },
+    {
+      title: 'Invitations',
+      description: 'Invite people to a calendar or an event by email, and they accept or decline in the app',
+      icon: Mail,
+      stats: 'Email invites'
+    },
+    {
+      title: 'Holidays for any country',
+      description:
+        'Pick a country and its public holidays appear as their own calendar, pulled from the Nager.Date API',
+      icon: CalendarDays,
+      stats: 'Automatic'
+    },
+    {
+      title: 'Three views and a dashboard',
+      description: 'Week, month, and year views, plus a dashboard of upcoming events and charts by category',
+      icon: LayoutDashboard,
+      stats: 'Week / month / year'
     }
   ],
-  technologies: [
-    // Core Technologies (Most Important)
-    'React',
-    'Nest.js',
-    'PostgreSQL',
-    'TS',
-    'Prisma',
-    'Redis',
-    'AWS S3',
-    'Docker',
-    'Tailwind CSS',
-    'Day.js',
-    // Supporting Technologies
-    'Vite',
-    'Zustand',
-    'React Query',
-    'ShadCN',
-    'Node.js',
-    'JWT',
-    'Swagger',
-    'WebSockets',
-    'ESLint',
-    'Prettier',
-    'Axios',
-    'PostCSS',
-    'Zod',
-    'OpenAPI',
-    'Jest'
-  ],
+  technologies: ['React', 'NestJS', 'PostgreSQL', 'TypeScript', 'Prisma', 'Redis', 'AWS S3', 'Docker'],
   liveDemo: 'https://chronos.mkloz.com',
   github: [
     { name: 'Frontend', link: 'https://github.com/mkloz/chronos-frontend' },
@@ -86,49 +60,52 @@ export const chronosProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Plan your time together.',
+  tagline: 'One calendar for everyone you plan with.',
   longDescription:
-    'Chronos helps people plan events and coordinate shared calendars. It includes four calendar views, repeating events, live updates, and account access.',
+    'Chronos is a shared calendar built from the ground up. Events can be dragged, resized, and repeated on any schedule, calendars are shared with roles and email invitations, and each country’s public holidays can be imported in one step.',
   image: {
     light: '/project-media/chronos/chronos-light.webp',
     dark: '/project-media/chronos/chronos-dark.webp'
   },
   status: 'Completed',
   category: 'Full-Stack',
-  duration: '2 months',
+  duration: '1 month',
 
   // Technical details
   detailedTechnologies: [
-    technologies.typescript,
-    technologies.docker,
     technologies.react,
-    technologies.postgresql,
-    technologies.aws,
-    technologies.zustand,
-    technologies.nestjs,
     technologies.vite,
-    technologies.prisma,
-    technologies.redis,
+    technologies.reactrouter,
+    technologies.tanstackquery,
+    technologies.zustand,
+    technologies.reacthookform,
     technologies.tailwind,
-    technologies.eslint,
+    technologies.radixui,
+    technologies.shadcn,
+    technologies.recharts,
+    technologies.nestjs,
+    technologies.prisma,
+    technologies.jwt,
+    technologies.reactemail,
+    technologies.nodemailer,
+    technologies.pino,
+    {
+      name: 'Nager.Date API',
+      category: 'Backend'
+    },
+    technologies.postgresql,
+    technologies.redis,
+    technologies.docker,
+    technologies.awss3,
     technologies.nginx,
     technologies.vercel,
-    technologies.git,
-    technologies.prettier,
-    technologies.nodejs,
-    {
-      name: 'KY',
-      category: 'Frontend'
-    },
-    technologies.jwt,
     technologies.swagger,
-    technologies.reactquery,
-    {
-      name: 'Day.js',
-      category: 'Frontend'
-    },
-    technologies.zod,
-    technologies.shadcn
+    technologies.eslint,
+    technologies.prettier,
+    technologies.husky,
+    technologies.git,
+    technologies.typescript,
+    technologies.zod
   ],
 
   developmentJourney: {
@@ -136,165 +113,92 @@ export const chronosProject: Project = {
       {
         id: 'planning',
         title: 'Planning the calendar',
-        duration: '1 week',
-        technologies: ['System Design', 'Database Design', 'API Planning'],
+        duration: 'Week 1',
+        technologies: ['System design', 'Database design', 'API design'],
         decisions: [
           {
-            decision: 'NestJS over Express',
-            reasoning: 'Its built-in structure helped keep a larger API organised'
+            decision: 'Build the calendar views in-house',
+            reasoning: 'Ready-made calendar libraries were too rigid for drag, resize, and a year view'
           },
           {
-            decision: 'Build the calendar instead of using a ready-made library',
-            reasoning: 'Existing options were too rigid for the interactions I wanted to support'
-          },
-          {
-            decision: 'Use Day.js over Moment.js',
-            reasoning: 'Smaller bundle size and a direct component API'
+            decision: 'NestJS with Prisma',
+            reasoning: 'Modules keep a growing API organised, and Prisma keeps every query type-safe'
           }
         ],
-        achievements: [
-          'System architecture design',
-          'Database schema planning with relationships',
-          'API endpoint specification',
-          'Detailed features description',
-          'Technology stack finalization'
-        ]
+        achievements: ['Designed the schema for calendars, events, recurrence, invitations, and per-calendar roles']
       },
       {
         id: 'database',
-        title: 'Organising calendar data',
-        duration: '1 week',
+        title: 'Modelling time',
+        duration: 'Week 1',
         technologies: ['PostgreSQL', 'Prisma', 'Redis', 'AWS S3'],
         decisions: [
           {
-            decision: 'Redis for caching',
-            reasoning: 'Frequently used calendar data needed faster access'
+            decision: 'Store a recurrence rule, not copies',
+            reasoning: 'One row describes the pattern, and the server expands the occurrences when events are read'
           },
           {
-            decision: 'AWS S3 for file storage',
-            reasoning: 'Storage for event attachments and user avatars'
-          },
-          {
-            decision: 'PostgreSQL for database',
-            reasoning: 'Calendar events and permissions depend on clear relationships between records'
+            decision: 'Keep refresh tokens in Redis',
+            reasoning: 'Sessions expire on their own and can be revoked instantly'
           }
         ],
         achievements: [
-          'Indexed the database for quicker calendar queries',
-          'Redis caching layer implementation',
-          'File upload system with S3 integration',
-          'Database migration and seeding scripts',
-          'Query optimization for calendar views'
+          'Three visibility levels and owner, admin, and member roles per calendar',
+          'Avatars stored in AWS S3'
         ]
       },
       {
         id: 'backend',
         title: 'Building the API',
-        duration: '2 weeks',
-        technologies: [
-          'Nest.js',
-          'TypeScript',
-          'Prisma',
-          'PostgreSQL',
-          'JWT',
-          'Swagger',
-          'Zod',
-          'OpenAPI',
-          'Docker',
-          'Redis'
-        ],
+        duration: 'Weeks 1–4',
+        technologies: ['NestJS', 'Prisma', 'JWT', 'React Email', 'Pino', 'Swagger'],
         decisions: [
           {
-            decision: 'React Mails for email sending',
-            reasoning: 'It made account and calendar emails straightforward to build'
+            decision: 'Import holidays from an external API',
+            reasoning: 'Nager.Date supplies each country’s public holidays, stored as their own calendar per year'
           },
           {
-            decision: 'Prisma over TypeORM',
-            reasoning: 'TypeScript integration and database tooling'
-          },
-          {
-            decision: 'JWT for authentication',
-            reasoning: 'It keeps authentication separate from any one client application'
+            decision: 'Log in structured JSON with Pino',
+            reasoning: 'Every request leaves a searchable trail without slowing the API down'
           }
         ],
         achievements: [
-          'RESTful API with 30+ endpoints',
-          'Input validation with Zod',
-          'Swagger API documentation',
-          'Global error handler',
-          'Role-based access control',
-          'Email sending with React Mails'
+          'Calendar and event invitations delivered as React Email messages',
+          'JWT authentication, rate limiting, and Helmet security headers',
+          'Every endpoint documented in Swagger'
         ]
       },
       {
         id: 'frontend',
         title: 'Building the interface',
-        duration: '3 weeks',
-        technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Zustand', 'React Query', 'Day.js', 'ShadCN'],
+        duration: 'Weeks 1–4',
+        technologies: ['React', 'TanStack Query', 'Zustand', 'ShadCN', 'Recharts'],
         decisions: [
           {
-            decision: 'Vite over Create React App',
-            reasoning: 'It kept local development and production builds quick'
-          },
-          {
-            decision: 'Zustand over Redux',
-            reasoning: 'Simpler state management with less boilerplate'
-          },
-          {
-            decision: 'React Query for server state',
-            reasoning: 'It keeps remote calendar data cached and in sync'
-          },
-          {
-            decision: 'Landing page',
-            reasoning: 'It introduces the product and gives people a clear way into the calendar'
+            decision: 'Split client and server state',
+            reasoning:
+              'Zustand remembers which calendars are shown between visits, and TanStack Query caches the events behind them'
           }
         ],
         achievements: [
-          'Responsive calendar interface with multiple views',
-          'Drag-and-drop event scheduling',
-          'Recurring events with custom schedules',
-          'Calendar sharing and collaboration features',
-          'Dark/light theme support',
-          'Easy auth process'
+          'Week, month, and year views with drag-to-move and drag-to-resize',
+          'A dashboard of upcoming events with charts by category',
+          'A filterable directory of public calendars to join',
+          'Responsive layouts for phone, tablet, and desktop'
         ]
       },
       {
         id: 'deployment',
-        title: 'Connecting and launching it',
-        duration: '1 day',
-        technologies: [
-          'Docker',
-          'Docker Compose',
-          'GitHub Actions',
-          'AWS',
-          'SSL',
-          'Nginx',
-          'PM2',
-          'Versel',
-          'Oracle Cloud',
-          'Azure'
-        ],
+        title: 'Launch',
+        duration: 'Week 4',
+        technologies: ['Docker', 'Nginx', 'AWS S3', 'Vercel'],
         decisions: [
           {
-            decision: 'Vercel for hosting',
-            reasoning: 'It gave the frontend a simple deployment path'
-          },
-          {
-            decision: 'Nginx for reverse proxy',
-            reasoning: 'It routes incoming traffic to the right service'
-          },
-          {
-            decision: 'PM2 for process management',
-            reasoning: 'It keeps the Node service running and restarts it after a failure'
+            decision: 'Containerise the API with Docker',
+            reasoning: 'The same image runs locally and in production behind Nginx over HTTPS'
           }
         ],
-        achievements: [
-          'Dockerized application with multi-stage builds',
-          'Environment-specific configurations',
-          'Production deployment on AWS, Oracle Cloud, and Azure',
-          'SSL certificate setup',
-          'Performance monitoring integration'
-        ]
+        achievements: ['Deployed the calendar to Vercel at chronos.mkloz.com']
       }
     ]
   },
@@ -351,10 +255,10 @@ export const chronosProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '15.8k',
+    linesOfCode: '14.9k',
     commits: '75',
     features: '25+',
-    technologies: '28+'
+    technologies: '31'
   },
   demo: [
     {

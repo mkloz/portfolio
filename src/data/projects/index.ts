@@ -3,7 +3,7 @@ import type { ElementType } from 'react';
 import type { Technology } from '../technologies';
 import { chronosProject } from './chronos';
 import { citywheelsProject } from './citywheels';
-import { portfolioProject } from './portfolio';
+import { findafewProject } from './findafew';
 import { ueventProject } from './uevent';
 import { usofProject } from './usof';
 import { websterProject } from './webster';
@@ -12,6 +12,8 @@ import { websterProject } from './webster';
 export interface GitHubLink {
   name: string;
   link: string;
+  /** Private repositories are named but never linked, so visitors never hit a 404. */
+  private?: boolean;
 }
 
 export interface KeyDecision {
@@ -91,6 +93,8 @@ export interface Project {
   website?: string;
   featured: boolean;
   year: number;
+  /** Shown instead of `year` on the case study when the work spans years. */
+  yearRange?: string;
   progress: number;
 
   // Detailed info
@@ -116,11 +120,11 @@ export interface Project {
  * next-case-study path in project footers.
  */
 export const projects: Project[] = [
+  findafewProject,
   ueventProject,
   websterProject,
   chronosProject,
   usofProject,
-  portfolioProject,
   citywheelsProject
 ];
 
