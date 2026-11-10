@@ -89,6 +89,11 @@ type SystemCanvasEffectProps = EffectProps & {
   color?: string;
 };
 
+// The canvas components default their root to `position: relative` inline,
+// which beats positioning classes. A system effect is a background layer, so
+// it must stay out of flow or it pushes the panel content out of view.
+const SYSTEM_EFFECT_LAYER: CSSProperties = { position: 'absolute', inset: 0 };
+
 const SystemEffectFallback = ({ children, className, variant, color }: SystemCanvasEffectProps) => {
   const host = useRef<HTMLDivElement>(null);
   const updatePointer = (event: PointerEvent<HTMLDivElement>) => {
@@ -135,6 +140,7 @@ export const SystemCanvasEffect = ({
       <Suspense fallback={null}>
         <ParticleReveal
           className={cn('canvas-system-effect', className)}
+          style={SYSTEM_EFFECT_LAYER}
           radius={320}
           softness={0.52}
           size={1.25}
@@ -157,6 +163,7 @@ export const SystemCanvasEffect = ({
       <Suspense fallback={null}>
         <DecryptReveal
           className={cn('canvas-system-effect', className)}
+          style={SYSTEM_EFFECT_LAYER}
           radius={330}
           softness={0.5}
           cell={9}
@@ -189,6 +196,7 @@ export const SystemCanvasEffect = ({
     <Suspense fallback={null}>
       <Grid
         className={cn('canvas-system-effect', className)}
+        style={SYSTEM_EFFECT_LAYER}
         tileSize={108}
         gap={2}
         cornerRadius={0}

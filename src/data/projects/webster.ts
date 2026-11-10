@@ -1,4 +1,4 @@
-import { Download, FolderOpen, Palette, Zap } from 'lucide-react';
+import { Download, FolderOpen, Palette, Pipette, Share2, Undo2 } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -7,7 +7,8 @@ export const websterProject: Project = {
   // Basic info
   title: 'Webster',
   slug: 'webster',
-  description: 'A browser-based design tool for creating and exporting visual work on a flexible canvas.',
+  description:
+    'A browser design editor built on Konva: draw, lay out images and text, undo anything, and export to PNG, JPG, or PDF.',
   image: {
     dark: '/project-media/webster/webster-dark.webp',
     light: '/project-media/webster/webster-light.webp'
@@ -15,58 +16,43 @@ export const websterProject: Project = {
 
   highlights: [
     {
-      title: 'Browser-based canvas',
-      description: 'People can arrange shapes, images, and text directly in the browser',
+      title: 'A real canvas editor',
+      description: 'Draw freehand, add shapes, text, and images, then move, resize, and rotate anything',
       icon: Palette,
-      stats: '60 FPS'
+      stats: 'Konva'
     },
     {
-      title: 'Saved assets',
-      description: 'Uploaded assets stay organised and easy to find',
+      title: 'Undo, redo, and shortcuts',
+      description: 'A history stack, pan and zoom, and keyboard shortcuts keep editing fast',
+      icon: Undo2,
+      stats: 'History'
+    },
+    {
+      title: 'Colour tools',
+      description: 'A colour picker with an eyedropper that samples any colour on screen',
+      icon: Pipette,
+      stats: 'Eyedropper'
+    },
+    {
+      title: 'Saved projects and templates',
+      description: 'Designs save with a thumbnail and reopen where you left off, or start from a preset or template',
       icon: FolderOpen,
-      stats: 'Cloud sync'
+      stats: 'Templates'
     },
     {
-      title: 'Flexible export',
-      description: 'Finished designs can be exported in several formats and resolutions',
+      title: 'Export at any size',
+      description: 'Export PNG, JPG, or PDF at a chosen scale and quality',
       icon: Download,
-      stats: '5 formats'
+      stats: 'PNG / JPG / PDF'
     },
     {
-      title: 'Smooth editing',
-      description: 'The canvas stays responsive while handling hundreds of design elements',
-      icon: Zap,
-      stats: '1000+ objects'
+      title: 'Share with a link',
+      description: 'Publish a design as an image with a public link anyone can open',
+      icon: Share2,
+      stats: 'Public link'
     }
   ],
-  technologies: [
-    // Core Technologies (Most Important)
-    'React',
-    'Konva',
-    'Nest.js',
-    'PostgreSQL',
-    'TypeScript',
-    'Prisma',
-    'Redis',
-    'AWS S3',
-    'Docker',
-    'Tailwind CSS',
-    // Supporting Technologies
-    'Vite',
-    'Zustand',
-    'React Konva',
-    'ShadCN',
-    'React Hook Form',
-    'React Query',
-    'Node.js',
-    'JWT',
-    'Swagger',
-    'React Router',
-    'Zod',
-    'ESLint',
-    'Prettier',
-    'React Mail'
-  ],
+  technologies: ['React', 'Konva', 'NestJS', 'PostgreSQL', 'TypeScript', 'Prisma', 'Redis', 'AWS S3', 'Docker'],
   liveDemo: 'https://webster.mkloz.com',
   github: [
     { name: 'Frontend', link: 'https://github.com/mkloz/webster-frontend' },
@@ -78,42 +64,45 @@ export const websterProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Create freely, right in the browser.',
+  tagline: 'A design studio in a browser tab.',
   longDescription:
-    'Webster is a browser-based design editor. People can arrange content on a flexible canvas, manage projects and assets, reuse templates, and export finished work.',
+    'Webster is a browser design editor. People draw and arrange shapes, text, and images on a canvas, undo freely, save projects, start from templates, and export or share finished work.',
   status: 'Completed',
   category: 'Full-Stack',
-  duration: '1.5 months',
+  duration: '1 month',
 
   // Technical details
   detailedTechnologies: [
-    technologies.typescript,
-    technologies.docker,
     technologies.react,
-    technologies.postgresql,
-    technologies.aws,
-    technologies.zustand,
-    technologies.nestjs,
     technologies.vite,
-    technologies.prisma,
-    technologies.redis,
-    technologies.tailwind,
-    technologies.eslint,
-    technologies.nodejs,
-    technologies.jwt,
-    technologies.swagger,
-    technologies.reactquery,
-    technologies.reacthookform,
+    technologies.konva,
     technologies.reactrouter,
+    technologies.tanstackquery,
+    technologies.zustand,
+    technologies.reacthookform,
+    technologies.tailwind,
+    technologies.radixui,
     technologies.shadcn,
-    technologies.zod,
+    technologies.jspdf,
+    technologies.nestjs,
+    technologies.prisma,
+    technologies.jwt,
+    technologies.googleoauth,
+    technologies.reactemail,
+    technologies.nodemailer,
+    technologies.postgresql,
+    technologies.redis,
+    technologies.docker,
+    technologies.awss3,
+    technologies.nginx,
+    technologies.vercel,
+    technologies.swagger,
+    technologies.eslint,
     technologies.prettier,
-    {
-      name: 'KY',
-      category: 'Frontend'
-    },
+    technologies.husky,
     technologies.git,
-    technologies.vercel
+    technologies.typescript,
+    technologies.zod
   ],
 
   developmentJourney: {
@@ -121,117 +110,80 @@ export const websterProject: Project = {
       {
         id: 'design',
         title: 'Planning the editor',
-        duration: '1 week',
-        technologies: ['System Design', 'Canvas Architecture', 'API Planning', 'UI/UX Desig', 'Research'],
+        duration: 'Week 1',
+        technologies: ['System design', 'Canvas architecture', 'Interaction design'],
         decisions: [
           {
-            decision: 'Konva.js for canvas rendering',
-            reasoning: 'It handles complex shapes smoothly and works well with React'
+            decision: 'Render with Konva',
+            reasoning: 'Its scene graph gives hit detection, transforms, and layers, and react-konva fits it into React'
           },
           {
-            decision: 'Keep the editor interface simple',
-            reasoning: 'The canvas should stay central while the controls remain easy to find'
-          },
-          {
-            decision: 'Frontend focus',
-            reasoning: 'The editor was the core experience, so it received most of the build time'
+            decision: 'Cut scope to the editor',
+            reasoning:
+              'No real-time collaboration or mobile layout in the first release, so the time went into the canvas itself'
           }
         ],
         achievements: [
-          'Canvas-based editor architecture design',
-          'Design editor architecture design',
-          'UI and interaction design',
-          'Technology stack finalization'
+          'Split the editor into one module per tool: draw, shape, text, image, and select',
+          'Planned a NestJS API behind Nginx with PostgreSQL, Redis, and S3'
         ]
       },
       {
         id: 'backend',
         title: 'Building the API',
-        duration: '1 week',
-        technologies: ['Nest.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'JWT', 'Swagger', 'React Mail'],
+        duration: 'Weeks 1–2',
+        technologies: ['NestJS', 'Prisma', 'PostgreSQL', 'JWT', 'Google OAuth', 'Swagger'],
         decisions: [
           {
-            decision: 'Save canvas state as JSON',
-            reasoning: 'It keeps each design portable and straightforward to restore'
+            decision: 'Store the canvas as JSON',
+            reasoning: 'A PostgreSQL JSON column keeps each design portable and restores it exactly'
           },
           {
-            decision: 'PostgreSQL for database',
-            reasoning: 'Relational storage with JSON support'
-          },
-          {
-            decision: 'No tablet and mobile support',
-            reasoning: 'The first release focused on the larger screens used for detailed design work'
+            decision: 'Upload images to S3',
+            reasoning: 'Imported images and shared exports live outside the database and the server'
           }
         ],
         achievements: [
-          'JWT-based authentication system',
-          'Swagger API documentation',
-          'Share design with others',
-          'Export design as PNG, SVG, PDF',
-          'Keyboard shortcuts and hotkeys',
-          'Auto save and project switch'
+          'Project API with pagination, thumbnails, and public share links',
+          'Email and Google sign-in, with sessions in Redis',
+          'Documented every endpoint in Swagger'
         ]
       },
       {
         id: 'frontend',
         title: 'Building the canvas editor',
-        duration: '4 weeks',
-        technologies: [
-          'React',
-          'TypeScript',
-          'Konva',
-          'React Konva',
-          'Zustand',
-          'Tailwind CSS',
-          'ShadCN',
-          'React Hook Form',
-          'React Query',
-          'React Router'
-        ],
+        duration: 'Weeks 1–4',
+        technologies: ['React', 'Konva', 'Zustand', 'TanStack Query', 'ShadCN', 'jsPDF'],
         decisions: [
           {
-            decision: 'Keep the controls clear and accessible',
-            reasoning: 'People should be able to start designing without learning a complicated interface'
+            decision: 'Keep editor state in small Zustand stores',
+            reasoning:
+              'Shapes, tool options, and history live in separate stores, so each part of the UI subscribes only to what it needs'
           },
           {
-            decision: 'Multiple themes',
-            reasoning: 'People can choose the workspace that feels more comfortable'
-          },
-          {
-            decision: 'No real-time collaboration',
-            reasoning: 'I kept the scope centred on making the editor itself useful'
+            decision: 'Keep the controls out of the way',
+            reasoning: 'The canvas stays central, and every tool is one click or one shortcut away'
           }
         ],
         achievements: [
-          'Canvas-based design editor with layer management',
-          'Detailed design tools and shape controls',
-          'A clear interface with an easy-to-find tool palette',
-          'Drag-and-drop functionality',
-          'Keyboard shortcuts and hotkeys',
-          'Undo/redo system implementation'
+          'Freehand drawing, shapes, text, and image layers with resize and rotate handles',
+          'Undo and redo, pan and zoom, and keyboard shortcuts',
+          'An eyedropper colour picker, size presets, and templates',
+          'Export to PNG, JPG, and PDF at a chosen scale'
         ]
       },
       {
         id: 'deployment',
-        title: 'Preparing for launch',
-        duration: '2 days',
-        technologies: ['Docker', 'AWS S3', 'Nginx', 'Linux', 'SSH', 'PM2', 'Oracle Cloud'],
+        title: 'Launch',
+        duration: 'Week 5',
+        technologies: ['Docker', 'Nginx', 'AWS S3', 'Vercel'],
         decisions: [
           {
-            decision: 'Linux for server',
-            reasoning: 'It provides a predictable environment for deployment and scaling'
-          },
-          {
-            decision: 'Backup on failure',
-            reasoning: 'The service needs a clear recovery path after an outage or attack'
+            decision: 'Containerise the API with Docker',
+            reasoning: 'The same image runs locally and in production behind Nginx over HTTPS'
           }
         ],
-        achievements: [
-          'Secured the network',
-          'Tested the service under load',
-          'Prepared the architecture to scale',
-          'Added a recovery path'
-        ]
+        achievements: ['Deployed the editor to Vercel at webster.mkloz.com']
       }
     ]
   },
@@ -288,10 +240,10 @@ export const websterProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '20.1k',
+    linesOfCode: '19.4k',
     commits: '50+',
     features: '20+',
-    technologies: '24+'
+    technologies: '30'
   },
   demo: [
     {

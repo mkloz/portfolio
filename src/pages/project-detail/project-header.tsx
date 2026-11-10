@@ -28,9 +28,13 @@ export const ProjectHeader = () => {
     };
   }, []);
 
+  // At the very top the controls sit in the hero's case-study row, then glide
+  // to the corners once scrolling starts, as the home header does.
+  const settleClassName = progress > 0.005 ? 'translate-y-0' : 'translate-y-[1.4375rem]';
+
   return (
     <>
-      <div className="reactive-header-control fixed left-5 top-4 z-50 md:left-8 lg:left-12">
+      <div className={`reactive-header-control fixed left-5 top-4 z-50 md:left-8 lg:left-12 ${settleClassName}`}>
         <Tooltip>
           <TooltipTrigger asChild>
             <span className="inline-flex">
@@ -54,7 +58,7 @@ export const ProjectHeader = () => {
         </Tooltip>
       </div>
 
-      <div className="reactive-header-control fixed right-5 top-4 z-50 md:right-8 lg:right-12">
+      <div className={`reactive-header-control fixed right-5 top-4 z-50 md:right-8 lg:right-12 ${settleClassName}`}>
         <ThemeToggle />
       </div>
 

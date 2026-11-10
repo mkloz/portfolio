@@ -1,4 +1,4 @@
-import { Package, ShoppingCart, TrendingUp, User } from 'lucide-react';
+import { Gauge, MessageSquareText, Search, ShieldCheck, ShoppingCart, User } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -7,62 +7,49 @@ export const citywheelsProject: Project = {
   // Basic info
   title: 'Citywheels',
   slug: 'citywheels',
-  description: 'An online shop for browsing vehicles, checking out, and managing products and orders.',
+  description:
+    'A vehicle web store with a Next.js storefront and a NestJS API, deployed by a pipeline that tests against a real MySQL database first.',
   image: '/project-media/citywheels/hero.webp',
   highlights: [
     {
-      title: 'Online shopping',
-      description: 'People can browse products, fill a basket, check out, and follow their order',
+      title: 'Catalogue and search',
+      description: 'Browse bikes, scooters, skateboards, and more by category, or search by keyword',
+      icon: Search,
+      stats: 'Categories'
+    },
+    {
+      title: 'Cart and orders',
+      description: 'Add to the cart, change quantities, place orders, and look back at past ones',
       icon: ShoppingCart,
-      stats: 'Full featured'
+      stats: 'Order history'
     },
     {
-      title: 'Stock management',
-      description: 'Stock levels stay current, with alerts when a product is running low',
-      icon: Package,
-      stats: 'Auto alerts'
+      title: 'Product reviews',
+      description: 'Customers review products to help the next buyer decide',
+      icon: MessageSquareText,
+      stats: 'Reviews'
     },
     {
-      title: 'Search-friendly pages',
-      description: 'Server-rendered product pages load quickly and are easier for search engines to read',
-      icon: TrendingUp,
-      stats: '95+ score'
-    },
-    {
-      title: 'Customer accounts',
-      description: 'Customers can revisit orders, save favourites, and manage their details',
+      title: 'Accounts and favourites',
+      description: 'Email or Google sign-in, a profile, and a list of saved favourites',
       icon: User,
-      stats: 'Personalized'
+      stats: 'Google sign-in'
+    },
+    {
+      title: 'Admin roles',
+      description: 'Admins manage products, users, and orders through role-protected endpoints',
+      icon: ShieldCheck,
+      stats: 'Role-based'
+    },
+    {
+      title: 'Server-rendered storefront',
+      description: 'Next.js renders product pages on the server, with optimised images and light and dark themes',
+      icon: Gauge,
+      stats: 'SSR'
     }
   ],
 
-  technologies: [
-    // Core Technologies (Most Important)
-    'Next.js',
-    'React',
-    'NestJS',
-    'MySQL',
-    'TypeScript',
-    'Prisma',
-    'Stripe',
-    'Docker',
-    'Tailwind CSS',
-    'AWS',
-    // Supporting Technologies
-    'Node.js',
-    'GitHub Actions',
-    'React Query',
-    'Zustand',
-    'ShadCN',
-    'Zod',
-    'Jest',
-    'ESLint',
-    'Prettier',
-    'JavaScript',
-    'Axios',
-    'Vercel',
-    'Oracle Cloud'
-  ],
+  technologies: ['Next.js', 'React', 'NestJS', 'MySQL', 'TypeScript', 'Prisma', 'Docker', 'GitHub Actions'],
   liveDemo: 'https://citywheels.mkloz.com',
   github: [
     { name: 'Frontend', link: 'https://github.com/mkloz/citywheels-frontend' },
@@ -74,157 +61,128 @@ export const citywheelsProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Find the right ride online.',
+  tagline: 'Wheels for every ride, ordered online.',
   longDescription:
-    'Citywheels is an online shop for bicycles, skateboards, scooters, and related products. Customers can browse, buy, and manage orders, while staff can look after products and stock.',
+    'Citywheels sells bicycles, scooters, skateboards, and more. Customers browse, search, review, and order through a server-rendered Next.js storefront, while a NestJS API handles accounts, carts, orders, and admin work, deployed only after its tests pass against MySQL.',
   status: 'Completed',
   category: 'Full-Stack',
-  duration: '2.5 months',
+  duration: '2023 – 2024',
 
   // Technical details
   detailedTechnologies: [
-    technologies.typescript,
-    technologies.docker,
-    technologies.react,
-    technologies.mysql,
-    technologies.aws,
-    technologies.zustand,
     technologies.nextjs,
-    technologies.vite,
-    technologies.prisma,
-    technologies.nestjs,
+    technologies.react,
     technologies.tailwind,
-    technologies.eslint,
-    technologies.zod,
-    technologies.axios,
+    technologies.radixui,
+    technologies.shadcn,
+    technologies.reacthookform,
+    technologies.nestjs,
+    technologies.prisma,
+    technologies.jwt,
+    technologies.googleoauth,
+    technologies.nodemailer,
+    technologies.handlebars,
+    technologies.mysql,
+    technologies.docker,
+    technologies.githubactions,
+    technologies.awss3,
+    technologies.nginx,
+    {
+      name: 'PM2',
+      category: 'DevOps'
+    },
     technologies.jest,
-    technologies.nodejs,
-    technologies.javascript,
-    technologies.prettier
+    technologies.supertest,
+    technologies.swagger,
+    technologies.eslint,
+    technologies.prettier,
+    technologies.husky,
+    technologies.git,
+    technologies.typescript,
+    technologies.zod,
+    technologies.axios
   ],
 
   developmentJourney: {
     steps: [
       {
         id: 'design',
-        title: 'Planning the shop',
-        duration: '2 weeks',
-        technologies: ['Figma'],
+        title: 'Designing the store',
+        duration: 'Jul 2023',
+        technologies: ['Figma', 'Database design'],
         decisions: [
           {
-            decision: 'Figma for design',
-            reasoning: 'Figma supported interface planning and prototyping'
+            decision: 'Model the store relationally',
+            reasoning:
+              'Products, carts, orders, reviews, and customers all depend on each other, so MySQL with Prisma fits'
           },
           {
-            decision: 'SQL database',
-            reasoning: 'Products, orders, stock, and customers have clear relationships'
-          },
-          {
-            decision: 'Start with the core store data',
-            reasoning: 'The first schema focused on the records needed to browse, buy, and fulfil an order'
+            decision: 'Design in Figma first',
+            reasoning: 'The shopping pages, colours, and components were settled before any code'
           }
         ],
-        achievements: [
-          'Design system with consistent UI components',
-          'Designed the main shopping pages',
-          'Prepared responsive layouts',
-          'Defined consistent button styles',
-          'Defined the site colour palette'
-        ]
+        achievements: ['A design system and responsive layouts for the main shopping pages']
       },
       {
         id: 'backend',
         title: 'Building the API',
-        duration: '3 weeks',
-        technologies: ['Node.js', 'NestJS', 'Prisma', 'MySQL', 'JWT', 'Jest', 'TypeScript'],
+        duration: 'Jul 2023 – 2024',
+        technologies: ['NestJS', 'Prisma', 'MySQL', 'JWT', 'Google OAuth', 'Jest'],
         decisions: [
           {
-            decision: 'TypeScript over JavaScript',
-            reasoning: 'Types make product and order changes safer to work with'
+            decision: 'NestJS modules per store domain',
+            reasoning: 'Products, cart, orders, reviews, users, and auth each own their logic'
           },
           {
-            decision: 'NestJS over Express.js',
-            reasoning: "Its built-in structure suited the store's growing order and inventory rules"
-          },
-          {
-            decision: 'MySQL over PostgreSQL',
-            reasoning: 'Team familiarity and hosting infrastructure compatibility'
+            decision: 'Test against a real database',
+            reasoning: 'Jest and Supertest run end-to-end requests against MySQL, so tests catch what mocks would miss'
           }
         ],
         achievements: [
-          'REST API for the application workflows',
-          'JWT-based authentication system',
-          'Role-based access control (RBAC)',
-          'API documentation',
-          'Unit and integration testing with Jest',
-          'Database schema design and optimization'
+          'JWT and Google authentication with admin roles',
+          'Product images in AWS S3, and email through Handlebars templates',
+          'Rate limiting, health checks, and Swagger documentation',
+          'Hourly database backups on a schedule'
         ]
       },
       {
         id: 'frontend',
         title: 'Building the storefront',
-        duration: '4 weeks',
-        technologies: [
-          'Next.js',
-          'React',
-          'TypeScript',
-          'Tailwind CSS',
-          'ShadCN',
-          'Zod',
-          'React Query',
-          'Axios',
-          'Zustand'
-        ],
+        duration: 'Jul – Aug 2024',
+        technologies: ['Next.js', 'React', 'Tailwind CSS', 'ShadCN', 'React Hook Form', 'Zod'],
         decisions: [
           {
-            decision: 'Next.js over Create React App',
-            reasoning: 'Server-rendered product pages load quickly and are easier for search engines to read'
+            decision: 'Render with Next.js',
+            reasoning: 'Server-rendered product pages load fast and are easy for search engines to read'
           },
           {
-            decision: 'ShadCN UI over custom components',
-            reasoning: 'It provided consistent, accessible controls without rebuilding every basic component'
-          },
-          {
-            decision: 'Zod for form validation',
-            reasoning: 'The same typed rules can check forms before data reaches the API'
+            decision: 'Validate forms with Zod',
+            reasoning: 'Typed rules catch bad input before a request is sent'
           }
         ],
         achievements: [
-          'Responsive design system with Tailwind CSS',
-          'Type-safe form handling with Zod validation',
-          'Accessible UI components with ShadCN',
-          'Responsive image handling with Next.js Image',
-          'SEO-friendly routing and meta tags'
+          'Catalogue, product pages, cart, favourites, and order history',
+          'Optimised images, carousels, and light and dark themes'
         ]
       },
-
       {
         id: 'deployment',
-        title: 'Testing and launch',
-        duration: '1 week',
-        technologies: ['Docker', 'GitHub Actions', 'AWS', 'Vercel'],
+        title: 'CI/CD and hosting',
+        duration: '2023 – 2024',
+        technologies: ['GitHub Actions', 'Docker', 'Nginx', 'PM2'],
         decisions: [
           {
-            decision: 'Docker containerization',
-            reasoning: 'The application runs in the same environment during development and deployment'
+            decision: 'Gate every deploy on tests',
+            reasoning:
+              'Each push to main lints, builds, migrates a MySQL 8 service container, and runs the tests before anything ships'
           },
           {
-            decision: 'GitHub Actions for CI/CD',
-            reasoning: 'Tests and deployments follow the same repeatable process on every change'
-          },
-          {
-            decision: 'Vercel for frontend, AWS for backend',
-            reasoning: 'Each part of the product could run on hosting suited to its needs'
+            decision: 'Deploy from a self-hosted runner',
+            reasoning:
+              'A runner on the production server pulls the build, runs migrations, and restarts the app under PM2'
           }
         ],
-        achievements: [
-          'Containerized application with Docker',
-          'Automated CI/CD pipeline with GitHub Actions',
-          'Production deployment on AWS and Vercel',
-          'Environment-specific configurations',
-          'Monitoring and logging setup',
-          'Database backup and recovery procedures'
-        ]
+        achievements: ['Nginx in front of the API with HTTPS', 'Docker Compose setups for development and testing']
       }
     ]
   },
@@ -284,7 +242,7 @@ export const citywheelsProject: Project = {
     linesOfCode: '18.4k',
     commits: '95',
     features: '30+',
-    technologies: '18+'
+    technologies: '28'
   },
   demo: [
     {

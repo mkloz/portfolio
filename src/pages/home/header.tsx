@@ -28,7 +28,7 @@ export const Header = () => {
   return (
     <>
       <div
-        className={`reactive-header-control fixed right-5 top-4 z-50 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none md:right-8 lg:right-12 ${
+        className={`reactive-header-control fixed right-5 top-4 z-50 md:right-8 lg:right-12 ${
           progress > 0.005 ? 'translate-y-0' : 'translate-y-[3.375rem]'
         }`}>
         <ThemeToggle />

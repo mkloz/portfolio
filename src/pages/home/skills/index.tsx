@@ -14,14 +14,50 @@ const CATEGORIES = [
     ...SYSTEM_EFFECT_META.Frontend,
     icon: Code2,
     image: '/editorial/system-frontend-960.webp',
-    technologies: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Next.js', 'Zustand']
+    technologies: [
+      'React',
+      'TypeScript',
+      'Next.js',
+      'Vite',
+      'TanStack Router',
+      'TanStack Query',
+      'React Router',
+      'Zustand',
+      'React Hook Form',
+      'Tailwind CSS',
+      'Radix UI',
+      'ShadCN',
+      'Framer Motion',
+      'GSAP',
+      'Konva',
+      'Recharts',
+      'Google Maps API',
+      'PWA'
+    ]
   },
   {
     name: 'Backend',
     ...SYSTEM_EFFECT_META.Backend,
     icon: ServerCog,
     image: '/editorial/system-backend.webp',
-    technologies: ['Node.js', 'NestJS', 'Prisma', 'Express', 'JWT', 'Socket.IO']
+    technologies: [
+      'Node.js',
+      'NestJS',
+      'Express',
+      'Prisma',
+      'Socket.IO',
+      'OpenAI API',
+      'Stripe Connect',
+      'JWT',
+      'Google OAuth',
+      'Web Push',
+      'Zod',
+      'React Email',
+      'Nodemailer',
+      'Handlebars',
+      'Pino',
+      'Cron jobs'
+    ]
   },
   {
     name: 'Database',
@@ -35,14 +71,51 @@ const CATEGORIES = [
     ...SYSTEM_EFFECT_META.DevOps,
     icon: CloudCog,
     image: '/editorial/system-devops.webp',
-    technologies: ['Docker', 'AWS', 'Nginx', 'GitHub Actions', 'Cloudflare Pages', 'Linux']
+    technologies: [
+      'Docker',
+      'Docker Compose',
+      'GitHub Actions',
+      'Nginx',
+      'Linux',
+      'AWS',
+      'AWS S3',
+      'Oracle Cloud',
+      'Cloudflare Pages',
+      'Vercel',
+      'PM2',
+      'OpenTelemetry',
+      'Sentry',
+      'CodeQL',
+      'Gitleaks'
+    ]
   },
   {
     name: 'Tools',
     ...SYSTEM_EFFECT_META.Tools,
     icon: Wrench,
     image: '/editorial/system-tools.webp',
-    technologies: ['Git', 'ESLint', 'Prettier', 'Jest', 'Swagger']
+    technologies: [
+      'Claude Code',
+      'Codex',
+      'v0',
+      'Git',
+      'Vitest',
+      'Jest',
+      'Playwright',
+      'Testing Library',
+      'Supertest',
+      'Testcontainers',
+      'Pact',
+      'MSW',
+      'axe-core',
+      'Lighthouse',
+      'Swagger',
+      'ESLint',
+      'Biome',
+      'Oxlint',
+      'Prettier',
+      'Husky'
+    ]
   }
 ] as const;
 
@@ -158,6 +231,10 @@ export const Skills = () => {
                   className="size-full object-cover motion-safe:animate-in motion-safe:fade-in motion-safe:duration-500"
                 />
               </SystemCanvasEffect>
+              <span
+                className="pointer-events-none absolute inset-0 z-[2] bg-linear-to-r from-[#080808]/90 from-30% via-[#080808]/70 via-60% to-transparent"
+                aria-hidden="true"
+              />
               <div
                 key={active.name}
                 className="system-panel-content pointer-events-none relative z-10 flex min-h-[24rem] max-w-[82%] flex-col justify-end p-5 sm:max-w-[58%] md:min-h-[36rem] md:max-w-[52%] md:p-10">

@@ -93,6 +93,8 @@ export interface Project {
   website?: string;
   featured: boolean;
   year: number;
+  /** Shown instead of `year` on the case study when the work spans years. */
+  yearRange?: string;
   progress: number;
 
   // Detailed info

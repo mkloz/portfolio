@@ -1,3 +1,4 @@
+import { Instagram } from 'lucide-react';
 import type { MouseEvent as ReactMouseEvent, PointerEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -26,7 +27,10 @@ type PortraitParticle = {
 type PortraitController = {
   move: (x: number, y: number) => void;
   leave: () => void;
-  pulse: (x: number, y: number) => void;
+  press: (x: number, y: number) => void;
+  release: () => void;
+  cancel: () => void;
+  snap: (x: number, y: number) => void;
 };
 
 const particleHash = (column: number, row: number) => {
@@ -37,6 +41,8 @@ const particleHash = (column: number, row: number) => {
 export const PortraitSignal = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controllerRef = useRef<PortraitController | null>(null);
+  const activePointerRef = useRef<number | null>(null);
+  const activeKeyRef = useRef<string | null>(null);
   const statusRef = useRef('Move / click');
   const [status, setStatus] = useState('Move / click');
 
@@ -50,12 +56,13 @@ export const PortraitSignal = () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const particles: PortraitParticle[] = [];
     const pointer = { x: 0, y: 0, active: false };
-    const pulse = { x: 0, y: 0, startedAt: -1 };
+    const magnet = { startedAt: -1, releasedAt: -1, held: false, amount: 0, velocity: 0, x: 0, y: 0 };
     const size = { width: 1, height: 1, dpr: 1 };
     const lastSize = { width: 0, height: 0 };
     let portrait: HTMLImageElement | null = null;
     let animationFrame: number | null = null;
     let assemblyStartedAt = -1;
+    let lastFrameAt = 0;
     let disposed = false;
 
     const updateStatus = (nextStatus: string) => {
@@ -65,6 +72,8 @@ export const PortraitSignal = () => {
     };
 
     const draw = (now: number) => {
+      const elapsed = Math.min(0.032, Math.max(0, (now - (lastFrameAt || now - 16.667)) / 1000));
+      lastFrameAt = now;
       context.setTransform(size.dpr, 0, 0, size.dpr, 0, 0);
       context.clearRect(0, 0, size.width, size.height);
       context.fillStyle = PAPER;
@@ -85,11 +94,31 @@ export const PortraitSignal = () => {
         context.stroke();
       }
 
-      const pulseAge = pulse.startedAt < 0 ? Number.POSITIVE_INFINITY : now - pulse.startedAt;
-      const pulseRadius = pulseAge * 0.42;
+      // Short taps get a perceptible pull; a held press stays gathered until release.
+      const releaseStartsAt = Math.max(magnet.releasedAt, magnet.startedAt + 100);
+      if (!magnet.held && magnet.startedAt >= 0 && now - releaseStartsAt >= 550) {
+        magnet.startedAt = -1;
+        magnet.amount = 0;
+        magnet.velocity = 0;
+        assemblyStartedAt = now;
+        updateStatus(pointer.active ? 'Displacing' : 'Signal stable');
+      }
+
+      const isSnapping = magnet.startedAt >= 0 && !reducedMotion.matches;
+      if (isSnapping) {
+        // A quick magnetic pull and elastic release, independent of refresh rate.
+        const target = magnet.held || now < releaseStartsAt ? 1 : 0;
+        const steps = Math.max(1, Math.ceil(elapsed / 0.004));
+        const step = elapsed / steps;
+        for (let index = 0; index < steps; index += 1) {
+          magnet.velocity += ((target - magnet.amount) * 600 - magnet.velocity * 28) * step;
+          magnet.amount += magnet.velocity * step;
+        }
+      }
+      const magneticRadius = Math.min(160, Math.max(90, size.width * 0.36));
       let movement = 0;
       const shouldSnapToSignal =
-        !pointer.active && pulse.startedAt < 0 && assemblyStartedAt >= 0 && now - assemblyStartedAt > 1450;
+        !pointer.active && magnet.startedAt < 0 && assemblyStartedAt >= 0 && now - assemblyStartedAt > 1450;
 
       particles.forEach((particle) => {
         if (shouldSnapToSignal || reducedMotion.matches) {
@@ -98,7 +127,7 @@ export const PortraitSignal = () => {
           particle.vx = 0;
           particle.vy = 0;
         } else {
-          if (pointer.active) {
+          if (pointer.active && !isSnapping) {
             const dx = particle.x - pointer.x;
             const dy = particle.y - pointer.y;
             const distance = Math.max(1, Math.hypot(dx, dy));
@@ -108,18 +137,6 @@ export const PortraitSignal = () => {
               const tangent = Math.sin(particle.phase + now * 0.003) * force * 0.45;
               particle.vx += (dx / distance) * force - (dy / distance) * tangent;
               particle.vy += (dy / distance) * force + (dx / distance) * tangent;
-            }
-          }
-
-          if (pulseAge < 920) {
-            const dx = particle.baseX - pulse.x;
-            const dy = particle.baseY - pulse.y;
-            const distance = Math.max(1, Math.hypot(dx, dy));
-            const waveDistance = Math.abs(distance - pulseRadius);
-            if (waveDistance < 34) {
-              const force = (1 - waveDistance / 34) * 2.75;
-              particle.vx += (dx / distance) * force;
-              particle.vy += (dy / distance) * force;
             }
           }
 
@@ -133,21 +150,20 @@ export const PortraitSignal = () => {
         }
 
         const pointerDistance = pointer.active ? Math.hypot(particle.x - pointer.x, particle.y - pointer.y) : 9999;
-        const pulseDistance = Math.abs(Math.hypot(particle.baseX - pulse.x, particle.baseY - pulse.y) - pulseRadius);
-        const isPointerSignal = pointer.active && pointerDistance < 94;
-        const isPulseSignal = pulseAge < 920 && pulseDistance < 42;
-        const signalStrength = isPointerSignal
-          ? Math.max(0, 1 - pointerDistance / 94)
-          : isPulseSignal
-            ? Math.max(0, 1 - pulseDistance / 42)
-            : 0;
+        const isPointerSignal = pointer.active && !isSnapping && pointerDistance < 94;
+        const signalStrength = isPointerSignal ? Math.max(0, 1 - pointerDistance / 94) : 0;
         const color = signalStrength > 0 ? SIGNAL_COLORS[particle.signal] : INK;
-        const isParticle = particle.kind === 'dot' || (isPulseSignal && particle.signal % 2 === 0);
+        const isParticle = particle.kind === 'dot';
         const sliceOffset =
-          pointer.active && pointerDistance < 132
+          pointer.active && !isSnapping && pointerDistance < 132
             ? Math.sin(particle.baseY * 0.17 + particle.phase) * signalStrength * 7
             : 0;
-        const drawX = particle.x + sliceOffset;
+        const magneticDistance = Math.hypot(particle.baseX - magnet.x, particle.baseY - magnet.y);
+        const proximity = Math.max(0, 1 - magneticDistance / magneticRadius);
+        const influence = proximity * proximity * (3 - 2 * proximity);
+        const pull = magnet.amount * influence * 0.85;
+        const drawX = particle.x + sliceOffset + (magnet.x - particle.baseX) * pull;
+        const drawY = particle.y + (magnet.y - particle.baseY) * pull;
 
         context.globalAlpha = 0.48 + Math.max(particle.density, particle.edge * 0.55) * 0.52;
         context.fillStyle = color;
@@ -159,11 +175,11 @@ export const PortraitSignal = () => {
           const drawDot = (x: number, fill: string) => {
             context.fillStyle = fill;
             context.beginPath();
-            context.arc(x, particle.y, radius, 0, Math.PI * 2);
+            context.arc(x, drawY, radius, 0, Math.PI * 2);
             context.fill();
           };
 
-          if (signalStrength === 0 && particle.edge > 0.4 && particle.signal < 2) {
+          if (!isSnapping && signalStrength === 0 && particle.edge > 0.4 && particle.signal < 2) {
             context.globalAlpha = 0.16;
             drawDot(drawX - 0.9, SIGNAL_COLORS[0]);
             drawDot(drawX + 0.9, SIGNAL_COLORS[2]);
@@ -186,13 +202,13 @@ export const PortraitSignal = () => {
             const channelShift = 1.5 + signalStrength * 3.5;
             context.globalAlpha = signalStrength * 0.42;
             context.fillStyle = SIGNAL_COLORS[(particle.signal + 1) % SIGNAL_COLORS.length];
-            context.fillText(particle.glyph, drawX - channelShift, particle.y);
+            context.fillText(particle.glyph, drawX - channelShift, drawY);
             context.fillStyle = SIGNAL_COLORS[(particle.signal + 2) % SIGNAL_COLORS.length];
-            context.fillText(particle.glyph, drawX + channelShift, particle.y);
+            context.fillText(particle.glyph, drawX + channelShift, drawY);
             context.globalAlpha = 0.46 + Math.max(particle.density, particle.edge) * 0.54;
             context.fillStyle = color;
           }
-          context.fillText(particle.glyph, drawX, particle.y);
+          context.fillText(particle.glyph, drawX, drawY);
         }
       });
 
@@ -202,7 +218,7 @@ export const PortraitSignal = () => {
         updateStatus('Signal stable');
       }
 
-      if (pointer.active && !reducedMotion.matches) {
+      if (pointer.active && !isSnapping && !reducedMotion.matches) {
         const radius = Math.min(112, Math.max(76, size.width * 0.21));
         context.strokeStyle = 'rgba(8, 8, 8, 0.36)';
         context.setLineDash([2, 7]);
@@ -212,18 +228,13 @@ export const PortraitSignal = () => {
         context.setLineDash([]);
       }
 
-      if (pulseAge >= 920 && pulse.startedAt >= 0) {
-        pulse.startedAt = -1;
-        assemblyStartedAt = now;
-        updateStatus('Reassembling');
-      }
-
       const shouldContinue =
-        !reducedMotion.matches && (pointer.active || pulse.startedAt >= 0 || movement > particles.length * 0.008);
+        !reducedMotion.matches && (pointer.active || magnet.startedAt >= 0 || movement > particles.length * 0.008);
       if (shouldContinue) {
         animationFrame = window.requestAnimationFrame(draw);
       } else {
         animationFrame = null;
+        lastFrameAt = 0;
         if (statusRef.current === 'Assembling' || statusRef.current === 'Reassembling') {
           updateStatus('Signal stable');
         }
@@ -334,38 +345,84 @@ export const PortraitSignal = () => {
       requestDraw();
     };
 
+    const press = (x: number, y: number) => {
+      if (reducedMotion.matches) {
+        updateStatus('Static signal');
+        return;
+      }
+      // Every press uses its own location, including clicks during the previous release.
+      magnet.x = x;
+      magnet.y = y;
+      magnet.startedAt = performance.now();
+      magnet.releasedAt = -1;
+      magnet.held = true;
+      pointer.x = x;
+      pointer.y = y;
+      updateStatus('Holding particles');
+      requestDraw();
+    };
+    const release = () => {
+      if (!magnet.held) return;
+      magnet.held = false;
+      magnet.releasedAt = performance.now();
+      updateStatus('Magnetic snap');
+      requestDraw();
+    };
+    const cancel = () => {
+      activePointerRef.current = null;
+      activeKeyRef.current = null;
+      pointer.active = false;
+      release();
+      requestDraw();
+    };
     controllerRef.current = {
       move: (x, y) => {
         if (reducedMotion.matches) return;
         pointer.x = x;
         pointer.y = y;
         pointer.active = true;
-        updateStatus('Displacing');
+        if (magnet.held) {
+          magnet.x = x;
+          magnet.y = y;
+        }
+        if (magnet.startedAt < 0) updateStatus('Displacing');
         requestDraw();
       },
       leave: () => {
         pointer.active = false;
         assemblyStartedAt = performance.now();
-        updateStatus('Reassembling');
+        if (magnet.startedAt < 0) updateStatus('Reassembling');
         requestDraw();
       },
-      pulse: (x, y) => {
-        if (reducedMotion.matches) {
-          updateStatus('Static signal');
-          return;
-        }
-        pulse.x = x;
-        pulse.y = y;
-        pulse.startedAt = performance.now();
-        updateStatus('Signal burst');
-        requestDraw();
+      press,
+      release,
+      cancel,
+      snap: (x, y) => {
+        press(x, y);
+        release();
       }
     };
 
     const resizeObserver = new ResizeObserver(rebuild);
     resizeObserver.observe(canvas);
-    const onMotionChange = () => rebuild();
+    const onMotionChange = () => {
+      if (reducedMotion.matches) {
+        cancel();
+        magnet.held = false;
+        magnet.startedAt = -1;
+        magnet.amount = 0;
+        magnet.velocity = 0;
+        pointer.active = false;
+        updateStatus('Static signal');
+      }
+      requestDraw();
+    };
     reducedMotion.addEventListener('change', onMotionChange);
+    window.addEventListener('blur', cancel);
+    const onVisibilityChange = () => {
+      if (document.hidden) cancel();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     const image = new Image();
     image.decoding = 'async';
@@ -383,6 +440,8 @@ export const PortraitSignal = () => {
       disposed = true;
       resizeObserver.disconnect();
       reducedMotion.removeEventListener('change', onMotionChange);
+      window.removeEventListener('blur', cancel);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
       controllerRef.current = null;
     };
@@ -397,20 +456,16 @@ export const PortraitSignal = () => {
   };
 
   const movePortrait = (event: PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerType === 'touch') return;
+    if (activePointerRef.current !== null && activePointerRef.current !== event.pointerId) return;
+    if (event.pointerType === 'touch' && activePointerRef.current === null) return;
     const point = localPoint(event);
     controllerRef.current?.move(point.x, point.y);
   };
 
-  const pulsePortrait = (event: ReactMouseEvent<HTMLButtonElement>) => {
+  const snapPortrait = (event: ReactMouseEvent<HTMLButtonElement>) => {
+    if (event.detail !== 0) return;
     const point = localPoint(event);
-    controllerRef.current?.pulse(point.x, point.y);
-    const bounds = event.currentTarget.getBoundingClientRect();
-    window.dispatchEvent(
-      new CustomEvent('portfolio:signal', {
-        detail: { x: bounds.left + point.x, y: bounds.top + point.y, color: '#ffd400' }
-      })
-    );
+    controllerRef.current?.snap(point.x, point.y);
   };
 
   return (
@@ -418,22 +473,64 @@ export const PortraitSignal = () => {
       <div className="grid grid-cols-[minmax(0,1fr)_3.5rem] border-y-2 border-current">
         <button
           type="button"
-          aria-label="MK portrait, displace and reassemble a code-rendered portrait of Mykhailo Kloz"
+          aria-label="Portrait of Mykhailo Kloz. Press and hold to gather particles; release to snap back."
           onPointerMove={movePortrait}
           onPointerLeave={() => controllerRef.current?.leave()}
           onPointerDown={(event) => {
-            if (event.pointerType !== 'touch') return;
+            event.stopPropagation();
+            if (
+              !event.isPrimary ||
+              event.button !== 0 ||
+              activePointerRef.current !== null ||
+              activeKeyRef.current !== null
+            )
+              return;
+            activePointerRef.current = event.pointerId;
+            event.currentTarget.setPointerCapture(event.pointerId);
             const point = localPoint(event);
-            controllerRef.current?.move(point.x, point.y);
+            controllerRef.current?.press(point.x, point.y);
           }}
           onPointerUp={(event) => {
-            if (event.pointerType === 'touch') controllerRef.current?.leave();
+            if (activePointerRef.current !== event.pointerId) return;
+            activePointerRef.current = null;
+            controllerRef.current?.release();
+            const bounds = event.currentTarget.getBoundingClientRect();
+            if (
+              event.pointerType === 'touch' ||
+              event.clientX < bounds.left ||
+              event.clientX > bounds.right ||
+              event.clientY < bounds.top ||
+              event.clientY > bounds.bottom
+            )
+              controllerRef.current?.leave();
           }}
-          onClick={pulsePortrait}
-          data-cursor="Displace"
+          onPointerCancel={() => controllerRef.current?.cancel()}
+          onLostPointerCapture={() => {
+            if (activePointerRef.current !== null) controllerRef.current?.cancel();
+          }}
+          onBlur={() => controllerRef.current?.cancel()}
+          onContextMenu={(event) => event.preventDefault()}
+          onKeyDown={(event) => {
+            if (event.key !== ' ' && event.key !== 'Enter') return;
+            event.preventDefault();
+            if (event.repeat || activeKeyRef.current !== null || activePointerRef.current !== null) return;
+            activeKeyRef.current = event.key;
+            const bounds = event.currentTarget.getBoundingClientRect();
+            controllerRef.current?.press(bounds.width / 2, bounds.height / 2);
+          }}
+          onKeyUp={(event) => {
+            if (event.key !== ' ' && event.key !== 'Enter') return;
+            event.preventDefault();
+            if (activeKeyRef.current !== event.key) return;
+            activeKeyRef.current = null;
+            controllerRef.current?.release();
+            controllerRef.current?.leave();
+          }}
+          onClick={snapPortrait}
+          data-cursor="Snap"
           data-signal
           data-signal-color="#ffd400"
-          className="relative block aspect-[5/4] w-full touch-pan-y overflow-hidden bg-[#ece7dc] text-left">
+          className="relative block aspect-[5/4] w-full touch-pan-y select-none overflow-hidden bg-[#ece7dc] text-left">
           <span
             className="absolute inset-0 flex items-center justify-center font-mono text-[clamp(3rem,12vw,6rem)] font-black tracking-[-0.08em] text-[#080808]/10"
             aria-hidden="true">
@@ -442,16 +539,19 @@ export const PortraitSignal = () => {
           <canvas ref={canvasRef} className="absolute inset-0 size-full" aria-hidden="true" />
         </button>
 
-        <div className="flex flex-col items-center justify-between bg-foreground py-4 text-background">
-          <span className="font-mono text-xs font-semibold uppercase tracking-[0.12em] [writing-mode:vertical-rl]">
-            Particle signal
+        <a
+          href="https://www.instagram.com/mykhailo.kloz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mykhailo Kloz on Instagram (opens in a new tab)"
+          title="Instagram"
+          data-cursor="Instagram"
+          className="flex min-w-11 flex-col items-center justify-between bg-foreground py-3 text-background transition-colors duration-200 hover:text-[#465bff] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#465bff] motion-reduce:transition-none sm:py-4">
+          <span className="font-mono text-xs font-semibold tracking-[0.12em] [writing-mode:vertical-rl]">
+            @mykhailo.kloz
           </span>
-          <span className="grid gap-2" aria-hidden="true">
-            {SIGNAL_COLORS.map((color) => (
-              <span key={color} className="size-2" style={{ backgroundColor: color }} />
-            ))}
-          </span>
-        </div>
+          <Instagram className="size-5" aria-hidden="true" />
+        </a>
       </div>
 
       <figcaption className="grid grid-cols-[1fr_auto] border-b border-current/25 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.08em]">

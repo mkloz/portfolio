@@ -1,4 +1,4 @@
-import { Bell, Building, CreditCard, MapPin, Search, Smartphone } from 'lucide-react';
+import { Bell, Building, CreditCard, MapPin, QrCode, Search } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -7,7 +7,8 @@ export const ueventProject: Project = {
   // Basic info
   title: 'UEvent',
   slug: 'uevent',
-  description: 'An event platform where people can find events, buy tickets, and get updates as plans change.',
+  description:
+    'An event platform where people find events on a map and buy tickets, and organisers get paid through their own Stripe accounts.',
   image: {
     dark: '/project-media/uevent/uevent-dark.webp',
     light: '/project-media/uevent/uevent-light.webp'
@@ -15,77 +16,44 @@ export const ueventProject: Project = {
 
   highlights: [
     {
-      title: 'Ticket payments',
-      description: 'People can buy tickets securely with Stripe, while the product verifies each payment',
+      title: 'Payouts with Stripe Connect',
+      description: 'Organisers connect their own Stripe account, so ticket money goes straight to them',
       icon: CreditCard,
-      stats: '100% secure'
+      stats: 'Stripe Connect'
     },
     {
-      title: 'Live updates',
-      description: 'People receive event updates as soon as something changes',
-      icon: Bell,
-      stats: '< 100ms'
+      title: 'QR-code tickets',
+      description: 'Tickets are issued once Stripe confirms the payment, each with a QR code for the door',
+      icon: QrCode,
+      stats: 'Verified'
     },
     {
-      title: 'Map-based discovery',
-      description: 'Maps help people find nearby events and understand where each venue is',
+      title: 'Events on a map',
+      description: 'Google Maps shows events nearby, and organisers pin each venue with a location picker',
       icon: MapPin,
-      stats: 'GPS accurate'
+      stats: 'Google Maps'
     },
     {
-      title: 'Organiser profiles',
-      description: 'Organisers can build a profile, publish events, manage them, and grow a following',
+      title: 'Organiser pages',
+      description: 'Companies publish events and news, run promo codes, and build a following',
       icon: Building,
-      stats: '500+ orgs'
+      stats: 'Promo codes'
     },
     {
-      title: 'Event search',
-      description: 'People can narrow events by location, category, date, and price',
+      title: 'Search that narrows fast',
+      description: 'Filter by text, format, theme, date range, and price, with filters kept in the URL',
       icon: Search,
-      stats: '10+ filters'
+      stats: 'Shareable'
     },
     {
-      title: 'Works across screens',
-      description: 'Finding an event and buying a ticket works on phones, tablets, and desktops',
-      icon: Smartphone,
-      stats: 'Mobile first'
+      title: 'Notifications that matter',
+      description: 'In-app and email updates for news, event changes, and replies, plus a reminder before each event',
+      icon: Bell,
+      stats: 'In-app + email'
     }
   ],
 
-  technologies: [
-    // Core Technologies (Most Important)
-    'Nest.js',
-    'React',
-    'PostgreSQL',
-    'TS',
-    'Prisma',
-    'Stripe',
-    'Redis',
-    'AWS S3',
-    'Docker',
-    // Frontend Technologies
-    'Tailwind CSS',
-    'Vite',
-    'Zustand',
-    'React Query',
-    'React Hook Form',
-    'ShadCN',
-    // Backend Technologies
-    'Node.js',
-    'JWT',
-    'Swagger',
-    'OpenAPI',
-    'WebSockets',
-    'Google Maps API',
-    // Development & Testing
-    'ESLint',
-    'Prettier',
-    'Zod',
-    'Axios',
-    'PostCSS',
-    'Day.js',
-    'Jest'
-  ],
+  technologies: ['NestJS', 'React', 'PostgreSQL', 'TypeScript', 'Prisma', 'Stripe', 'Redis', 'AWS S3', 'Docker'],
   liveDemo: 'https://uevent.mkloz.com',
   github: [
     { name: 'Frontend', link: 'https://github.com/mkloz/uevent-frontend' },
@@ -97,42 +65,45 @@ export const ueventProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Find events. Bring people together.',
+  tagline: 'Events, tickets, and payouts in one place.',
   longDescription:
-    'UEvent helps people discover local events, buy tickets, and stay updated. Organisers can publish events, manage attendees, and receive payments in the same product.',
+    'UEvent helps people find events on a map, buy tickets, and follow organisers. Organisers connect their own Stripe account, publish events and news, run promo codes, and manage attendees in the same product.',
   status: 'Completed',
   category: 'Full-Stack',
-  duration: '2 months',
+  duration: '1 month',
 
   // Technical details
   detailedTechnologies: [
-    technologies.typescript,
-    technologies.docker,
     technologies.react,
-    technologies.postgresql,
-    technologies.aws,
-    technologies.zustand,
-    technologies.nestjs,
     technologies.vite,
-    technologies.prisma,
-    technologies.redis,
-    technologies.tailwind,
-    technologies.eslint,
-    technologies.nodejs,
-    technologies.jwt,
-    technologies.swagger,
-    technologies.reactquery,
+    technologies.reactrouter,
+    technologies.tanstackquery,
+    technologies.zustand,
     technologies.reacthookform,
+    technologies.tailwind,
+    technologies.radixui,
     technologies.shadcn,
-    technologies.zod,
-    technologies.prettier,
-    {
-      name: 'KY',
-      category: 'Frontend'
-    },
-    technologies.vercel,
+    technologies.googlemaps,
+    technologies.nestjs,
+    technologies.prisma,
+    technologies.jwt,
+    technologies.googleoauth,
+    technologies.stripe,
+    technologies.reactemail,
+    technologies.nodemailer,
+    technologies.postgresql,
+    technologies.redis,
+    technologies.docker,
+    technologies.awss3,
     technologies.nginx,
-    technologies.git
+    technologies.vercel,
+    technologies.swagger,
+    technologies.eslint,
+    technologies.prettier,
+    technologies.husky,
+    technologies.git,
+    technologies.typescript,
+    technologies.zod
   ],
 
   developmentJourney: {
@@ -140,156 +111,112 @@ export const ueventProject: Project = {
       {
         id: 'planning',
         title: 'Planning the product',
-        duration: '1 week',
-        technologies: [
-          'System Design',
-          'Database Design',
-          'API Planning',
-          'CI/CD Pipeline',
-          'Docker',
-          'Linux',
-          'UI/UX Design'
-        ],
+        duration: 'Week 1',
+        technologies: ['System design', 'Database design', 'API design'],
         decisions: [
           {
-            decision: 'Google Maps API for location-based event discovery',
-            reasoning: 'It gives people a familiar way to search by location and inspect venues'
+            decision: 'Pay organisers through Stripe Connect',
+            reasoning: 'Ticket money goes to each organiser’s own account, so the platform never holds their funds'
           },
           {
-            decision: 'Google OAuth for authentication',
-            reasoning: 'It makes sign-in quicker for people who already use a Google account'
+            decision: 'Put discovery on a map',
+            reasoning: 'People usually choose events by where they are, so location comes first'
           },
           {
-            decision: 'Stripe for payment processing',
-            reasoning: 'It handles card payments, webhooks, and payment checks in one service'
+            decision: 'Offer Google sign-in',
+            reasoning: 'One click removes the biggest barrier before someone can buy a ticket'
           }
         ],
         achievements: [
-          'System architecture design',
-          'Database schema with 15+ entities',
-          'API endpoint planning (40+ endpoints)',
-          'Technology stack finalization',
-          'Docker containerization',
-          'UI/UX design'
+          'Designed the schema for users, companies, events, tickets, payments, comments, and notifications',
+          'Planned a NestJS API behind Nginx with PostgreSQL, Redis, S3, and Stripe'
         ]
       },
       {
         id: 'database',
         title: 'Organising data and payments',
-        duration: '1 week',
-        technologies: ['PostgreSQL', 'Prisma', 'Stripe', 'AWS S3', 'Linux'],
+        duration: 'Weeks 1–2',
+        technologies: ['PostgreSQL', 'Prisma', 'Redis', 'AWS S3', 'Stripe'],
         decisions: [
           {
-            decision: 'AWS S3 for file storage',
-            reasoning: 'Event images needed durable storage outside the application server'
+            decision: 'Trust Stripe webhooks, not the browser',
+            reasoning: 'Tickets are issued only after a signed checkout webhook confirms the payment'
           },
           {
-            decision: 'Shadow database for Stripe integration',
-            reasoning: 'It keeps payment work separate as the product grows'
+            decision: 'Store images in AWS S3',
+            reasoning: 'Event and company images stay durable and off the application server'
           },
           {
-            decision: 'Redis for authentication sessions',
-            reasoning: 'Sessions need fast reads and predictable expiry'
+            decision: 'Keep sessions in Redis',
+            reasoning: 'Refresh tokens expire on their own, and signing out of every device takes one delete'
           }
         ],
         achievements: [
-          'Complex database relationships optimization',
-          'Stripe payment integration for ticket purchases',
-          'File upload system with AWS S3',
-          'Database indexing for performance',
-          'Payment webhook handling'
+          'Modelled the platform in Prisma on PostgreSQL',
+          'Synced organiser promo codes with Stripe coupons and promotion codes',
+          'Tracked organiser onboarding through Stripe account webhooks'
         ]
       },
       {
         id: 'backend',
         title: 'Building the API',
-        duration: '3 weeks',
-        technologies: ['Nest.js', 'TypeScript', 'Prisma', 'PostgreSQL', 'JWT', 'Swagger', 'React Mail', 'Zod'],
+        duration: 'Weeks 1–4',
+        technologies: ['NestJS', 'Prisma', 'JWT', 'Google OAuth', 'React Email', 'Swagger'],
         decisions: [
           {
-            decision: 'React Mail for email notifications',
-            reasoning: 'It made notification emails straightforward to build and maintain'
+            decision: 'Separate modules per domain',
+            reasoning: 'Events, companies, tickets, payments, comments, and notifications evolve independently'
           },
           {
-            decision: 'Position sensitive search for event discovery',
-            reasoning: 'Search results need to reflect the area a person is interested in'
-          },
-          {
-            decision: 'Stripe marketplace for event creation',
-            reasoning: 'It supports recurring payments from event creators'
+            decision: 'Build emails with React Email',
+            reasoning: 'Templates are typed components, so emails stay consistent and easy to change'
           }
         ],
         achievements: [
-          '40+ RESTful API endpoints',
-          'JWT-based authentication system',
-          'Role-based authorization (User, Company, Admin)',
-          'Swagger API documentation',
-          'Data validation with Zod schemas',
-          'Error handling middleware'
+          'Event search by text, format, theme, date range, and price',
+          'In-app and email notifications, with scheduled reminders before each event',
+          'Rate limiting, Helmet headers, health checks, and Swagger documentation'
         ]
       },
       {
         id: 'frontend',
         title: 'Building the interface',
-        duration: '3 weeks',
-        technologies: [
-          'React',
-          'TypeScript',
-          'Tailwind CSS',
-          'Vite',
-          'Zustand',
-          'React Query',
-          'ShadCN',
-          'React Hook Form'
-        ],
+        duration: 'Weeks 1–4',
+        technologies: ['React', 'TanStack Query', 'Zustand', 'React Hook Form', 'ShadCN', 'Google Maps API'],
         decisions: [
           {
-            decision: 'Landing page with animated background and interactive elements',
-            reasoning: 'It gives the product a distinctive first impression without hiding the main actions'
+            decision: 'Keep search filters in the URL',
+            reasoning: 'A filtered search can be shared, bookmarked, and restored with the back button'
           },
           {
-            decision: 'Event discovery page with filtering and sorting',
-            reasoning: 'Filters and sorting help people find a relevant event faster'
-          },
-          {
-            decision: 'Theme and color scheme',
-            reasoning: 'Shared colours and components keep the experience consistent'
+            decision: 'Build on a shared component system',
+            reasoning: 'ShadCN and Tailwind keep every page consistent across phone, tablet, and desktop'
           }
         ],
         achievements: [
-          'React application built with hooks',
-          'Responsive design system with Tailwind CSS',
-          'Event discovery with filtering',
-          'User profile management',
-          'Company profile pages with following system',
-          'Event creation and management system'
+          'Event pages, an events map, QR-code tickets, and profiles',
+          'Company pages with news, followers, and promo codes',
+          'Organiser tools to create events and manage attendees'
         ]
       },
       {
         id: 'deployment',
-        title: 'Testing and launch',
-        duration: '1 day',
-        technologies: ['Docker', 'AWS', 'Linux', 'CI/CD Pipeline', 'Nginx', 'PM2', 'Vercel', 'Oracle Cloud', 'SSH'],
+        title: 'Launch',
+        duration: 'Week 5',
+        technologies: ['Docker', 'Nginx', 'Vercel'],
         decisions: [
           {
-            decision: 'Oracle Cloud for production deployment',
-            reasoning: 'It provided a home for the production services'
+            decision: 'Containerise the API with Docker',
+            reasoning: 'The same image runs locally and in production'
           },
           {
-            decision: 'Nginx for reverse proxy',
-            reasoning: 'It routes traffic to the frontend and API'
-          },
-          {
-            decision: 'PM2 for process management',
-            reasoning: 'It keeps both Node services running and restarts them after a failure'
+            decision: 'Serve the API through Nginx over HTTPS',
+            reasoning: 'Nginx terminates TLS and routes traffic to the NestJS server'
           }
         ],
         achievements: [
-          'Performance optimization',
-          'Security audit and fixes',
-          'Logs and monitoring',
-          'Automated deployment pipeline',
-          'SSH for remote access'
+          'Deployed the frontend to Vercel at uevent.mkloz.com',
+          'Ran lint and format checks on every commit with Husky'
         ]
       }
     ]
@@ -347,10 +274,10 @@ export const ueventProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '29.1k',
+    linesOfCode: '28.7k',
     commits: '100+',
     features: '35+',
-    technologies: '28+'
+    technologies: '30'
   },
   demo: [
     {

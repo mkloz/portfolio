@@ -1,4 +1,4 @@
-import { Edit, FileText, LayoutDashboard, MessageSquare, ThumbsUp, UserCircle } from 'lucide-react';
+import { Archive, DatabaseBackup, FileText, MessageSquare, ShieldCheck, ThumbsUp } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -7,7 +7,8 @@ export const usofProject: Project = {
   // Basic info
   title: 'Usof',
   slug: 'usof',
-  description: 'A community app for publishing posts, joining discussions, and voting on what matters.',
+  description:
+    'A community forum for posts, comments, and voting, on a hand-built Express API with database-level karma and automated backups.',
   image: {
     dark: '/project-media/usof/usof-dark.webp',
     light: '/project-media/usof/usof-light.webp'
@@ -15,74 +16,44 @@ export const usofProject: Project = {
 
   highlights: [
     {
-      title: 'Community discussions',
-      description: 'People can publish posts, comment, and take part in topic-based communities',
+      title: 'Posts, comments, and categories',
+      description: 'Publish posts by category, discuss them in comments with emoji, and save favourites',
       icon: MessageSquare,
-      stats: 'Social ready'
+      stats: 'Community'
     },
     {
-      title: 'Community voting',
-      description: "Votes shape post rankings and contribute to each person's karma",
+      title: 'Votes and karma',
+      description: 'Every like or dislike updates post, comment, and author ratings through MySQL triggers',
       icon: ThumbsUp,
-      stats: 'Real-time'
+      stats: 'SQL triggers'
     },
     {
-      title: 'Writing posts',
-      description: 'A rich text editor supports longer posts and Markdown formatting',
-      icon: Edit,
-      stats: 'Rich editor'
+      title: 'Content that tidies itself',
+      description: 'A scheduled job archives posts that have had no new comments for a month',
+      icon: Archive,
+      stats: 'Every 12 h'
     },
     {
-      title: 'Personal profiles',
-      description: 'Profiles bring together activity, karma, and account settings',
-      icon: UserCircle,
-      stats: 'Full profiles'
+      title: 'Automated backups',
+      description: 'The data is dumped every hour, with the schema and triggers on their own schedules',
+      icon: DatabaseBackup,
+      stats: 'Hourly'
     },
     {
-      title: 'Works across screens',
-      description: 'The interface adapts to desktop and mobile use',
-      icon: LayoutDashboard,
-      stats: 'Clean UI/UX'
+      title: 'Secure accounts',
+      description: 'Email verification and password reset with one-time codes, JWT sessions, and rate limiting',
+      icon: ShieldCheck,
+      stats: 'One-time codes'
     },
     {
       title: 'Documented API',
-      description: 'Interactive documentation makes each API route easier to understand and test',
+      description: 'An OpenAPI specification with Swagger UI covers every route',
       icon: FileText,
-      stats: '25+ endpoints'
+      stats: 'OpenAPI'
     }
   ],
 
-  technologies: [
-    // Core Technologies (Most Important)
-    'React',
-    'Node.js',
-    'Express',
-    'MySQL',
-    'TypeScript',
-    'Prisma',
-    'AWS S3',
-    'Docker',
-    // Frontend Technologies
-    'Tailwind CSS',
-    'Vite',
-    'Zustand',
-    'React Query',
-    'React Hook Form',
-    'React Router',
-    'ShadCN',
-    // Backend Technologies
-    'Swagger',
-    'JWT',
-    // Development & Testing
-    'ESLint',
-    'Prettier',
-    'Zod',
-    'Axios',
-    'Day.js',
-    'JavaScript',
-    'Nodemon',
-    'Azure'
-  ],
+  technologies: ['React', 'Node.js', 'Express', 'MySQL', 'TypeScript', 'Prisma', 'AWS S3', 'Docker'],
   liveDemo: 'https://usof.mkloz.com',
   github: [
     { name: 'Frontend', link: 'https://github.com/mkloz/usof-frontend' },
@@ -94,195 +65,126 @@ export const usofProject: Project = {
   progress: 100,
 
   // Detailed info
-  tagline: 'Share ideas. Join the conversation.',
+  tagline: 'Ask, answer, and earn your reputation.',
   longDescription:
-    'Usof is a community app for sharing posts and joining discussions. People can comment, vote, follow their activity, and build karma as they take part.',
+    'Usof is a community forum where people post by category, comment, vote, and build karma. The Express API is built without a framework, ratings stay consistent through MySQL triggers, and scheduled jobs back up the database and archive stale posts.',
   status: 'Completed',
   category: 'Full-Stack',
-  duration: '2.5 months',
+  duration: '4 months',
 
   // Technical details
   detailedTechnologies: [
-    technologies.typescript,
-    technologies.docker,
     technologies.react,
-    technologies.mysql,
-    technologies.aws,
-    technologies.zustand,
-    technologies.express,
     technologies.vite,
-    technologies.prisma,
-    technologies.redis,
-    technologies.tailwind,
-    technologies.eslint,
-    technologies.nodejs,
-    technologies.jwt,
-    technologies.swagger,
-    technologies.reactquery,
-    technologies.reacthookform,
     technologies.reactrouter,
+    technologies.tanstackquery,
+    technologies.zustand,
+    technologies.reacthookform,
+    technologies.tailwind,
+    technologies.radixui,
     technologies.shadcn,
-    technologies.zod,
+    technologies.nodejs,
+    technologies.express,
+    technologies.prisma,
+    technologies.jwt,
+    technologies.nodemailer,
+    technologies.handlebars,
+    {
+      name: 'Cron jobs',
+      category: 'Backend'
+    },
+    technologies.mysql,
+    technologies.docker,
+    technologies.awss3,
+    technologies.nginx,
+    technologies.vercel,
+    technologies.swagger,
+    technologies.eslint,
     technologies.prettier,
-    technologies.axios,
-    technologies.azure,
-    technologies.git
+    technologies.husky,
+    technologies.git,
+    technologies.typescript,
+    technologies.zod,
+    technologies.axios
   ],
 
   developmentJourney: {
     steps: [
       {
-        id: 'planning',
-        title: 'Planning the community',
-        duration: '1 week',
-        technologies: ['System Design', 'Database Design', 'API Planning', 'UI/UX Design', 'Field Research'],
-        decisions: [
-          {
-            decision: 'Separate repositories for the frontend and API',
-            reasoning: 'Each service could be deployed and worked on independently'
-          },
-          {
-            decision: 'Design for desktop and mobile',
-            reasoning: 'People should be able to read and join discussions from either screen size'
-          }
-        ],
-        achievements: [
-          'Complete system architecture design',
-          'Database schema planning with relationships',
-          'API endpoint specification',
-          'User flow and wireframe creation'
-        ]
-      },
-      {
         id: 'database',
-        title: 'Organising community data',
-        duration: '1 week',
-        technologies: ['MySQL', 'Prisma', 'Database Migrations', 'Triggers', 'Stored Procedures'],
+        title: 'Designing the data model',
+        duration: 'Oct 2024',
+        technologies: ['MySQL', 'Prisma', 'SQL triggers'],
         decisions: [
           {
-            decision: 'Normalized database design',
-            reasoning: 'Posts, comments, votes, and people needed clear relationships and dependable data'
+            decision: 'Keep ratings inside the database',
+            reasoning:
+              'Triggers update post, comment, and user ratings on every vote, so counts can never drift from the votes behind them'
           },
           {
-            decision: 'Triggers for real-time updates',
-            reasoning: 'Changes to posts, comments, and votes needed to appear quickly'
-          },
-          {
-            decision: 'Stored procedures for complex queries',
-            reasoning: 'Feed ranking required queries that were easier to manage close to the database'
+            decision: 'Prisma for queries, SQL for the rules',
+            reasoning: 'Code gets type-safe data access, and the consistency rules live next to the data they protect'
           }
         ],
-        achievements: [
-          'Indexed the database for quicker feed queries',
-          'User, Post, Comment, Vote relationship modeling',
-          'Category and tag system implementation',
-          'Database seeding scripts for development',
-          'Query optimization for feed algorithms',
-          'Infinite scroll for posts and comments'
-        ]
+        achievements: ['Rating triggers for every insert, update, and delete of a vote']
       },
       {
         id: 'backend',
         title: 'Building the API',
-        duration: '4 weeks',
-        technologies: [
-          'Node.js',
-          'Express',
-          'Prisma',
-          'MySQL',
-          'JWT',
-          'Swagger',
-          'OpenAPI',
-          'Nodemon',
-          'Prettier',
-          'Zod',
-          'Axios',
-          'MySQL'
-        ],
+        duration: 'Oct – Nov 2024',
+        technologies: ['Node.js', 'Express', 'TypeScript', 'Zod', 'JWT', 'Swagger'],
         decisions: [
           {
-            decision: 'Prisma for database ORM',
-            reasoning: 'Its TypeScript support made database queries easier to write and review'
+            decision: 'Express without a framework',
+            reasoning:
+              'Routers, controllers, services, and middleware are layered by hand, with nothing hidden in the request pipeline'
           },
           {
-            decision: 'Nodemailer for email notifications',
-            reasoning: 'It covered the account emails the product needed without extra complexity'
-          },
-          {
-            decision: 'OpenAPI for documentation',
-            reasoning: 'Interactive documentation makes each route easier to understand and test'
+            decision: 'Validate every request with Zod',
+            reasoning: 'Bad input is rejected at the edge with a clear error before it reaches a service'
           }
         ],
         achievements: [
-          'RESTful API with 25+ endpoints',
-          'JWT-based authentication system',
-          'Input validation with Zod',
-          'File upload integration with AWS S3',
-          'Error handling middleware',
-          'API rate limiting and security measures'
+          'Email verification and password reset with one-time codes and Handlebars templates',
+          'Rate limiting, Helmet headers, and request logging',
+          'File uploads streamed to AWS S3',
+          'An OpenAPI specification served with Swagger UI'
         ]
       },
       {
         id: 'frontend',
         title: 'Building the interface',
-        duration: '5 weeks',
-        technologies: [
-          'React',
-          'TypeScript',
-          'Tailwind CSS',
-          'React Query',
-          'Zustand',
-          'Vite',
-          'ShadCN',
-          'Zod',
-          'React Hook Form',
-          'React Router',
-          'Axios'
-        ],
+        duration: 'Nov 2024 – Feb 2025',
+        technologies: ['React', 'TanStack Query', 'Zustand', 'React Hook Form', 'ShadCN'],
         decisions: [
           {
-            decision: 'React Query for server state',
-            reasoning: 'It keeps posts and comments cached while refreshing them when they change'
-          },
-          {
-            decision: 'Zustand for client state',
-            reasoning: 'Lightweight and simple state management for UI state'
-          },
-          {
-            decision: 'ShadCN UI components',
-            reasoning: 'It provided consistent controls with accessible behaviour already considered'
+            decision: 'Server state in TanStack Query, UI state in Zustand',
+            reasoning:
+              'Feeds and profiles stay cached and fresh, while client-only state stays out of the request layer'
           }
         ],
         achievements: [
-          'Responsive Reddit-like interface',
-          'Infinite scroll for posts and comments',
-          'Real-time voting and comment updates',
-          'Post editor with Markdown support',
-          'Search and filtering functionality',
-          'Dark/light theme support'
+          'Feeds, post pages, categories, favourites, and profiles',
+          'Light and dark themes',
+          'Responsive layouts for phone, tablet, and desktop'
         ]
       },
       {
         id: 'deployment',
-        title: 'Preparing for launch',
-        duration: '1 day',
-        technologies: ['Docker', 'Azure', 'AWS S3', 'Linux', 'Nginx', 'PM2', 'SSH', 'Oracle Cloud'],
+        title: 'Running it',
+        duration: 'Feb 2025',
+        technologies: ['Docker', 'Nginx', 'AWS S3', 'Vercel', 'Cron jobs'],
         decisions: [
           {
-            decision: 'Oracle Cloud for production deployment',
-            reasoning: 'It provided a home for the production services'
+            decision: 'Automate backups from day one',
+            reasoning: 'Cron jobs dump the data every hour, the schema every 6 hours, and the triggers every 3 hours'
           },
           {
-            decision: 'Nginx for reverse proxy',
-            reasoning: 'It routes traffic to the frontend and API'
+            decision: 'Archive stale posts automatically',
+            reasoning: 'Every 12 hours, posts with no new comments for a month move to the archive'
           }
         ],
-        achievements: [
-          'Production database setup with backups',
-          'SSL certificate configuration',
-          'Environment-based configuration management',
-          'Monitoring and logging setup'
-        ]
+        achievements: ['API in Docker behind Nginx over HTTPS', 'Frontend on Vercel at usof.mkloz.com']
       }
     ]
   },
@@ -339,10 +241,10 @@ export const usofProject: Project = {
   ],
 
   stats: {
-    linesOfCode: '15.6k',
+    linesOfCode: '12.9k',
     commits: '30+',
     features: '20+',
-    technologies: '24+'
+    technologies: '29'
   },
   demo: [
     {

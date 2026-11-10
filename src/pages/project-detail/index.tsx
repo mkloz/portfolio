@@ -946,18 +946,28 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
 
   useEffect(() => {
     const video = videoRef.current;
+    if (video) video.muted = isDemoMuted;
+  }, [activeDemo, isDemoMuted]);
+
+  useEffect(() => {
+    const video = videoRef.current;
     if (!video) return;
-    video.muted = isDemoMuted;
     if (isDemoPlaying) {
+      // A video that is already playing never fires `playing` again, so only a start shows the buffering state.
+      if (!video.paused) return;
       setDemoMediaStatus((status) => (status === 'error' ? status : 'buffering'));
-      void video.play().catch(() => {
+      void video.play().catch((error: unknown) => {
+        // An interrupted start (a pause, a switch, the element being replaced) is not a failure, and a blocked
+        // autoplay just stays paused; the video's own error event reports media that cannot play.
+        const name = error instanceof DOMException ? error.name : '';
+        if (name === 'AbortError' || videoRef.current !== video) return;
         setIsDemoPlaying(false);
-        setDemoMediaStatus('error');
+        setDemoMediaStatus(name === 'NotAllowedError' ? 'ready' : 'error');
       });
     } else {
       video.pause();
     }
-  }, [activeDemo, isDemoMuted, isDemoPlaying]);
+  }, [activeDemo, isDemoPlaying]);
 
   useEffect(() => {
     const updateFullscreenState = () => setIsDemoFullscreen(document.fullscreenElement === demoFrameRef.current);
@@ -987,11 +997,13 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
           <div className="content-shell px-5 pb-8 pt-8 md:px-8 md:pb-12 md:pt-8 lg:px-12">
             <div className="border-y border-current/25">
               <div className="flex min-h-14 items-center justify-between gap-6 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                <span>
+                {/* Insets leave room for the header controls that rest in this row at the top. */}
+                <span className="whitespace-nowrap pl-14">
                   Case study {String(currentProjectRank ?? 1).padStart(2, '0')} /{' '}
                   {String(projectCount).padStart(2, '0')}
                 </span>
-                <span className="text-right">
+                {/* On phones the progress bar below carries this count. */}
+                <span className="hidden whitespace-nowrap pr-14 text-right sm:inline">
                   Viewed {String(visitedProjectCount).padStart(2, '0')} / {String(projectCount).padStart(2, '0')}
                 </span>
               </div>
@@ -1029,8 +1041,9 @@ export const ProjectDetailPage = ({ project }: { project: Project }) => {
                 <dl className="border-t border-current/25">
                   {[
                     ['Scope', project.category],
-                    ['Year', project.year],
+                    ['Year', project.yearRange ?? project.year],
                     ['Status', project.status],
+                    ['Code', `${project.stats.linesOfCode} lines`],
                     ['Coverage', `${technologyGroups.length} parts of the product`]
                   ].map(([label, value]) => (
                     <div

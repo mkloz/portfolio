@@ -1,4 +1,4 @@
-import { CalendarCheck, Compass, MessageCircle, ShieldCheck, Sparkles, UsersRound } from 'lucide-react';
+import { BrainCircuit, CalendarCheck, Lock, MessageCircle, ShieldCheck, Smartphone } from 'lucide-react';
 
 import { technologies } from '../technologies';
 import type { Project } from './index';
@@ -6,43 +6,48 @@ import type { Project } from './index';
 export const findafewProject: Project = {
   title: 'Findafew',
   slug: 'findafew',
-  description: 'A small-group planning app that turns shared interests into real-world activity plans.',
+  description:
+    'A social planning app that matches people into small groups by personality and interests. Built solo, with real-time chat, AI-assisted moderation, and 3,000+ automated tests.',
   highlights: [
     {
-      title: 'Start with an activity',
-      description: 'People begin with something they want to do, then add the practical details around it',
-      icon: Compass,
-      stats: 'Plan first'
+      title: 'Personality-based matching',
+      description:
+        'A Big Five assessment, shared interests, location, and availability drive a search that proposes groups of up to eight',
+      icon: BrainCircuit,
+      stats: 'Big Five'
     },
     {
-      title: 'Form a compatible group',
-      description: 'Interests, personality, social context, and availability inform group formation',
-      icon: UsersRound,
-      stats: 'Small groups'
-    },
-    {
-      title: 'Review before joining',
-      description: 'People can review the proposed group and plan details before deciding whether to take part',
+      title: 'Review before you commit',
+      description:
+        'Members see who is in the group, why each person fits, and what the plan involves before saying yes',
       icon: CalendarCheck,
-      stats: 'Clear choice'
+      stats: 'Informed choice'
     },
     {
-      title: 'Keep the conversation moving',
-      description: 'Group chats, direct messages, and notifications keep coordination close to the plan',
+      title: 'Real-time coordination',
+      description: 'Group chat, direct messages, presence, and web push, all live over Socket.IO',
       icon: MessageCircle,
-      stats: 'Live updates'
+      stats: 'Live'
     },
     {
-      title: 'Safety as part of the product',
-      description: 'Privacy, blocking, reporting, and review tools support more confident offline participation',
+      title: 'AI-assisted moderation',
+      description:
+        'OpenAI assesses reported content, a moderator makes the call, and automation must prove itself in shadow mode first',
       icon: ShieldCheck,
-      stats: 'Built in'
+      stats: 'Human in the loop'
     },
     {
-      title: 'Works wherever plans happen',
-      description: 'The installable PWA adapts across mobile and desktop, with theme and reduced-motion support',
-      icon: Sparkles,
-      stats: 'Installable'
+      title: 'Privacy by design',
+      description:
+        'Personality results stay private until shared, and members can export their data or delete their account',
+      icon: Lock,
+      stats: 'Member control'
+    },
+    {
+      title: 'Installable and offline-aware',
+      description: 'A PWA for phone and desktop with offline handling, push notifications, and accessibility audits',
+      icon: Smartphone,
+      stats: 'PWA'
     }
   ],
   technologies: [
@@ -71,225 +76,189 @@ export const findafewProject: Project = {
   website: 'https://findafew.today',
   featured: true,
   year: 2026,
+  yearRange: '2025 – present',
   progress: 100,
 
   tagline: 'Make the plan. Find your few.',
   longDescription:
-    'Findafew helps adults move from an activity they want to do to a small group and a practical plan. People can explore open plans or start one of their own, see whether a group comes together, and review the people and details before deciding whether to take part.',
+    'Findafew turns “I want to do this” into a small group and a real plan. A Big Five assessment and shared interests drive a group-selection search, members review the group before they commit, and live chat, push notifications, and AI-assisted moderation carry it through to the day.',
   image: {
     light: '/project-media/findafew/findafew-light.webp',
     dark: '/project-media/findafew/findafew-dark.webp'
   },
   status: 'In Progress',
   category: 'Full-Stack',
-  duration: '8 months',
+  duration: 'Sep 2025 – present',
 
   detailedTechnologies: [
     technologies.react,
-    technologies.typescript,
     technologies.vite,
-    technologies.tailwind,
+    technologies.tanstackrouter,
+    technologies.tanstackquery,
     technologies.zustand,
+    technologies.reacthookform,
+    technologies.tailwind,
+    technologies.radixui,
+    technologies.shadcn,
+    technologies.framermotion,
+    technologies.gsap,
+    technologies.pwa,
     technologies.nestjs,
-    technologies.postgresql,
     technologies.prisma,
-    technologies.redis,
     technologies.socketio,
     technologies.jwt,
-    technologies.oraclecloud,
+    technologies.googleoauth,
+    technologies.webpush,
+    technologies.reactemail,
+    technologies.openai,
+    technologies.postgresql,
+    technologies.redis,
     technologies.docker,
     technologies.githubactions,
     technologies.cloudflarepages,
+    technologies.oraclecloud,
+    technologies.ociobjectstorage,
+    technologies.nginx,
+    technologies.sentry,
+    technologies.opentelemetry,
+    technologies.vitest,
+    technologies.playwright,
+    technologies.testinglibrary,
+    technologies.msw,
+    technologies.testcontainers,
+    technologies.pact,
+    technologies.biome,
+    technologies.oxlint,
     technologies.swagger,
     technologies.git,
-    technologies.eslint,
-    technologies.prettier,
-    technologies.shadcn,
-    {
-      name: 'TanStack Query',
-      category: 'Frontend'
-    },
-    {
-      name: 'TanStack Router',
-      category: 'Frontend'
-    },
-    {
-      name: 'Radix UI',
-      category: 'Frontend'
-    },
-    {
-      name: 'PWA',
-      category: 'Frontend'
-    }
+    technologies.typescript,
+    technologies.zod
   ],
 
   developmentJourney: {
     steps: [
       {
         id: 'planning',
-        title: 'Designing the group loop',
-        duration: '2 weeks',
-        technologies: ['Product framing', 'Domain modelling', 'Interaction design'],
+        title: 'Researching the idea',
+        duration: 'Sep 2025 – Feb 2026',
+        technologies: ['Product research', 'Psychometrics', 'Domain modelling'],
         decisions: [
           {
+            decision: 'Match on validated science, not a quiz',
+            reasoning: 'Compatibility rests on the public-domain IPIP Big Five item pool, in 30- and 50-question forms'
+          },
+          {
             decision: 'Start with the activity, not the profile',
+            reasoning: 'People join to do something together, so the plan leads and profiles support it'
+          },
+          {
+            decision: 'Run development AI-first',
             reasoning:
-              'The product is built around something people want to do together rather than profile browsing as an end in itself'
-          },
-          {
-            decision: 'Keep the group proposal reviewable',
-            reasoning: 'People need to understand who they may meet and what the plan involves before they commit'
-          },
-          {
-            decision: 'Treat safety and consent as product flows',
-            reasoning: 'Privacy, reporting, blocking, and participation controls belong in the main experience'
+              'Coding agents work from repository rules, playbooks, and skills, and every change clears the same automated gates, so one developer ships at team scale'
           }
         ],
         achievements: [
-          'Mapped onboarding, discovery, group formation, and follow-through',
-          'Defined the plan, group, conversation, and safety boundaries',
-          'Separated public product information from member and operational data',
-          'Established responsive, accessible, and reduced-motion requirements'
+          'Mapped the full journey from sign-up to group formation and the day itself',
+          'Set accessibility, reduced-motion, and offline requirements before the first screen'
         ]
       },
       {
         id: 'database',
-        title: 'Organising plans and people',
-        duration: '3 weeks',
+        title: 'Designing the data model',
+        duration: 'Apr 2026 – present',
         technologies: ['PostgreSQL', 'Prisma', 'Redis', 'OCI Object Storage'],
         decisions: [
           {
-            decision: 'Use PostgreSQL for the domain model',
-            reasoning:
-              'Plans, groups, memberships, conversations, notifications, and safety records depend on clear relationships'
+            decision: 'PostgreSQL for a deeply relational domain',
+            reasoning: 'Plans, groups, memberships, chat, moderation, and ratings all depend on strict relationships'
           },
           {
-            decision: 'Use Redis for hot data and coordination',
-            reasoning: 'Caching and short-lived state support responsive group and notification flows'
+            decision: 'Redis for caching and short-lived state',
+            reasoning: 'Hot reads and coordination state stay fast without loading the database'
           },
           {
-            decision: 'Keep media in object storage',
-            reasoning:
-              'Uploaded media lives in OCI Object Storage behind a storage port, outside the transactional data model and independent of one provider'
+            decision: 'Object storage behind an interface',
+            reasoning: 'Media lives in OCI Object Storage, outside the database and swappable between providers'
           }
         ],
         achievements: [
-          'Built the account, profile, interest, activity, group, and plan model',
-          'Added conversation, notification, invitation, and rating records',
-          'Indexed frequent reads and protected relationship boundaries',
-          'Added migration and seed workflows for repeatable environments'
+          'Integration-tested against real PostgreSQL and Redis with Testcontainers',
+          'Built member data export, deactivation, and account deletion into the model'
         ]
       },
       {
         id: 'backend',
         title: 'Building the service layer',
-        duration: '8 weeks',
-        technologies: ['NestJS', 'TypeScript', 'Prisma', 'PostgreSQL', 'Socket.IO', 'JWT'],
+        duration: 'Apr 2026 – present',
+        technologies: ['NestJS', 'Socket.IO', 'OpenAI API', 'OpenTelemetry', 'Sentry', 'Pact'],
         decisions: [
           {
-            decision: 'Use NestJS modules around product domains',
+            decision: 'AI assists moderators, humans decide',
             reasoning:
-              'Feature boundaries keep authentication, plans, groups, activity, chat, and safety easier to evolve'
+              'OpenAI moderation and contextual assessments draft each case for a reviewer. Automation moves from shadow mode to approval only after it is measured against an evaluation set'
           },
           {
-            decision: 'Use Socket.IO for live product state',
-            reasoning: 'Chat, presence, notifications, and plan changes should appear without forcing manual refreshes'
-          },
-          {
-            decision: 'Keep authorization in the backend',
+            decision: '30 domain modules, authorization at the boundary',
             reasoning:
-              'The UI can explain unavailable actions, but permissions must remain enforced at the service boundary'
+              'Each area evolves on its own, and permissions are enforced by the API, never just hidden in the UI'
           }
         ],
         achievements: [
-          'Implemented account, profile, interest, plan, group, and invite APIs',
-          'Added real-time chat, presence, notification, and plan events',
-          'Documented the API with Swagger and checked generated OpenAPI contracts for breaking changes',
-          'Added validation, rate limiting, health checks, and structured error handling'
+          'Group selection that searches combinations of 3 to 8 people and scores every pair on personality, interests, location, age, and mutual friends',
+          'Real-time chat, presence, plan events, and web push over Socket.IO',
+          'Request tracing with OpenTelemetry and error reporting with Sentry',
+          '1,166 backend tests, plus Pact contracts and OpenAPI breaking-change checks'
         ]
       },
       {
         id: 'frontend',
-        title: 'Making the next step clear',
-        duration: '10 weeks',
-        technologies: [
-          'React 19',
-          'TypeScript',
-          'Vite',
-          'TanStack Router',
-          'TanStack Query',
-          'Zustand',
-          'Tailwind CSS'
-        ],
+        title: 'Building the product',
+        duration: 'Feb 2026 – present',
+        technologies: ['React 19', 'TanStack Router', 'TanStack Query', 'Zustand', 'Tailwind CSS', 'Playwright'],
         decisions: [
           {
             decision: 'Build a deterministic Scenario Mode',
             reasoning:
-              'Synthetic, stateful product worlds let every screen and edge case be reviewed and tested in the browser without a backend or real accounts'
+              'Synthetic, stateful worlds let every screen and edge case run in the browser without a backend. The same mode powers the public demo'
           },
           {
-            decision: 'Use a feature-first frontend structure',
-            reasoning:
-              'Each product area owns its UI, data adapters, and interaction logic while shared seams stay explicit'
-          },
-          {
-            decision: 'Make the app installable and responsive',
-            reasoning:
-              'Planning happens across devices, so the same core flows need to work on compact and large screens'
-          },
-          {
-            decision: 'Make state and recovery visible',
-            reasoning: 'Loading, offline, empty, permission, and error states are part of a trustworthy social product'
+            decision: '21 feature areas with enforced boundaries',
+            reasoning: 'Dependency rules stop features reaching into each other, so the codebase grows without tangling'
           }
         ],
         achievements: [
-          'Built onboarding, explore, home, plan creation, group review, and activity routes',
-          'Added profile, preferences, notifications, appearance, and safety settings',
-          'Connected cached server state with live Socket.IO updates',
-          'Added keyboard support, reduced-motion behavior, and PWA install guidance',
-          'Covered 120+ product states with Scenario Mode and Playwright interaction suites'
+          'Onboarding, explore, plan creation, group review, chat, and settings',
+          '1,758 unit tests and 192 Playwright journeys across 120+ product states',
+          'Accessibility audited with axe-core and performance with Lighthouse',
+          'Installable PWA with offline handling and push notifications'
         ]
       },
       {
         id: 'deployment',
-        title: 'Releasing a dependable product',
-        duration: '2 weeks',
+        title: 'Shipping it',
+        duration: 'Jun 2026 – present',
         technologies: ['GitHub Actions', 'Cloudflare Pages', 'Oracle Cloud', 'Nginx', 'Docker'],
         decisions: [
           {
-            decision: 'Deploy the frontend to Cloudflare Pages',
-            reasoning: 'The static PWA build benefits from edge delivery and a direct CI release path'
-          },
-          {
-            decision: 'Run the API on a self-managed ARM host',
+            decision: 'Edge frontend, self-managed API',
             reasoning:
-              'An Oracle Cloud ARM server behind Nginx keeps realtime connections, workers, and storage access under direct control'
+              'The PWA ships from Cloudflare Pages, and the API runs on an Oracle Cloud ARM server behind Nginx, keeping realtime and workers under direct control'
           },
           {
-            decision: 'Run production checks before publishing',
+            decision: 'No release without green checks',
             reasoning:
-              'Production environment validation, build checks, and PWA QA catch release issues before they reach users'
-          },
-          {
-            decision: 'Keep the public API namespace explicit',
-            reasoning: 'Strict gateway paths make browser, realtime, and deployment contracts easier to verify'
+              'Every pull request runs lint, types, and 3,000+ tests, and production deploys add environment validation and smoke checks'
           }
         ],
-        achievements: [
-          'Added CI gates for linting, types, unit, integration, and end-to-end tests, Pact contracts, and builds',
-          'Added secret scanning, CodeQL, dependency review, and OpenAPI breaking-change checks',
-          'Published the installable frontend at findafew.today',
-          'Added production smoke checks for API, realtime, and PWA behavior',
-          'Documented deployment, recovery, and provider boundaries'
-        ]
+        achievements: ['Secret scanning, CodeQL, and dependency review on every change', 'Live at findafew.today']
       }
     ]
   },
 
   gallery: [
     {
-      title: 'Explore open plans',
-      image: '/project-media/findafew/findafew-dark.webp'
+      title: 'Findafew',
+      image: '/project-media/findafew/showcase-findafew.webp'
     },
     {
       title: 'Start, discover, and chat',
@@ -300,6 +269,10 @@ export const findafewProject: Project = {
       image: '/project-media/findafew/showcase-discover.webp'
     },
     {
+      title: 'Start from an idea',
+      image: '/project-media/findafew/showcase-start-from-an-idea.webp'
+    },
+    {
       title: 'Start a plan',
       image: '/project-media/findafew/showcase-start-a-plan.webp'
     },
@@ -308,8 +281,16 @@ export const findafewProject: Project = {
       image: '/project-media/findafew/showcase-your-group.webp'
     },
     {
+      title: 'Talk it through',
+      image: '/project-media/findafew/showcase-talk-it-through.webp'
+    },
+    {
       title: 'On the day',
       image: '/project-media/findafew/showcase-on-the-day.webp'
+    },
+    {
+      title: 'Stay in the loop',
+      image: '/project-media/findafew/showcase-stay-in-the-loop.webp'
     },
     {
       title: 'Getting started',
@@ -320,30 +301,18 @@ export const findafewProject: Project = {
       image: '/project-media/findafew/showcase-make-it-yours.webp'
     },
     {
-      title: 'Landing page',
-      image: '/project-media/findafew/landing-hero.webp'
-    },
-    {
-      title: 'Group formation diagram',
-      image: '/project-media/findafew/group-formation-diagram.webp'
-    },
-    {
-      title: 'Architecture diagram',
-      image: '/project-media/findafew/architecture-diagram.webp'
-    },
-    {
-      title: 'Database schema',
-      image: '/project-media/findafew/database-schema.webp'
+      title: 'Plans near you',
+      image: '/project-media/findafew/showcase-plans-near-you.webp'
     }
   ],
 
-  // Counted from both repositories: TypeScript source excluding generated
-  // files, feature areas plus backend domain modules, and all commits.
+  // Counted from both repositories: lines as described on ProjectSummary,
+  // feature areas plus backend domain modules, and all commits.
   stats: {
-    linesOfCode: '400k+',
+    linesOfCode: '533k',
     commits: '750+',
     features: '50+',
-    technologies: '24'
+    technologies: '42'
   },
   demo: [
     {

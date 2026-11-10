@@ -31,17 +31,30 @@ const ProjectMedia = ({
       data-reactive
       data-depth>
       {enabled && !compact ? (
-        <EvidenceMagnifier className="overflow-hidden border-2 border-current bg-[#080808]">
+        // The magnifier can host the image inside a canvas, out of flow, so the
+        // frame reserves the image's ratio and keeps a plain copy underneath.
+        // If a browser's canvas capture paints nothing, the copy still shows.
+        <div className="relative aspect-[16/10] overflow-hidden border-2 border-current bg-[#080808]">
           <img
             src={image}
             srcSet={getResponsiveImageSrcSet(image)}
             sizes="(max-width: 1023px) calc(100vw - 2.5rem), 44vw"
-            alt={`${project.title} interface`}
-            loading="lazy"
+            alt=""
+            aria-hidden="true"
             decoding="async"
-            className="aspect-[16/10] w-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
+            className="absolute inset-0 size-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
           />
-        </EvidenceMagnifier>
+          <EvidenceMagnifier className="size-full">
+            <img
+              src={image}
+              srcSet={getResponsiveImageSrcSet(image)}
+              sizes="(max-width: 1023px) calc(100vw - 2.5rem), 44vw"
+              alt={`${project.title} interface`}
+              decoding="async"
+              className="size-full object-cover object-top transition-transform duration-700 ease-out group-hover/project:scale-[1.035]"
+            />
+          </EvidenceMagnifier>
+        </div>
       ) : enabled ? (
         <div className="overflow-hidden border-2 border-current bg-[#080808]">
           <img
@@ -200,7 +213,8 @@ export const Projects = () => {
                         <span className="sr-only">View {project.title} case study</span>
                       </Link>
                       <p className="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
-                        {project.category} · {project.year}
+                        {project.category} · {project.year} ·{' '}
+                        <span className="whitespace-nowrap">{project.linesOfCode} lines of code</span>
                       </p>
                       <div className="mt-5">
                         <ProjectMedia project={project} compact enabled={active} />
@@ -351,7 +365,8 @@ export const Projects = () => {
                     <div className="flex items-start justify-between gap-6">
                       <div>
                         <p className="meta-type font-mono font-semibold uppercase tracking-[0.1em]">
-                          {project.category} · {project.year}
+                          {project.category} · {project.year} ·{' '}
+                          <span className="whitespace-nowrap">{project.linesOfCode} lines of code</span>
                         </p>
                         <h3 className="mt-3 text-5xl font-black leading-none tracking-[-0.06em] md:text-7xl">
                           {project.title}
